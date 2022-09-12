@@ -1,6 +1,9 @@
 <?php
 
+use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DashboardController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +16,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
+// Auth
+Route::get('login')->name('login')->uses('Auth\LoginController@showLoginForm')->middleware('guest');
+Route::post('login')->name('login.attempt')->uses('Auth\LoginController@login')->middleware('guest');
+Route::post('logout')->name('logout')->uses('Auth\LoginController@logout');
+
+// Dashboard
+Route::get('/')
+    ->name('dashboard')
+    ->uses([DashboardController::class, 'index'])
+    ->middleware('auth');
