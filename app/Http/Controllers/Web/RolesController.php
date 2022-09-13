@@ -23,8 +23,13 @@ class RolesController extends Controller
         // Check if the user has the permission to get all the roles if not abort the request
         $this->validateWebPermission(['roles-read']);
 
-        // Get all the roles
-        $roles = Role::all();
+        // Get all roles
+        $roles = Role::paginate(15);
+
+        // Add permissions to each role
+        foreach ($roles as $role) {
+            $role->permissions = $role->permissions()->count();
+        }
 
         // Return an inertia view with the roles
         return Inertia::render('Roles/Index', [
@@ -108,6 +113,36 @@ class RolesController extends Controller
     }
 
     /**
+     * Show the edit form for a role
+     * The method will check if the user has the permission to edit a role.
+     * The method will return an inertia view with the role and permissions.
+     * @param \App\Models\Role  $role
+     * @return \Inertia\Response
+     */
+    public function edit(Role $role){
+
+        // Check if the user has the permission to edit a role if not abort the request
+        $this->validateWebPermission(['roles-update']);
+
+        // Get all the permissions
+        $allPermissions = Permission::all();
+
+        // Get all the permissions for the role
+        $rolePermissions = $role->permissions()->get();
+
+        // Show which permissions are already assigned to the role
+        foreach ($allPermissions as $permission) {
+            // Check if the permission is already assigned to the role
+            $permission->assigned = $rolePermissions->contains($permission);
+        }
+
+        // Return an inertia view with the role and permissions
+        return Inertia::render('Roles/Edit', [
+            'role' => $role,
+            'permissions' => $allPermissions,
+        ]);
+
+    /**
      * Handle the incoming request to update a role.
      * The method will return a role with the id passed in the request.
      * The method will check if the user has the permission to update a role.
@@ -154,6 +189,8 @@ class RolesController extends Controller
     {
         // Check if the user has the permission to delete a role if not abort the request
         $this->validateWebPermission(['roles-delete']);
+
+        // Remove all the permissions from the role
 
         // Delete the role
         $role->delete();
