@@ -15,17 +15,19 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Welcome', [
-        'canLogin' => Route::has('login'),
-        'canRegister' => Route::has('register'),
-        'laravelVersion' => Application::VERSION,
-        'phpVersion' => PHP_VERSION,
-    ]);
+// check for permissions middleware using laratrust
+Route::middleware(['permission:read-roles'])->group(function () {
+    Route::get('/', [HomeController::class, 'index'])->name('dashboard');
+
+    // get all roles for users
+    Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');
+
+    // create a role for a user
+    Route::get('/roles/create', [RolesController::class, 'create'])->name('roles.create');
+
+    // store a role for a user
+    Route::post('/roles/store', [RolesController::class, 'store'])->name('roles.store');
+
+    // edit a role for a user
+    Route::get('/roles/edit/{id}', [RolesController::class, 'edit'])->name('roles.edit');
 });
-
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-require __DIR__.'/auth.php';
