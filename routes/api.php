@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 // check for permissions middleware using laratrust
-Route::middleware(['permission:read-roles'])->group(function () {
+Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/', [HomeController::class, 'index']);
 
     // get all roles for users
@@ -29,4 +29,19 @@ Route::middleware(['permission:read-roles'])->group(function () {
 
     // edit a role for a user
     Route::get('/roles/edit/{id}', [RolesController::class, 'edit']);
+
+    // get all permissions for users
+    Route::get('/permissions', [PermissionsController::class, 'index']);
+
+    // create a permission for a user
+    Route::get('/permissions/create', [PermissionsController::class, 'create']);
+
+    // store a permission for a user
+    Route::post('/permissions/store', [PermissionsController::class, 'store']);
+
+    // edit a permission for a user
+    Route::get('/permissions/edit/{id}', [PermissionsController::class, 'edit']);
+
+    // delete a permission for a user
+    Route::delete('/permissions/delete/{id}', [PermissionsController::class, 'destroy']);
 });
