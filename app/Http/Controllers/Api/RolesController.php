@@ -7,7 +7,6 @@ use Illuminate\Http\Request;
 
 class RolesController extends Controller
 {
-<<<<<<< Updated upstream
     //
 }
 =======
