@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Permission;
+use App\Models\Role;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class RolesController extends Controller
 {
@@ -12,56 +15,38 @@ class RolesController extends Controller
      * The method will return all the roles in the database.
      * The method will check if the user has the permission to get all the roles.
      * The method will return an inertia view with the roles.
-     * @param \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
 
-    public function index(Request $request)
+    public function index()
     {
-        // Check if the user has the permission to get all the roles
-        if($this->hasAnyPermission(['read-roles'])){
-            // Get all the roles
-            $roles = Role::all();
+        // Check if the user has the permission to get all the roles if not abort the request
+        $this->validateWebPermission(['roles-read']);
 
-            // Return an inertia view with the roles
-            return Inertia::render('Roles/Index', [
-                'roles' => $roles,
-            ]);
-        }
-        // Return an inertia view with the error message if the user does't have the permission
-        return Inertia::render('Error', [
-            'error' => 'You don\'t have the permission to get all the roles.',
+        // Get all the roles
+        $roles = Role::all();
+
+        // Return an inertia view with the roles
+        return Inertia::render('Roles/Index', [
+            'roles' => $roles,
         ]);
     }
 
     /**
      * Handle the incoming request to get a role.
-     * The method will return a role with the id passed in the request.
      * The method will check if the user has the permission to get a role.
      * The method will return an inertia view with the role.
-     * @param \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @param \App\Models\Role  $role
+     * @return \Inertia\Response
      */
+    public function show(Role $role){
 
-    public function show(Request $request){
+        // Check if the user has the permission to get a role if not abort the request
+        $this->validateWebPermission(['roles-read']);
 
-        // Validate the request to see if the id is passed, if the id is an integer and if it exists in the database table for roles
-        $request->validate([
-            'id' => 'required|integer|exists:roles,id'
-        ]);
-        // Get the role $object with the id passed in the request
-        $role = Role::find($request->id);
-
-        // Check if the user has the permission to get a role
-        if($this->hasAnyPermission(['read-roles'])){
-            // Return an inertia view with the role
-            return Inertia::render('Roles/Show', [
-                'role' => $role,
-            ]);
-        }
-        // Return an inertia view with the error message if the user does't have the permission
-        return Inertia::render('Error', [
-            'error' => 'You don\'t have the permission to get the role.',
+        // Return an inertia view with the role
+        return Inertia::render('Roles/Show', [
+            'role' => $role,
         ]);
     }
 
@@ -70,26 +55,20 @@ class RolesController extends Controller
      * Handle the incoming request to create a role.
      * The method will check if the user has the permission to create a role.
      * The method will return an inertia view with the permissions.
-     * @param \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
+    public function create(){
+        
+        // Check if the user has the permission to create a role if not abort the request
+        $this->validateWebPermission(['roles-create']);
 
-    public function create(Request $request){
-        // Check if the user has the permission to create a role
-        if($this->hasAnyPermission(['create-roles'])){
-            // Get all the permissions
-            $permissions = Permission::all();
+        // Get all the permissions
+        $permissions = Permission::all();
 
-            // Return an inertia view with the permissions
-            return Inertia::render('Roles/Create', [
-                'permissions' => $permissions,
-            ]);
-        }
-        // Return an inertia view with the error message if the user does't have the permission
-        return Inertia::render('Error', [
-            'error' => 'You don\'t have the permission to create a role.',
+        // Return an inertia view with the permissions
+        return Inertia::render('Roles/Create', [
+            'permissions' => $permissions,
         ]);
-
     }
     /**
      * Handle the incoming request to save a role to the database.
@@ -97,37 +76,35 @@ class RolesController extends Controller
      * The method will check if the user has the permission to create a role.
      * The method will return an inertia view with the permissions.
      * @param \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
 
     public function store(Request $request)
-    {
+    {   
+
+        // Check if the user has the permission to create a role if not abort the request
+        $this->validateWebPermission(['roles-create']);
+
         // Validate the request to see if the name is passed and if it is a string
         $request->validate([
             'name' => 'required|string',
             'display_name' => 'required|string',
             'description' => 'required|string',
+            'permissions' => 'required|array',
         ]);
 
-        // Check if the user has the permission to create a role
-        if($this->hasAnyPermission(['create-roles'])){
-            // Create the role
-            $role = Role::create([
-                'name' => $request->name,
-                'display_name' => $request->display_name,
-                'description' => $request->description,
-            ]);
+        // Create the role
+        $role = Role::create([
+            'name' => $request->name,
+            'display_name' => $request->display_name,
+            'description' => $request->description,
+        ]);
 
-            // Return an inertia view with the role
-            return Inertia::render('Roles/Show', [
-                'role' => $role,
-            ]);
-        } else {
-            // Return an inertia view with the error message if the user does't have the permission
-            return Inertia::render('Error', [
-                'error' => 'You don\'t have the permission to create a role.',
-            ]);
-        }
+        // Attach the permissions to the role
+        $role->attachPermissions($request->permissions);
+
+        // Redirect back to the index page with a success message 
+        return redirect()->route('roles.index')->with('success', 'Role created successfully');
     }
 
     /**
@@ -136,45 +113,32 @@ class RolesController extends Controller
      * The method will check if the user has the permission to update a role.
      * The method will return an inertia view with the role.
      * @param \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
 
-    public function update(Request $request)
+    public function update(Request $request, Role $role)
     {
-        // Validate the request to see if the id is passed, if the id is an integer and if it exists in the database table for roles
+
+        // Check if the user has the permission to update a role if not abort the request
+        $this->validateWebPermission(['roles-update']);
+
+        // Validate the request...
         $request->validate([
-            'id' => 'required|integer|exists:roles,id',
-            'name' => 'required|string',
+            "name" => "required|string|unique:roles,name,".$role->id,
             'display_name' => 'required|string',
             'description' => 'required|string',
         ]);
 
-        // Get the role $object with the id passed in the request
-        $role = Role::where('id', $request->id)->first();
 
-        // Check if the user has the permission to update a role
-        if($this->hasAnyPermission(['update-roles'])){
-            // Update the role
-            $role->update([
-                'name' => $request->name,
-                'display_name' => $request->display_name,
-                'description' => $request->description,
-            ]);
-
-            // Return an inertia Index view with a success message and all the roles.
-            return Inertia::render('Roles/Index', [
-                'success' => 'The role has been updated.',
-                'roles' => Role::all(),
-            ]);
-
-        } else {
-            // Return an inertia Index view with the error message if the user doesn't have the permission with all roles.
-            return Inertia::render('Roles/Index', [
-                'error' => 'You don\'t have the permission to update a role.',
-                'roles' => Role::all(),
-            ]);
-
-        }
+        // Update the role
+        $role->update([
+            'name' => $request->name,
+            'display_name' => $request->display_name,
+            'description' => $request->description,
+        ]);
+        
+        // Redirect back to the index page with a success message 
+        return redirect()->route('roles.index')->with('success', 'Role updated successfully');
     }
 
     /**
@@ -183,35 +147,18 @@ class RolesController extends Controller
      * The method will check if the user has the permission to delete a role.
      * The method will return an inertia view with the role.
      * @param \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return \Inertia\Response
      */
 
-    public function destroy(Request $request)
+    public function destroy(Role $role)
     {
-        // Validate the request to see if the id is passed, if the id is an integer and if it exists in the database table for roles
-        $request->validate([
-            'id' => 'required|integer|exists:roles,id'
-        ]);
+        // Check if the user has the permission to delete a role if not abort the request
+        $this->validateWebPermission(['roles-delete']);
 
-        // Get the role $object with the id passed in the request
-        $role = Role::where('id', $request->id)->first();
+        // Delete the role
+        $role->delete();
 
-        // Check if the user has the permission to delete a role
-        if($this->hasAnyPermission(['delete-roles'])){
-            // Delete the role
-            $role->delete();
-
-            // Return an inertia Index view with a success message and all the roles
-            return Inertia::render('Roles/Index', [
-                'success' => 'The role has been deleted.',
-                'roles' => Role::all(),
-            ]);
-        } else {
-            // Return an inertia Index view with the error message if the user does't have the permission
-            return Inertia::render('Roles/Index', [
-                'error' => 'You don\'t have the permission to delete the role.',
-                'roles' => Role::all(),
-            ]);
-        }
+        // Redirect back to the index page with a success message
+        return redirect()->route('roles.index')->with('success', 'Role deleted successfully');
     }
 }
