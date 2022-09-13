@@ -7,9 +7,6 @@ use Illuminate\Http\Request;
 
 class RolesController extends Controller
 {
-    //
-}
-=======
     /**
      * Handle the incoming request to get all the roles.
      * The method will return all the roles in the database.
@@ -204,4 +201,3 @@ class RolesController extends Controller
         return response()->json(['error' => 'You don\'t have the permission to delete a role.'],401);
     }
 }
->>>>>>> Stashed changes
