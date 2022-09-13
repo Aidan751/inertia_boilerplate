@@ -15,4 +15,22 @@ class LoginController extends Controller
     {
         return Inertia::render('Auth/Login');
     }
+
+    // login user
+    public function store(Request $request)
+    {
+        // validate form
+        $this->validate($request, [
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        // attempt to log the user in
+        if (!Auth::attempt($request->only('email', 'password'), $request->remember)) {
+            return back()->with('status', 'Invalid login details');
+        }
+
+        // redirect
+        return redirect()->route('dashboard');
+    }
 }

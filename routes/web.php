@@ -19,6 +19,7 @@ use App\Http\Controllers\Auth\LoginController;
 
 // create login and register routes
 Route::get('/login', [LoginController::class, 'create'])->name('login');
+Route::post('/login', [LoginController::class, 'store']);
 
 // check for permissions middleware using laratrust
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
