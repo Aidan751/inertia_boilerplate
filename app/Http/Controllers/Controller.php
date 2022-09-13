@@ -39,4 +39,20 @@ class Controller extends BaseController
         // Return false if the user does't have any permission
         return false;
     }
+
+    /**
+     * Create a method to validate if the user has a permission in an array.
+     * The method will use the hasAnyPermission method to check if the user has any permission in the array.
+     * The method will abort the request if the user does't have any permission.
+     * @param array $permissions
+     * @return void
+     */
+    public function validateWebPermission(array $permissions){
+
+        // Check if the user has any permission in the array
+        if(!$this->hasAnyPermission($permissions)){
+            // Abort the request if the user does't have any permission
+            abort(403,"You don't have permission to access this page");
+        }
+    }
 }

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;
+use App\Models\Permission;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PermissionsController extends Controller
 {
@@ -17,19 +19,15 @@ class PermissionsController extends Controller
      */
     public function index(Request $request)
     {
-        // Check if the user has the permission to get all the permissions
-        if($this->hasAnyPermission(['read-permissions'])){
-            // Get all the permissions
-            $permissions = Permission::all();
+        // Check if the user has the permission to get all the permissions if not abort the request
+        $this->validateWebPermission(['permissions-read']);
+        
+        // Get all the permissions
+        $permissions = Permission::all();
 
-            // Return an inertia view with the permissions
-            return Inertia::render('Permissions/Index', [
-                'permissions' => $permissions,
-            ]);
-        }
-        // Return an inertia view with the error message if the user does't have the permission
-        return Inertia::render('Error', [
-            'error' => 'You don\'t have the permission to get all the permissions.',
+        // Return an inertia view with the permissions
+        return Inertia::render('Permissions/Index', [
+            'permissions' => $permissions,
         ]);
     }
 
@@ -41,26 +39,14 @@ class PermissionsController extends Controller
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
-    public function show(Request $request){
-
-        // Validate the request to see if the id is passed, if the id is an integer and if it exists in the database table for permissions
-        $request->validate([
-            'id' => 'required|integer|exists:permissions,id'
-        ]);
-        // Get the permission $object with the id passed in the request
-        $permission = Permission::find($request->id);
-
-        // Check if the user has the permission to get a permission
-        if($this->hasAnyPermission(['read-permissions'])){
-            // Return an inertia view with the permission
-            return Inertia::render('Permissions/Show', [
-                'permission' => $permission,
-            ]);
-        }
-        // Return an inertia view with the error message if the user does't have the permission
-        return Inertia::render('Error', [
-            'error' => 'You don\'t have the permission to get a permission.',
+    public function show(Permission $permission){
+        
+        // Check if the user has the permission to get a permission if not abort the request
+        $this->validateWebPermission(['permissions-read']);
+        
+        // Return an inertia view with the permission
+        return Inertia::render('Permissions/Show', [
+            'permission' => $permission,
         ]);
     }
 
@@ -71,18 +57,13 @@ class PermissionsController extends Controller
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
     public function create(Request $request){
-        // Check if the user has the permission to create a permission
-        if($this->hasAnyPermission(['create-permissions'])){
-            // Return an inertia view with the permission
-            return Inertia::render('Permissions/Create');
-        }
-        // Return an inertia view with the error message if the user does't have the permission
-        return Inertia::render('Error', [
-            'error' => 'You don\'t have the permission to create a permission.',
-        ]);
+        
+        // Check if the user has the permission to create a permission if not abort the request
+        $this->validateWebPermission(['permissions-create']);
 
+        // Return an inertia view with the permission
+        return Inertia::render('Permissions/Create');
     }
 
     /**
@@ -93,32 +74,29 @@ class PermissionsController extends Controller
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-
     public function store(Request $request){
-        // Validate the request to see if the name is passed, if the name is a string and if it exists in the database table for permissions
+
+        // Check if the user has the permission to create a permission if not abort the request
+        $this->validateWebPermission(['permissions-create']);
+        
+        // Validate the request
         $request->validate([
-            'name' => 'required|string|unique:permissions,name'
+            'name' => 'required|string|unique:permissions,name',
+            'display_name' => 'required|string',
+            'description' => 'required|string',
         ]);
 
-        // Check if the user has the permission to store a permission
-        if($this->hasAnyPermission(['create-permissions'])){
-            // Create a permission object
-            $permission = new Permission();
-            // Set the name of the permission
-            $permission->name = $request->name;
-            // Save the permission in the database
-            $permission->save();
-
-            // Return an inertia view with the permission
-            return Inertia::render('Permissions/Show', [
-                'permission' => $permission,
-            ]);
-        }
-        // Return an inertia view with the error message if the user does't have the permission
-        return Inertia::render('Error', [
-            'error' => 'You don\'t have the permission to store a permission.',
+        // Create the permission
+        $permission = Permission::create([
+            'name' => $request->name,
+            'display_name' => $request->display_name,
+            'description' => $request->description,
         ]);
 
+        // Return an inertia view with the permission
+        return Inertia::render('Permissions/Show', [
+            'permission' => $permission,
+        ]);
     }
 
     /**
@@ -129,25 +107,14 @@ class PermissionsController extends Controller
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function edit(Permission $permission){
+        
+        // Check if the user has the permission to edit a permission if not abort the request
+        $this->validateWebPermission(['permissions-update']);
 
-    public function edit(Request $request){
-        // Validate the request to see if the id is passed, if the id is an integer and if it exists in the database table for permissions
-        $request->validate([
-            'id' => 'required|integer|exists:permissions,id'
-        ]);
-        // Get the permission $object with the id passed in the request
-        $permission = Permission::find($request->id);
-
-        // Check if the user has the permission to edit a permission
-        if($this->hasAnyPermission(['update-permissions'])){
-            // Return an inertia view with the permission
-            return Inertia::render('Permissions/Edit', [
-                'permission' => $permission,
-            ]);
-        }
-        // Return an inertia view with the error message if the user does't have the permission
-        return Inertia::render('Error', [
-            'error' => 'You don\'t have the permission to edit a permission.',
+        // Return an inertia view with the permission
+        return Inertia::render('Permissions/Edit', [
+            'permission' => $permission,
         ]);
     }
 
@@ -159,37 +126,30 @@ class PermissionsController extends Controller
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function update(Request $request, Permission $permission){
 
+        // Check if the user has the permission to update a permission if not abort the request
+        $this->validateWebPermission(['permissions-update']);
 
-    public function update(Request $request){
-        // Validate the request to see if the id is passed, if the id is an integer and if it exists in the database table for permissions
+        // Validate the request
         $request->validate([
-            'id' => 'required|integer|exists:permissions,id'
-        ]);
-        // Get the permission $object with the id passed in the request
-        $permission = Permission::find($request->id);
-
-        // Validate the request to see if the name is passed, if the name is a string and if it exists in the database table for permissions
-        $request->validate([
-            'name' => 'required|string|unique:permissions,name'
+            'name' => 'required|string|unique:permissions,name,'.$permission->id,
+            'display_name' => 'required|string',
+            'description' => 'required|string',
         ]);
 
-        // Check if the user has the permission to update a permission
-        if($this->hasAnyPermission(['update-permissions'])){
-            // Set the name of the permission
-            $permission->name = $request->name;
-            // Save the permission in the database
-            $permission->save();
-
-            // Return an inertia view with the permission
-            return Inertia::render('Permissions/Show', [
-                'permission' => $permission,
-            ]);
-        }
-        // Return an inertia view with the error message if the user does't have the permission
-        return Inertia::render('Error', [
-            'error' => 'You don\'t have the permission to update a permission.',
+        // Update the permission
+        $permission->update([
+            'name' => $request->name,
+            'display_name' => $request->display_name,
+            'description' => $request->description,
         ]);
+
+        // Return an inertia view with the permission
+        return Inertia::render('Permissions/Show', [
+            'permission' => $permission,
+        ]);
+      
     }
 
     /**
@@ -200,28 +160,17 @@ class PermissionsController extends Controller
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
+    public function delete(Permission $permission){
 
-    public function delete(Request $request){
-        // Validate the request to see if the id is passed, if the id is an integer and if it exists in the database table for permissions
-        $request->validate([
-            'id' => 'required|integer|exists:permissions,id'
-        ]);
-        // Get the permission $object with the id passed in the request
-        $permission = Permission::find($request->id);
+        // Check if the user has the permission to delete a permission if not abort the request
+        $this->validateWebPermission(['permissions-delete']);
 
-        // Check if the user has the permission to delete a permission
-        if($this->hasAnyPermission(['delete-permissions'])){
-            // Delete the permission in the database
-            $permission->delete();
+        // Delete the permission in the database
+        $permission->delete();
 
-            // Return an inertia view with the permission
-            return Inertia::render('Permissions/Show', [
-                'permission' => $permission,
-            ]);
-        }
-        // Return an inertia view with the error message if the user does't have the permission
-        return Inertia::render('Error', [
-            'error' => 'You don\'t have the permission to delete a permission.',
+        // Return an inertia view with the permission
+        return Inertia::render('Permissions/Show', [
+            'permission' => $permission,
         ]);
     }
 }
