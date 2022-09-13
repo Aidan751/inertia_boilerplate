@@ -13,6 +13,8 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // Call the laratrust seeder to initialize roles and permissions
+        $this->call(LaratrustSeeder::class);
         // \App\Models\User::factory(10)->create();
     }
 }
