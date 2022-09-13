@@ -19,7 +19,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/', [HomeController::class, 'index']);
 
     // get all roles for users
-    Route::get('/roles', [RolesController::class, 'index']);
+    Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');
 
     // create a role for a user
     Route::get('/roles/create', [RolesController::class, 'create']);
@@ -31,7 +31,7 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/roles/edit/{id}', [RolesController::class, 'edit']);
 
     // get all permissions for users
-    Route::get('/permissions', [PermissionsController::class, 'index']);
+    Route::get('/permissions', [PermissionsController::class, 'index'])->name('permissions.index');
 
     // create a permission for a user
     Route::get('/permissions/create', [PermissionsController::class, 'create']);
