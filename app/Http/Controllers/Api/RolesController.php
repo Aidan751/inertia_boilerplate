@@ -3,15 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
-class RolesController extends Controller
-{
-    <?php
-
-namespace App\Http\Controllers\Api;
-
-use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
@@ -187,6 +178,4 @@ class RolesController extends Controller
         // Return a json response with the error message if the user does't have the permission
         return response()->json(['error' => 'You don\'t have the permission to delete a role.'],401);
     }
-}
-
 }
