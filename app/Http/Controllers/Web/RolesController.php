@@ -7,10 +7,6 @@ use Illuminate\Http\Request;
 
 class RolesController extends Controller
 {
-<<<<<<< Updated upstream
-    //
-}
-=======
     /**
      * Handle the incoming request to get all the roles.
      * The method will return all the roles in the database.
@@ -219,4 +215,3 @@ class RolesController extends Controller
         }
     }
 }
->>>>>>> Stashed changes
