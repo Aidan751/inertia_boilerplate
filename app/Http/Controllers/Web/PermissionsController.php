@@ -21,7 +21,7 @@ class PermissionsController extends Controller
     {
         // Check if the user has the permission to get all the permissions if not abort the request
         $this->validateWebPermission(['permissions-read']);
-        
+
         // Get all the permissions
         $permissions = Permission::all();
 
@@ -40,10 +40,10 @@ class PermissionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Permission $permission){
-        
+
         // Check if the user has the permission to get a permission if not abort the request
         $this->validateWebPermission(['permissions-read']);
-        
+
         // Return an inertia view with the permission
         return Inertia::render('Permissions/Show', [
             'permission' => $permission,
@@ -58,7 +58,7 @@ class PermissionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(Request $request){
-        
+
         // Check if the user has the permission to create a permission if not abort the request
         $this->validateWebPermission(['permissions-create']);
 
@@ -78,7 +78,7 @@ class PermissionsController extends Controller
 
         // Check if the user has the permission to create a permission if not abort the request
         $this->validateWebPermission(['permissions-create']);
-        
+
         // Validate the request
         $request->validate([
             'name' => 'required|string|unique:permissions,name',
@@ -108,7 +108,7 @@ class PermissionsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Permission $permission){
-        
+
         // Check if the user has the permission to edit a permission if not abort the request
         $this->validateWebPermission(['permissions-update']);
 
@@ -149,7 +149,7 @@ class PermissionsController extends Controller
         return Inertia::render('Permissions/Show', [
             'permission' => $permission,
         ]);
-      
+
     }
 
     /**
