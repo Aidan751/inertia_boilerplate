@@ -4,6 +4,7 @@ export default function Footer({ appName  }) {
     return (
         <footer
         className="p-6 text-center text-sm"
+        style={{ backgroundColor: '#fff' }}
         >
 
 

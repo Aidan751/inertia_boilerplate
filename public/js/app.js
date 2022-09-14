@@ -2362,6 +2362,9 @@ function Footer(_ref) {
   var appName = _ref.appName;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("footer", {
     className: "p-6 text-center text-sm",
+    style: {
+      backgroundColor: '#fff'
+    },
     children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
       className: "mb-1",
       children: ["\xA9 ", new Date().getFullYear(), " ", appName]
@@ -2540,7 +2543,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
-/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+/* harmony import */ var _Partials_AdminSideBar__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Partials/AdminSideBar */ "./resources/js/Partials/AdminSideBar.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
 
 
 
@@ -2548,10 +2553,11 @@ __webpack_require__.r(__webpack_exports__);
 
 function SideBar(_ref) {
   var user = _ref.user;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
     "class": "row justify-content-center",
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
-      "class": "col-sm-3 sidebar col-fixed"
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
+      "class": "col-sm-3 sidebar col-fixed",
+      children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Partials_AdminSideBar__WEBPACK_IMPORTED_MODULE_3__["default"], {})
     })
   });
 }
@@ -3744,6 +3750,162 @@ function Welcome(props) {
         })]
       })]
     })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/Partials/AdminSideBar.js":
+/*!***********************************************!*\
+  !*** ./resources/js/Partials/AdminSideBar.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ AdminSideBar)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+/* harmony import */ var _Partials_SideBarListHeading__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! @/Partials/SideBarListHeading */ "./resources/js/Partials/SideBarListHeading.js");
+/* harmony import */ var _Partials_SideBarListItem__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @/Partials/SideBarListItem */ "./resources/js/Partials/SideBarListItem.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+
+
+
+function AdminSideBar(props) {
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsxs)("ul", {
+    className: "list-unstyled sidebar-nav  sidebar-offcanvas",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListHeading__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      title: "Admin Users"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      title: "Add User",
+      url: "admin-user.create"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      title: "List Users",
+      url: "admin-user.index"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListHeading__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      title: "Call Center"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      title: "Add User",
+      url: "admin-callcentreuser.create"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      title: "List Users",
+      url: "admin-callcentreuser.index"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListHeading__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      title: "Categories"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      title: "Add Category",
+      url: "admin-restaurantcategories.create"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      title: "List Categories",
+      url: "admin-restaurantcategories.index"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListHeading__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      title: "Business Manager"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      title: "Add Business",
+      url: "admin-restaurants.create"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      title: "List Businesses",
+      url: "admin-restaurants.index"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      title: "List Application",
+      url: "admin-applications.index"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListHeading__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      title: "Driver Manager"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      title: "Add Driver",
+      url: "admin-driver.create"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      title: "List Drivers",
+      url: "admin-driver.index"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListHeading__WEBPACK_IMPORTED_MODULE_3__["default"], {
+      title: "Delivery Settings"
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_5__.jsx)(_Partials_SideBarListItem__WEBPACK_IMPORTED_MODULE_4__["default"], {
+      title: "Delivery Costs",
+      url: "admin-configurations.index"
+    })]
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/Partials/SideBarListHeading.js":
+/*!*****************************************************!*\
+  !*** ./resources/js/Partials/SideBarListHeading.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SideBarListHeading)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+function SideBarListHeading(_ref) {
+  var title = _ref.title;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("div", {
+    style: {
+      backgroundColor: "#D4D4D4"
+    },
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+      style: {
+        padding: "20px",
+        fontWeight: "bold"
+      },
+      children: title
+    })
+  });
+}
+
+/***/ }),
+
+/***/ "./resources/js/Partials/SideBarListItem.js":
+/*!**************************************************!*\
+  !*** ./resources/js/Partials/SideBarListItem.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SideBarListItem)
+/* harmony export */ });
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+/* harmony import */ var _inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! @inertiajs/inertia-react */ "./node_modules/@inertiajs/inertia-react/dist/index.js");
+/* harmony import */ var react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react/jsx-runtime */ "./node_modules/react/jsx-runtime.js");
+
+
+
+
+
+function SideBarListItem(_ref) {
+  var title = _ref.title,
+      url = _ref.url;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
+    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
+      href: route({
+        url: url
+      }),
+      className: "text-dark",
+      children: title
+    })
   });
 }
 

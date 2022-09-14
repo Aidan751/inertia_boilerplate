@@ -2,60 +2,46 @@ import React from 'react'
 import { render } from 'react-dom'
 import { Head, Link } from '@inertiajs/inertia-react'
 import { usePage } from '@inertiajs/inertia-react'
+import ListHeading from '@/Partials/SideBarListHeading'
+import ListItem from '@/Partials/SideBarListItem'
+
 
 
 export default function AdminSideBar(props) {
     return (
-        <ul class="list-unstyled sidebar-nav  sidebar-offcanvas">
-            <div style="background: #D4D4D4">
-                <li style="padding: 20px; font-weight: bold;">Admin Users</li>
-            </div>
+        <ul className="list-unstyled sidebar-nav  sidebar-offcanvas">
+            <ListHeading title="Admin Users" />
 
-            <li>
-                <a href={ route('admin-user.create') } class="text-dark">Add User</a>
-            </li>
-            <li>
-                <a href={ route('admin-user.index') } class="text-dark">List Users</a>
-            </li>
-            <div style="background: #D4D4D4"><li style="padding: 20px; font-weight: bold;">Call Centre</li></div>
-            <li>
-                <a href={ route('admin-callcentreuser.create') } class="text-dark">Add User</a>
-            </li>
-            <li>
-                <a href={ route('admin-callcentreuser.index') } class="text-dark">List Users</a>
-            </li>
-            <div style="background: #D4D4D4"><li style="padding: 20px; font-weight: bold;">Categories</li></div>
+            <ListItem title="Add User" url="admin-user.create" />
+            <ListItem title="List Users" url="admin-user.index" />
 
-            <li>
-                <a href={ route('admin-restaurantcategories.create') } class="text-dark">Add Category</a>
-            </li>
-            <li>
-                <a href={ route('admin-restaurantcategories.index') } class="text-dark">List Categories</a>
-            </li>
-            <div style="background: #D4D4D4"><li style="padding: 20px; font-weight: bold;">Business Manager</li></div>
+            <ListHeading title="Call Center" />
 
-            <li>
-                <a href={ route('admin-restaurants.create') } class="text-dark">Add Business</a>
-            </li>
-            <li>
-                <a href={ route('admin-restaurants.index') } class="text-dark">List Business</a>
-            </li>
-            <li>
-                <a href={ route('admin-applications.index') } class="text-dark">List Application</a>
-            </li>
-            <div style="background: #D4D4D4"><li style="padding: 20px; font-weight: bold;">Driver Manager</li></div>
+            <ListItem title="Add User" url="admin-callcentreuser.create" />
+            <ListItem title="List Users" url="admin-callcentreuser.index" />
 
-            <li>
-                <a href={ route('admin-driver.create') } class="text-dark">Add Drivers</a>
-            </li>
-            <li>
-                <a href={ route('admin-driver.index') } class="text-dark">List Drivers</a>
-            </li>
-            <div style="background: #D4D4D4"><li style="padding: 20px; font-weight: bold;">Delivery Settings</li></div>
-            <li>
-                <a href={ route('admin-configurations.index') } class="text-dark">Delivery Costs</a>
-            </li>
-</ul>
+            <ListHeading title="Categories" />
+
+            <ListItem title="Add Category" url="admin-restaurantcategories.create" />
+            <ListItem title="List Categories" url="admin-restaurantcategories.index" />
+
+
+            <ListHeading title="Business Manager" />
+
+            <ListItem title="Add Business" url="admin-restaurants.create" />
+            <ListItem title="List Businesses" url="admin-restaurants.index" />
+            <ListItem title="List Application" url="admin-applications.index" />
+
+            <ListHeading title="Driver Manager" />
+
+            <ListItem title="Add Driver" url="admin-driver.create" />
+            <ListItem title="List Drivers" url="admin-driver.index" />
+
+            <ListHeading title="Delivery Settings" />
+
+            <ListItem title="Delivery Costs" url="admin-configurations.index" />
+
+        </ul>
 
 
 
