@@ -141,6 +141,7 @@ class RolesController extends Controller
             'role' => $role,
             'permissions' => $allPermissions,
         ]);
+    }
 
     /**
      * Handle the incoming request to update a role.
