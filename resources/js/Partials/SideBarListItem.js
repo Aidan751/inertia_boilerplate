@@ -4,10 +4,10 @@ import { Head, Link } from '@inertiajs/inertia-react'
 import { usePage } from '@inertiajs/inertia-react'
 
 
-export default function SideBarListItem({ title, url }) {
+export default function SideBarListItem({ title, url = '#' }) {
     return (
         <li>
-            <a href={ route({ url }) } className="text-dark">{ title }</a>
+            <a href={url} className="text-dark">{ title }</a>
         </li>
 
     )

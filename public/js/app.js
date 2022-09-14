@@ -2554,9 +2554,9 @@ __webpack_require__.r(__webpack_exports__);
 function SideBar(_ref) {
   var user = _ref.user;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-    "class": "row justify-content-center",
+    className: "row justify-content-center",
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)("div", {
-      "class": "col-sm-3 sidebar col-fixed",
+      className: "col-sm-3 sidebar col-fixed",
       children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_4__.jsx)(_Partials_AdminSideBar__WEBPACK_IMPORTED_MODULE_3__["default"], {})
     })
   });
@@ -3897,12 +3897,11 @@ __webpack_require__.r(__webpack_exports__);
 
 function SideBarListItem(_ref) {
   var title = _ref.title,
-      url = _ref.url;
+      _ref$url = _ref.url,
+      url = _ref$url === void 0 ? '#' : _ref$url;
   return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("li", {
     children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_3__.jsx)("a", {
-      href: route({
-        url: url
-      }),
+      href: url,
       className: "text-dark",
       children: title
     })

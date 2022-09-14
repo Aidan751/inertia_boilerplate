@@ -8,8 +8,8 @@ import AdminSideBar from '@/Partials/AdminSideBar';
 export default function SideBar({ user }) {
     return (
 
-            <div class="row justify-content-center">
-                <div class="col-sm-3 sidebar col-fixed">
+            <div className="row justify-content-center">
+                <div className="col-sm-3 sidebar col-fixed">
 
                     <AdminSideBar />
 
