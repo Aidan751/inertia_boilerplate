@@ -4,6 +4,7 @@ import Checkbox from '@/Components/Checkbox';
 import Guest from '@/Layouts/Guest';
 import Input from '@/Components/Input';
 import Label from '@/Components/Label';
+import Footer from '@/Components/Footer';
 import ValidationErrors from '@/Components/ValidationErrors';
 import { Head, Link, useForm } from '@inertiajs/inertia-react';
 
@@ -31,6 +32,7 @@ export default function Login({ status, canResetPassword }) {
     };
 
     return (
+        <div>
         <Guest>
             <Head title="Log in" />
 
@@ -89,5 +91,7 @@ export default function Login({ status, canResetPassword }) {
                 </div>
             </form>
         </Guest>
+        <Footer appName="Order It" />
+    </div>
     );
 }

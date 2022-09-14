@@ -673,6 +673,39 @@ select {
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
 }
+.container {
+  width: 100%;
+}
+@media (min-width: 640px) {
+
+  .container {
+    max-width: 640px;
+  }
+}
+@media (min-width: 768px) {
+
+  .container {
+    max-width: 768px;
+  }
+}
+@media (min-width: 1024px) {
+
+  .container {
+    max-width: 1024px;
+  }
+}
+@media (min-width: 1280px) {
+
+  .container {
+    max-width: 1280px;
+  }
+}
+@media (min-width: 1536px) {
+
+  .container {
+    max-width: 1536px;
+  }
+}
 .fixed {
   position: fixed;
 }
@@ -977,19 +1010,6 @@ select {
   --tw-bg-opacity: 1;
   background-color: rgb(17 24 39 / var(--tw-bg-opacity));
 }
-
-
-.bg-purple {
-  --tw-bg-opacity: 1;
-  background-color: rgb(183 38 126 / var(--tw-bg-opacity));
-}
-
-.txt-purple {
-    --tw-text-opacity: 1;
-    color: rgb(183 38 126 / var(--tw-text-opacity));
-}
-
-
 .bg-indigo-50 {
   --tw-bg-opacity: 1;
   background-color: rgb(238 242 255 / var(--tw-bg-opacity));
@@ -1496,8 +1516,3 @@ select {
   }
 }
 
-/* aidans styles for order it */
-#logo {
-    width: 80px !important;
-    height: auto !important;
-}
