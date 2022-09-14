@@ -33,4 +33,12 @@ class LoginController extends Controller
         // redirect
         return redirect()->route('dashboard');
     }
+
+    // logout user
+    public function destroy()
+    {
+        Auth::logout();
+
+        return redirect()->route('login');
+    }
 }

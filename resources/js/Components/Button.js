@@ -10,6 +10,7 @@ export default function Button({ type = 'submit', className = '', processing, ch
                 } ` + className
             }
             disabled={processing}
+            style={{backgroundColor: 'rgb(183, 38, 126)'}}
         >
             {children}
         </button>

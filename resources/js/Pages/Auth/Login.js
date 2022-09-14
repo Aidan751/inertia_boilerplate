@@ -79,7 +79,8 @@ export default function Login({ status, canResetPassword }) {
                         </Link> */}
                         <Link
                             href="#"
-                            className="underline text-sm txt-purple hover:text-gray-900"
+                            className="underline text-sm txt-purple hover:text-gray-900 mr-2"
+                            style={{color: 'rgb(183, 38, 126)'}}
                         >
                             Forgot your password?
                         </Link>

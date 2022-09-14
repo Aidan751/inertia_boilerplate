@@ -2144,6 +2144,9 @@ function Button(_ref) {
     type: type,
     className: "inline-flex items-center px-4 py-2 bg-purple border border-transparent rounded-md font-semibold text-xs text-white uppercase tracking-widest active:bg-gray-900 transition ease-in-out duration-150 ".concat(processing && 'opacity-25', " ") + className,
     disabled: processing,
+    style: {
+      backgroundColor: 'rgb(183, 38, 126)'
+    },
     children: children
   });
 }
@@ -2356,21 +2359,22 @@ __webpack_require__.r(__webpack_exports__);
 
 
 function Footer(_ref) {
-  var _ref$appName = _ref.appName,
-      appName = _ref$appName === void 0 ? "Order It" : _ref$appName;
-  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("footer", {
-    children: /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("div", {
-      "class": "container",
-      children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
-        children: ["\xA9 ", new Date().getFullYear(), " ", appName]
-      }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
-        children: ["Design & Technology by ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
-          href: "https://www.createanet.co.uk",
-          target: "_blank",
-          children: "Createanet"
-        })]
+  var appName = _ref.appName;
+  return /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("footer", {
+    className: "p-6 text-center text-sm",
+    children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+      className: "mb-1",
+      children: ["\xA9 ", new Date().getFullYear(), " ", appName]
+    }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsxs)("p", {
+      children: ["Design & Technology by ", /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_1__.jsx)("a", {
+        href: "https://www.createanet.co.uk",
+        target: "_blank",
+        style: {
+          color: 'rgb(183, 38, 126)'
+        },
+        children: "Createanet"
       })]
-    })
+    })]
   });
 }
 
@@ -3058,7 +3062,10 @@ function Login(_ref) {
           className: "flex items-center justify-end mt-4",
           children: [/*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_inertiajs_inertia_react__WEBPACK_IMPORTED_MODULE_8__.Link, {
             href: "#",
-            className: "underline text-sm txt-purple hover:text-gray-900",
+            className: "underline text-sm txt-purple hover:text-gray-900 mr-2",
+            style: {
+              color: 'rgb(183, 38, 126)'
+            },
             children: "Forgot your password?"
           }), /*#__PURE__*/(0,react_jsx_runtime__WEBPACK_IMPORTED_MODULE_9__.jsx)(_Components_Button__WEBPACK_IMPORTED_MODULE_1__["default"], {
             className: "ml-4",
