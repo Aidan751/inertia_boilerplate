@@ -17,13 +17,7 @@ use App\Http\Controllers\Auth\LoginController;
 |
 */
 
-// create login and logout routes
-Route::get('/login', [LoginController::class, 'create'])->name('login');
-Route::post('/login', [LoginController::class, 'store']);
-Route::post('/logout', [LoginController::class, 'destroy'])->name('logout');
-
-// check for permissions middleware using laratrust
-Route::middleware(['auth:sanctum', 'verified'])->group(function () {
+Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/', [HomeController::class, 'index'])->name('dashboard');
 
     // get all roles for users
@@ -151,9 +145,5 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // update delivery costs
     Route::put('/admin-configurations/update/{id}', [AdminConfigurationsController::class, 'update'])->name('admin-configurations.update');
-
-
-
-
 
 });
