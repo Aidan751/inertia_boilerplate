@@ -22,6 +22,7 @@ class HomeController extends Controller
         $this->validateWebPermission(['home-read']);
 
         // Return an inertia view with the home page
-        return Inertia::render('Dashboard');
+        // return Inertia::render('Dashboard');
+        return Inertia::render('Welcome');
     }
 }

@@ -18,13 +18,13 @@
         @inertiaHead
     </head>
     <style>
-        body {
+        /* body {
             background-color: #f5f5f5 !important;
             padding: 0 !important;
             margin: 0;
-        }
+        } */
     </style>
-    <body class="font-sans">
+    <body class="py-5">
         @inertia
 
         @env ('local')
