@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -13,6 +14,29 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::prefix("v1")->group(function (){
+
+    // Authentication Routes
+    Route::post("login",[AuthController::class, "login"]);
+
+    Route::middleware("auth:sanctum")->group(function (){
+
+        // Logout Route
+        Route::post("logout",[AuthController::class, "logout"]);
+
+        // Refresh Token Route
+        Route::post("refresh",[AuthController::class, "refresh"]);
+
+        // Get Authenticated User Route
+        Route::get("user",[AuthController::class, "user"]);
+
+        // Delete Authenticated User
+        Route::delete("user",[AuthController::class, "delete"]);
+
+    });
+
+});
 
 // check for permissions middleware using laratrust
 Route::middleware(['auth:sanctum', 'verified'])->group(function () {
