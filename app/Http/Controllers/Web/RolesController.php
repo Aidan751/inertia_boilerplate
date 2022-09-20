@@ -15,16 +15,25 @@ class RolesController extends Controller
      * The method will return all the roles in the database.
      * The method will check if the user has the permission to get all the roles.
      * The method will return an inertia view with the roles.
+     * @param \Illuminate\Http\Request  $request
      * @return \Inertia\Response
      */
 
-    public function index()
+    public function index(Request $request)
     {
         // Check if the user has the permission to get all the roles if not abort the request
         $this->validateWebPermission(['roles-read']);
 
-        // Get all roles
-        $roles = Role::paginate(15);
+        // Get all roles, paginate through them using the "perPage" parameter. Search through the roles using the name or description if the "search" parameter is present.
+        if($request->search !== null){
+
+            $roles = Role::where('name', 'like', '%' . $request->search . '%')
+                ->orWhere('description', 'like', '%' . $request->search . '%')
+                ->paginate($request->perPage ?? 10);
+        }
+        else{
+            $roles = Role::paginate($request->perPage ?? 10);
+        }
 
         // Add permissions to each role
         foreach ($roles as $role) {
@@ -34,6 +43,8 @@ class RolesController extends Controller
         // Return an inertia view with the roles
         return Inertia::render('Roles/Index', [
             'roles' => $roles,
+            "perPage" => $request->perPage ?? 10,
+            "search" => $request->search ?? null
         ]);
     }
 

@@ -1,11 +1,17 @@
 import DropdownLink from "@/Components/DropdownLink";
 import { Link } from "@inertiajs/inertia-react";
-import { Home} from "lucide-react";
+import { Home, ShieldAlert} from "lucide-react";
 export default function SideBar(props){
     
     // Links for Site Admin to access course categories
     const linkArray = [
         {title:"Link Title",href:"/url"},
+    ];
+
+    // Links for user to access roles
+    const rolesLinks = [
+        {title: "Roles", href: route("roles.index")},
+        {title: "Create Role", href: route("roles.create")},
     ];
     return (
         <>
@@ -16,10 +22,15 @@ export default function SideBar(props){
                 </Link>
                 <div className="side-nav__devider my-6"></div>
                 <ul>
+
                     <DropdownLink groupTitle="Dashboard" links={linkArray} active={props.activeGroup == 0 ? true:false}>
                         <Home />
                     </DropdownLink>
                     
+                    {/* Roles Menu Section */}
+                    <DropdownLink groupTitle="Roles" links={rolesLinks} active={props.activeGroup == 1 ? true:false}>
+                        <ShieldAlert />
+                    </DropdownLink>
                 </ul>
             </nav>
         </>

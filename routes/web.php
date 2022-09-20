@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\Web\RolesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -30,7 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/roles/store', [RolesController::class, 'store'])->name('roles.store');
 
     // edit a role for a user
-    Route::get('/roles/edit/{id}', [RolesController::class, 'edit'])->name('roles.edit');
+    Route::get('/roles/edit/{role}', [RolesController::class, 'edit'])->name('roles.edit');
 
     // get all permissions for users
     Route::get('/permissions', [PermissionsController::class, 'index'])->name('permissions.index');
@@ -147,3 +148,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/admin-configurations/update/{id}', [AdminConfigurationsController::class, 'update'])->name('admin-configurations.update');
 
 });
+
+
+require __DIR__ . "/auth.php";

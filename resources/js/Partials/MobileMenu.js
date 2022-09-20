@@ -4,6 +4,10 @@ import { Link } from "@inertiajs/inertia-react";
 import { BarChart2, Home } from "lucide-react";
 import { Fragment } from "react";
 
+
+
+
+
 export default function MobileMenu(props){
 
     return (
@@ -38,6 +42,7 @@ export default function MobileMenu(props){
                 <Menu.Items as="ul" className="border-t border-white/[0.08] py-5">
                     <Menu.Item>
 
+                        {/* TODO Add Dropdown link for mobile menu */}
                         <MobileDropdownLink href={"/"} links={[]} title="Dashboard">
                             <Home />
                         </MobileDropdownLink>
