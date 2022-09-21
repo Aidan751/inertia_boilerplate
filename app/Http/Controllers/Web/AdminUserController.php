@@ -6,6 +6,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class AdminUserController extends Controller
 {
@@ -63,16 +64,24 @@ class AdminUserController extends Controller
      */
     public function store(Request $request)
     {
-        User::create(
-            Request::validate([
-                'first_name' => ['required', 'max:255'],
-                'last_name' => ['required', 'max:255'],
-                'email' => ['required', 'email', 'max:255', 'unique:users'],
-                'password' => ['required', 'min:8', 'confirmed'],
-            ])
-        );
+        // validate the request
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:6|confirmed',
+        ]);
 
-        return Redirect::route('MainAdmin/AdminUsers/Index');
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        dd($user);
+           // Redirect back to the index page with a success message
+           return redirect()->route('admin-user.index')->with('success', 'User created successfully');
     }
 
     /**

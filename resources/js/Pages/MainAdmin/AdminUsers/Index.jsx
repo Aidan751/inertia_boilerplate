@@ -133,8 +133,8 @@ export default function Index(props){
                         <table className="table table-report -mt-2">
                             <thead>
                             <tr>
-                                <th className="whitespace-nowrap">NAME</th>
-                                <th className="text-center whitespace-nowrap">EMAIL</th>
+                                <th className="text-left whitespace-nowrap">NAME</th>
+                                <th className="text-left whitespace-nowrap">EMAIL</th>
                                 <th className="text-center whitespace-nowrap">ACTIONS</th>
                             </tr>
                             </thead>
@@ -144,15 +144,12 @@ export default function Index(props){
                                 <tr key={key} className="intro-x">
 
                                     {/* User Info */}
-                                    <td>
-
-                                        <div className="text-slate-500 text-xs mt-0.5">
+                                    <td className="text-left">
                                             {user.first_name} {user.last_name}
-                                        </div>
                                     </td>
 
                                     {/* User email */}
-                                    <td className="text-center">{user.email}</td>
+                                    <td className="text-left">{user.email}</td>
 
                                     {/* Actions */}
                                     <td className="table-report__action w-56">

@@ -29,7 +29,8 @@ function Create(props) {
         <div className="intro-y col-span-12 lg:col-span-6">
           {/* BEGIN: Form Layout */}
 
-          <form className="intro-y box p-5">
+         {/* TODO: ask michael about csrf */}
+          <form className="intro-y box p-5" action={route('admin-user.store')} method="post">
             <div>
               <label htmlFor="crud-form-1" className="form-label">
                 Name
