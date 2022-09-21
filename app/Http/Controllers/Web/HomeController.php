@@ -19,10 +19,10 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         // Check if the user has the permission to get the home page if not abort the request
-        $this->validateWebPermission(['home-read']);
+        // $this->validateWebPermission(['main_admin', 'restaurant_admin', 'call_center_admin'], 'mainAdmin.dashboard');
 
         // Return an inertia view with the home page
         // return Inertia::render('Dashboard');
-        return Inertia::render('Welcome');
+        return Inertia::render('MainAdmin/Dashboard');
     }
 }

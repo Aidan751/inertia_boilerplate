@@ -36,7 +36,7 @@ class RestaurantFactory extends Factory
             'allows_table_orders' => $this->faker->boolean,
             'allows_collection' => $this->faker->boolean,
             'allows_delivery' => $this->faker->boolean,
-            'allows_call_centre' => $this->faker->boolean,
+            'allows_call_center' => $this->faker->boolean,
         ];
     }
 }

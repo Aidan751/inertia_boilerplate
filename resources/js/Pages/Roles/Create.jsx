@@ -1,10 +1,10 @@
 import ValidationErrors from "@/Components/ValidationErrors";
 // TODO: Add the rest of the imports
 // import ValidationSuccess from "@/Components/ValidationSuccess";
-import AdminLayout from "@/Layouts/AdminLayout";
-import MidoneButton from "@/Midone/Components/Forms/MidoneButton";
-import MidoneInput from "@/Midone/Components/Forms/MidoneInput";
-import MidoneTextArea from "@/Midone/Components/Forms/MidoneTextArea";
+// import AdminLayout from "@/Layouts/AdminLayout";
+// import MidoneButton from "@/Midone/Components/Forms/MidoneButton";
+// import MidoneInput from "@/Midone/Components/Forms/MidoneInput";
+// import MidoneTextArea from "@/Midone/Components/Forms/MidoneTextArea";
 import { Head, useForm } from '@inertiajs/inertia-react';
 
 export default function CreatePermissions(props){

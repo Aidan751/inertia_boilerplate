@@ -12,18 +12,34 @@ return [
     'truncate_tables' => true,
 
     'roles_structure' => [
-        'superadministrator' => [
-            'users' => 'c,r,u,d,e',
-            'payments' => 'c,r,u,d,e',
-            'profile' => 'r,u,e',
-            'roles' => 'c,r,u,d,e',
-            'permissions' => 'c,r,u,d,e',
-            'settings' => 'c,r,u,d,e',
-            'home' => 'r,e',
+        'main_admin' => [
+            'admin_users' => 'c,r,u,d,e',
+            'call_center' => 'c,r,u,d,e',
+            'categories' => 'r,u,e',
+            'business_manager' => 'c,r,u,d,e',
+            'driver_manager' => 'c,r,u,d,e',
+            'driver_cost' => 'c,r,u,d,e',
         ],
-        // 'role_name' => [
-        //     'module_1_name' => 'c,r,u,d',
-        // ]
+
+        'restaurant_admin' => [
+            'orders' => 'c,r,u,d,e',
+            'restaurant_admin_users' => 'c,r,u,d,e',
+            'stripe' => 'r,u,e',
+            'products' => 'c,r,u,d,e',
+            'categories' => 'c,r,u,d,e',
+            'products' => 'c,r,u,d,e',
+            'group_deals' => 'c,r,u,d,e',
+            'extras' => 'c,r,u,d,e',
+            'opening_times' => 'c,r,u,d,e',
+            'table_service' => 'c,r,u,d,e',
+            'offers_and_news' => 'c,r,u,d,e',
+            'company_profile' => 'c,r,u,d,e',
+        ],
+
+        'call_center_admin' => [
+            'make_order' => 'c,r,u,d,e',
+            'orders_history' => 'c,r,u,d,e',
+    ],
     ],
 
     'permissions_map' => [

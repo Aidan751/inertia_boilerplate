@@ -19,7 +19,13 @@ use App\Http\Controllers\Web\RolesController;
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
-    Route::get('/', [HomeController::class, 'index'])->name('dashboard');
+    // route to main admin dashboard
+    Route::get('/', [HomeController::class, 'index'])->name('mainAdmin.dashboard');
+    // route to restaurant admin dashboard
+    Route::get('/restaurant-admin', [RestaurantAdminController::class, 'index'])->name('restaurantAdmin.dashboard');
+    // route to call center admin dashboard
+    Route::get('/call-center-admin', [CallCentreAdminController::class, 'index'])->name('CallCentreAdmin.dashboard');
+
 
     // get all roles for users
     Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');

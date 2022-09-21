@@ -16,7 +16,7 @@ class CreateRestaurantsTable extends Migration
         Schema::create('restaurants', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('restaurant_category_id');
-            $table->enum('application_status', ['pending', 'approved', 'declined', 'suspended'])->default('pending');  
+            $table->enum('application_status', ['pending', 'approved', 'declined', 'suspended'])->default('pending');
             $table->string('name');
             $table->string('address_line_1');
             $table->string('address_line_2')->nullable();
@@ -30,14 +30,14 @@ class CreateRestaurantsTable extends Migration
             $table->longText('bio')->nullable();
             $table->decimal('minimum_order_value', 10, 2)->default(0);
             $table->decimal('delivery_charge', 10, 2)->nullable();
-            $table->string('average_delivery_time')->nullable();  
-            $table->string('stripe_account_id')->nullable();  
-            $table->enum('stripe_status', ['incomplete', 'complete'])->default('incomplete');  
+            $table->string('average_delivery_time')->nullable();
+            $table->string('stripe_account_id')->nullable();
+            $table->enum('stripe_status', ['incomplete', 'complete'])->default('incomplete');
             $table->boolean('company_drivers')->default(0);
-            $table->boolean('allows_table_orders')->default(0); 
-            $table->boolean('allows_collection')->default(0); 
-            $table->boolean('allows_delivery')->default(0); 
-            $table->boolean('allows_call_centre')->default(0); 
+            $table->boolean('allows_table_orders')->default(0);
+            $table->boolean('allows_collection')->default(0);
+            $table->boolean('allows_delivery')->default(0);
+            $table->boolean('allows_call_center')->default(0);
             $table->timestamps();
 
             $table->foreign('restaurant_category_id')->references('id')->on('restaurant_categories')->onDelete('cascade');

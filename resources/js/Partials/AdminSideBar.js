@@ -17,7 +17,7 @@ export default function AdminSideBar(props) {
 
             <ListHeading title="Call Center" />
 
-            <ListItem title="Add User" url="admin-callcentreuser.create" />
+            <ListItem title="Add User" url="admin-CallCentreuser.create" />
             <ListItem title="List Users" url="admin-callcentreuser.index" />
 
             <ListHeading title="Categories" />
