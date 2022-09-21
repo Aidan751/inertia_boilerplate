@@ -19,8 +19,12 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('contact_number')->nullable()->unique();
+            $table->enum('is_suspended', ['yes', 'no'])->default('no');
+            $table->unsignedInteger('restaurant_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
         });
     }
 
