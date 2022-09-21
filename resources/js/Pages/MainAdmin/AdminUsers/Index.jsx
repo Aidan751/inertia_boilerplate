@@ -147,7 +147,7 @@ export default function Index(props){
                                     <td>
 
                                         <div className="text-slate-500 text-xs mt-0.5">
-                                            {user.name}
+                                            {user.first_name} {user.last_name}
                                         </div>
                                     </td>
 

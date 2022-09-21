@@ -37,7 +37,7 @@ class AdminUserController extends Controller
 
         // Return an inertia view with the users
         return Inertia::render('MainAdmin/AdminUsers/Index', [
-            'users' => users,
+            'users' => $users,
             "perPage" => $request->perPage ?? 10,
             "search" => $request->search ?? null
         ]);
