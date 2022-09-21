@@ -19630,9 +19630,6 @@ select {
 .-mt-2 {
   margin-top: -0.5rem;
 }
-.-ml-5 {
-  margin-left: -1.25rem;
-}
 .mr-1 {
   margin-right: 0.25rem;
 }
@@ -19716,12 +19713,6 @@ select {
 }
 .w-0 {
   width: 0px;
-}
-.w-40 {
-  width: 10rem;
-}
-.w-10 {
-  width: 2.5rem;
 }
 .w-16 {
   width: 4rem;

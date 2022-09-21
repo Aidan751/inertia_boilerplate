@@ -19,13 +19,13 @@ export default function IndexRoles(props){
     const total = props.roles.total;
 
     const first_page_url = props.roles.first_page_url;
-    
+
     const last_page_url = props.roles.last_page_url;
-    
+
     const links = props.roles.links;
 
     const [roles, setRoles] = useState(props.roles.data);
-    
+
     const [showingDeleteModal, setShowingDeleteModal] = useState(false);
 
     const [currentSelectedRole, setCurrentSelectedRole] = useState(null);
@@ -33,7 +33,7 @@ export default function IndexRoles(props){
     console.log(props);
     /**
      * Handle search form submission
-     * @param {Event} e 
+     * @param {Event} e
      */
     const submitSearch = (e) => {
         e.preventDefault();
@@ -73,7 +73,7 @@ export default function IndexRoles(props){
 
     const paginate = (e) => {
         e.preventDefault();
-        
+
         Inertia.get(route("roles.index"), {
             perPage: e.target.value,
             search: props.search
@@ -104,7 +104,7 @@ export default function IndexRoles(props){
 
                             {/* Link to create page */}
                             <Link href={route("roles.create")} className="btn btn-primary shadow-md mr-2">
-                                Add New Product
+                                Add New Role
                             </Link>
 
                             {/* Pagination Information */}
@@ -140,7 +140,7 @@ export default function IndexRoles(props){
                             {roles.map((role, key) => (
 
                                 <tr key={key} className="intro-x">
-                                    
+
                                     {/* Role Info */}
                                     <td>
                                         <span className="font-medium">
@@ -189,9 +189,9 @@ export default function IndexRoles(props){
                                     <Link className="page-link" href={first_page_url}>
                                         <ChevronsLeft className="w-4 h-4" />
                                     </Link>
-                                </li>                                    
+                                </li>
                                 {
-                                links && 
+                                links &&
                                 links.map(link => {
                                         return (
                                             <>
@@ -227,9 +227,9 @@ export default function IndexRoles(props){
                                             })
                                         }
 
-                                        
-                                    
-                                        
+
+
+
                                 <li className="page-item">
                                     <Link className="page-link" href={last_page_url}>
                                         <ChevronsRight className="w-4 h-4" />
