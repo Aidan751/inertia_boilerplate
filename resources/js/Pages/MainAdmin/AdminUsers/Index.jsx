@@ -5,6 +5,8 @@ import { useForm } from '@inertiajs/inertia-react'
 import { useState } from "react";
 import { Modal, ModalBody } from "@/base-components";
 import { Inertia } from "@inertiajs/inertia";
+
+
 export default function Index(props){
 
     const { data, setData, get, processing, errors } = useForm({
@@ -20,9 +22,9 @@ export default function Index(props){
 
     const first_page_url = props.users.first_page_url;
 
-    const last_page_url = props.roles.last_page_url;
+    const last_page_url = props.users.last_page_url;
 
-    const links = props.roles.links;
+    const links = props.users.links;
 
     const [users, setUsers] = useState(props.users.data);
 
@@ -51,7 +53,7 @@ export default function Index(props){
         e.preventDefault();
 
         // Set the current selected role to the role id
-        setCurrentSelectedRole(e.target.id);
+        setCurrentSelectedUser(e.target.id);
 
         // Show the delete confirmation modal
         setShowingDeleteModal(true);
@@ -131,8 +133,9 @@ export default function Index(props){
                         <table className="table table-report -mt-2">
                             <thead>
                             <tr>
-                                <th className="whitespace-nowrap">ROLE</th>
-                                <th className="text-center whitespace-nowrap">PERMISSIONS</th>
+                                <th className="whitespace-nowrap">FIRST NAME</th>
+                                <th className="text-center whitespace-nowrap">LAST NAME</th>
+                                <th className="text-center whitespace-nowrap">EMAIL</th>
                                 <th className="text-center whitespace-nowrap">ACTIONS</th>
                             </tr>
                             </thead>
