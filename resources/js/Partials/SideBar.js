@@ -1,11 +1,9 @@
 import DropdownLink from "@/Components/DropdownLink";
 import { Link, usePage } from "@inertiajs/inertia-react";
 import { Home, ShieldAlert} from "lucide-react";
+import { hasRole } from "@/utils/Utils.js";
 export default function SideBar(props){
 
-    const isAdmin = usePage().props.auth.isAdmin;
-    const isRestaurantAdmin = usePage().props.auth.isRestaurantAdmin;
-    const isCallCentreAdmin = usePage().props.auth.isCallCentreAdmin;
 
     // Links for Site Admin
     const adminLink = [
@@ -44,15 +42,47 @@ export default function SideBar(props){
                 </Link>
                 <div className="side-nav__devider my-6"></div>
                 <ul>
+                    {/* Home */}
+                    
+                    {/* Restaurant Admin */}
+                    {
+                        hasRole("restaurant_admin") && (
+                            <SideAdminDesktopRoutes activeGroup={props.activeGroup} />
+                        )
+                    }
 
-                    <DropdownLink groupTitle="Dashboard" links={linkArray} active={props.activeGroup == 0 ? true:false}>
-                        <Home />
-                    </DropdownLink>
+                    {/* Call Centre Admin */}
+                    {
+                        hasRole("main_admin")&& (
+                            <SideAdminDesktopRoutes activeGroup={props.activeGroup} />
+                        )
+                    }
 
-                    {/* Roles Menu Section */}
-                    <DropdownLink groupTitle="Roles" links={rolesLinks} active={props.activeGroup == 1 ? true:false}>
-                        <ShieldAlert />
-                    </DropdownLink>
+                    {/* Main Admin */}
+                    {
+                        hasRole("main_admin") && (
+                            <>
+                                <DropdownLink groupTitle="Dashboard" links={excoAdminLink} active={props.activeGroup == 0 ? true:false}>
+                                    <Home />
+                                </DropdownLink>
+                                {/* Members */}
+                                <DropdownLink groupTitle="Members" links={excoMemberLink} active={props.activeGroup == 5 ? true:false}>
+                                    <UserCheck />
+                                </DropdownLink>
+                                 {/* Course Categories */}
+                                <DropdownLink groupTitle="Course Categories" links={courseCategoriesGroup} active={props.activeGroup == 8 ? true:false}>
+                                    <Files />
+                                </DropdownLink>
+
+                                {/* Courses */}
+                                <DropdownLink groupTitle="Courses" links={coursesGroup} active={props.activeGroup == 9 ? true:false}>
+                                    <FileCheck />
+                                </DropdownLink>
+                            </>
+                        )
+                    }
+                    
+                   
                 </ul>
             </nav>
         </>
