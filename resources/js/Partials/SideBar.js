@@ -24,9 +24,9 @@ export default function SideBar(props){
                 <div className="side-nav__devider my-6"></div>
                 <ul>
 
-                    <DropdownLink groupTitle="Dashboard" links={linkArray} active={props.activeGroup == 0 ? true:false}>
+                    {/* <DropdownLink groupTitle="Dashboard" links={linkArray} active={props.activeGroup == 0 ? true:false}>
                         <Home />
-                    </DropdownLink>
+                    </DropdownLink> */}
 
                     {/* Roles Menu Section */}
                     <DropdownLink groupTitle="Admin Users" links={adminUserLinks} active={props.activeGroup == 1 ? true:false}>
