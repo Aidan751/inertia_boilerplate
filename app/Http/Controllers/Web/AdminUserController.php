@@ -43,6 +43,17 @@ class AdminUserController extends Controller
         ]);
     }
 
+      /**
+     * Handle the incoming request to create a user.
+     * The method will check if the user has the permission to create a permission.
+     * The method will return an inertia view with the permission.
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function create(){
+        return Inertia::render('MainAdmin/AdminUsers/Create');
+    }
+
 
     /**
      * Store a newly created resource in storage.
@@ -54,8 +65,10 @@ class AdminUserController extends Controller
     {
         User::create(
             Request::validate([
-                'title' => ['required', 'max:90'],
-                'description' => ['required'],
+                'first_name' => ['required', 'max:255'],
+                'last_name' => ['required', 'max:255'],
+                'email' => ['required', 'email', 'max:255', 'unique:users'],
+                'password' => ['required', 'min:8', 'confirmed'],
             ])
         );
 
@@ -83,9 +96,21 @@ class AdminUserController extends Controller
     {
         return Inertia::render('MainAdmin/AdminUsers/Edit', [
             'user' => [
-
+                'id' => $user->id,
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'phone_number' => $user->phone_number,
+                'address' => $user->address,
+                'city' => $user->city,
+                'state' => $user->state,
+                'country' => $user->country,
+                'zip_code' => $user->zip_code,
+                'role' => $user->role,
+                'permissions' => $user->permissions,
             ]
-        ]);
+            ]
+        );
     }
 
     /**
