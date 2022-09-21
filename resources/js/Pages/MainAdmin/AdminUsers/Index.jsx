@@ -106,7 +106,7 @@ export default function Index(props){
 
                             {/* Link to create page */}
                             <Link href={route("admin-user.create")} className="btn btn-primary shadow-md mr-2">
-                                Add New Role
+                                Add New User
                             </Link>
 
                             {/* Pagination Information */}
@@ -133,8 +133,7 @@ export default function Index(props){
                         <table className="table table-report -mt-2">
                             <thead>
                             <tr>
-                                <th className="whitespace-nowrap">FIRST NAME</th>
-                                <th className="text-center whitespace-nowrap">LAST NAME</th>
+                                <th className="whitespace-nowrap">NAME</th>
                                 <th className="text-center whitespace-nowrap">EMAIL</th>
                                 <th className="text-center whitespace-nowrap">ACTIONS</th>
                             </tr>
@@ -146,11 +145,9 @@ export default function Index(props){
 
                                     {/* User Info */}
                                     <td>
-                                        <span className="font-medium">
-                                            {user.first_name}
-                                        </span>
+
                                         <div className="text-slate-500 text-xs mt-0.5">
-                                            {user.last_name}
+                                            {user.name}
                                         </div>
                                     </td>
 
@@ -277,7 +274,7 @@ export default function Index(props){
                             >
                                 Cancel
                             </button>
-                            <button onClick={deleteRole} className="btn btn-danger w-24">
+                            <button onClick={deleteUser} className="btn btn-danger w-24">
                                 Delete
                             </button>
                         </div>

@@ -30,7 +30,8 @@ class AdminUserController extends Controller
             ->latest()
             ->paginate(10);
         }
-        else{
+        else {
+
             $users = User::paginate($request->perPage ?? 10);
         }
 
