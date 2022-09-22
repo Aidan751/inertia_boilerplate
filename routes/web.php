@@ -136,9 +136,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     Route::view('/restaurant/restaurant-tables', 'livewire.table_numbers')->name('restaurant.alltables');
 
-    Route::get('/restaurant/stripe', [StripeController::class, 'link'])->name('stripe.link');
-    Route::get('/restaurant/stripe/complete', [StripeController::class, 'complete']);
+    // TODO: stripe routes
+    Route::get('/restaurant/stripe', [RestaurantStripeController::class, 'link'])->name('stripe.link');
+    Route::get('/restaurant/stripe/complete', [RestaurantStripeController::class, 'complete'])->name('stripe.complete');
     Route::post('/restaurant/order/{id}/push', [OrderController::class, 'sendPush'])->name('order.push');
+
+
 
     // list menu categories
     Route::get('/restaurant/menu-categories', [MenuCategoryController::class, 'index'])->name('menu-categories.index');
