@@ -120,8 +120,18 @@ class CallCentreAdminController extends Controller
      */
     public function update(Request $request, User $user)
     {
-        $user->update($request->all());
+        // Validate the request
+        $data = $request->validate([
+            'first_name' => 'required',
+            'last_name' => 'required',
+            'email' => 'required|email|unique:users,email,' . $user->id,
+            'phone_number' => 'required',
+        ]);
+        
+        // Update the user
+        $user->update($data);
 
+        // Redirect the user to the users index page with a success message
         return redirect()->route('callcentre-users.index')->with('success', 'User updated successfully');
     }
 

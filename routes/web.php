@@ -69,13 +69,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin-user/store', [AdminUserController::class, 'store'])->name('admin-user.store');
 
     // edit an admin user
-    Route::get('/admin-user/edit/{id}', [AdminUserController::class, 'edit'])->name('admin-user.edit');
+    Route::get('/admin-user/edit/{user}', [AdminUserController::class, 'edit'])->name('admin-user.edit');
 
     // update an admin user
-    Route::put('/admin-user/update/{id}', [AdminUserController::class, 'update'])->name('admin-user.update');
+    Route::put('/admin-user/update/{user}', [AdminUserController::class, 'update'])->name('admin-user.update');
 
     // delete an admin user
-    Route::delete('/admin-user/delete/{id}', [AdminUserController::class, 'destroy'])->name('admin-user.destroy');
+    Route::delete('/admin-user/delete/{user}', [AdminUserController::class, 'destroy'])->name('admin-user.destroy');
 
     // create a call center user
     Route::get('/admin-callcentreuser/create', [AdminCallCentreUserController::class, 'create'])->name('admin-callcentreuser.create');
@@ -87,13 +87,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin-callcentreuser/store', [AdminCallCentreUserController::class, 'store'])->name('admin-callcentreuser.store');
 
     // edit a call center user
-    Route::get('/admin-callcentreuser/edit/{id}', [AdminCallCentreUserController::class, 'edit'])->name('admin-callcentreuser.edit');
+    Route::get('/admin-callcentreuser/edit/{user}', [AdminCallCentreUserController::class, 'edit'])->name('admin-callcentreuser.edit');
 
     // update a call center user
-    Route::put('/admin-callcentreuser/update/{id}', [AdminCallCentreUserController::class, 'update'])->name('admin-callcentreuser.update');
+    Route::put('/admin-callcentreuser/update/{user}', [AdminCallCentreUserController::class, 'update'])->name('admin-callcentreuser.update');
 
     // delete a call center user
-    Route::delete('/admin-callcentreuser/delete/{id}', [AdminCallCentreUserController::class, 'destroy'])->name('admin-callcentreuser.destroy');
+    Route::delete('/admin-callcentreuser/delete/{user}', [AdminCallCentreUserController::class, 'destroy'])->name('admin-callcentreuser.destroy');
 
     // create a restaurant category
     Route::get('/admin-restaurantcategories/create', [AdminRestaurantCategoriesController::class, 'create'])->name('admin-restaurantcategories.create');
