@@ -51,6 +51,54 @@ export default function SideBar(props){
         {title: "List Orders", href: route("admin-orders.index")},
     ];
 
+    // Links for user to access restaurant admins
+    const restaurantAdminLinks = [
+        {title: "Add User", href: route("admin-restaurants.create")},
+        {title: "List Users", href: route("admin-restaurants.index")},
+    ];
+
+    // Links for user to access stripe gateways
+    const stripeGatewayLinks = [
+        {title: "Connect to Stripe", href: route("stripe.link")},
+    ];
+
+    // Links for user to access products
+    const productLinks = [
+        {title: "Add Category", href: route("menu-categories.create")},
+        {title: "List Categories", href: route("menu-categories.index")},
+        {title: "Add Product", href: route("menu-items.create")},
+        {title: "List Products", href: route("menu-items.index")},
+        // add new group deal
+        {title: "Add Group Deal", href: route("group-deals.create")},
+        // list group deals
+        {title: "List Group Deals", href: route("group-deals.index")},
+        // add new extra
+        {title: "Add Extra", href: route("extras.create")},
+        // list extras
+        {title: "List Extras", href: route("extras.index")},
+    ];
+
+    // Links for user to access opening times
+    const openingTimeLinks = [
+        {title: "Manage Opening Times", href: route("openingtimes.index")},
+    ];
+
+    // Links for user to manage tables
+    const tableLinks = [
+        {title: "Manage Tables", href: route("tables.index")},
+    ];
+
+    // Links for user to manage offers/news
+    const offerLinks = [
+        {title: "Add New Offer/News", href: route("offers.create")},
+        {title: "List Offers/News", href: route("offers.index")},
+    ];
+
+    // Links for user to manage company profile
+    const companyProfileLinks = [
+        {title: "Manage Profile", href: route("companyprofile.index")},
+    ];
+
     return (
         <>
         {/* Main Admin SideBar */}
@@ -129,7 +177,7 @@ export default function SideBar(props){
                             </DropdownLink>
 
                             {/* Table Service */}
-                            <DropdownLink groupTitle="Table Service" links={tableServiceLinks} active={props.activeGroup == 6 ? true:false}>
+                            <DropdownLink groupTitle="Table Service" links={tableLinks} active={props.activeGroup == 6 ? true:false}>
                                 <Users />
                             </DropdownLink>
 

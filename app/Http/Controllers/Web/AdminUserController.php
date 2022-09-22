@@ -28,7 +28,7 @@ class AdminUserController extends Controller
 
         if($search !== null){
 
-            $users = User::where(function ($q) use ($search) {
+            $users = User::whereRoleIs('admin')->where(function ($q) use ($search) {
                $q->where('first_name', 'LIKE', '%' . $search . '%')->orWhere('last_name', 'LIKE', '%' . $search . '%')->orWhere('email', 'LIKE', '%' . $search . '%');
             })
             ->latest()

@@ -19,27 +19,68 @@ class OrderController extends Controller
     public function index(Request $request)
     {
 
-        // Get all orders, paginate through them using the "perPage" parameter. Search through the orders, if the "search" parameter is present.
-        if($request->search !== null){
+        $user = User::whereRoleIs('restaurant_admin')->first();
 
-            $orders = Order::where(function ($q) use ($search) {
-               // Add your own filter values here
-               //$q->where('first_name', 'LIKE', '%' . $search . '%')->orWhere('last_name', 'LIKE', '%' . $search . '%')->orWhere('email', 'LIKE', '%' . $search . '%');
+        $customer = $request->get('customer', '');
+        $status = $request->get('status', '');
+        $from = $request->get('from', '');
+        $to = $request->get('to', '');
+
+        $customers = User::whereHas('orders', function ($q) use($user) {
+            $q->where('restaurant_id', Auth::user()->restaurant_id);
+        })->orderBy('last_name')->get();
+        $customersArray = [];
+        array_push($customersArray, ["placeholder" => true, "text" => "Select a customer"]);
+
+        foreach ($customers as $user) {
+
+            $selected = false;
+
+            if ($customer == $user->id) {
+                $selected = true;
+            }
+
+            array_push($customersArray, ["text" => $user->getFullName(), "value" => $user->id, "selected" =>  $selected]);
+
+        }
+
+        $order = new Order;
+
+        $orders = $order->with('customer', 'driver')
+            ->where('restaurant_id', Auth::user()->restaurant_id)
+            ->when($from, function($q) use ($from) {
+                $q->whereDate('pickup_date', '>=', $from);
             })
-            ->latest()
-            ->paginate(10);
-        }
-        else {
+            ->when($to, function($q) use ($to) {
+                $q->whereDate('pickup_date', '<=', $to);
+            })
+            ->when('customer' != null, function($q) use ($customer) {
+                if ($customer != null) {
+                    $q->where('id', $customer);
+                }
+            })
+             ->where('payment_status', 'paid')
+             ->where(function ($q) use ($status) {
 
-            $orders = Order::paginate($request->perPage ?? 10);
-        }
+                 if ($status == 'complete') {
+                     $q->where('status', 'completed');
+                 } else if ($status == 'incomplete') {
+                     $q->where('status', '!=', 'completed');
+                 }
+             })
+             ->latest()
+             ->paginate(10)->appends(request()->query());
 
 
         // Return an inertia view with the orders
         return Inertia::render('RestaurantAdmin/Orders/Index', [
             'orders' => $orders,
-            "perPage" => $request->perPage ?? 10,
-            "search" => $request->search ?? null
+            'customer' => $customer,
+            'status' => $status,
+            'from' => $from,
+            'to' => $to,
+            'customers' => $customersArray,
+            'user' => $user
         ]);
     }
 }

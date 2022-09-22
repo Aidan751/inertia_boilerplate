@@ -20,6 +20,10 @@ use App\Http\Controllers\Web\AdminUserController;
 */
 
 Route::middleware(['auth', 'verified'])->group(function () {
+    // handle stripe payments
+    Route::get('/pay', [ItemPaymentController::class, 'index'])->name('pay');
+    Route::post('/pay', [ItemPaymentController::class, 'store'])->name('pay.store');
+
     // route to main admin dashboard
     Route::get('/', [HomeController::class, 'index'])->name('mainAdmin.dashboard');
     // route to restaurant admin dashboard
@@ -127,6 +131,84 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // delete a restaurant
     Route::delete('/admin-restaurants/delete/{id}', [AdminRestaurantsController::class, 'destroy'])->name('admin-restaurants.destroy');
 
+    Route::view('/restaurant/restaurant-tables', 'livewire.table_numbers')->name('restaurant.alltables');
+
+    Route::get('/restaurant/stripe', [StripeController::class, 'link'])->name('stripe.link');
+    Route::get('/restaurant/stripe/complete', [StripeController::class, 'complete']);
+    Route::post('/restaurant/order/{id}/push', [OrderController::class, 'sendPush'])->name('order.push');
+
+    // list menu categories
+    Route::get('/restaurant/menu-categories', [MenuCategoryController::class, 'index'])->name('menu-categories.index');
+
+    // create a menu category
+    Route::get('/restaurant/menu-categories/create', [MenuCategoryController::class, 'create'])->name('menu-categories.create');
+
+    // store a menu category
+    Route::post('/restaurant/menu-categories/store', [MenuCategoryController::class, 'store'])->name('menu-categories.store');
+
+    // edit a menu category
+    Route::get('/restaurant/menu-categories/edit/{id}', [MenuCategoryController::class, 'edit'])->name('menu-categories.edit');
+
+    // update a menu category
+    Route::put('/restaurant/menu-categories/update/{id}', [MenuCategoryController::class, 'update'])->name('menu-categories.update');
+
+    // delete a menu category
+    Route::delete('/restaurant/menu-categories/delete/{id}', [MenuCategoryController::class, 'destroy'])->name('menu-categories.destroy');
+
+    // list menu items
+    Route::get('/restaurant/menu-items', [MenuItemController::class, 'index'])->name('menu-items.index');
+
+    // create a menu item
+    Route::get('/restaurant/menu-items/create', [MenuItemController::class, 'create'])->name('menu-items.create');
+
+    // store a menu item
+    Route::post('/restaurant/menu-items/store', [MenuItemController::class, 'store'])->name('menu-items.store');
+
+    // edit a menu item
+    Route::get('/restaurant/menu-items/edit/{id}', [MenuItemController::class, 'edit'])->name('menu-items.edit');
+
+    // update a menu item
+    Route::put('/restaurant/menu-items/update/{id}', [MenuItemController::class, 'update'])->name('menu-items.update');
+
+    // delete a menu item
+    Route::delete('/restaurant/menu-items/delete/{id}', [MenuItemController::class, 'destroy'])->name('menu-items.destroy');
+
+    // list group deals
+    Route::get('/restaurant/group-deals', [GroupDealController::class, 'index'])->name('group-deals.index');
+
+    // create a group deal
+    Route::get('/restaurant/group-deals/create', [GroupDealController::class, 'create'])->name('group-deals.create');
+
+    // store a group deal
+    Route::post('/restaurant/group-deals/store', [GroupDealController::class, 'store'])->name('group-deals.store');
+
+    // edit a group deal
+    Route::get('/restaurant/group-deals/edit/{id}', [GroupDealController::class, 'edit'])->name('group-deals.edit');
+
+    // update a group deal
+    Route::put('/restaurant/group-deals/update/{id}', [GroupDealController::class, 'update'])->name('group-deals.update');
+
+    // delete a group deal
+    Route::delete('/restaurant/group-deals/delete/{id}', [GroupDealController::class, 'destroy'])->name('group-deals.destroy');
+
+    //list extras
+    Route::get('/restaurant/extras', [ExtraController::class, 'index'])->name('extras.index');
+
+    // create an extra
+    Route::get('/restaurant/extras/create', [ExtraController::class, 'create'])->name('extras.create');
+
+    // store an extra
+    Route::post('/restaurant/extras/store', [ExtraController::class, 'store'])->name('extras.store');
+
+    // edit an extra
+    Route::get('/restaurant/extras/edit/{id}', [ExtraController::class, 'edit'])->name('extras.edit');
+
+    // update an extra
+    Route::put('/restaurant/extras/update/{id}', [ExtraController::class, 'update'])->name('extras.update');
+
+    // delete an extra
+    Route::delete('/restaurant/extras/delete/{id}', [ExtraController::class, 'destroy'])->name('extras.destroy');
+
     // get all applications
     Route::get('/admin-applications', [AdminApplicationsController::class, 'index'])->name('admin-applications.index');
 
@@ -154,6 +236,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // update delivery costs
     Route::put('/admin-configurations/update/', [AdminConfigurationsController::class, 'update'])->name('admin-configurations.update');
 
+    // get all orders
+    Route::get('/admin-orders', [AdminOrdersController::class, 'index'])->name('admin-orders.index');
 });
 
 
