@@ -68,4 +68,10 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // delete a permission for a user
     Route::delete('/permissions/delete/{id}', [PermissionsController::class, 'destroy']);
+
+    // stripe add payment method
+    Route::post('/stripe', [StripeController::class, 'addPaymentMethod']);
+
+    // stripe create session
+    Route::get('/stripe/create-session', [StripeController::class, 'createSession']);
 });

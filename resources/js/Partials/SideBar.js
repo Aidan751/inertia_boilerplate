@@ -102,7 +102,11 @@ export default function SideBar(props){
     // Links for user to manage making orders
     const makeOrderLinks = [
         {title: "Make Order", href: route("orders.create")},
-        {title: "Orders History", href: route("orders.index")},
+    ];
+
+    // Links for user to manage order history
+    const orderHistoryLinks = [
+        {title: "Order History", href: route("orders.index")},
     ];
 
 
