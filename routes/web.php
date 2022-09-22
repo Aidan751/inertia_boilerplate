@@ -206,6 +206,42 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // update an extra
     Route::put('/restaurant/extras/update/{id}', [ExtraController::class, 'update'])->name('extras.update');
 
+    // list tables
+    Route::get('/restaurant/tables', [TableController::class, 'index'])->name('tables.index');
+
+    // create a table
+    Route::get('/restaurant/tables/create', [TableController::class, 'create'])->name('tables.create');
+
+    // store a table
+    Route::post('/restaurant/tables/store', [TableController::class, 'store'])->name('tables.store');
+
+    // edit a table
+    Route::get('/restaurant/tables/edit/{id}', [TableController::class, 'edit'])->name('tables.edit');
+
+    // update a table
+    Route::put('/restaurant/tables/update/{id}', [TableController::class, 'update'])->name('tables.update');
+
+    // delete a table
+    Route::delete('/restaurant/tables/delete/{id}', [TableController::class, 'destroy'])->name('tables.destroy');
+
+    // list operating hours
+    Route::get('/restaurant/operating-hours', [OperatingHourController::class, 'index'])->name('operating-hours.index');
+
+    // create an operating hour
+    Route::get('/restaurant/operating-hours/create', [OperatingHourController::class, 'create'])->name('operating-hours.create');
+
+    // store an operating hour
+    Route::post('/restaurant/operating-hours/store', [OperatingHourController::class, 'store'])->name('operating-hours.store');
+
+    // edit an operating hour
+    Route::get('/restaurant/operating-hours/edit/{id}', [OperatingHourController::class, 'edit'])->name('operating-hours.edit');
+
+    // update an operating hour
+    Route::put('/restaurant/operating-hours/update/{id}', [OperatingHourController::class, 'update'])->name('operating-hours.update');
+
+    // delete an operating hour
+    Route::delete('/restaurant/operating-hours/delete/{id}', [OperatingHourController::class, 'destroy'])->name('operating-hours.destroy');
+
     // delete an extra
     Route::delete('/restaurant/extras/delete/{id}', [ExtraController::class, 'destroy'])->name('extras.destroy');
 
