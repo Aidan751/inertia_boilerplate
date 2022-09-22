@@ -80,12 +80,12 @@ export default function SideBar(props){
 
     // Links for user to access opening times
     const openingTimeLinks = [
-        {title: "Manage Opening Times", href: route("openingtimes.index")},
+        {title: "Manage Opening Times", href: route("restaurant.operating")},
     ];
 
     // Links for user to manage tables
     const tableLinks = [
-        {title: "Manage Tables", href: route("tables.index")},
+        {title: "Manage Tables", href: route("restaurant.alltables")},
     ];
 
     // Links for user to manage offers/news
@@ -96,7 +96,7 @@ export default function SideBar(props){
 
     // Links for user to manage company profile
     const companyProfileLinks = [
-        {title: "Manage Profile", href: route("companyprofile.index")},
+        {title: "Manage Profile", href: route("profile.edit")},
     ];
 
     return (

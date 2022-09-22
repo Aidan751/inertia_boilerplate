@@ -209,6 +209,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // delete an extra
     Route::delete('/restaurant/extras/delete/{id}', [ExtraController::class, 'destroy'])->name('extras.destroy');
 
+    // show company profile
+    Route::get('/restaurant/profile', [CompanyProfileController::class, 'show'])->name('profile.show');
+
+    // edit company profile
+    Route::get('/restaurant/profile/edit', [CompanyProfileController::class, 'edit'])->name('profile.edit');
+
+    // update company profile
+    Route::put('/restaurant/profile/update', [CompanyProfileController::class, 'update'])->name('profile.update');
+
+
     // get all applications
     Route::get('/admin-applications', [AdminApplicationsController::class, 'index'])->name('admin-applications.index');
 
@@ -238,6 +248,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // get all orders
     Route::get('/admin-orders', [AdminOrdersController::class, 'index'])->name('admin-orders.index');
+
+    // livewire views
+    Route::view('/restaurant/restaurant-operatinghours', 'livewire.home')->name('restaurant.operating');
+
+    Route::view('/restaurant/restaurant-tables', 'livewire.table_numbers')->name('restaurant.alltables');
 });
 
 
