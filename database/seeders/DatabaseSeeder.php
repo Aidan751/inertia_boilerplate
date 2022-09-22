@@ -21,6 +21,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // Call the laratrust seeder to initialize roles and permissions
+        $this->call(LaratrustSeeder::class);
         User::factory(10)->create();
         RestaurantCategory::factory(10)->create();
         Restaurant::factory(10)->create();
@@ -28,6 +29,5 @@ class DatabaseSeeder extends Seeder
         MenuItem::factory(50)->create();
         Extra::factory(50)->create();
         GroupDeal::factory(50)->create();
-        $this->call(LaratrustSeeder::class);
     }
 }
