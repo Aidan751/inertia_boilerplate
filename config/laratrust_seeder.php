@@ -40,7 +40,7 @@ return [
             'company_profile' => 'c,r,u,d,e',
         ],
 
-        'call_center_admin' => [
+        'call_centre_admin' => [
             'make_order' => 'c,r,u,d,e',
             'orders_history' => 'c,r,u,d,e',
         ],
@@ -50,7 +50,7 @@ return [
         "customer" => [
             "customer" => "c,r,u,d,e",
         ],
-        
+
     ],
 
     'permissions_map' => [

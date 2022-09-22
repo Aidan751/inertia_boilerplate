@@ -20,14 +20,14 @@ class HomeController extends Controller
     public function index(Request $request)
     {
 
-        if($request->user()->hasRole('main_admin')){
+        if($request->user()->hasRole('admin')){
             return Inertia::render('MainAdmin/Dashboard');
         }
         else if($request->user()->hasRole('restaurant_admin')){
             return Inertia::render('RestaurantAdmin/Dashboard');
         }
-        else if($request->user()->hasRole('call_center_admin')){
-            return Inertia::render('CallCenterAdmin/Dashboard');
+        else if($request->user()->hasRole('call_centre_admin')){
+            return Inertia::render('CallCentreAdmin/Dashboard');
         }
         else {
             Auth::logout();

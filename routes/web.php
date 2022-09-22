@@ -254,6 +254,46 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // update company profile
     Route::put('/restaurant/profile/update', [CompanyProfileController::class, 'update'])->name('profile.update');
 
+    // list offers
+    Route::get('/restaurant/offers', [OfferController::class, 'index'])->name('offers.index');
+
+    // create an offer
+    Route::get('/restaurant/offers/create', [OfferController::class, 'create'])->name('offers.create');
+
+    // store an offer
+    Route::post('/restaurant/offers/store', [OfferController::class, 'store'])->name('offers.store');
+
+    // edit an offer
+    Route::get('/restaurant/offers/edit/{offer}', [OfferController::class, 'edit'])->name('offers.edit');
+
+    // update an offer
+    Route::put('/restaurant/offers/update/{offer}', [OfferController::class, 'update'])->name('offers.update');
+
+    // delete an offer
+    Route::delete('/restaurant/offers/delete/{offer}', [OfferController::class, 'destroy'])->name('offers.destroy');
+
+    // list orders
+    Route::get('/restaurant/orders', [OrderController::class, 'index'])->name('orders.index');
+
+    // show an order
+    Route::get('/restaurant/orders/show/{order}', [OrderController::class, 'show'])->name('orders.show');
+
+    // create an order
+    Route::get('/restaurant/orders/create', [OrderController::class, 'create'])->name('orders.create');
+
+    // store an order
+    Route::post('/restaurant/orders/store', [OrderController::class, 'store'])->name('orders.store');
+
+    // edit an order
+    Route::get('/restaurant/orders/edit/{order}', [OrderController::class, 'edit'])->name('orders.edit');
+
+    // update an order
+    Route::put('/restaurant/orders/update/{order}', [OrderController::class, 'update'])->name('orders.update');
+
+    // delete an order
+    Route::delete('/restaurant/orders/delete/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
+
+
 
     // get all applications
     Route::get('/admin-applications', [AdminApplicationsController::class, 'index'])->name('admin-applications.index');
@@ -283,7 +323,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/admin-configurations/update/', [AdminConfigurationsController::class, 'update'])->name('admin-configurations.update');
 
     // get all orders
-    Route::get('/admin-orders', [AdminOrdersController::class, 'index'])->name('admin-orders.index');
+    Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 
     // livewire views
     // TODO: rework these routes to be rendered as inertia views

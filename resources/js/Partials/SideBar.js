@@ -48,7 +48,7 @@ export default function SideBar(props){
 
     // Links for user to access orders
     const orderLinks = [
-        {title: "List Orders", href: route("admin-orders.index")},
+        {title: "List Orders", href: route("orders.index")},
     ];
 
     // Links for user to access restaurant admins
@@ -80,12 +80,12 @@ export default function SideBar(props){
 
     // Links for user to access opening times
     const openingTimeLinks = [
-        {title: "Manage Opening Times", href: route("operating-hours.edit")},
+        {title: "Manage Opening Times", href: route("operating-hours.index")},
     ];
 
     // Links for user to manage tables
     const tableLinks = [
-        {title: "Manage Tables", href: route("tables.edit")},
+        {title: "Manage Tables", href: route("tables.index")},
     ];
 
     // Links for user to manage offers/news
@@ -98,6 +98,13 @@ export default function SideBar(props){
     const companyProfileLinks = [
         {title: "Manage Profile", href: route("profile.edit")},
     ];
+
+    // Links for user to manage making orders
+    const makeOrderLinks = [
+        {title: "Make Order", href: route("orders.create")},
+        {title: "Orders History", href: route("orders.index")},
+    ];
+
 
     return (
         <>
@@ -194,21 +201,17 @@ export default function SideBar(props){
                         )
                     }
                     {
-                        hasRole("call_center_admin") && (
+                        hasRole("call_centre_admin") && (
                         <>
-                            <DropdownLink groupTitle="Orders" links={adminUserLinks} active={props.activeGroup == 1 ? true:false}>
+                            <DropdownLink groupTitle="Make Order" links={makeOrderLinks} active={props.activeGroup == 1 ? true:false}>
                                 <Users />
                             </DropdownLink>
 
-                            {/* Roles */}
-                            <DropdownLink groupTitle="Roles" links={adminUserLinks} active={props.activeGroup == 2 ? true:false}>
-                                <UserCheck />
+                            {/* Order history links */}
+                            <DropdownLink groupTitle="Orders History" links={orderHistoryLinks} active={props.activeGroup == 2 ? true:false}>
+                                <Users />
                             </DropdownLink>
 
-                            {/* Permissions */}
-                            <DropdownLink groupTitle="Permissions" links={adminUserLinks} active={props.activeGroup == 3 ? true:false}>
-                                <ShieldAlert />
-                            </DropdownLink>
 
                         </>
                         )
