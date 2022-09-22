@@ -7,6 +7,7 @@ export default function Dashboard(props) {
         <>
             <Authenticated
                 auth={props.auth}
+                // TODO: query as to why this active group is not working as intended
                 activeGroup={0}
             >
                 <Head title="Order It - Restaurant Admin Level" />

@@ -26,7 +26,7 @@ class AdminCallCentreUserController extends Controller
          // Get all users, paginate through them using the "perPage" parameter. Search through the users, if the "search" parameter is present.
         if($search !== null){
 
-            $users = User::where(function ($q) use ($search) {
+            $users = User::where('role_id', 3)->where(function ($q) use ($search) {
                $q->where('first_name', 'LIKE', '%' . $search . '%')->orWhere('last_name', 'LIKE', '%' . $search . '%')->orWhere('email', 'LIKE', '%' . $search . '%');
             })
             ->latest()
@@ -34,12 +34,12 @@ class AdminCallCentreUserController extends Controller
         }
         else {
 
-            $users = User::paginate($request->perPage ?? 10);
+            $users = User::where('role_id', 3)->paginate($request->perPage ?? 10);
         }
 
 
         // Return an inertia view with the users
-        return Inertia::render('CallCentreAdmin/CallCentreAdminUsers/Index', [
+        return Inertia::render('MainAdmin/CallCentreUsers/Index', [
             'users' => $users,
             "perPage" => $request->perPage ?? 10,
             "search" => $request->search ?? null

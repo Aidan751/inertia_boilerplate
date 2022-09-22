@@ -28,7 +28,7 @@ class AdminUserController extends Controller
 
         if($search !== null){
 
-            $users = User::whereRoleIs('admin')->where(function ($q) use ($search) {
+            $users = User::where('role_id', 1)->where(function ($q) use ($search) {
                $q->where('first_name', 'LIKE', '%' . $search . '%')->orWhere('last_name', 'LIKE', '%' . $search . '%')->orWhere('email', 'LIKE', '%' . $search . '%');
             })
             ->latest()
@@ -36,7 +36,7 @@ class AdminUserController extends Controller
         }
         else {
 
-            $users = User::paginate($request->perPage ?? 10);
+            $users = User::where('role_id', 1)->paginate($request->perPage ?? 10);
         }
 
 
