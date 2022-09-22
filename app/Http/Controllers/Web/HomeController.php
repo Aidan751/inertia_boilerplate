@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 
 class HomeController extends Controller
@@ -29,7 +30,7 @@ class HomeController extends Controller
             return Inertia::render('CallCenterAdmin/Dashboard');
         }
         else {
-            abort(403);
+            Auth::logout();
         }
 
     }
