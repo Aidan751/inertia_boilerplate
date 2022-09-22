@@ -250,9 +250,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin-orders', [AdminOrdersController::class, 'index'])->name('admin-orders.index');
 
     // livewire views
-    Route::view('/restaurant/restaurant-operatinghours', 'livewire.home')->name('restaurant.operating');
+    // TODO: rework these routes to be rendered as inertia views
+    // Route::view('/restaurant/restaurant-operatinghours', 'livewire.home')->name('restaurant.operating');
 
-    Route::view('/restaurant/restaurant-tables', 'livewire.table_numbers')->name('restaurant.alltables');
+    // Route::view('/restaurant/restaurant-tables', 'livewire.table_numbers')->name('restaurant.alltables');
 });
 
 
