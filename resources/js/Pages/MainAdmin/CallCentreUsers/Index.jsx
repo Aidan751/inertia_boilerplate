@@ -41,7 +41,7 @@ export default function Index(props){
     const submitSearch = (e) => {
         e.preventDefault();
 
-        get(route('admin-user.index'), {
+        get(route('admin-callcentreuser.index'), {
             preserveState: false,
             onSuccess: () => {
                 // Do something...
@@ -65,7 +65,7 @@ export default function Index(props){
         e.preventDefault();
 
         // Delete the role
-        Inertia.delete(route('admin-user.destroy', currentSelectedUser), {
+        Inertia.delete(route('admin-callcentreuser.destroy', currentSelectedUser), {
             preserveState: false,
             onSuccess: () => {
                 // Do something...
@@ -77,7 +77,7 @@ export default function Index(props){
     const paginate = (e) => {
         e.preventDefault();
 
-        Inertia.get(route("admin-user.index"), {
+        Inertia.get(route("admin-callcentreuser.index"), {
             perPage: e.target.value,
             search: props.search
         },);
@@ -162,7 +162,7 @@ export default function Index(props){
                                     <td className="table-report__action w-56">
                                         <div className="flex justify-center items-center">
                                             {/* Edit Link */}
-                                            <Link className="flex items-center mr-3" href={route("admin-user.edit",{id:user.id})}>
+                                            <Link className="flex items-center mr-3" href={route("admin-callcentreuser.edit",{id:user.id})}>
                                                 <CheckSquare className="w-4 h-4 mr-1" />{" "}
                                                 Edit
                                             </Link>

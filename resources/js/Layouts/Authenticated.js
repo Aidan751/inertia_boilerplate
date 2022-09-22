@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import SideBar from '@/Partials/SideBar';
 import MobileMenu from '@/Partials/MobileMenu';
 import TopBar from '@/Partials/TopBar';
+import Footer from '@/Components/Footer';
 export default function Authenticated({ auth, header, children,activeGroup,secondActiveGroup }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] = useState(false);
-    
+
     return (
         <>
             <section className="py-5 px-2">
@@ -14,7 +15,7 @@ export default function Authenticated({ auth, header, children,activeGroup,secon
 
                 {/* Content and Side Menu */}
                 <section className='flex'>
-                    
+
                     {/* SideBar */}
                     <SideBar activeGroup={activeGroup} secondActiveGroup={secondActiveGroup} />
 
@@ -36,6 +37,7 @@ export default function Authenticated({ auth, header, children,activeGroup,secon
 
                 </section>
             </section>
+        <Footer appName="Order It" />
         </>
     );
 }

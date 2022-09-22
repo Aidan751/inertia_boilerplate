@@ -4263,7 +4263,7 @@ select{
  */
 /* Default colors */
 :root {
-    --color-primary: 30 64 175;
+    --color-primary: 183 38 126;
     --color-secondary: 226 232 240;
     --color-success: 132 204 22;
     --color-info: 6 182 212;
@@ -18809,4 +18809,8 @@ html body{
         --tw-text-opacity: 1;
         color: rgb(var(--color-success) / var(--tw-text-opacity));
     }
+}
+
+body {
+    padding: 0 !important;
 }

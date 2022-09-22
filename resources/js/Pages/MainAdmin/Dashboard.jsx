@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link, Head } from '@inertiajs/inertia-react';
 import Authenticated from '@/Layouts/Authenticated';
+import Footer from '@/Components/Footer';
 
 export default function Welcome(props) {
     return (
