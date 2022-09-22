@@ -5,6 +5,7 @@ import { useForm } from '@inertiajs/inertia-react'
 import { useState } from "react";
 import { Modal, ModalBody } from "@/base-components";
 import { Inertia } from "@inertiajs/inertia";
+import ValidationSuccess from "@/Components/ValidationSuccess";
 
 
 export default function Index(props){
@@ -99,6 +100,12 @@ export default function Index(props){
 
                     {/* Page Header */}
                     <h2 className="intro-y text-lg font-medium mt-10">Data List Layout</h2>
+
+                    {/* Show Success Validation Component */}
+                    {
+                        props.success &&
+                        <ValidationSuccess message={props.success} />
+                    }
 
                     {/*  */}
                     <div className="grid grid-cols-12 gap-6 mt-5">

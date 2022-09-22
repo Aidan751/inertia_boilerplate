@@ -1,4 +1,5 @@
 import { usePage } from "@inertiajs/inertia-react"
+import { useState,useEffect } from "react";
 
 export const hasPermissions = (permission) => {
 

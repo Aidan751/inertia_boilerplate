@@ -12,13 +12,17 @@ return [
     'truncate_tables' => true,
 
     'roles_structure' => [
-        'main_admin' => [
+        'admin' => [
+            "roles" => "c,r,u,d,e",
+            "permissions" => "c,r,u,d,e",
             'admin_users' => 'c,r,u,d,e',
             'call_center' => 'c,r,u,d,e',
             'categories' => 'r,u,e',
             'business_manager' => 'c,r,u,d,e',
             'driver_manager' => 'c,r,u,d,e',
             'driver_cost' => 'c,r,u,d,e',
+            'orders' => 'c,r,u,d,e',
+            ""
         ],
 
         'restaurant_admin' => [
@@ -39,7 +43,14 @@ return [
         'call_center_admin' => [
             'make_order' => 'c,r,u,d,e',
             'orders_history' => 'c,r,u,d,e',
-    ],
+        ],
+        "driver" => [
+            "driver" => "c,r,u,d,e",
+        ],
+        "customer" => [
+            "customer" => "c,r,u,d,e",
+        ],
+        
     ],
 
     'permissions_map' => [

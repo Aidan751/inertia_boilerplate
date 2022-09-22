@@ -6,7 +6,9 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
 
 class AdminUserController extends Controller
 {
@@ -22,7 +24,9 @@ class AdminUserController extends Controller
     {
 
         // Get all users, paginate through them using the "perPage" parameter. Search through the users, if the "search" parameter is present.
-        if($request->search !== null){
+        $search = $request->search ?? null;
+
+        if($search !== null){
 
             $users = User::where(function ($q) use ($search) {
                $q->where('first_name', 'LIKE', '%' . $search . '%')->orWhere('last_name', 'LIKE', '%' . $search . '%')->orWhere('email', 'LIKE', '%' . $search . '%');
@@ -70,18 +74,25 @@ class AdminUserController extends Controller
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
+            "role" => "required|exists:roles,name",
+            "email_password_to_user" => "required|boolean"
         ]);
-
+        // Get the role based on the name
+        $role = Role::where('name', $request->role)->first();
+        // Create User
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
+            "role_id" => $role->id
         ]);
 
-        dd($user);
-           // Redirect back to the index page with a success message
-           return redirect()->route('admin-user.index')->with('success', 'User created successfully');
+        // Assign user to a role using the laratrust package
+        $user->attachRole($role);
+
+        // Redirect back to the index page with a success message
+        return redirect()->route('admin-user.index')->with('success', 'Admin User created successfully');
     }
 
     /**
@@ -140,7 +151,7 @@ class AdminUserController extends Controller
         $user->update(data);
 
 
-        return Redirect::route('MainAdmin/AdminUsers/Index');
+        return Redirect::route('MainAdmin/AdminUsers/Index')->with;
     }
 
     /**

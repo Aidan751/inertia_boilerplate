@@ -31,7 +31,7 @@ class RolesController extends Controller
                 ->orWhere('description', 'like', '%' . $request->search . '%')
                 ->paginate($request->perPage ?? 10);
         }
-        else{
+        else{ 
             $roles = Role::paginate($request->perPage ?? 10);
         }
 

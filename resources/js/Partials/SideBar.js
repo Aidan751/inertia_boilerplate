@@ -1,6 +1,7 @@
 import DropdownLink from "@/Components/DropdownLink";
+import { hasRole } from "@/utils/Utils";
 import { Link } from "@inertiajs/inertia-react";
-import { Home, ShieldAlert} from "lucide-react";
+import { Home, ShieldAlert, UserCheck, UserPlus, Users} from "lucide-react";
 export default function SideBar(props){
 
     // Links for Site Admin to access course categories
@@ -27,11 +28,48 @@ export default function SideBar(props){
                     {/* <DropdownLink groupTitle="Dashboard" links={linkArray} active={props.activeGroup == 0 ? true:false}>
                         <Home />
                     </DropdownLink> */}
+                    {
+                        hasRole("admin") && (
+                        <>
+                            <DropdownLink groupTitle="Admin" links={adminUserLinks} active={props.activeGroup == 1 ? true:false}>
+                                <Users />
+                            </DropdownLink>
+                            
+                            {/* Roles */}
+                            <DropdownLink groupTitle="Roles" links={adminUserLinks} active={props.activeGroup == 2 ? true:false}>
+                                <UserCheck />
+                            </DropdownLink>
 
-                    {/* Roles Menu Section */}
-                    <DropdownLink groupTitle="Admin Users" links={adminUserLinks} active={props.activeGroup == 1 ? true:false}>
-                        <ShieldAlert />
-                    </DropdownLink>
+                            {/* Permissions */}
+                            <DropdownLink groupTitle="Permissions" links={adminUserLinks} active={props.activeGroup == 3 ? true:false}>
+                                <ShieldAlert />
+                            </DropdownLink>
+
+                        </>
+                        )
+                    }
+                    {/* Links for Role Restuarent Admin */}
+                    {
+                        hasRole("restaurant_admin") && (
+                        <>
+                            <DropdownLink groupTitle="Orders" links={adminUserLinks} active={props.activeGroup == 1 ? true:false}>
+                                <Users />
+                            </DropdownLink>
+                            
+                            {/* Roles */}
+                            <DropdownLink groupTitle="Roles" links={adminUserLinks} active={props.activeGroup == 2 ? true:false}>
+                                <UserCheck />
+                            </DropdownLink>
+
+                            {/* Permissions */}
+                            <DropdownLink groupTitle="Permissions" links={adminUserLinks} active={props.activeGroup == 3 ? true:false}>
+                                <ShieldAlert />
+                            </DropdownLink>
+
+                        </>
+                        )
+                    }
+                    
                 </ul>
             </nav>
             {/* End of Main Admin SideBar */}

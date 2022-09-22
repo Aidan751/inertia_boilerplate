@@ -28,6 +28,7 @@ class User extends Authenticatable
         'email_verified_at',
         'password',
         'is_suspended',
+        "role_id"
     ];
 
     /**

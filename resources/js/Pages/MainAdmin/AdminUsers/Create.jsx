@@ -2,15 +2,39 @@ import { ClassicEditor, TomSelect } from "@/base-components";
 import Button from "@/components/Button";
 import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
-
+import { useForm } from '@inertiajs/inertia-react'
 
 function Create(props) {
+  
   const [categories, setCategories] = useState([1, 3]);
+
+  const { data, setData, post, processing, errors } = useForm({
+    first_name: '',
+    last_name: '',
+    email: '',
+    password: '',
+    password_confirmation: '',
+    email_password_to_user: false,
+    role: 'admin',
+  })
+
   const editorConfig = {
     toolbar: {
       items: ["bold", "italic", "link"],
     },
   };
+
+  const onHandleChange = (event) => {
+    setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+  };
+
+  const submit = (e) => {
+      e.preventDefault();
+
+      post(route('admin-user.store'));
+  };
+
+
   const [editorData, setEditorData] = useState("<p>Content of the editor.</p>");
 
   return (
@@ -30,16 +54,37 @@ function Create(props) {
           {/* BEGIN: Form Layout */}
 
          {/* TODO: ask michael about csrf */}
-          <form className="intro-y box p-5" action={route('admin-user.store')} method="post">
+          <form className="intro-y box p-5" onSubmit={submit} method="post">
+            {/* First Name Form Group */}
             <div>
               <label htmlFor="crud-form-1" className="form-label">
-                Name
+                First Name
               </label>
               <input
                 id="crud-form-1"
                 type="text"
                 className="form-control w-full"
-                placeholder="Full name..."
+                placeholder="First name..."
+                name="first_name"
+                required
+                value={data.first_name}
+                onChange={onHandleChange}
+              />
+            </div>
+            {/* Last Name Form Group */}
+            <div>
+              <label htmlFor="crud-form-1" className="form-label">
+                Last Name
+              </label>
+              <input
+                id="crud-form-1"
+                type="text"
+                className="form-control w-full"
+                placeholder="Last name..."
+                name="last_name"
+                required
+                value={data.last_name}
+                onChange={onHandleChange}
               />
             </div>
             <div className="mt-3">
@@ -48,9 +93,13 @@ function Create(props) {
               </label>
                 <input
                     id="crud-form-2"
-                    type="text"
+                    type="email"
+                    required
                     className="form-control w-full"
                     placeholder="Email address..."
+                    name="email"
+                    value={data.email}
+                    onChange={onHandleChange}
                 />
             </div>
             <div className="mt-3">
@@ -60,6 +109,10 @@ function Create(props) {
                 <input
                     id="crud-form-3"
                     type="password"
+                    name="password"
+                    required
+                    value={data.password}
+                    onChange={onHandleChange}
                     className="form-control w-full"
                     placeholder="Password..."
                 />
@@ -67,12 +120,21 @@ function Create(props) {
                 <input
                     id="crud-form-4"
                     type="password"
+                    name="password_confirmation"
+                    required
+                    value={data.password_confirmation}
+                    onChange={onHandleChange}
                     className="form-control w-full mt-3"
                     placeholder="Repeat password..."
                 />
               </div>
-            <div className="mt-3 pt-3">
-                <input type="checkbox" className="input border mr-2" id="input-1" />
+            <div className="mt-3 pt-3"> 
+                <input type="checkbox" 
+                  className="input border mr-2" 
+                  id="input-1" 
+                  name="email_password_to_user" 
+                  value={data.email_password_to_user}
+                  onChange={onHandleChange} />
                 <span className="text-black-600 ml-2">Email password to new admin user?</span>
             </div>
             <div className="text-right mt-5">
