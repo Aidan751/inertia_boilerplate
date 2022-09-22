@@ -60,6 +60,7 @@ export default function Index(props){
         setShowingDeleteModal(true);
     }
 
+    // TODO: unable to delete user, thought it had something to do with the user being added to endpoint as opposed to id, but it still doesn't work
     const deleteUser = (e) => {
         // Prevent Default Behaviour
         e.preventDefault();
@@ -170,6 +171,7 @@ export default function Index(props){
                                             {/* Delete Link */}
                                             <button
                                                 className="flex items-center text-danger"
+                                                type="button"
                                                 onClick={() => {
                                                     setDeleteConfirmationModal();
                                                 }}
@@ -278,7 +280,7 @@ export default function Index(props){
                             >
                                 Cancel
                             </button>
-                            <button onClick={deleteUser} className="btn btn-danger w-24">
+                            <button onClick={deleteUser} type="button" className="btn btn-danger w-24">
                                 Delete
                             </button>
                         </div>
