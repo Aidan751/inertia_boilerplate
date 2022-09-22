@@ -1,7 +1,8 @@
 import DropdownLink from "@/Components/DropdownLink";
 import { hasRole } from "@/utils/Utils";
 import { Link } from "@inertiajs/inertia-react";
-import { Home, ShieldAlert, UserCheck, UserPlus, Users} from "lucide-react";
+import { BookOpen, Clock, ListChecks, Network, PhoneIncoming, PoundSterling, Table, Timer } from "lucide";
+import { Car, Coins, DollarSign, Home, List, ListOrdered, PhoneCall, Server, ShieldAlert, UserCheck, UserPlus, Users} from "lucide-react";
 export default function SideBar(props){
 
     // Links for Site Admin to access course categories
@@ -9,11 +10,47 @@ export default function SideBar(props){
         {title:"Link Title",href:"/url"},
     ];
 
-    // Links for user to access roles
+    // Links for user to access admin users
     const adminUserLinks = [
         {title: "Add User", href: route("admin-user.create")},
         {title: "List Users", href: route("admin-user.index")},
     ];
+
+    // Links for user to access call centre users
+    const callCentreUserLinks = [
+        {title: "Add User", href: route("admin-callcentreuser.create")},
+        {title: "List Users", href: route("admin-callcentreuser.index")},
+    ];
+
+    // Links for user to access categories
+    const categoryLinks = [
+        {title: "Add Category", href: route("admin-restaurantcategories.create")},
+        {title: "List Categories", href: route("admin-restaurantcategories.index")},
+    ];
+
+    // Links for user to access business managers
+    const businessManagerLinks = [
+        {title: "Add Business", href: route("admin-restaurants.create")},
+        {title: "List Businesses", href: route("admin-restaurants.index")},
+        {title: "List Applications", href: route("admin-applications.index")},
+    ];
+
+    // Links for user to access driver managers
+    const driverManagerLinks = [
+        {title: "Add Driver", href: route("admin-driver.create")},
+        {title: "List Drivers", href: route("admin-driver.index")},
+    ];
+
+    // Links for user to access driver cost
+    const driverCostLinks = [
+        {title: "List Costs", href: route("admin-configurations.update")},
+    ];
+
+    // Links for user to access orders
+    const orderLinks = [
+        {title: "List Orders", href: route("admin-orders.index")},
+    ];
+
     return (
         <>
         {/* Main Admin SideBar */}
@@ -34,17 +71,31 @@ export default function SideBar(props){
                             <DropdownLink groupTitle="Admin" links={adminUserLinks} active={props.activeGroup == 1 ? true:false}>
                                 <Users />
                             </DropdownLink>
-                            
-                            {/* Roles */}
-                            <DropdownLink groupTitle="Roles" links={adminUserLinks} active={props.activeGroup == 2 ? true:false}>
-                                <UserCheck />
+
+                            {/* Call Centre Users */}
+                            <DropdownLink groupTitle="Call Centre" links={callCentreUserLinks} active={props.activeGroup == 2 ? true:false}>
+                                <PhoneCall />
                             </DropdownLink>
 
-                            {/* Permissions */}
-                            <DropdownLink groupTitle="Permissions" links={adminUserLinks} active={props.activeGroup == 3 ? true:false}>
-                                <ShieldAlert />
+                            {/* Categories */}
+                            <DropdownLink groupTitle="Categories" links={categoryLinks} active={props.activeGroup == 3 ? true:false}>
+                                <ListOrdered />
                             </DropdownLink>
 
+                            {/* Business Managers */}
+                            <DropdownLink groupTitle="Business Managers" links={businessManagerLinks} active={props.activeGroup == 4 ? true:false}>
+                                <Users />
+                            </DropdownLink>
+
+                            {/* Driver Managers */}
+                            <DropdownLink groupTitle="Driver Managers" links={driverManagerLinks} active={props.activeGroup == 5 ? true:false}>
+                                <Car />
+                            </DropdownLink>
+
+                            {/* Driver Cost */}
+                            <DropdownLink groupTitle="Driver Cost" links={driverCostLinks} active={props.activeGroup == 6 ? true:false}>
+                                <Coins />
+                            </DropdownLink>
                         </>
                         )
                     }
@@ -52,10 +103,55 @@ export default function SideBar(props){
                     {
                         hasRole("restaurant_admin") && (
                         <>
+                            {/* View Orders */}
+                            <DropdownLink groupTitle="View Orders" links={orderLinks} active={props.activeGroup == 1 ? true:false}>
+                                <Users />
+                            </DropdownLink>
+
+                            {/* Restaurant Admin Users */}
+                            <DropdownLink groupTitle="Admin Users" links={restaurantAdminLinks} active={props.activeGroup == 2 ? true:false}>
+                                <Users />
+                            </DropdownLink>
+
+                            {/* Stripe Gateway */}
+                            <DropdownLink groupTitle="Stripe Gateway" links={stripeGatewayLinks} active={props.activeGroup == 3 ? true:false}>
+                                <Coins />
+                            </DropdownLink>
+
+                            {/* Products */}
+                            <DropdownLink groupTitle="Products" links={productLinks} active={props.activeGroup == 4 ? true:false}>
+                                <Users />
+                            </DropdownLink>
+
+                            {/* Opening Times */}
+                            <DropdownLink groupTitle="Opening Times" links={openingTimeLinks} active={props.activeGroup == 5 ? true:false}>
+                                <Users />
+                            </DropdownLink>
+
+                            {/* Table Service */}
+                            <DropdownLink groupTitle="Table Service" links={tableServiceLinks} active={props.activeGroup == 6 ? true:false}>
+                                <Users />
+                            </DropdownLink>
+
+                            {/* Offers/News */}
+                            <DropdownLink groupTitle="Offers/News" links={offerLinks} active={props.activeGroup == 7 ? true:false}>
+                                <Users />
+                            </DropdownLink>
+
+                            {/* Company Profile */}
+                            <DropdownLink groupTitle="Company Profile" links={companyProfileLinks} active={props.activeGroup == 8 ? true:false}>
+                                <Users />
+                            </DropdownLink>
+                        </>
+                        )
+                    }
+                    {
+                        hasRole("call_center_admin") && (
+                        <>
                             <DropdownLink groupTitle="Orders" links={adminUserLinks} active={props.activeGroup == 1 ? true:false}>
                                 <Users />
                             </DropdownLink>
-                            
+
                             {/* Roles */}
                             <DropdownLink groupTitle="Roles" links={adminUserLinks} active={props.activeGroup == 2 ? true:false}>
                                 <UserCheck />
@@ -69,7 +165,7 @@ export default function SideBar(props){
                         </>
                         )
                     }
-                    
+
                 </ul>
             </nav>
             {/* End of Main Admin SideBar */}

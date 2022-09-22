@@ -99,7 +99,7 @@ export default function Index(props){
                 <main className="col-span-12">
 
                     {/* Page Header */}
-                    <h2 className="intro-y text-lg font-medium mt-10">Data List Layout</h2>
+                    <h2 className="intro-y text-lg font-medium mt-10">Manage Admin Users</h2>
 
                     {/* Show Success Validation Component */}
                     {

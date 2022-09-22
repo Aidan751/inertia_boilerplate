@@ -152,7 +152,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin-configurations', [AdminConfigurationsController::class, 'index'])->name('admin-configurations.index');
 
     // update delivery costs
-    Route::put('/admin-configurations/update/{id}', [AdminConfigurationsController::class, 'update'])->name('admin-configurations.update');
+    Route::put('/admin-configurations/update/', [AdminConfigurationsController::class, 'update'])->name('admin-configurations.update');
 
 });
 
