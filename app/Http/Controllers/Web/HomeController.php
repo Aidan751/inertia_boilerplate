@@ -18,11 +18,19 @@ class HomeController extends Controller
      */
     public function index(Request $request)
     {
-        // Check if the user has the permission to get the home page if not abort the request
-        // $this->validateWebPermission(['main_admin', 'restaurant_admin', 'call_center_admin'], 'mainAdmin.dashboard');
 
-        // Return an inertia view with the home page
-        // return Inertia::render('Dashboard');
-        return Inertia::render('MainAdmin/Dashboard');
+        if($request->user()->hasRole('main_admin')){
+            return Inertia::render('MainAdmin/Dashboard');
+        }
+        else if($request->user()->hasRole('restaurant_admin')){
+            return Inertia::render('RestaurantAdmin/Dashboard');
+        }
+        else if($request->user()->hasRole('call_center_admin')){
+            return Inertia::render('CallCenterAdmin/Dashboard');
+        }
+        else {
+            abort(403);
+        }
+
     }
 }
