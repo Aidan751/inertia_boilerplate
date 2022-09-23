@@ -110,6 +110,7 @@ class AdminCallCentreUserController extends Controller
     {
         return Inertia::render('MainAdmin/CallCentreUsers/Edit', [
             'user' => [
+                'id' => $user->id,
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'email' => $user->email,
@@ -126,9 +127,12 @@ class AdminCallCentreUserController extends Controller
     {
         // Validate the request
         $data = $request->validate([
-            'first_name' => 'required',
-            'last_name' => 'required',
-            'email' => 'required|email|unique:users,email,' . $user->id,
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:6|confirmed',
+            "role" => "required|exists:roles,name",
+            "email_password_to_user" => "required|boolean"
         ]);
 
         // Update the user

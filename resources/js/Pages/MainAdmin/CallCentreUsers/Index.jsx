@@ -63,7 +63,7 @@ export default function Index(props){
     const deleteUser = (e) => {
         // Prevent Default Behaviour
         e.preventDefault();
-
+        // TODO: cant delete user don't know why
         // Delete the role
         Inertia.delete(route('admin-callcentreuser.destroy', currentSelectedUser), {
             preserveState: false,

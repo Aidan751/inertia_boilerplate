@@ -14,7 +14,7 @@ function Edit(props) {
     password: '',
     password_confirmation: '',
     email_password_to_user: false,
-    role: 'admin',
+    role: 'call_centre_admin',
   })
 
   const editorConfig = {
@@ -29,7 +29,6 @@ function Edit(props) {
 
   const submit = (e) => {
       e.preventDefault();
-
       put(route('admin-callcentreuser.update', { id: props.user.id }));
   };
 
