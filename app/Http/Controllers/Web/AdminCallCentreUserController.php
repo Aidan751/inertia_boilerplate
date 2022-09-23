@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\OpeningHour;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Hash;
 
 class AdminCallCentreUserController extends Controller
 {
@@ -53,7 +55,7 @@ class AdminCallCentreUserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(){
-        return Inertia::render('createView');
+        return Inertia::render('MainAdmin/CallCentreUsers/Create');
     }
 
     /**
@@ -67,22 +69,25 @@ class AdminCallCentreUserController extends Controller
         $request->validate([
             'first_name' => 'required',
             'last_name' => 'required',
-            'email' => 'required',
-            'password' => 'required',
-            'password_confirmation' => 'required',
+            'password' => 'required|string|min:6|confirmed',
+            "role" => "required|exists:roles,name",
+            "email_password_to_user" => "required|boolean"
         ]);
+
+          // Get the role based on the name
+          $role = Role::where('name', $request->role)->first();
 
         $user = User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => $request->password,
-            'password_confirmation' => $request->password_confirmation,
+            'password' => Hash::make($request->password),
+            "role_id" => $role->id
         ]);
 
-        $user->assignRole('call_centre_admin');
+        $user->attachRole('call_centre_admin');
 
-        return redirect()->route('callcentre-users.index')->with('success', 'User created successfully');
+        return redirect()->route('admin-callcentreuser.index')->with('success', 'User created successfully');
     }
 
     /**
@@ -103,12 +108,11 @@ class AdminCallCentreUserController extends Controller
      */
     public function edit(User $user)
     {
-        return Inertia::render('CallCentreAdmin/CallCentreAdminUsers/Edit', [
+        return Inertia::render('MainAdmin/CallCentreUsers/Edit', [
             'user' => [
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'email' => $user->email,
-                'phone_number' => $user->phone_number,
         ]]);
     }
 
@@ -125,14 +129,13 @@ class AdminCallCentreUserController extends Controller
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
-            'phone_number' => 'required',
         ]);
 
         // Update the user
         $user->update($data);
 
         // Redirect the user to the users index page with a success message
-        return redirect()->route('callcentre-users.index')->with('success', 'User updated successfully');
+        return redirect()->route('admin-callcentreuser.index')->with('success', 'User updated successfully');
     }
 
     /**
@@ -144,6 +147,6 @@ class AdminCallCentreUserController extends Controller
     {
         $user->delete();
 
-        return redirect()->route('callcentre-users.index')->with('success', 'User deleted successfully');
+        return redirect()->route('admin-callcentreuser.index')->with('success', 'User deleted successfully');
     }
 }

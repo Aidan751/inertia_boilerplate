@@ -120,14 +120,6 @@ class AdminUserController extends Controller
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'email' => $user->email,
-                'phone_number' => $user->phone_number,
-                'address' => $user->address,
-                'city' => $user->city,
-                'state' => $user->state,
-                'country' => $user->country,
-                'zip_code' => $user->zip_code,
-                'role' => $user->role,
-                'permissions' => $user->permissions,
             ]
             ]
         );
