@@ -34,15 +34,16 @@ class AdminRestaurantsController extends Controller
 
         if($search !== null){
 
-            $restaurants = Restaurant::where(function ($q) use ($search) {
-               $q->where('first_name', 'LIKE', '%' . $search . '%')->orWhere('last_name', 'LIKE', '%' . $search . '%')->orWhere('email', 'LIKE', '%' . $search . '%');
+            $restaurants = Restaurant::where('application_status', 'approved')
+            ->where(function ($q) use ($search) {
+                $q->where('name', 'LIKE', '%' . $search . '%');
             })
-            ->latest()
+            ->orderBy('name', 'asc')
             ->paginate(10);
         }
         else {
 
-            $restaurants = Restaurant::paginate($request->perPage ?? 10);
+            $restaurants = Restaurant::where('application_status', 'approved')->paginate($request->perPage ?? 10);
         }
 
         return Inertia::render('MainAdmin/AdminRestaurants/Index', [
