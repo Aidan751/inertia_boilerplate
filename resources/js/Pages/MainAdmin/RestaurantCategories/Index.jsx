@@ -104,7 +104,7 @@ export default function Index(props){
                     {/* Show Success Validation Component */}
                     {
                         props.success &&
-                        <ValidationSuccess message={props.success} />
+                        <ValidationSuccess message={props.success} className="pt-3"/>
                     }
 
                     {/*  */}

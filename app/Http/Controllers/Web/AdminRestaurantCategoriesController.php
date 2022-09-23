@@ -17,15 +17,21 @@ class AdminRestaurantCategoriesController extends Controller
 
            // Apply the search to the model
            $search = $request->get('search', '');
-           $categories = $category
-                         ->where(function ($q) use ($search) {
-                             $q->where('name', 'LIKE', '%' . $search . '%');
-                         })
+           if($search !== null){
+
+               $categories = $category
+               ->where(function ($q) use ($search) {
+                   $q->where('name', 'LIKE', '%' . $search . '%');
+                })
                          ->orderBy('name', 'asc')
                          ->paginate(10);
+            } else {
+                $categories = $category->orderBy('name', 'asc')->paginate($request->perPage ?? 10);
+            }
 
-           return Inertia::render('MainAdmin/RestaurantCategories/Index', [
+            return Inertia::render('MainAdmin/RestaurantCategories/Index', [
                'categories' => $categories,
+               "perPage" => $request->perPage ?? 10,
                'search' => $search,
            ]);
     }
@@ -60,7 +66,7 @@ class AdminRestaurantCategoriesController extends Controller
         $category->name = $request->name;
         $category->save();
 
-        return redirect()->route('admin.restaurant-categories.index')->with('success', 'Category created successfully.');
+        return redirect()->route('admin-restaurantcategories.index')->with('success', 'Category created successfully.');
     }
 
 
@@ -96,7 +102,7 @@ class AdminRestaurantCategoriesController extends Controller
         $category->name = $request->name;
         $category->save();
 
-        return redirect()->route('admin.restaurant-categories.index')->with('success', 'Category updated successfully.');
+        return redirect()->route('admin-restaurantcategories.index')->with('success', 'Category updated successfully.');
     }
 
     /**
@@ -109,7 +115,7 @@ class AdminRestaurantCategoriesController extends Controller
     {
         $category->delete();
 
-        return redirect()->route('admin.restaurant-categories.index')->with('success', 'Category deleted successfully.');
+        return redirect()->route('admin-restaurantcategories.index')->with('success', 'Category deleted successfully.');
     }
 
 }
