@@ -39,7 +39,7 @@ export default function Create(props) {
         >
 
         <div className="col-span-12">
-            <div className="intro-y flex items-center mt-8 mb-5 ">
+            <div className="intro-y flex items-center mt-5 mb-5">
                 <h2 className="text-lg font-medium mr-auto">Add new Business</h2>
             </div>
             <div className="intro-y flex items-center mb-5">
@@ -49,9 +49,9 @@ export default function Create(props) {
             <div className="bg-white rounded shadow overflow-hidden max-w-3xl">
                 <form onSubmit={handleSubmit}>
                     <div className="px-10">
-                        <div className="mb-3 mt-5">
+                        <div className="mb-3 mt-8">
                             <label className="block mb-2 text-sm font-medium text-gray-600">Internal Only</label>
-                            <div className="flex items-center py-5">
+                            <div className="flex items-center py-3">
 
                                 <input
                                     type="checkbox"
