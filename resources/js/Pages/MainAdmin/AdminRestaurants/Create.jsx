@@ -35,7 +35,7 @@ export default function Create(props) {
         >
 
         <div className="col-span-12">
-            <div className="intro-y flex items-center mt-8">
+            <div className="intro-y flex items-center mt-8 mb-10 ">
                 <h2 className="text-lg font-medium mr-auto">Add new Business</h2>
             </div>
 
