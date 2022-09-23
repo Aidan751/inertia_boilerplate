@@ -7,7 +7,7 @@ use App\Http\Controllers\Web\HomeController;
 use App\Http\Controllers\Web\RolesController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Web\AdminUserController;
-use App\Http\Controllers\AdminRestaurantsController;
+use App\Http\Controllers\Web\AdminRestaurantsController;
 use App\Http\Controllers\Web\AdminCallCentreUserController;
 use App\Http\Controllers\Web\AdminRestaurantCategoriesController;
 
