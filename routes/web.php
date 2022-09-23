@@ -9,7 +9,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Web\AdminUserController;
 use App\Http\Controllers\AdminRestaurantsController;
 use App\Http\Controllers\Web\AdminCallCentreUserController;
-use App\Http\Controllers\AdminRestaurantCategoriesController;
+use App\Http\Controllers\Web\AdminRestaurantCategoriesController;
 
 /*
 |--------------------------------------------------------------------------
@@ -108,13 +108,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin-restaurantcategories/store', [AdminRestaurantCategoriesController::class, 'store'])->name('admin-restaurantcategories.store');
 
     // edit a restaurant category
-    Route::get('/admin-restaurantcategories/edit/{id}', [AdminRestaurantCategoriesController::class, 'edit'])->name('admin-restaurantcategories.edit');
+    Route::get('/admin-restaurantcategories/edit/{category}', [AdminRestaurantCategoriesController::class, 'edit'])->name('admin-restaurantcategories.edit');
 
     // update a restaurant category
-    Route::put('/admin-restaurantcategories/update/{id}', [AdminRestaurantCategoriesController::class, 'update'])->name('admin-restaurantcategories.update');
+    Route::put('/admin-restaurantcategories/update/{category}', [AdminRestaurantCategoriesController::class, 'update'])->name('admin-restaurantcategories.update');
 
     // delete a restaurant category
-    Route::delete('/admin-restaurantcategories/delete/{id}', [AdminRestaurantCategoriesController::class, 'destroy'])->name('admin-restaurantcategories.destroy');
+    Route::delete('/admin-restaurantcategories/delete/{category}', [AdminRestaurantCategoriesController::class, 'destroy'])->name('admin-restaurantcategories.destroy');
 
     // create a restaurant
     Route::get('/admin-restaurants/create', [AdminRestaurantsController::class, 'create'])->name('admin-restaurants.create');
