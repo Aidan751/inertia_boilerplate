@@ -14,6 +14,10 @@ export default function Create(props) {
         email: "",
         website: "",
         description: "",
+        allows_table_orders: 0,
+        allows_collection: 0,
+        allows_delivery: 0,
+        allows_call_center: 0,
         categories: props.restaurant.categories,
     });
 
@@ -35,19 +39,68 @@ export default function Create(props) {
         >
 
         <div className="col-span-12">
-            <div className="intro-y flex items-center mt-8 mb-10 ">
+            <div className="intro-y flex items-center mt-8 mb-5 ">
                 <h2 className="text-lg font-medium mr-auto">Add new Business</h2>
+            </div>
+            <div className="intro-y flex items-center mb-5">
+                <p className="text-gray-600">Fill in the following details to add a new Business</p>
             </div>
 
             <div className="bg-white rounded shadow overflow-hidden max-w-3xl">
                 <form onSubmit={handleSubmit}>
-                    <div className="px-10 py-5">
+                    <div className="px-10">
+                        <div className="mb-3 mt-5">
+                            <label className="block mb-2 text-sm font-medium text-gray-600">Internal Only</label>
+                            <div className="flex items-center py-5">
+
+                                <input
+                                    type="checkbox"
+                                    className="input border mr-2"
+                                    name="allows_table_orders"
+                                    id="allows_table_orders"
+                                    value={data.allows_table_orders}
+                                    onChange={e => setData("allows_table_orders", e.target.checked ? 1 : 0)}
+                                />
+                                <label className="cursor-pointer select-none" htmlFor="allows_table_orders">Table Service</label>
+
+                                <input
+                                    type="checkbox"
+                                    className="input border mr-2 ml-4"
+                                    name="allows_collection"
+                                    id="allows_collection"
+                                    value={data.allows_collection}
+                                    onChange={e => setData("allows_collection", e.target.checked ? 1 : 0)}
+                                />
+                                <label className="cursor-pointer select-none" htmlFor="allows_collection">Collection</label>
+
+                                <input
+                                    type="checkbox"
+                                    className="input border mr-2 ml-4"
+                                    name="allows_delivery"
+                                    id="allows_delivery"
+                                    value={data.allows_delivery}
+                                    onChange={e => setData("allows_delivery", e.target.checked ? 1 : 0)}
+                                />
+                                <label className="cursor-pointer select-none" htmlFor="allows_delivery">Delivery</label>
+
+                                <input
+                                    type="checkbox"
+                                    className="input border mr-2 ml-4"
+                                    name="allows_call_center"
+                                    id="allows_call_center"
+                                    value={data.allows_call_center}
+                                    onChange={e => setData("allows_call_center", e.target.checked ? 1 : 0)}
+                                />
+                                <label className="cursor-pointer select-none" htmlFor="allows_call_center">Call Center</label>
+
+                                </div>
+                        </div>
                         <div className="mb-6">
                             <label
                                 className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
                                 htmlFor="name"
                             >
-                                Name
+                                Business Name
                             </label>
                             <input
                                 className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"

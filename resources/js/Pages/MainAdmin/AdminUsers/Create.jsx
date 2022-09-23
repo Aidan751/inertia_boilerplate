@@ -48,6 +48,9 @@ function Create(props) {
       <div className="intro-y flex items-center mt-8">
         <h2 className="text-lg font-medium mr-auto">Add new admin user</h2>
       </div>
+      <div className="intro-y flex items-center mt-3">
+        <p className="text-gray-600">Fill in the following details to add a new user</p>
+      </div>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="intro-y col-span-12 lg:col-span-6">
           {/* BEGIN: Form Layout */}
