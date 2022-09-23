@@ -61,7 +61,17 @@ class AdminRestaurantsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function create(){
-        return Inertia::render('MainAdmin/AdminRestaurants/Create');
+        $restaurant = new Restaurant;
+
+        $categories = RestaurantCategory::orderBy('name')->get();
+
+        $restaurant->setAttribute('edit', false);
+
+        $restaurant->setAttribute('categories', $categories);
+
+        return Inertia::render('MainAdmin/AdminRestaurants/Create', [
+            'restaurant' => $restaurant
+        ]);
     }
 
     /**

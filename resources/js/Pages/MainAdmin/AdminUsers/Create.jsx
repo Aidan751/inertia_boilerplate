@@ -1,11 +1,10 @@
-import { ClassicEditor, TomSelect } from "@/base-components";
 import Button from "@/components/Button";
 import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from '@inertiajs/inertia-react'
 
 function Create(props) {
-  
+
   const [categories, setCategories] = useState([1, 3]);
 
   const { data, setData, post, processing, errors } = useForm({
@@ -128,11 +127,11 @@ function Create(props) {
                     placeholder="Repeat password..."
                 />
               </div>
-            <div className="mt-3 pt-3"> 
-                <input type="checkbox" 
-                  className="input border mr-2" 
-                  id="input-1" 
-                  name="email_password_to_user" 
+            <div className="mt-3 pt-3">
+                <input type="checkbox"
+                  className="input border mr-2"
+                  id="input-1"
+                  name="email_password_to_user"
                   value={data.email_password_to_user}
                   onChange={onHandleChange} />
                 <span className="text-black-600 ml-2">Email password to new admin user?</span>
