@@ -5,7 +5,7 @@ import { useForm } from "@inertiajs/inertia-react";
 
 export default function Create(props) {
 
-    const [categories, setCategories] = useState(props.restaurant.categories);
+    const [option, selectedOption] = useState(null);
 
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
@@ -23,15 +23,8 @@ export default function Create(props) {
     }
 
     function handleCategoryChange(e) {
-        console.log(e.target.value);
         let value = e.target.value;
-        let index = categories.indexOf(value);
-        if (index > -1) {
-            categories.splice(index, 1);
-        }
-        else {
-            categories.push(value);
-        }
+        selectedOption(value);
     }
 
     return (
@@ -42,7 +35,9 @@ export default function Create(props) {
         >
 
         <div className="col-span-12">
-            <h1 className="mb-8 font-bold text-3xl">Create Restaurant</h1>
+            <div className="intro-y flex items-center mt-8">
+                <h2 className="text-lg font-medium mr-auto">Add new Business</h2>
+            </div>
 
             <div className="bg-white rounded shadow overflow-hidden max-w-3xl">
                 <form onSubmit={handleSubmit}>
@@ -198,14 +193,14 @@ export default function Create(props) {
                                 className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
                                 htmlFor="categories"
                             >
-                                Categories
+                                Category
                             </label>
                             <select
                                 className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="categories"
                                 type="text"
                                 name="categories"
-                                value={categories}
+                                value={option}
                                 onChange={handleCategoryChange}
                             >
                                {data.categories && data.categories.map((category) => (
