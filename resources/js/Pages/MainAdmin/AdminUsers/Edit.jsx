@@ -31,7 +31,7 @@ function Edit(props) {
   const submit = (e) => {
       e.preventDefault();
 
-      put(route('admin-user.edit', { id: props.user.id }));
+      put(route('admin-user.update', { id: props.user.id }));
   };
 
 

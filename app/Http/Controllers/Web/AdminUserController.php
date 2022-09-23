@@ -144,14 +144,19 @@ class AdminUserController extends Controller
     {
 
         // Validate the request
-        //data = Request::validate([
-                //'title' => ['required', 'max:90'],
-                //'description' => ['required'],
-            //]);
-        $user->update(data);
+        $data = $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
+            'password' => 'nullable|string|min:6|confirmed',
+            "role" => "required|exists:roles,name",
+            "email_password_to_user" => "required|boolean"
+        ]);
+
+        $user->update($data);
 
 
-        return Redirect::route('MainAdmin/AdminUsers/Index')->with;
+        return redirect()->route('admin-user.index')->with('success', 'Admin user updated successfully');
     }
 
     /**
@@ -164,6 +169,6 @@ class AdminUserController extends Controller
     {
         $user->delete();
 
-        return Redirect::route('MainAdmin/AdminUsers/Index');
+        return redirect()->route('admin-user.index')->with('success', 'Admin user deleted successfully');
     }
 }
