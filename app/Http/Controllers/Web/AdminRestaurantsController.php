@@ -170,14 +170,22 @@ class AdminRestaurantsController extends Controller
         // Save to the database
         $restaurant->save();
 
-        if (!is_null($request->logo)) {
-            $restaurant->addMediaFromRequest('logo')->toMediaCollection('logos');
+        // add media from request
+        if ($request->hasFile('logo')) {
+            $restaurant->addMediaFromRequest('logo')
+                ->sanitizingFileName(function($fileName) {
+                    return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
+                })
+                ->toMediaCollection('logo');
         }
 
-        if (!is_null($request->banner)) {
-            $restaurant->addMediaFromRequest('banner')->toMediaCollection('banners');
+        if ($request->hasFile('banner')) {
+            $restaurant->addMediaFromRequest('banner')
+                ->sanitizingFileName(function($fileName) {
+                    return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
+                })
+                ->toMediaCollection('banner');
         }
-
 
 
         // Create a model for this User
@@ -206,15 +214,18 @@ class AdminRestaurantsController extends Controller
 
 
         $subject = 'Account Details';
-        Mail::send('email.userwelcome', array(
-            'name' => $request->first_name,
-            'password' => $request->password,
-            'email' => $request->email,
-            'subject' => $subject,
-        ), function ($message) use ($request, $subject) {
-            $message->to($request->email);
-            $message->subject($subject);
-        });
+        if ($request->get('notify')) {
+            $subject = 'Account Details';
+            Mail::send('email.userwelcome', array(
+              'name' => $request->first_name,
+              'password' => $request->password,
+              'email' => $request->email,
+              'subject' => $subject,
+            ), function ($message) use ($request, $subject) {
+                $message->to($request->email);
+                $message->subject($subject);
+            });
+        }
 
         return Redirect::route('admin-restaurants.index')->with('success', 'Restaurant created successfully.');
 

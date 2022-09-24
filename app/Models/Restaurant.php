@@ -72,6 +72,16 @@ class Restaurant extends Model
         return $this->hasMany(GroupDeal::class)->orderBy('created_at', 'DESC');
     }
 
+    // add media from request
+    public function addMediaFromRequest($request, $collection = 'default') {
+        if ($request->hasFile('logo')) {
+            $this->addMedia($request->file('logo'))->toMediaCollection('logos');
+        }
+
+        if ($request->hasFile('banner')) {
+            $this->addMedia($request->file('banner'))->toMediaCollection('banners');
+        }
+    }
 
 
 }
