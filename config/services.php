@@ -14,6 +14,18 @@ return [
     |
     */
 
+
+    'stripe_secret_key' => env('STRIPE_SECRET', ''),
+    'api_key' => env('STRIPE_KEY', ''),
+
+    'fcm' => env('FCM_SERVER_KEY'),
+
+    'stripe' => [
+        'model' => App\User::class,
+        'key' => env('STRIPE_KEY'),
+        'secret' => env('STRIPE_SECRET'),
+      ],
+
     'mailgun' => [
         'domain' => env('MAILGUN_DOMAIN'),
         'secret' => env('MAILGUN_SECRET'),

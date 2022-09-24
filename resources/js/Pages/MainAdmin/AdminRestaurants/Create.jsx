@@ -4,30 +4,37 @@ import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from "@inertiajs/inertia-react";
 
 export default function Create(props) {
-
+console.log(props);
     const [option, selectedOption] = useState(null);
-
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
-        address: "",
-        phone: "",
+        address_line_1: "",
+        address_line_2: "",
+        town: "",
+        county: "",
+        postcode: "",
+        contact_number: "",
         email: "",
-        website: "",
-        description: "",
+        password: "",
+        password_confirmation: "",
+        bio: "",
         allows_table_orders: 0,
         allows_collection: 0,
         allows_delivery: 0,
         allows_call_center: 0,
-        categories: props.restaurant.categories,
+        category: "",
+        logo: "",
+        banner: "",
     });
 
     function handleSubmit(e) {
         e.preventDefault();
-        post(route("admin.restaurants.store"));
+        post(route("admin-restaurants.store"));
     }
 
     function handleCategoryChange(e) {
         let value = e.target.value;
+        data.category = value;
         selectedOption(value);
     }
 
@@ -49,6 +56,7 @@ export default function Create(props) {
             <div className="bg-white rounded shadow overflow-hidden max-w-3xl">
                 <form onSubmit={handleSubmit}>
                     <div className="px-10">
+                    {/* Start: Interal Only Section */}
                         <div className="mb-3 mt-8">
                             <label className="block mb-2 text-sm font-medium text-gray-600">Internal Only</label>
                             <div className="flex items-center py-3">
@@ -95,6 +103,8 @@ export default function Create(props) {
 
                                 </div>
                         </div>
+                    {/* End: Interal Only Section */}
+                    {/* Start: Business Name */}
                         <div className="mb-6">
                             <label
                                 className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
@@ -108,6 +118,7 @@ export default function Create(props) {
                                 type="text"
                                 name="name"
                                 value={data.name}
+                                placeholder="Business Name"
                                 onChange={(e) =>
                                     setData("name", e.target.value)
                                 }
@@ -118,129 +129,59 @@ export default function Create(props) {
                                 </p>
                             )}
                         </div>
-
-
-                        <div className="mb-6">
+                    {/* End: Business Name */}
+                      {/* Start: Business Logo */}
+                      <div className="mb-6">
                             <label
                                 className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="address"
+                                htmlFor="logo"
                             >
-                                Address
+                                Logo
                             </label>
                             <input
-                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="address"
-                                type="text"
-                                name="address"
-                                value={data.address}
+                                className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="logo"
+                                type="file"
+                                name="logo"
+                                value={data.logo}
                                 onChange={(e) =>
-                                    setData("address", e.target.value)
+                                    setData("logo", e.target.value)
                                 }
                             />
-                            {errors.address && (
+                            {errors.image && (
                                 <p className="text-xs italic text-red-500">
-                                    {errors.address}
+                                    {errors.logo}
                                 </p>
                             )}
                         </div>
-
+                    {/* End: Business Logo */}
+                    {/* Start: Business Banner */}
                         <div className="mb-6">
                             <label
                                 className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="phone"
+                                htmlFor="banner"
                             >
-                                Phone
+                                Banner Image
                             </label>
                             <input
-                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="phone"
-                                type="text"
-                                name="phone"
-                                value={data.phone}
+                                className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="banner"
+                                type="file"
+                                name="banner"
+                                value={data.banner}
                                 onChange={(e) =>
-                                    setData("phone", e.target.value)
+                                    setData("banner", e.target.value)
                                 }
                             />
-                            {errors.phone && (
+                            {errors.image && (
                                 <p className="text-xs italic text-red-500">
-                                    {errors.phone}
+                                    {errors.banner}
                                 </p>
                             )}
                         </div>
-
-                        <div className="mb-6">
-                            <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="email"
-                            >
-                                Email
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="email"
-                                type="text"
-                                name="email"
-                                value={data.email}
-                                onChange={(e) =>
-                                    setData("email", e.target.value)
-                                }
-                            />
-                            {errors.email && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.email}
-                                </p>
-                            )}
-                        </div>
-
-                        <div className="mb-6">
-                            <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="website"
-                            >
-                                Website
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="website"
-                                type="text"
-                                name="website"
-                                value={data.website}
-                                onChange={(e) =>
-                                    setData("website", e.target.value)
-                                }
-                            />
-                            {errors.website && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.website}
-                                </p>
-                            )}
-                        </div>
-
-                        <div className="mb-6">
-                            <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="description"
-                            >
-                                Description
-                            </label>
-                            <textarea
-                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="description"
-                                type="text"
-                                name="description"
-                                value={data.description}
-                                onChange={(e) =>
-                                    setData("description", e.target.value)
-                                }
-                            />
-                            {errors.description && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.description}
-                                </p>
-                            )}
-                        </div>
-
-                        <div className="mb-6">
+                    {/* End: Business Banner */}
+                     {/* Start: Business Categories */}
+                     <div className="mb-6">
                             <label
 
                                 className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
@@ -256,52 +197,263 @@ export default function Create(props) {
                                 value={option}
                                 onChange={handleCategoryChange}
                             >
-                               {data.categories && data.categories.map((category) => (
+                               {props.restaurant.categories && props.restaurant.categories.map((category) => (
                                     <option key={category.id} value={category.id}>
                                         {category.name}
                                     </option>
                                 ))}
 
                             </select>
-                            {errors.categories && (
+                            {errors.category && (
                                 <p className="text-xs italic text-red-500">
-                                    {errors.categories}
+                                    {errors.category}
                                 </p>
                             )}
-                        </div>
 
+                        </div>
+                    {/* End: Business Categories */}
+                    {/* Start: Business Address */}
                         <div className="mb-6">
                             <label
                                 className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="image"
+                                htmlFor="address"
                             >
-                                Image
+                                Address
+                            </label>
+                            <input
+                                className="w-full mb-2 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="address_line_1"
+                                type="text"
+                                name="address_line_1"
+                                value={data.address_line_1}
+                                placeholder="Address Line 1"
+                                onChange={(e) =>
+                                    setData("address_line_1", e.target.value)
+                                }
+                            />
+                            {errors.address_line_1 && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.address_line_1}
+                                </p>
+                            )}
+
+                            <input
+                                className="w-full px-3 py-2 mb-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="address_line_2"
+                                type="text"
+                                name="address_line_2"
+                                value={data.address_line_2}
+                                placeholder="Address Line 2"
+                                onChange={(e) =>
+                                    setData("address_line_2", e.target.value)
+                                }
+                            />
+                            {errors.address_line_2 && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.address_line_2}
+                                </p>
+                            )}
+
+                            <input
+                                className="w-full px-3 py-2 text-sm mb-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="town"
+                                type="text"
+                                name="town"
+                                value={data.town}
+                                placeholder="Town"
+                                onChange={(e) =>
+                                    setData("town", e.target.value)
+                                }
+                            />
+                            {errors.town && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.town}
+                                </p>
+                            )}
+
+                            <input
+                                className="w-full px-3 py-2 text-sm mb-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="county"
+                                type="text"
+                                name="county"
+                                value={data.county}
+                                placeholder="County"
+                                onChange={(e) =>
+                                    setData("county", e.target.value)
+                                }
+                            />
+                            {errors.county && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.county}
+                                </p>
+                            )}
+
+                            <input
+                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="postcode"
+                                type="text"
+                                name="postcode"
+                                value={data.postcode}
+                                placeholder="Postcode"
+                                onChange={(e) =>
+                                    setData("postcode", e.target.value)
+                                }
+                            />
+                            {errors.postcode && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.postcode}
+                                </p>
+                            )}
+
+                        </div>
+                    {/* End: Business Address */}
+                    {/* Start: Business Contact Number */}
+                        <div className="mb-6">
+                            <label
+                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                htmlFor="contact_number"
+                            >
+                                Business Contact Number
                             </label>
                             <input
                                 className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="image"
-                                type="file"
-                                name="image"
-                                value={data.image}
+                                id="contact_number"
+                                type="text"
+                                name="contact_number"
+                                value={data.contact_number}
+                                placeholder="Contact Number"
                                 onChange={(e) =>
-                                    setData("image", e.target.value)
+                                    setData("contact_number", e.target.value)
                                 }
                             />
-                            {errors.image && (
+                            {errors.contact_number && (
                                 <p className="text-xs italic text-red-500">
-                                    {errors.image}
+                                    {errors.contact_number}
                                 </p>
                             )}
                         </div>
-
-                        <div className="flex items-center justify-between">
-                            <button
-                                className="px-4 py-2 font-bold text-white bg-blue-500 rounded hover:bg-blue-700 focus:outline-none focus:shadow-outline"
-                                type="submit"
+                    {/* End: Business Contact Number */}
+                    {/* Start: Business Bio */}
+                        <div className="mb-6">
+                            <label
+                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                htmlFor="bio"
                             >
-                                Submit
-                            </button>
+                                Bio
+                            </label>
+                            <textarea
+                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="bio"
+                                type="text"
+                                name="bio"
+                                placeholder="Bio"
+                                value={data.bio}
+                                onChange={(e) =>
+                                    setData("bio", e.target.value)
+                                }
+                            />
+                            {errors.bio && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.bio}
+                                </p>
+                            )}
                         </div>
+                    {/* End: Business Bio */}
+
+
+
+                    <hr className="mb-6 border-t" />
+                    {/* start: title for restaurant user access */}
+                    <h3 className="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
+                        Restaurant User Access
+                    </h3>
+                    {/* end: title for restaurant user access */}
+                    {/* Start: Business Email */}
+                        <div className="mb-6">
+                            <label
+                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                htmlFor="email"
+                            >
+                                Email
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="email"
+                                type="text"
+                                name="email"
+                                value={data.email}
+                                placeholder="Email"
+                                onChange={(e) =>
+                                    setData("email", e.target.value)
+                                }
+                            />
+                            {errors.email && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.email}
+                                </p>
+                            )}
+                        </div>
+                    {/* End: Business Email */}
+                    {/* Start: Business Set Password */}
+                        <div className="mb-6">
+                            <label
+                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                htmlFor="password"
+                            >
+                                Set Password
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="password"
+                                type="password"
+                                name="password"
+                                placeholder="password"
+                                value={data.password}
+                                onChange={(e) =>
+                                    setData("password", e.target.value)
+                                }
+                            />
+                            {errors.password && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.password}
+                                </p>
+                            )}
+                        </div>
+                    {/* End: Business Set Password */}
+                    {/* Start: Business Confirm Password */}
+                        <div className="mb-6">
+                            <label
+                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                htmlFor="password_confirmation"
+                            >
+                                Repeat Password
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="password_confirmation"
+                                type="password"
+                                placeholder="password"
+                                name="password_confirmation"
+                                value={data.password_confirmation}
+                                onChange={(e) =>
+                                    setData("password_confirmation", e.target.value)
+                                }
+                            />
+                            {errors.password_confirmation && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.password_confirmation}
+                                </p>
+                            )}
+                        </div>
+                    {/* End: Business Confirm Password */}
+
+                    {/* Start: Submit Button */}
+                        <div className="mb-6">
+                        <Button type="submit" className="w-30">
+                            Add
+                        </Button>
+                        </div>
+                    {/* End: Submit Button */}
                         </div>
                     </form>
                 </div>

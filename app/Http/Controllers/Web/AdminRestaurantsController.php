@@ -4,17 +4,18 @@ namespace App\Http\Controllers\Web;
 
 use App\Models\User;
 use Inertia\Inertia;
+use Stripe\StripeClient;
 use App\Models\Restaurant;
 use App\Models\UserStripe;
-use App\Models\RestaurantCategory;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\RestaurantCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Spatie\Geocoder\Facades\Geocoder;
 use Illuminate\Support\Facades\Redirect;
 use Intervention\Image\ImageManagerStatic as Image;
-use Illuminate\Support\Str;
 
 
 class AdminRestaurantsController extends Controller
@@ -83,6 +84,7 @@ class AdminRestaurantsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
+        dd($request->all());
          // Validate the data
          $request->validate([
             'name' => ['required', 'string', 'max:191'],
@@ -96,7 +98,7 @@ class AdminRestaurantsController extends Controller
             'password' => ['nullable', 'confirmed', 'min:6'],
         ]);
 
-        $stripe = new \Stripe\StripeClient(
+        $stripe = new StripeClient(
             config('services.stripe_secret_key')
         );
 
