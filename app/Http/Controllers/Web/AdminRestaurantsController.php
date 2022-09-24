@@ -254,15 +254,14 @@ class AdminRestaurantsController extends Controller
      */
     public function edit(Restaurant $restaurant){
          // Find the model for this ID
-         $restaurant = Restaurant::with('media')->find($id);
-         $user = User::where('restaurant_id', $id)->first();
+         $user = User::where('restaurant_id', $restaurant->id)->first();
          $categories = RestaurantCategory::orderBy('name')->get();
 
          $restaurant->setAttribute('categories', $categories);
          $restaurant->setAttribute('edit', true);
 
-         $logo = $restaurant->getMedia('logos');
-         $banner = $restaurant->getMedia('banners');
+         $logo = $restaurant->logo;
+         $banner = $restaurant->banner;
          $url = '';//config('app.url');
 
          if(!$logo->isEmpty()){
@@ -279,6 +278,7 @@ class AdminRestaurantsController extends Controller
              $restaurant->setAttribute('banner', null);
          }
 
+         dd($restaurant, $user, $logo, $banner);
         return Inertia::render('MainAdmin/AdminRestaurants/Edit', [
             'restaurant' => $restaurant,
             'user' => $user

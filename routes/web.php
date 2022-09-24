@@ -126,13 +126,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin-restaurants/store', [AdminRestaurantsController::class, 'store'])->name('admin-restaurants.store');
 
     // edit a restaurant
-    Route::get('/admin-restaurants/edit/{id}', [AdminRestaurantsController::class, 'edit'])->name('admin-restaurants.edit');
+    Route::get('/admin-restaurants/edit/{restaurant}', [AdminRestaurantsController::class, 'edit'])->name('admin-restaurants.edit');
 
     // update a restaurant
-    Route::put('/admin-restaurants/update/{id}', [AdminRestaurantsController::class, 'update'])->name('admin-restaurants.update');
+    Route::put('/admin-restaurants/update/{restaurant}', [AdminRestaurantsController::class, 'update'])->name('admin-restaurants.update');
 
     // delete a restaurant
-    Route::delete('/admin-restaurants/delete/{id}', [AdminRestaurantsController::class, 'destroy'])->name('admin-restaurants.destroy');
+    Route::delete('/admin-restaurants/delete/{restaurant}', [AdminRestaurantsController::class, 'destroy'])->name('admin-restaurants.destroy');
 
     Route::view('/restaurant/restaurant-tables', 'livewire.table_numbers')->name('restaurant.alltables');
 

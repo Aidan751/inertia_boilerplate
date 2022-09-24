@@ -4,15 +4,13 @@ namespace App\Models;
 
 use App\Models\GroupDeal;
 use Illuminate\Database\Eloquent\Model;
-// use Spatie\MediaLibrary\HasMedia\HasMedia;
-// use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
+use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 // class Restaurant extends Model implements HasMedia
 class Restaurant extends Model
 {
     use  HasFactory;
-    // use  HasFactory, HasMediaTrait;
 
 
     protected $guarded = [];
@@ -82,6 +80,16 @@ class Restaurant extends Model
             $this->addMedia($request->file('banner'))->toMediaCollection('banners');
         }
     }
+
+
+// get media function
+public function getMedia($collection = 'default') {
+    return $this->getMedia($collection);
+}
+
+
+
+
 
 
 }
