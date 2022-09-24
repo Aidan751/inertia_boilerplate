@@ -16,6 +16,7 @@
         "santigarcor/laratrust": "^6.1",
         "spatie/geocoder": "^3.14",
         "spatie/laravel-medialibrary": "^8.0",
+        "stripe/stripe-php": "^9.6",
         "tightenco/ziggy": "^1.0"
     },
     "require-dev": {

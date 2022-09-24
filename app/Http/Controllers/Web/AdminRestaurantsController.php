@@ -84,7 +84,6 @@ class AdminRestaurantsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-        dd($request->all());
          // Validate the data
          $request->validate([
             'name' => ['required', 'string', 'max:191'],
