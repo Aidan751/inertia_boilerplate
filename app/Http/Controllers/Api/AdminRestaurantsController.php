@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Logo;
 use App\Models\User;
+use App\Models\Banner;
 use Stripe\StripeClient;
 use App\Models\Restaurant;
 use App\Models\UserStripe;
 use Illuminate\Http\Request;
+use App\Models\RestaurantCategory;
 use App\Http\Controllers\Controller;
 use Spatie\Geocoder\Facades\Geocoder;
 
@@ -237,6 +240,31 @@ class AdminRestaurantsController extends Controller
        
     }
 
+        /**
+     * Handle the incoming request to edit a restaurant.
+     * The method will check if the user has the permission to edit a permission.
+     * The method will return an inertia view with the permission.
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id){
+        // Find the model for this ID
+        $restaurant = Restaurant::find($id);
+        $user = User::where('restaurant_id', $restaurant->id)->first();
+        $logo = Logo::where('restaurant_id', $restaurant->id)->first();
+        $banner = Banner::where('restaurant_id', $restaurant->id)->first();
+        $categories = RestaurantCategory::orderBy('name')->get();
+
+        $restaurant->setAttribute('categories', $categories);
+        $restaurant->setAttribute('edit', true);
+        $url = '';//config('app.url');
+
+      
+       return response()->json([
+            "message" => "Restaurant Edit Page.",
+            "restaurant" => $restaurant,
+        ], 201);
+   }
     
 
     /**

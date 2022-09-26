@@ -24,6 +24,12 @@ use App\Http\Controllers\Api\AdminRestaurantsController;
 // create a new restaurant
 Route::post('/restaurants', [AdminRestaurantsController::class, 'store']);
 
+// get all restaurants
+Route::get('/restaurants', [AdminRestaurantsController::class, 'index']);
+Route::get('/restaurants/{id}', [AdminRestaurantsController::class, 'edit']);
+
+
+
 Route::prefix("v1")->group(function (){
 
     // Authentication Routes

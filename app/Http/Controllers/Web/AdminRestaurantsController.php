@@ -257,33 +257,20 @@ class AdminRestaurantsController extends Controller
      */
     public function edit(Restaurant $restaurant){
          // Find the model for this ID
-         $user = User::where('restaurant_id', $restaurant->id)->first();
-         $logo = Logo::where('restaurant_id', $restaurant->id)->first();
+         $logo = $restaurant->logo()->first();
          $banner = Banner::where('restaurant_id', $restaurant->id)->first();
+
          $categories = RestaurantCategory::orderBy('name')->get();
 
          $restaurant->setAttribute('categories', $categories);
          $restaurant->setAttribute('edit', true);
+         $restaurant->banner = $banner->img_url;
+        $restaurant->logo = '/../' . $logo->img_url;
+
          $url = '';//config('app.url');
 
-         if(!empty($logo)){
-             $restaurant->setAttribute('logo', $url . $logo[0]->getFullUrl());
-         }
-         else{
-             $restaurant->setAttribute('logo', null);
-         }
-
-         if(!empty($logo)){
-             $restaurant->setAttribute('banner', $url . $banner[0]->getFullUrl());
-         }
-         else{
-             $restaurant->setAttribute('banner', null);
-         }
-
-         dd($restaurant, $user, $logo, $banner);
         return Inertia::render('MainAdmin/AdminRestaurants/Edit', [
             'restaurant' => $restaurant,
-            'user' => $user
         ]);
     }
 

@@ -4,7 +4,6 @@ import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from "@inertiajs/inertia-react";
 
 export default function Create(props) {
-console.log(props);
     const [option, selectedOption] = useState(null);
     const { data, setData, post, processing, errors, reset } = useForm({
         name: "",
@@ -54,7 +53,7 @@ console.log(props);
             </div>
 
             <div className="bg-white rounded shadow overflow-hidden max-w-3xl">
-                <form onSubmit={handleSubmit} enctype="multipart/form-data">
+                <form onSubmit={handleSubmit} encType="multipart/form-data">
                     <div className="px-10">
                     {/* Start: Interal Only Section */}
                         <div className="mb-3 mt-8">
