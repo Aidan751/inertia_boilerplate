@@ -3,6 +3,7 @@ import Button from "@/components/Button";
 import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from '@inertiajs/inertia-react';
+import Checkbox from "@/components/Checkbox";
 
 export default function Edit( props ) {
     console.log( props.restaurant );
@@ -28,7 +29,7 @@ export default function Edit( props ) {
         banner: props.restaurant.banner || '',
     });
 
-    
+
     const handleSubmit = (e) => {
         e.preventDefault();
         put(route('admin.restaurants.update', props.restaurant.id), {
@@ -39,7 +40,7 @@ export default function Edit( props ) {
         });
     }
 
-    
+
     function handleCategoryChange(e) {
         let value = e.target.value;
         data.category = value;
@@ -69,43 +70,31 @@ export default function Edit( props ) {
                             <label className="block mb-2 text-sm font-medium text-gray-600">Internal Only</label>
                             <div className="flex items-center py-3">
 
-                                <input
-                                    type="checkbox"
-                                    className="input border mr-2"
-                                    name="allows_table_orders"
-                                    id="allows_table_orders"
-                                    value={data.allows_table_orders}
-                                    onChange={e => setData("allows_table_orders", e.target.checked ? 1 : 0)}
-                                />
-                                <label className="cursor-pointer select-none" htmlFor="allows_table_orders">Table Service</label>
+                             <Checkbox
+                                name="allows_table_orders"
+                                value={data.allows_table_orders}
+                                handleChange={(e) => setData('allows_table_orders', e.target.checked)}
+                            />
+                                <label className="mr-3 cursor-pointer select-none" htmlFor="allows_table_orders">Table Service</label>
 
-                                <input
-                                    type="checkbox"
-                                    className="input border mr-2 ml-4"
+                                <Checkbox
                                     name="allows_collection"
-                                    id="allows_collection"
                                     value={data.allows_collection}
-                                    onChange={e => setData("allows_collection", e.target.checked ? 1 : 0)}
+                                    handleChange={(e) => setData('allows_collection', e.target.checked)}
                                 />
-                                <label className="cursor-pointer select-none" htmlFor="allows_collection">Collection</label>
+                                <label className="mr-3 cursor-pointer select-none" htmlFor="allows_collection">Collection</label>
 
-                                <input
-                                    type="checkbox"
-                                    className="input border mr-2 ml-4"
-                                    name="allows_delivery"
-                                    id="allows_delivery"
-                                    value={data.allows_delivery}
-                                    onChange={e => setData("allows_delivery", e.target.checked ? 1 : 0)}
-                                />
-                                <label className="cursor-pointer select-none" htmlFor="allows_delivery">Delivery</label>
+                             <Checkbox
+                                name="allows_delivery"
+                                value={data.allows_delivery}
+                                handleChange={(e) => setData('allows_delivery', e.target.checked)}
+                            />
+                                <label className="mr-3 cursor-pointer select-none" htmlFor="allows_delivery">Delivery</label>
 
-                                <input
-                                    type="checkbox"
-                                    className="input border mr-2 ml-4"
+                                <Checkbox
                                     name="allows_call_center"
-                                    id="allows_call_center"
                                     value={data.allows_call_center}
-                                    onChange={e => setData("allows_call_center", e.target.checked ? 1 : 0)}
+                                    handleChange={(e) => setData('allows_call_center', e.target.checked)}
                                 />
                                 <label className="cursor-pointer select-none" htmlFor="allows_call_center">Call Center</label>
 
@@ -146,8 +135,7 @@ export default function Edit( props ) {
                             >
                                 Logo
                             </label>
-                            <img class="w-20 h-20 rounded-full" src={"/public/images/restaurants_banner/2022-09-2616642014593D-Wallpaper-High-Resolution.jpg"} alt="Logo" />
-                            {/* <img className="w-20 h-20 rounded-full" src={data.logo} alt="Logo" /> */}
+                           <img src={data.logo} id="logo_img" alt="Logo" className="mb-2" />
                             <input
                                 className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="logo"
@@ -169,12 +157,13 @@ export default function Edit( props ) {
                             >
                                 Banner Image
                             </label>
+                            <img className="mb-2" id="banner_img" src={data.banner} alt="Banner" />
                             <input
                                 className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="banner"
                                 type="file"
                                 name="banner"
-                                
+
                             />
                             {errors.image && (
                                 <p className="text-xs italic text-red-500">
@@ -466,4 +455,3 @@ export default function Edit( props ) {
     );
 
 }
-                                    

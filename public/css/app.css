@@ -19637,6 +19637,9 @@ select {
 .mr-1 {
   margin-right: 0.25rem;
 }
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
 .block {
   display: block;
 }
@@ -20613,3 +20616,16 @@ select {
     grid-column: span 12 / span 12;
   }
 }
+
+
+/* aidans styles */
+#logo_img, #banner_img {
+  height: 150px;
+  width: auto;
+  border-radius: 10px;
+}
+
+.txt-orderit {
+    color: rgb(183, 38, 126); 
+}
+

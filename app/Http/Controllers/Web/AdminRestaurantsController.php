@@ -173,22 +173,24 @@ class AdminRestaurantsController extends Controller
         // Save to the database
         $restaurant->save();
 
-            //    save the banner
-            if ($request->hasFile('banner')) {
-                $restaurant->banner()->create([
-                    "img_url" => $request->file('banner')->store('public/restaurants/' . $restaurant->id . '/banners'),
-                ]);
-    
-           
-            }
-    
-    
-            //    save the logo
-            if ($request->hasFile('logo')) {
-                $restaurant->logo()->create([
-                    "img_url" => $request->file('logo')->store('public/restaurants/' . $restaurant->id . '/logos'),
-                ]);
-            }
+         //    save the logo
+         if ($request->hasFile('logo')) {
+            $restaurant->logo()->delete();
+            $restaurant->logo()->create([
+                "img_url" => ImagePackage::save($request->logo, 'logos'),
+            ]);
+        }
+
+
+        // save the banner
+         if ($request->hasFile('banner')) {
+            $restaurant->banner()->delete();
+            $restaurant->banner()->create([
+                "img_url" => ImagePackage::save($request->banner, 'banners'),
+            ]);
+        }
+
+
 
 
         // Create a model for this User
@@ -259,13 +261,12 @@ class AdminRestaurantsController extends Controller
          // Find the model for this ID
          $logo = $restaurant->logo()->first();
          $banner = Banner::where('restaurant_id', $restaurant->id)->first();
-
          $categories = RestaurantCategory::orderBy('name')->get();
 
          $restaurant->setAttribute('categories', $categories);
          $restaurant->setAttribute('edit', true);
          $restaurant->banner = $banner->img_url;
-        $restaurant->logo = '/../' . $logo->img_url;
+         $restaurant->logo = $logo->img_url;
 
          $url = '';//config('app.url');
 

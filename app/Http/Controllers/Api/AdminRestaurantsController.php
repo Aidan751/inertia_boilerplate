@@ -9,6 +9,7 @@ use Stripe\StripeClient;
 use App\Models\Restaurant;
 use App\Models\UserStripe;
 use Illuminate\Http\Request;
+use App\Packages\ImagePackage;
 use App\Models\RestaurantCategory;
 use App\Http\Controllers\Controller;
 use Spatie\Geocoder\Facades\Geocoder;
@@ -31,7 +32,7 @@ class AdminRestaurantsController extends Controller
 
             // Return a json response with the permissions
             return response()->json($restaurants,200);
-        
+
     }
 
     /**
@@ -50,7 +51,7 @@ class AdminRestaurantsController extends Controller
         $request->validate([
             'id' => 'required|integer|exists:restaurants,id'
         ]);
-        
+
         // Get the restaurant $object with the id passed in the request
         $restaurant = Restaurant::find($id);
         if(!empty($restaurant))
@@ -64,11 +65,11 @@ class AdminRestaurantsController extends Controller
             ], 404);
         }
 
-       
-             
+
+
      }
 
-        
+
 
     /**
      * Handle the incoming request to create a restaurant.
@@ -94,36 +95,36 @@ class AdminRestaurantsController extends Controller
                'email' => ['required', 'email', 'max:191', 'unique:users,email,'],
                'password' => ['nullable', 'confirmed', 'min:6'],
            ]);
-   
+
            $stripe = new StripeClient(
                config('services.stripe_secret_key')
            );
-   
+
            $stripeAccount = $stripe->accounts->create([
                'type' => 'standard',
                'country' => 'GB',
            ]);
-   
+
            $restaurant = new Restaurant;
-   
+
            $restaurant->stripe_account_id = $stripeAccount->id;
            $restaurant->stripe_status = 'incomplete';
-   
+
            $restaurantAddress = $request->address_line_1 . ' ' . $request->address_line_2 . ', ' . $request->town . ', ' . $request->county . ', ' . $request->postcode;
-   
+
            $addressResponse = Geocoder::getCoordinatesForAddress($restaurantAddress);
-   
+
            if ($addressResponse['formatted_address'] != 'result_not_found') {
               $restaurant->latitude = $addressResponse['lat'];
               $restaurant->longitude = $addressResponse['lng'];
            } // Error
-   
+
            // Create a model for this restaurant
-   
+
            // Update the parameters
            $restaurant->name = $request->name;
            $restaurant->restaurant_category_id = $request->category;
-   
+
            $restaurant->address_line_1 = $request->address_line_1;
            if (!is_null($request->address_line_2)) {
                $restaurant->address_line_2 = $request->address_line_2;
@@ -131,64 +132,65 @@ class AdminRestaurantsController extends Controller
            $restaurant->town = $request->town;
            $restaurant->county = $request->county;
            $restaurant->postcode = $request->postcode;
-   
+
            $restaurant->application_status = 'approved';
-   
+
            $restaurant->contact_number = $request->contact_number;
-   
+
            if ($request->company_drivers == "1") {
                $restaurant->company_drivers = 1;
            } else {
                $restaurant->company_drivers = 0;
            }
-   
+
            if ($request->table_service == "1") {
                $restaurant->allows_table_orders = 1;
            } else {
                $restaurant->allows_table_orders = 0;
            }
-   
+
            if ($request->collection_service == "1") {
                $restaurant->allows_collection = 1;
            } else {
                $restaurant->allows_collection = 0;
            }
-   
+
            if ($request->delivery_service == "1") {
                $restaurant->allows_delivery = 1;
            } else {
                $restaurant->allows_delivery = 0;
            }
-   
+
            if (!is_null($request->bio)) {
                $restaurant->bio = $request->bio;
            }
-   
-   
+
+
            // Save to the database
            $restaurant->save();
-   
-           //    save the banner
-           if ($request->hasFile('banner')) {
-               $restaurant->banner()->create([
-                   "img_url" => $request->file('banner')->store('public/restaurants/' . $restaurant->id . '/banners'),
-               ]);
-   
-          
-           }
-   
-   
-           //    save the logo
-           if ($request->hasFile('logo')) {
-               $restaurant->logo()->create([
-                   "img_url" => $request->file('logo')->store('public/restaurants/' . $restaurant->id . '/logos'),
-               ]);
-           }
-   
-   
+
+
+         //    save the logo
+         if ($request->hasFile('logo')) {
+            $restaurant->logo()->delete();
+            $restaurant->logo()->create([
+                "img_url" => ImagePackage::save($request->logo, 'logos'),
+            ]);
+        }
+
+
+        // save the banner
+         if ($request->hasFile('banner')) {
+            $restaurant->banner()->delete();
+            $restaurant->banner()->create([
+                "img_url" => ImagePackage::save($request->banner, 'banners'),
+            ]);
+        }
+
+
            // Create a model for this User
            $user = new User;
-   
+
            // Update the parameters
            $user->role_id = 4;
            $user->restaurant_id = $restaurant->id;
@@ -196,21 +198,21 @@ class AdminRestaurantsController extends Controller
            $user->last_name = '';
            $user->email = $request->email;
            $user->password = bcrypt($request->password);
-   
+
             // Save to the database
            $user->save();
-   
+
            $stripeCustomerAccount = $stripe->customers->create([
                'email' => $user->email,
            ]);
-   
+
            $stripeUser = new UserStripe;
            $stripeUser->user_id = $user->id;
            $stripeUser->stripe_account_id = $stripeCustomerAccount->id;
-   
+
            $stripeUser->save();
-   
-   
+
+
            $subject = 'Account Details';
            if ($request->get('notify')) {
                $subject = 'Account Details';
@@ -224,20 +226,20 @@ class AdminRestaurantsController extends Controller
                    $message->subject($subject);
                });
            }
-   
-   
+
+
                 //  display logo
               $restaurant->logo = $restaurant->logo()->first();
               $restaurant->banner = $restaurant->banner()->first();
-    
-            
-      
+
+
+
 
           return response()->json([
             "message" => "Restaurant Added.",
             "restaurant" => $restaurant,
         ], 201);
-       
+
     }
 
         /**
@@ -259,13 +261,13 @@ class AdminRestaurantsController extends Controller
         $restaurant->setAttribute('edit', true);
         $url = '';//config('app.url');
 
-      
+
        return response()->json([
             "message" => "Restaurant Edit Page.",
             "restaurant" => $restaurant,
         ], 201);
    }
-    
+
 
     /**
      * Handle the incoming request to update a restaurant.
@@ -277,8 +279,8 @@ class AdminRestaurantsController extends Controller
 
     public function update(Request $request){
 
-        // Validate the request 
-        
+        // Validate the request
+
          if (Restaurant::where('id', $id)->exists()) {
               // Update the model Restaurant in the database
               return response()->json([
@@ -289,7 +291,7 @@ class AdminRestaurantsController extends Controller
                   "message" => "Restaurant Not Found."
               ], 404);
           }}
-        
+
 
          /**
      * Handle the incoming request to delete a restaurant.
