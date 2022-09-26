@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Logo;
+use App\Models\Banner;
 use App\Models\GroupDeal;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
@@ -82,10 +84,20 @@ class Restaurant extends Model
     }
 
 
-// get media function
-public function getMedia($collection = 'default') {
-    return $this->getMedia($collection);
-}
+            // get media function
+            public function getMedia($collection = 'default') {
+                return $this->getMedia($collection);
+            }
+
+            // banner
+            public function banner() {
+                return $this->hasOne(Banner::class);
+            }
+
+            // logo
+            public function logo() {
+                return $this->hasOne(Logo::class);
+            }
 
 
 

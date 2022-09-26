@@ -54,7 +54,7 @@ console.log(props);
             </div>
 
             <div className="bg-white rounded shadow overflow-hidden max-w-3xl">
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} enctype="multipart/form-data">
                     <div className="px-10">
                     {/* Start: Interal Only Section */}
                         <div className="mb-3 mt-8">

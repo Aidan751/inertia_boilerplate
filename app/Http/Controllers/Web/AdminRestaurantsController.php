@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Models\Logo;
 use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Banner;
 use Stripe\StripeClient;
 use App\Models\Restaurant;
 use App\Models\UserStripe;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Packages\ImagePackage;
 use App\Models\RestaurantCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Hash;
@@ -170,22 +173,22 @@ class AdminRestaurantsController extends Controller
         // Save to the database
         $restaurant->save();
 
-        // add media from request
-        if ($request->hasFile('logo')) {
-            $restaurant->addMediaFromRequest('logo')
-                ->sanitizingFileName(function($fileName) {
-                    return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
-                })
-                ->toMediaCollection('logo');
-        }
-
-        if ($request->hasFile('banner')) {
-            $restaurant->addMediaFromRequest('banner')
-                ->sanitizingFileName(function($fileName) {
-                    return strtolower(str_replace(['#', '/', '\\', ' '], '-', $fileName));
-                })
-                ->toMediaCollection('banner');
-        }
+            //    save the banner
+            if ($request->hasFile('banner')) {
+                $restaurant->banner()->create([
+                    "img_url" => $request->file('banner')->store('public/restaurants/' . $restaurant->id . '/banners'),
+                ]);
+    
+           
+            }
+    
+    
+            //    save the logo
+            if ($request->hasFile('logo')) {
+                $restaurant->logo()->create([
+                    "img_url" => $request->file('logo')->store('public/restaurants/' . $restaurant->id . '/logos'),
+                ]);
+            }
 
 
         // Create a model for this User
@@ -255,23 +258,22 @@ class AdminRestaurantsController extends Controller
     public function edit(Restaurant $restaurant){
          // Find the model for this ID
          $user = User::where('restaurant_id', $restaurant->id)->first();
+         $logo = Logo::where('restaurant_id', $restaurant->id)->first();
+         $banner = Banner::where('restaurant_id', $restaurant->id)->first();
          $categories = RestaurantCategory::orderBy('name')->get();
 
          $restaurant->setAttribute('categories', $categories);
          $restaurant->setAttribute('edit', true);
-
-         $logo = $restaurant->logo;
-         $banner = $restaurant->banner;
          $url = '';//config('app.url');
 
-         if(!$logo->isEmpty()){
+         if(!empty($logo)){
              $restaurant->setAttribute('logo', $url . $logo[0]->getFullUrl());
          }
          else{
              $restaurant->setAttribute('logo', null);
          }
 
-         if(!$banner->isEmpty()){
+         if(!empty($logo)){
              $restaurant->setAttribute('banner', $url . $banner[0]->getFullUrl());
          }
          else{
@@ -363,13 +365,22 @@ class AdminRestaurantsController extends Controller
         // Save to the database
         $restaurant->save();
 
-        if (!is_null($request->logo)) {
-            $restaurant->addMediaFromRequest('logo')->toMediaCollection('logos');
+        // update the logo
+        if ($request->hasFile('logo')) {
+            ImagePackage::delete($restaurant->logo);
+            $restaurant->logo()->create([
+                "img_url" => ImagePackage::save($request->logo, 'restaurant_logo'),
+            ]);
         }
 
-        if (!is_null($request->banner)) {
-            $restaurant->addMediaFromRequest('banner')->toMediaCollection('banners');
+        // update the banner
+        if ($request->hasFile('banner')) {
+            ImagePackage::delete($restaurant->banner);
+            $restaurant->banner()->create([
+                "img_url" => ImagePackage::save($request->banner, 'restaurant_banner'),
+            ]);
         }
+
 
         $user = User::where('restaurant_id', $id)->first();
 

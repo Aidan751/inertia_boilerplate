@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\PermissionsController;
+use App\Http\Controllers\Api\AdminRestaurantsController;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,11 @@ use App\Http\Controllers\Api\PermissionsController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+
+// dev test routes
+// create a new restaurant
+Route::post('/restaurants', [AdminRestaurantsController::class, 'store']);
 
 Route::prefix("v1")->group(function (){
 

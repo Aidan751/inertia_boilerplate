@@ -23,6 +23,8 @@ class CreateRestaurantsTable extends Migration
             $table->string('town');
             $table->string('county');
             $table->string('postcode');
+            $table->string('banner')->nullable();
+            $table->string('logo')->nullable();
             $table->decimal('latitude', 10, 7);
             $table->decimal('longitude', 10, 7);
             $table->string('contact_number')->nullable();
