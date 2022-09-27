@@ -52,10 +52,8 @@ export default function Index(props){
     const setDeleteConfirmationModal = (e) => {
         // Prevent Default Behaviour
         e.preventDefault();
-
         // Set the current selected role to the role id
         setCurrentSelectedUser(e.target.id);
-
         // Show the delete confirmation modal
         setShowingDeleteModal(true);
     }
@@ -173,9 +171,7 @@ export default function Index(props){
                                             <button
                                                 className="flex items-center text-danger"
                                                 type="button"
-                                                onClick={(e) => {
-                                                    setDeleteConfirmationModal();
-                                                }}
+                                                onClick={setDeleteConfirmationModal}
                                                 id={user.id}
                                             >
                                                 <Trash2 id={user.id} className="w-4 h-4 mr-1" /> Delete
