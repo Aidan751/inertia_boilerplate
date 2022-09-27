@@ -62,7 +62,7 @@ function Edit(props) {
               <input
                 id="crud-form-1"
                 type="text"
-                className="form-control w-full"
+                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                 placeholder="First name..."
                 name="first_name"
                 required
@@ -83,7 +83,7 @@ function Edit(props) {
               <input
                 id="crud-form-1"
                 type="text"
-                className="form-control w-full"
+                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                 placeholder="Last name..."
                 name="last_name"
                 required
@@ -104,7 +104,7 @@ function Edit(props) {
                     id="crud-form-2"
                     type="email"
                     required
-                    className="form-control w-full"
+                    className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     placeholder="Email address..."
                     name="email"
                     value={data.email}
@@ -127,7 +127,7 @@ function Edit(props) {
                     required
                     value={data.password}
                     onChange={onHandleChange}
-                    className="form-control w-full"
+                    className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     placeholder="Password..."
                 />
                 {errors.password && (
@@ -143,7 +143,7 @@ function Edit(props) {
                     required
                     value={data.password_confirmation}
                     onChange={onHandleChange}
-                    className="form-control w-full mt-3"
+                    className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline mt-3"
                     placeholder="Repeat password..."
                 />
                 {errors.password_confirmation && (
