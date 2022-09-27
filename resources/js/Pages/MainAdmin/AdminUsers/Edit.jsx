@@ -69,6 +69,11 @@ function Edit(props) {
                 value={data.first_name}
                 onChange={onHandleChange}
               />
+               {errors.first_name && (
+                    <p className="text-xs italic text-red-500">
+                        {errors.first_name}
+                    </p>
+                )}
             </div>
             {/* Last Name Form Group */}
             <div className="mt-3">
@@ -85,6 +90,11 @@ function Edit(props) {
                 value={data.last_name}
                 onChange={onHandleChange}
               />
+                {errors.last_name && (
+                    <p className="text-xs italic text-red-500">
+                        {errors.last_name}
+                    </p>
+                )}
             </div>
             <div className="mt-3">
               <label htmlFor="crud-form-2" className="form-label">
@@ -100,6 +110,11 @@ function Edit(props) {
                     value={data.email}
                     onChange={onHandleChange}
                 />
+                {errors.email && (
+                    <p className="text-xs italic text-red-500">
+                        {errors.email}
+                    </p>
+                )}
             </div>
             <div className="mt-3">
                 <label htmlFor="crud-form-3" className="form-label">
@@ -115,6 +130,11 @@ function Edit(props) {
                     className="form-control w-full"
                     placeholder="Password..."
                 />
+                {errors.password && (
+                    <p className="text-xs italic text-red-500">
+                        {errors.password}
+                    </p>
+                )}
 
                 <input
                     id="crud-form-4"
@@ -126,6 +146,11 @@ function Edit(props) {
                     className="form-control w-full mt-3"
                     placeholder="Repeat password..."
                 />
+                {errors.password_confirmation && (
+                    <p className="text-xs italic text-red-500">
+                        {errors.password_confirmation}
+                    </p>
+                )}
               </div>
             <div className="mt-3 pt-3">
                 <input type="checkbox"

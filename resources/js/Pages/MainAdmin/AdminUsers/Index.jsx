@@ -29,9 +29,8 @@ export default function Index(props){
 
     const [users, setUsers] = useState(props.users.data);
 
-    const [showingDeleteModal, setShowingDeleteModal] = useState(false);
-
-    const [currentSelectedUser, setCurrentSelectedUser] = useState(null);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
 
     // console.log(props);
     /**
@@ -58,18 +57,13 @@ export default function Index(props){
         setShowingDeleteModal(true);
     }
 
-    // TODO: unable to delete user, thought it had something to do with the user being added to endpoint as opposed to id, but it still doesn't work
-    const deleteUser = (e) => {
-        // Prevent Default Behaviour
-        e.preventDefault();
+    const deleteRecord = (e) => {
 
-        // Delete the role
-        Inertia.delete(route('admin-user.destroy', currentSelectedUser), {
+        Inertia.delete(route('admin-user.destroy',{id:deleteId}),{
             preserveState: false,
             onSuccess: () => {
-                // Do something...
-            },
-        })
+            }
+        });
     }
 
 
@@ -251,10 +245,11 @@ export default function Index(props){
                     </div>
                     {/* BEGIN: Delete Confirmation Modal */}
                     <Modal
-                        show={showingDeleteModal}
-                        onHidden={(e) => {
-                        setShowingDeleteModal(false);
+                        show={deleteModal}
+                        onHidden={() => {
+                            setDeleteConfirmationModal(false);
                         }}
+                        title="Delete Confirmation"
                     >
                         <ModalBody className="p-0">
                         <div className="p-5 text-center">
@@ -268,16 +263,14 @@ export default function Index(props){
                             </div>
                         </div>
                         <div className="px-5 pb-8 text-center">
-                            <button
+                        <button
                             type="button"
-                            onClick={(e) => {
-                                setShowingDeleteModal(false);
-                            }}
-                            className="btn btn-outline-secondary w-24 mr-1"
-                            >
-                                Cancel
-                            </button>
-                            <button onClick={deleteUser} type="button" className="btn btn-danger w-24">
+                            data-dismiss="modal"
+                            onClick={e => setDeleteModal(false)}
+                            className="btn btn-outline-secondary w-24 mr-3">
+                            Cancel
+                        </button>
+                            <button onClick={deleteRecord} type="button" className="btn btn-danger w-24">
                                 Delete
                             </button>
                         </div>
