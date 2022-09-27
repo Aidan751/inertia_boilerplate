@@ -1,3 +1,4 @@
+
 import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link } from '@inertiajs/inertia-react';
 import { Search,CheckSquare, ChevronRight ,ChevronsRight, ChevronsLeft, XCircle,Trash2,ChevronLeft} from "lucide-react";
@@ -15,72 +16,58 @@ export default function Index(props){
         search: props.search,
       })
 
-    const from = props.users.from;
+    const from = props.orders.from;
 
-    const to = props.users.to;
+    const to = props.orders.to;
 
-    const total = props.users.total;
+    const total = props.orders.total;
 
-    const first_page_url = props.users.first_page_url;
+    const first_page_url = props.orders.first_page_url;
 
-    const last_page_url = props.users.last_page_url;
+    const last_page_url = props.orders.last_page_url;
 
-    const links = props.users.links;
+    const links = props.orders.links;
 
-    const [users, setUsers] = useState(props.users.data);
+    const [orders, setOrders] = useState(props.orders.data);
 
     const [showingDeleteModal, setShowingDeleteModal] = useState(false);
 
-    const [currentSelectedUser, setCurrentSelectedUser] = useState(null);
+    const [currentSelectedOrder, setCurrentSelectedOrder] = useState(null);
+
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
 
     /**
      * Handle search form submission
      * @param {Event} e
-     */
-    const submitSearch = (e) => {
+    */
+    function handleSearch(e) {
         e.preventDefault();
-
-        get(route(''), {
-            preserveState: false,
-            onSuccess: () => {
-                // Do something...
-            },
-        })
+        Inertia.get(route('orders.index'), data);
     }
 
     const setDeleteConfirmationModal = (e) => {
-        // Prevent Default Behaviour
-        e.preventDefault();
-
-        // Set the current selected role to the role id
-        setCurrentSelectedUser(e.target.id);
-
-        // Show the delete confirmation modal
-        setShowingDeleteModal(true);
+        setDeleteModal(true);
+        setDeleteId(e);
     }
 
-    const deleteUser = (e) => {
-        // Prevent Default Behaviour
-        e.preventDefault();
+    const deleteRecord = (e) => {
 
-        // Delete the role
-        Inertia.delete(route('', currentSelectedUser), {
+        Inertia.delete(route('orders.destroy',{id:deleteId}),{
             preserveState: false,
             onSuccess: () => {
-                // Do something...
-            },
-        })
+            }
+        });
     }
-
 
     const paginate = (e) => {
         e.preventDefault();
-
-        Inertia.get(route(""), {
+        Inertia.get(route('orders.index'), {
             perPage: e.target.value,
             search: props.search
-        },);
+        });
     }
+
 
     return (
         <>
@@ -111,8 +98,8 @@ export default function Index(props){
                         <div className="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
 
                             {/* Link to create page */}
-                            <Link href={route(".create")} className="btn btn-primary shadow-md mr-2">
-                                Add New
+                            <Link href={route("order.create")} className="btn btn-primary shadow-md mr-2">
+                                Add New 
                             </Link>
 
                             {/* Pagination Information */}
@@ -145,37 +132,37 @@ export default function Index(props){
                             </tr>
                             </thead>
                             <tbody>
-                            { users.map((user, key) => (
+                            { orders.map((order, key) => (
 
                                 <tr key={key} className="intro-x">
 
                                     {/* User Info */}
                                     <td className="text-left">
-                                            {user.property} {user.property}
+                                            {order.property} {order.property}
                                     </td>
 
                                     {/* User email */}
-                                    <td className="text-left">{user.property}</td>
+                                    <td className="text-left">{order.property}</td>
 
                                     {/* Actions */}
                                     <td className="table-report__action w-56">
                                         <div className="flex justify-center items-center">
                                             {/* Edit Link */}
-                                            <Link className="flex items-center mr-3" href={route("admin-user.edit",{id:user.id})}>
+                                            <Link className="flex items-center mr-3" href={route("order.edit",{id:order.id})}>
                                                 <CheckSquare className="w-4 h-4 mr-1" />{" "}
                                                 Edit
                                             </Link>
 
                                             {/* Delete Link */}
                                             <button
-                                                className="flex items-center text-danger"
                                                 type="button"
-                                                onClick={() => {
-                                                    setDeleteConfirmationModal();
+                                                onClick={(e) => {
+                                                    setDeleteConfirmationModal(e.target.id);
                                                 }}
-                                                id={user.id}
-                                            >
-                                                <Trash2 id={user.id} className="w-4 h-4 mr-1" /> Delete
+                                                id={order.id}
+                                                className="flex items-center text-danger">
+                                                <Trash2 className="w-4 h-4 mr-1" />
+                                                Delete
                                             </button>
                                         </div>
                                     </td>
@@ -252,11 +239,12 @@ export default function Index(props){
                     </div>
                     {/* BEGIN: Delete Confirmation Modal */}
                     <Modal
-                        show={showingDeleteModal}
+                        show={deleteModal}
                         onHidden={() => {
-                        setShowingDeleteModal(false);
+                            setDeleteConfirmationModal(false);
                         }}
-                    >
+                        title="Delete Confirmation"
+                        >
                         <ModalBody className="p-0">
                         <div className="p-5 text-center">
                             <XCircle
@@ -269,18 +257,14 @@ export default function Index(props){
                             </div>
                         </div>
                         <div className="px-5 pb-8 text-center">
-                            <button
+                        <button
                             type="button"
-                            onClick={() => {
-                                setShowingDeleteModal(false);
-                            }}
-                            className="btn btn-outline-secondary w-24 mr-1"
-                            >
-                                Cancel
+                            data-dismiss="modal"
+                            onClick={e => setDeleteModal(false)}
+                            className="btn btn-outline-secondary w-24 mr-3">
+                            Cancel
                             </button>
-                            <button onClick={deleteUser} type="button" className="btn btn-danger w-24">
-                                Delete
-                            </button>
+                            <button type="button" onClick={deleteRecord} className="btn btn-danger w-24">Delete</button>
                         </div>
                         </ModalBody>
                     </Modal>
