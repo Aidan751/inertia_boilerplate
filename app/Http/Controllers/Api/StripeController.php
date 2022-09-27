@@ -1,5 +1,4 @@
 <?php
-// TODO: api stripe controller
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;

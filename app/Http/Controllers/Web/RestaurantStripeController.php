@@ -1,5 +1,4 @@
 <?php
-// TODO: web restaurant stripe controller
 namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Controller;

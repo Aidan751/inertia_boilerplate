@@ -59,7 +59,6 @@ export default function Index(props){
         setShowingDeleteModal(true);
     }
 
-    // TODO: unable to delete user, thought it had something to do with the user being added to endpoint as opposed to id, but it still doesn't work
     const deleteUser = (e) => {
         // Prevent Default Behaviour
         e.preventDefault();

@@ -1,6 +1,6 @@
 import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link } from '@inertiajs/inertia-react';
-import { Search,CheckSquare, ChevronRight ,ChevronsRight, ChevronsLeft, XCircle,Trash2,ChevronLeft} from "lucide-react";
+import { Search,CheckSquare, ChevronRight ,ChevronsRight, ChevronsLeft, XCircle,Trash2,ChevronLeft, Eye} from "lucide-react";
 import { useForm } from '@inertiajs/inertia-react'
 import { useState } from "react";
 import { Modal, ModalBody } from "@/base-components";
@@ -158,6 +158,7 @@ export default function Index(props){
                                         <div className="flex justify-center items-center">
                                             {/* start: View Orders Link */}
                                             <Link href={route("orders.index", user.id)} className="flex items-center mr-3">
+                                               <Eye className="w-4 h-4 mr-1" />{" "}
                                                 View
                                             </Link>
                                             {/* end: View Orders Link */}

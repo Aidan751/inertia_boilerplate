@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Extra;
+use App\Models\Order;
 use App\Models\MenuItem;
 use App\Models\GroupDeal;
 use App\Models\Restaurant;
@@ -29,5 +30,6 @@ class DatabaseSeeder extends Seeder
         MenuItem::factory(50)->create();
         Extra::factory(50)->create();
         GroupDeal::factory(50)->create();
+        Order::factory(50)->create();
     }
 }

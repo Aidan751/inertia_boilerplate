@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\Web\OrderController;
 use App\Http\Controllers\Web\RolesController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Web\AdminUserController;
@@ -279,7 +280,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/restaurant/offers/delete/{offer}', [OfferController::class, 'destroy'])->name('offers.destroy');
 
     // list orders
-    Route::get('/restaurant/orders', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/restaurant/orders/{user}', [OrderController::class, 'index'])->name('orders.index');
 
     // show an order
     Route::get('/restaurant/orders/show/{order}', [OrderController::class, 'show'])->name('orders.show');

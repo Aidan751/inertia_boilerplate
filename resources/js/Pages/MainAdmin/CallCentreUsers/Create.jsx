@@ -58,7 +58,6 @@ function Create(props) {
         <div className="intro-y col-span-12 lg:col-span-6">
           {/* BEGIN: Form Layout */}
 
-         {/* TODO: ask michael about csrf */}
           <form className="intro-y box p-5" onSubmit={submit} method="post">
             {/* First Name Form Group */}
             <div className="mt-3">

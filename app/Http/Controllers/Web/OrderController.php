@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Order;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
@@ -16,10 +19,8 @@ class OrderController extends Controller
      * @return \Inertia\Response
      */
 
-    public function index(Request $request, $id)
+    public function index(Request $request, User $user)
     {
-
-        $user = User::where('id', $id)->first();
 
         $customer = $request->get('customer', '');
         $status = $request->get('status', '');
@@ -27,7 +28,7 @@ class OrderController extends Controller
         $to = $request->get('to', '');
 
         $customers = User::whereHas('orders', function ($q) use($user) {
-            $q->where('restaurant_id', Auth::user()->restaurant_id);
+            $q->where('restaurant_id', $user->restaurant_id);
         })->orderBy('last_name')->get();
         $customersArray = [];
         array_push($customersArray, ["placeholder" => true, "text" => "Select a customer"]);
