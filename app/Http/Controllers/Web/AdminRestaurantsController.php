@@ -260,13 +260,18 @@ class AdminRestaurantsController extends Controller
     public function edit(Restaurant $restaurant){
          // Find the model for this ID
          $logo = $restaurant->logo()->first();
-         $banner = Banner::where('restaurant_id', $restaurant->id)->first();
+         $banner = $restaurant->banner()->first();
          $categories = RestaurantCategory::orderBy('name')->get();
 
          $restaurant->setAttribute('categories', $categories);
          $restaurant->setAttribute('edit', true);
-         $restaurant->banner = $banner->img_url;
-         $restaurant->logo = $logo->img_url;
+
+             $restaurant->logo = $logo->img_url ?? null;
+
+
+
+            $restaurant->banner = $banner->img_url ?? null;
+
 
          $url = '';//config('app.url');
 

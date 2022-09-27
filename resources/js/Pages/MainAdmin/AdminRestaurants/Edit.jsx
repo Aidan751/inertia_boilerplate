@@ -52,14 +52,12 @@ export default function Edit( props ) {
         <Authenticated
             auth={props.auth}
             errors={props.errors}
+            activeGroup={4}
         >
 
         <div className="col-span-12">
             <div className="intro-y flex items-center mt-5 mb-5">
-                <h2 className="text-lg font-medium mr-auto">Add new Business</h2>
-            </div>
-            <div className="intro-y flex items-center mb-5">
-                <p className="text-gray-600">Fill in the following details to add a new Business</p>
+                <h2 className="text-lg font-medium mr-auto">Update Business</h2>
             </div>
 
             <div className="bg-white rounded shadow overflow-hidden max-w-3xl">
@@ -135,7 +133,7 @@ export default function Edit( props ) {
                             >
                                 Logo
                             </label>
-                           <img src={data.logo} id="logo_img" alt="Logo" className="mb-2" />
+                           <img src={data.logo} id="logo_img" alt="Logo" className="mb-3" />
                             <input
                                 className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="logo"
@@ -157,7 +155,7 @@ export default function Edit( props ) {
                             >
                                 Banner Image
                             </label>
-                            <img className="mb-2" id="banner_img" src={data.banner} alt="Banner" />
+                            <img className="mb-3" id="banner_img" src={data.banner} alt="Banner" />
                             <input
                                 className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="banner"
@@ -353,91 +351,6 @@ export default function Edit( props ) {
                     {/* End: Business Bio */}
 
 
-
-                    <hr className="mb-6 border-t" />
-                    {/* start: title for restaurant user access */}
-                    <h3 className="mb-4 text-lg font-semibold text-gray-600 dark:text-gray-300">
-                        Restaurant User Access
-                    </h3>
-                    {/* end: title for restaurant user access */}
-                    {/* Start: Business Email */}
-                        <div className="mb-6">
-                            <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="email"
-                            >
-                                Email
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="email"
-                                type="text"
-                                name="email"
-                                value={data.email}
-                                placeholder="Email"
-                                onChange={(e) =>
-                                    setData("email", e.target.value)
-                                }
-                            />
-                            {errors.email && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.email}
-                                </p>
-                            )}
-                        </div>
-                    {/* End: Business Email */}
-                    {/* Start: Business Set Password */}
-                        <div className="mb-6">
-                            <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="password"
-                            >
-                                Set Password
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="password"
-                                type="password"
-                                name="password"
-                                placeholder="password"
-                                value={data.password}
-                                onChange={(e) =>
-                                    setData("password", e.target.value)
-                                }
-                            />
-                            {errors.password && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.password}
-                                </p>
-                            )}
-                        </div>
-                    {/* End: Business Set Password */}
-                    {/* Start: Business Confirm Password */}
-                        <div className="mb-6">
-                            <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="password_confirmation"
-                            >
-                                Repeat Password
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="password_confirmation"
-                                type="password"
-                                placeholder="password"
-                                name="password_confirmation"
-                                value={data.password_confirmation}
-                                onChange={(e) =>
-                                    setData("password_confirmation", e.target.value)
-                                }
-                            />
-                            {errors.password_confirmation && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.password_confirmation}
-                                </p>
-                            )}
-                        </div>
-                    {/* End: Business Confirm Password */}
 
                     {/* Start: Submit Button */}
                         <div className="mb-6">

@@ -257,10 +257,12 @@ class AdminRestaurantsController extends Controller
         $banner = Banner::where('restaurant_id', $restaurant->id)->first();
         $categories = RestaurantCategory::orderBy('name')->get();
 
+
         $restaurant->setAttribute('categories', $categories);
         $restaurant->setAttribute('edit', true);
         $url = '';//config('app.url');
-
+        $restaurant->logo = $logo;
+        $restaurant->banner = $banner;
 
        return response()->json([
             "message" => "Restaurant Edit Page.",

@@ -18789,6 +18789,12 @@ body {
     padding: 0 !important;
 }
 
+#logo_img, #banner_img {
+  height: 150px;
+  width: auto;
+  border-radius: 8px;
+}
+
 
 
 /*
