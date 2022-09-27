@@ -280,19 +280,179 @@ class AdminRestaurantsController extends Controller
      */
 
     public function update(Request $request){
+        $uid = $request->_userID;
 
-        // Validate the request
+        // Validate the data
+         $request->validate([
+            'name' => ['required', 'string', 'max:191'],
+            'category' => ['required', 'int', 'min: 0'],
+            'address_line_1' => ['required', 'string', 'max:191'],
+            'town' => ['required', 'string', 'max:191'],
+            'county' => ['required', 'string', 'max:191'],
+            'postcode' => ['required', 'string', 'max:191'],
+            'email' => ['required', 'email', 'max:191', 'unique:users,email,' . $uid],
+            'password' => ['nullable', 'confirmed', 'min:6'],
+        ]);
 
-         if (Restaurant::where('id', $id)->exists()) {
-              // Update the model Restaurant in the database
-              return response()->json([
-                  "message" => "Restaurant Updated."
-              ], 404);
-          }else{
-              return response()->json([
-                  "message" => "Restaurant Not Found."
-              ], 404);
-          }}
+        // Find the model for this ID
+        $restaurant = Restaurant::find($id);
+
+        $restaurantAddress = $request->address_line_1 . ' ' . $request->address_line_2 . ', ' . $request->town . ', ' . $request->county . ', ' . $request->postcode;
+
+        $addressResponse = Geocoder::getCoordinatesForAddress($restaurantAddress);
+
+        if ($addressResponse['formatted_address'] != 'result_not_found') {
+           $restaurant->latitude = $addressResponse['lat'];
+           $restaurant->longitude = $addressResponse['lng'];
+        } // Error
+
+
+        // Update the parameters
+        $restaurant->name = $request->name;
+        $restaurant->restaurant_category_id = $request->category;
+        $restaurant->address_line_1 = $request->address_line_1;
+        if (!is_null($request->address_line_2)) {
+            $restaurant->address_line_2 = $request->address_line_2;
+        }
+        $restaurant->town = $request->town;
+        $restaurant->county = $request->county;
+        $restaurant->postcode = $request->postcode;
+
+        if ($request->company_drivers == "1") {
+            $restaurant->company_drivers = 1;
+        } else {
+            $restaurant->company_drivers = 0;
+        }
+
+        if ($request->table_service == "1") {
+            $restaurant->allows_table_orders = 1;
+        } else {
+            $restaurant->allows_table_orders = 0;
+        }
+
+        if ($request->collection_service == "1") {
+            $restaurant->allows_collection = 1;
+        } else {
+            $restaurant->allows_collection = 0;
+        }
+
+        if ($request->delivery_service == "1") {
+            $restaurant->allows_delivery = 1;
+        } else {
+            $restaurant->allows_delivery = 0;
+        }
+
+        if (!is_null($request->bio)) {
+            $restaurant->bio = $request->bio;
+        }
+
+        // Save to the database
+        $restaurant->save();
+
+        // update the logo
+        if ($request->hasFile('logo')) {
+            ImagePackage::delete($restaurant->logo);
+            $restaurant->logo()->create([
+                "img_url" => ImagePackage::save($request->logo, 'restaurant_logo'),
+            ]);
+        }
+
+        // update the banner
+        if ($request->hasFile('banner')) {
+            ImagePackage::delete($restaurant->banner);
+            $restaurant->banner()->create([
+                "img_url" => ImagePackage::save($request->banner, 'restaurant_banner'),
+            ]);
+        }
+
+
+        $user = User::where('restaurant_id', $id)->first();
+
+        $sendEmail = false;
+
+        if ($user != null) {
+            if ($request->email != $user->email) {
+                $user->email = $request->email;
+                $sendEmail = true;
+            }
+
+            if (!is_null($request->password)) {
+                $user->password = bcrypt($request->password);
+                $sendEmail = true;
+            }
+
+            $user->save();
+
+            if ($sendEmail == true) {
+                // Notify users their details have changed
+                $subject = 'Account Details';
+                Mail::send('email.userupdated', array(
+                  'name' => $user->first_name,
+                  'password' => $request->password,
+                  'email' => $request->email,
+                  'subject' => $subject,
+                ), function ($message) use ($request, $subject) {
+                    $message->to($request->email);
+                    $message->subject($subject);
+                });
+            }
+        } else {
+
+            $newUser = new User;
+            $newUser->email = $request->email;
+            $newUser->role_id = 4;
+            $password = '';
+
+            if (!is_null($request->password)) {
+                $password = $request->password;
+                $newUser->password = bcrypt($request->password);
+            } else {
+                $password = Str::random(8);
+                $newUser->password = bcrypt($password);
+            }
+
+            $newUser->first_name = '';
+            $newUser->last_name = '';
+            $newUser->restaurant_id = $restaurant->id;
+
+            $newUser->save();
+
+            $subject = 'Account Details';
+            Mail::send('email.userwelcome', array(
+                'name' => '',
+                'password' => $password,
+                'email' => $request->email,
+                'subject' => $subject,
+            ), function ($message) use ($request, $subject) {
+                $message->to($request->email);
+                $message->subject($subject);
+            });
+
+        }
+
+        $restaurant->update([
+            'name' => $request->name,
+            'category' => $request->category,
+            'address_line_1' => $request->address_line_1,
+            'address_line_2' => $request->address_line_2,
+            'approval_status' => "approved",
+            'town' => $request->town,
+            'county' => $request->county,
+            'postcode' => $request->postcode,
+            'contact_number' => $request->contact_number,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Restaurant updated successfully',
+            'restaurant' => $restaurant,
+        ], 200);
+
+
+
+    }
 
 
          /**

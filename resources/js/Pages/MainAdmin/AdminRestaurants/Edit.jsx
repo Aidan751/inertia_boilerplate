@@ -56,7 +56,7 @@ export default function Edit( props ) {
         >
 
         <div className="col-span-12">
-            <div className="intro-y flex items-center mt-5 mb-5">
+            <div className="intro-y flex items-center mt-5 mb-5 pl-10">
                 <h2 className="text-lg font-medium mr-auto">Update Business</h2>
             </div>
 
@@ -355,7 +355,7 @@ export default function Edit( props ) {
                     {/* Start: Submit Button */}
                         <div className="mb-6">
                         <Button type="submit" className="w-30">
-                            Add
+                           Update
                         </Button>
                         </div>
                     {/* End: Submit Button */}

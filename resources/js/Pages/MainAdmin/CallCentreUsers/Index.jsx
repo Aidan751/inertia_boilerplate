@@ -253,7 +253,7 @@ export default function Index(props){
                     {/* BEGIN: Delete Confirmation Modal */}
                     <Modal
                         show={showingDeleteModal}
-                        onHidden={() => {
+                        onHidden={(e) => {
                         setShowingDeleteModal(false);
                         }}
                     >
@@ -271,7 +271,7 @@ export default function Index(props){
                         <div className="px-5 pb-8 text-center">
                             <button
                             type="button"
-                            onClick={() => {
+                            onClick={(e) => {
                                 setShowingDeleteModal(false);
                             }}
                             className="btn btn-outline-secondary w-24 mr-1"

@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\AdminRestaurantsController;
+use App\Http\Controllers\Api\AdminCallCentreUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +27,14 @@ Route::post('/restaurants', [AdminRestaurantsController::class, 'store']);
 
 // get all restaurants
 Route::get('/restaurants', [AdminRestaurantsController::class, 'index']);
+// just to test edit works
 Route::get('/restaurants/{id}', [AdminRestaurantsController::class, 'edit']);
+// update a restaurant
+Route::put('/restaurants/{id}', [AdminRestaurantsController::class, 'update']);
+
+// list call centre users
+Route::get('/call-centre-users', [AdminCallCentreUserController::class, 'index']);
+
 
 
 
