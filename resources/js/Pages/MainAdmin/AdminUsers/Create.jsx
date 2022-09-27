@@ -74,6 +74,11 @@ function Create(props) {
                 value={data.first_name}
                 onChange={onHandleChange}
               />
+               {errors.first_name && (
+                    <p className="text-xs italic text-red-500">
+                        {errors.first_name}
+                    </p>
+              )}
             </div>
             {/* Last Name Form Group */}
             <div className="mt-3">
@@ -90,6 +95,11 @@ function Create(props) {
                 value={data.last_name}
                 onChange={onHandleChange}
               />
+                {errors.last_name && (
+                    <p className="text-xs italic text-red-500">
+                        {errors.last_name}
+                    </p>
+                )}
             </div>
             <div className="mt-3">
               <label htmlFor="crud-form-2" className="form-label">
@@ -105,6 +115,11 @@ function Create(props) {
                     value={data.email}
                     onChange={onHandleChange}
                 />
+                {errors.email && (
+                    <p className="text-xs italic text-red-500">
+                        {errors.email}
+                    </p>
+                )}
             </div>
             <div className="mt-3">
                 <label htmlFor="crud-form-3" className="form-label">
@@ -120,6 +135,11 @@ function Create(props) {
                     className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline mb-3"
                     placeholder="Password..."
                 />
+                {errors.password && (
+                    <p className="text-xs italic text-red-500">
+                        {errors.password}
+                    </p>
+                )}
 
                 <input
                     id="crud-form-4"
@@ -131,6 +151,11 @@ function Create(props) {
                     className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     placeholder="Repeat password..."
                 />
+                {errors.password_confirmation && (
+                    <p className="text-xs italic text-red-500">
+                        {errors.password_confirmation}
+                    </p>
+                )}
               </div>
             <div className="mt-3 pt-3">
                 <Checkbox
