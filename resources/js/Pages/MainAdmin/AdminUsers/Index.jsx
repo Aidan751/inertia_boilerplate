@@ -52,9 +52,9 @@ export default function Index(props){
         // Prevent Default Behaviour
         e.preventDefault();
         // Set the current selected role to the role id
-        setCurrentSelectedUser(e.target.id);
+        setDeleteId(e.target.id);
         // Show the delete confirmation modal
-        setShowingDeleteModal(true);
+        setDeleteModal(true);
     }
 
     const deleteRecord = (e) => {

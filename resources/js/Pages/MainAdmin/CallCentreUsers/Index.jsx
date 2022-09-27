@@ -29,9 +29,8 @@ export default function Index(props){
 
     const [users, setUsers] = useState(props.users.data);
 
-    const [showingDeleteModal, setShowingDeleteModal] = useState(false);
-
-    const [currentSelectedUser, setCurrentSelectedUser] = useState(null);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
 
     // console.log(props);
     /**
@@ -49,28 +48,23 @@ export default function Index(props){
         })
     }
 
+
     const setDeleteConfirmationModal = (e) => {
         // Prevent Default Behaviour
         e.preventDefault();
-
         // Set the current selected role to the role id
-        setCurrentSelectedUser(e.target.id);
-
+        setDeleteId(e.target.id);
         // Show the delete confirmation modal
-        setShowingDeleteModal(true);
+        setDeleteModal(true);
     }
 
-    const deleteUser = (e) => {
-        // Prevent Default Behaviour
-        e.preventDefault();
-        // TODO: cant delete user don't know why
-        // Delete the role
-        Inertia.delete(route('admin-callcentreuser.destroy', currentSelectedUser), {
+    const deleteRecord = (e) => {
+
+        Inertia.delete(route('admin-callcentreuser.destroy',{id:deleteId}),{
             preserveState: false,
             onSuccess: () => {
-                // Do something...
-            },
-        })
+            }
+        });
     }
 
 
@@ -176,9 +170,8 @@ export default function Index(props){
                                             {/* Delete Link */}
                                             <button
                                                 className="flex items-center text-danger"
-                                                onClick={() => {
-                                                    setDeleteConfirmationModal();
-                                                }}
+                                                type="button"
+                                                onClick={setDeleteConfirmationModal}
                                                 id={user.id}
                                             >
                                                 <Trash2 id={user.id} className="w-4 h-4 mr-1" /> Delete
@@ -259,9 +252,9 @@ export default function Index(props){
                     </div>
                     {/* BEGIN: Delete Confirmation Modal */}
                     <Modal
-                        show={showingDeleteModal}
+                        show={deleteModal}
                         onHidden={(e) => {
-                        setShowingDeleteModal(false);
+                        setDeleteModal(false);
                         }}
                     >
                         <ModalBody className="p-0">
@@ -276,16 +269,14 @@ export default function Index(props){
                             </div>
                         </div>
                         <div className="px-5 pb-8 text-center">
-                            <button
+                        <button
                             type="button"
-                            onClick={(e) => {
-                                setShowingDeleteModal(false);
-                            }}
-                            className="btn btn-outline-secondary w-24 mr-1"
-                            >
+                            data-dismiss="modal"
+                            onClick={e => setDeleteModal(false)}
+                            className="btn btn-outline-secondary w-24 mr-3">
                                 Cancel
                             </button>
-                            <button onClick={deleteUser} className="btn btn-danger w-24">
+                            <button onClick={deleteRecord} type="button" className="btn btn-danger w-24">
                                 Delete
                             </button>
                         </div>
