@@ -16,10 +16,10 @@ class OrderController extends Controller
      * @return \Inertia\Response
      */
 
-    public function index(Request $request)
+    public function index(Request $request, $id)
     {
 
-        $user = User::whereRoleIs('restaurant_admin')->first();
+        $user = User::where('id', $id)->first();
 
         $customer = $request->get('customer', '');
         $status = $request->get('status', '');
@@ -73,7 +73,7 @@ class OrderController extends Controller
 
 
         // Return an inertia view with the orders
-        return Inertia::render('RestaurantAdmin/Orders/Index', [
+        return Inertia::render('MainAdmin/Orders/Index', [
             'orders' => $orders,
             'customer' => $customer,
             'status' => $status,

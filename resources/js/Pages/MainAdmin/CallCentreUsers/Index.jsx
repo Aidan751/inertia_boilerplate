@@ -161,6 +161,11 @@ export default function Index(props){
                                     {/* Actions */}
                                     <td className="table-report__action w-56">
                                         <div className="flex justify-center items-center">
+                                            {/* start: View Orders Link */}
+                                            <Link href={route("orders.index", user.id)} className="flex items-center mr-3">
+                                                View
+                                            </Link>
+                                            {/* end: View Orders Link */}
                                             {/* Edit Link */}
                                             <Link className="flex items-center mr-3" href={route("admin-callcentreuser.edit",{id:user.id})}>
                                                 <CheckSquare className="w-4 h-4 mr-1" />{" "}
@@ -179,6 +184,7 @@ export default function Index(props){
                                             </button>
                                         </div>
                                     </td>
+                                    {/* end: actions */}
                                 </tr>
                             ))}
                             </tbody>
