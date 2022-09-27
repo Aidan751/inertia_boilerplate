@@ -463,7 +463,7 @@ class AdminRestaurantsController extends Controller
     public function destroy(Restaurant $restaurant){
         $restaurant->delete();
 
-        return Redirect::route('admin-restaurants.index')->with('success', 'Restaurant deleted successfully.');
+        return redirect()->route('admin-restaurants.index')->with('success', 'Restaurant deleted successfully.');
     }
 
 }

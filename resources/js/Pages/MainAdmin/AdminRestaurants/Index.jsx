@@ -3,8 +3,8 @@ import {Head, Link, useForm} from "@inertiajs/inertia-react";
 import React, {useEffect, useState} from "react";
 import {Inertia} from "@inertiajs/inertia";
 import {Search, CheckSquare, ChevronRight, ChevronsRight, ChevronsLeft, XCircle, Trash2, ChevronLeft} from "lucide-react";
-import { Modal, ModalBody } from "@/base-components";
 import ValidationSuccess from "@/Components/ValidationSuccess";
+import { Modal, ModalHeader, ModalBody, ModalFooter } from "@/base-components";
 
 export default function Index(props) {
 
@@ -123,7 +123,7 @@ export default function Index(props) {
                                                         </Link>
 
                                                         {/* Delete Link */}
-                                                        <button href="#" data-id={restaurant.id} onClick={setDeleteConfirmationModal} className="flex items-center text-theme-6">
+                                                        <button href="#" data-id={restaurant.id} onClick={setDeleteConfirmationModal} className="flex items-center text-danger">
                                                             <Trash2 className="w-4 h-4 mr-1" />
                                                             Delete
                                                         </button>
@@ -210,8 +210,8 @@ export default function Index(props) {
                             <div className="text-gray-600 mt-2">Do you really want to delete these records? This process cannot be undone.</div>
                             </div>
                             <div className="px-5 pb-8 text-center">
-                            <button type="button" data-dismiss="modal" className="button w-24 border text-gray-700 mr-1" onClick={() => setShowingDeleteModal(false)}>Cancel</button>
-                            <button type="button" className="button w-24 bg-theme-6 text-white" onClick={deleteRestaurant}>Delete</button>
+                            <button type="button" data-dismiss="modal" onClick={() => setShowingDeleteModal(false)}  className="btn btn-outline-secondary w-24 mr-3">Cancel</button>
+                            <button type="button" onClick={deleteRestaurant} className="btn btn-danger w-24">Delete</button>
                             </div>
                         </ModalBody>
                         </Modal>

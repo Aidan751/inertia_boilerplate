@@ -1082,7 +1082,7 @@ select{
     --tw-border-opacity: 1;
     border-color: rgb(var(--color-danger) / var(--tw-border-opacity));
     --tw-bg-opacity: 1;
-    background-color: rgb(var(--color-danger) / var(--tw-bg-opacity));
+    background-color: rgb(var(--color-danger) / var(--tw-bg-opacity)) !important;
     --tw-text-opacity: 1;
     color: rgb(255 255 255 / var(--tw-text-opacity));
 }
@@ -18789,6 +18789,8 @@ body {
     padding: 0 !important;
 }
 
+
+
 /*
 ! tailwindcss v3.1.8 | MIT License | https://tailwindcss.com
 *//*
@@ -19637,9 +19639,6 @@ select {
 .mr-1 {
   margin-right: 0.25rem;
 }
-.mb-2 {
-  margin-bottom: 0.5rem;
-}
 .block {
   display: block;
 }
@@ -19916,6 +19915,9 @@ select {
 .p-5 {
   padding: 1.25rem;
 }
+.p-1 {
+  padding: 0.25rem;
+}
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -20027,6 +20029,10 @@ select {
   font-size: 1.875rem;
   line-height: 2.25rem;
 }
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
+}
 .font-medium {
   font-weight: 500;
 }
@@ -20088,10 +20094,6 @@ select {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-.text-indigo-600 {
-  --tw-text-opacity: 1;
-  color: rgb(79 70 229 / var(--tw-text-opacity));
 }
 .text-indigo-700 {
   --tw-text-opacity: 1;
@@ -20616,16 +20618,3 @@ select {
     grid-column: span 12 / span 12;
   }
 }
-
-
-/* aidans styles */
-#logo_img, #banner_img {
-  height: 150px;
-  width: auto;
-  border-radius: 10px;
-}
-
-.txt-orderit {
-    color: rgb(183, 38, 126); 
-}
-
