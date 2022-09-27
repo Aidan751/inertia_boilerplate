@@ -34,6 +34,7 @@ function Edit(props) {
         <Authenticated
             auth={props.auth}
             errors={props.errors}
+            activeGroup={3}
 
         >
 

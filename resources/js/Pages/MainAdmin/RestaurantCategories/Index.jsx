@@ -88,7 +88,8 @@ export default function Index(props){
             <Authenticated
                 auth={props.auth}
                 errors={props.errors}
-                activeGroup={1}
+                activeGroup={3}
+                activeItem={2}
             >
 
                 {/* Define Page Title */}
@@ -126,7 +127,7 @@ export default function Index(props){
                                 <div className="w-56 relative text-slate-500">
                                     <input
                                         type="text"
-                                        className="form-control w-56 box pr-10"
+                                        className="text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                         placeholder="Search..."
                                         value={data.search}
                                         onChange={e => setData('search', e.target.value)}

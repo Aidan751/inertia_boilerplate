@@ -1,7 +1,8 @@
 import Button from "@/components/Button";
 import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
-import { useForm } from '@inertiajs/inertia-react'
+import { useForm } from '@inertiajs/inertia-react';
+import Checkbox from "@/components/Checkbox";
 
 function Create(props) {
 
@@ -41,7 +42,8 @@ function Create(props) {
         <Authenticated
             auth={props.auth}
             errors={props.errors}
-
+            activeGroup={1}
+            activeItem={1}
         >
 
     <div className="col-span-12">
@@ -65,7 +67,7 @@ function Create(props) {
               <input
                 id="crud-form-1"
                 type="text"
-                className="form-control w-full"
+                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                 placeholder="First name..."
                 name="first_name"
                 required
@@ -74,14 +76,14 @@ function Create(props) {
               />
             </div>
             {/* Last Name Form Group */}
-            <div>
+            <div className="mt-3">
               <label htmlFor="crud-form-1" className="form-label">
                 Last Name
               </label>
               <input
                 id="crud-form-1"
                 type="text"
-                className="form-control w-full"
+                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                 placeholder="Last name..."
                 name="last_name"
                 required
@@ -97,7 +99,7 @@ function Create(props) {
                     id="crud-form-2"
                     type="email"
                     required
-                    className="form-control w-full"
+                    className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     placeholder="Email address..."
                     name="email"
                     value={data.email}
@@ -115,7 +117,7 @@ function Create(props) {
                     required
                     value={data.password}
                     onChange={onHandleChange}
-                    className="form-control w-full"
+                    className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline mb-3"
                     placeholder="Password..."
                 />
 
@@ -126,17 +128,16 @@ function Create(props) {
                     required
                     value={data.password_confirmation}
                     onChange={onHandleChange}
-                    className="form-control w-full mt-3"
+                    className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     placeholder="Repeat password..."
                 />
               </div>
             <div className="mt-3 pt-3">
-                <input type="checkbox"
-                  className="input border mr-2"
-                  id="input-1"
-                  name="email_password_to_user"
-                  value={data.email_password_to_user}
-                  onChange={onHandleChange} />
+                <Checkbox
+                    name="email_password_to_user"
+                    checked={data.email_password_to_user}
+                    onChange={onHandleChange}
+                />
                 <span className="text-black-600 ml-2">Email password to new admin user?</span>
             </div>
             <div className="text-right mt-5">

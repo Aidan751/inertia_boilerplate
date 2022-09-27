@@ -37,7 +37,8 @@ function Create(props) {
         <Authenticated
             auth={props.auth}
             errors={props.errors}
-
+            activeGroup={3}
+            activeItem={1}
         >
 
     <div className="col-span-12">
@@ -60,7 +61,7 @@ function Create(props) {
               <input
                 id="crud-form-1"
                 type="text"
-                className="form-control w-full"
+                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                 placeholder="Category..."
                 name="name"
                 required

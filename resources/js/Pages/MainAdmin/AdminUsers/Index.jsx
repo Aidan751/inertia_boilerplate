@@ -90,6 +90,7 @@ export default function Index(props){
                 auth={props.auth}
                 errors={props.errors}
                 activeGroup={1}
+                activeItem={2}
             >
 
                 {/* Define Page Title */}
@@ -127,7 +128,7 @@ export default function Index(props){
                                 <div className="w-56 relative text-slate-500">
                                     <input
                                         type="text"
-                                        className="form-control w-56 box pr-10"
+                                        className="text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                         placeholder="Search..."
                                         value={data.search}
                                         onChange={e => setData('search', e.target.value)}
@@ -172,7 +173,7 @@ export default function Index(props){
                                             <button
                                                 className="flex items-center text-danger"
                                                 type="button"
-                                                onClick={() => {
+                                                onClick={(e) => {
                                                     setDeleteConfirmationModal();
                                                 }}
                                                 id={user.id}
@@ -255,7 +256,7 @@ export default function Index(props){
                     {/* BEGIN: Delete Confirmation Modal */}
                     <Modal
                         show={showingDeleteModal}
-                        onHidden={() => {
+                        onHidden={(e) => {
                         setShowingDeleteModal(false);
                         }}
                     >
@@ -273,7 +274,7 @@ export default function Index(props){
                         <div className="px-5 pb-8 text-center">
                             <button
                             type="button"
-                            onClick={() => {
+                            onClick={(e) => {
                                 setShowingDeleteModal(false);
                             }}
                             className="btn btn-outline-secondary w-24 mr-1"
