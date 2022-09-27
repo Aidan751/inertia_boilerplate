@@ -19915,9 +19915,6 @@ select {
 .p-5 {
   padding: 1.25rem;
 }
-.p-1 {
-  padding: 0.25rem;
-}
 .px-4 {
   padding-left: 1rem;
   padding-right: 1rem;
@@ -20028,10 +20025,6 @@ select {
 .text-3xl {
   font-size: 1.875rem;
   line-height: 2.25rem;
-}
-.text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
 }
 .font-medium {
   font-weight: 500;

@@ -27,9 +27,8 @@ export default function Index(props) {
 
     const [restaurants, setRestaurants] = useState(props.restaurants.data);
 
-    const [showingDeleteModal, setShowingDeleteModal] = useState(false);
-
-    const [currentSelectedRestaurant, setCurrentSelectedRestaurant] = useState(null);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
 
     /**
      * Handle search form submission
@@ -41,12 +40,17 @@ export default function Index(props) {
     }
 
     const setDeleteConfirmationModal = (e) => {
-        setShowingDeleteModal(true);
-        setCurrentSelectedRestaurant(e.target.dataset.id);
+        setDeleteModal(true);
+        setDeleteId(e);
     }
 
-    const deleteRestaurant = (e) => {
-        Inertia.delete(route('admin-restaurants.destroy', currentSelectedRestaurant));
+    const deleteRecord = (e) => {
+
+        Inertia.delete(route('admin-restaurants.destroy',{id:deleteId}),{
+            preserveState: false,
+            onSuccess: () => {
+            }
+        });
     }
 
     const paginate = (e) => {
@@ -61,8 +65,8 @@ export default function Index(props) {
         <Authenticated
             auth={props.auth}
             errors={props.errors}
-            activeGroup={1}
-            activeItem={1}
+            activeGroup={4}
+            activeItem={2}
         >
 
             <Head title="Restaurants" />
@@ -123,7 +127,13 @@ export default function Index(props) {
                                                         </Link>
 
                                                         {/* Delete Link */}
-                                                        <button href="#" data-id={restaurant.id} onClick={setDeleteConfirmationModal} className="flex items-center text-danger">
+                                                        <button
+                                                            type="button"
+                                                            onClick={(e) => {
+                                                                setDeleteConfirmationModal(e.target.id);
+                                                            }}
+                                                            id={restaurant.id}
+                                                            className="flex items-center text-danger">
                                                             <Trash2 className="w-4 h-4 mr-1" />
                                                             Delete
                                                         </button>
@@ -196,7 +206,7 @@ export default function Index(props) {
                         </div>
                         {/* BEGIN: Delete Confirmation Modal */}
                         <Modal
-                            show={showingDeleteModal}
+                            show={deleteModal}
                             onHidden={() => {
                                 setDeleteConfirmationModal(false);
                             }}
@@ -210,8 +220,14 @@ export default function Index(props) {
                             <div className="text-gray-600 mt-2">Do you really want to delete these records? This process cannot be undone.</div>
                             </div>
                             <div className="px-5 pb-8 text-center">
-                            <button type="button" data-dismiss="modal" onClick={() => setShowingDeleteModal(false)}  className="btn btn-outline-secondary w-24 mr-3">Cancel</button>
-                            <button type="button" onClick={deleteRestaurant} className="btn btn-danger w-24">Delete</button>
+                            <button
+                            type="button"
+                            data-dismiss="modal"
+                            onClick={e => setDeleteModal(false)}
+                            className="btn btn-outline-secondary w-24 mr-3">
+                            Cancel
+                            </button>
+                            <button type="button" onClick={deleteRecord} className="btn btn-danger w-24">Delete</button>
                             </div>
                         </ModalBody>
                         </Modal>
