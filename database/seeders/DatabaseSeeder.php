@@ -7,6 +7,7 @@ use App\Models\Extra;
 use App\Models\Order;
 use App\Models\MenuItem;
 use App\Models\GroupDeal;
+use App\Models\OrderItem;
 use App\Models\Restaurant;
 use App\Models\MenuCategory;
 use Illuminate\Database\Seeder;
@@ -31,5 +32,6 @@ class DatabaseSeeder extends Seeder
         Extra::factory(50)->create();
         GroupDeal::factory(50)->create();
         Order::factory(300)->create();
+        OrderItem::factory(700)->create();
     }
 }

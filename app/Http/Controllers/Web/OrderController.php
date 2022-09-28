@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
+use App\Models\OrderItem;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -46,5 +47,25 @@ class OrderController extends Controller
               "search" => $request->search ?? null
           ]);
 
+    }
+
+    /**
+     * Handle the incoming request to get a single order.
+     * The method will return a single order in the database.
+     * The method will return an inertia view with the order.
+     * @param \Illuminate\Http\Request  $request
+     * @return \Inertia\Response
+     */
+
+    public function show(Request $request, Order $order)
+    {
+        $order_items = OrderItem::where('order_id', $order->id)->get();
+        $user = User::find($order->user_id);
+        // Return an inertia view with the order
+        return Inertia::render('MainAdmin/Orders/Show', [
+            'user' => $user,
+            'order' => $order,
+            'order_items' => $order_items
+        ]);
     }
 }

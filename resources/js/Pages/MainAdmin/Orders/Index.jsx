@@ -172,7 +172,7 @@ export default function Index(props){
                                     {/* Actions */}
                                     <td className="table-report__action w-56">
                                         {/* start: View Orders Link */}
-                                            <Link href={route("admin.orders.items.show", order.id)} className="flex items-center mr-3 justify-center">
+                                            <Link href={route("admin.orders.show", order.id)} className="flex items-center mr-3 justify-center">
                                                <Eye className="w-4 h-4 mr-1" />{" "}
                                                 View
                                             </Link>
