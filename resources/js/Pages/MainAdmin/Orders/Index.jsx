@@ -84,7 +84,7 @@ export default function Index(props){
             <Authenticated
                 auth={props.auth}
                 errors={props.errors}
-                activeGroup={1}
+                activeGroup={2}
             >
 
                 {/* Define Page Title */}
@@ -138,9 +138,9 @@ export default function Index(props){
                                 <th className="text-left whitespace-nowrap">CUSTOMER NAME</th>
                                 <th className="text-left whitespace-nowrap">DATE/TIME</th>
                                 <th className="text-left whitespace-nowrap">PRICE</th>
-                                <th className="text-left whitespace-nowrap">METHOD</th>
+                                <th className="text-center whitespace-nowrap">METHOD</th>
                                 <th className="text-left whitespace-nowrap">STATUS</th>
-                                <th className="text-left whitespace-nowrap">ORDER ID</th>
+                                <th className="text-center whitespace-nowrap">ORDER ID</th>
                                 <th className="text-center whitespace-nowrap">ACTIONS</th>
                             </tr>
                             </thead>
@@ -161,18 +161,18 @@ export default function Index(props){
                                     <td className="text-left">{order.price}</td>
 
                                     {/* Method */}
-                                    <td className="text-left">{order.order_method}</td>
+                                    <td className="text-center">{order.order_method}</td>
 
                                     {/* Status */}
                                     <td className="text-left">{order.status}</td>
 
                                     {/* Order ID */}
-                                    <td className="text-left">{order.id}</td>
+                                    <td className="text-center">{order.id}</td>
 
                                     {/* Actions */}
                                     <td className="table-report__action w-56">
                                         {/* start: View Orders Link */}
-                                            <Link href={route("admin.orders.items.show", order.id)} className="flex items-center mr-3">
+                                            <Link href={route("admin.orders.items.show", order.id)} className="flex items-center mr-3 justify-center">
                                                <Eye className="w-4 h-4 mr-1" />{" "}
                                                 View
                                             </Link>

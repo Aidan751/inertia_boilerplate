@@ -15,7 +15,6 @@ export default function TopBar({auth}) {
 
     // Get the current user
     const user = auth.user;
-    console.log(user);
     // Show the default image url
     const defaultImageUrl = user.image ?? "https://images.unsplash.com/photo-1511553677255-ba939e5537e0?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=628&q=80";
 
@@ -38,9 +37,9 @@ export default function TopBar({auth}) {
                 {/* END: Breadcrumb */}
                 
                 {/* BEGIN: Search */}
-                <div className="intro-x relative mr-3 sm:mr-6">
+                <div className="intro-x relative mr-4 sm:mr-6">
 
-                    <div className="search hidden sm:block">
+                    <div className="search topsearch hidden sm:block">
                         <input
                         type="text"
                         className="search__input form-control border-transparent"

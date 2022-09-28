@@ -112,10 +112,11 @@ export default function Index(props){
                     <div className="grid grid-cols-12 gap-6 mt-5">
                         <div className="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
 
-                            {/* Link to create page */}
-                            <Link href={route("admin-restaurantcategories.create")} className="btn btn-primary shadow-md mr-2">
-                                Add New
-                            </Link>
+                             {/* Link to create page */}
+                             <Link href={route("admin-restaurantcategories.create")} className="btn btn-primary shadow-md mr-2" style={{whiteSpace: "nowrap"}}>
+                                  Add New
+                             </Link>
+                           
 
                             {/* Pagination Information */}
                             <div className="hidden md:block mx-auto text-slate-500">
@@ -124,16 +125,19 @@ export default function Index(props){
 
                             {/* Search Form */}
                             <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={submitSearch}>
-                                <div className="w-56 relative text-slate-500">
-                                    <input
-                                        type="text"
-                                        className="text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                        placeholder="Search..."
-                                        value={data.search}
-                                        onChange={e => setData('search', e.target.value)}
-                                    />
-                                    <Search className="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" />
-                                </div>
+                                 <div className="w-56 text-slate-500 absolute right-0 top-0">
+                                     <div className="search">
+                                      <input
+                                       type="text"
+                                       className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                       placeholder="Search..."
+                                       value={data.search}
+                                       onChange={e => setData('search', e.target.value)}
+                                        />
+                                        <Search className="search__icon dark:text-slate-500" />
+                                      </div>
+                                 </div>
+                                
                             </form>
                         </div>
                         {/* BEGIN: Data List */}

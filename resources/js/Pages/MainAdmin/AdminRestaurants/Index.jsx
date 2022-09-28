@@ -91,10 +91,19 @@ export default function Index(props) {
 
                         {/* Search Form */}
                         <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
-                            <div className="w-56 relative text-slate-500">
-                                <input type="text" className="input w-56 box pr-10 placeholder-theme-13" placeholder="Search..." onChange={e => setData('search', e.target.value)} value={data.search} />
-                                <Search className="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" />
+                            <div className="w-56 text-slate-500 absolute right-0 top-0">
+                                <div className="search">
+                                 <input
+                                  type="text"
+                                  className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                  placeholder="Search..."
+                                  value={data.search}
+                                  onChange={e => setData('search', e.target.value)}
+                                   />
+                                   <Search className="search__icon dark:text-slate-500" />
+                                 </div>
                             </div>
+                           
                         </form>
                         </div>
                         {/* Begin: Data List*/}
