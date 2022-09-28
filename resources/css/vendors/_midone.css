@@ -10204,9 +10204,9 @@ html body{
 .dark .search .search__input{
     background-color: rgb(var(--color-darkmode-400) / 0.7);
 }
-.search .search__input:focus{
+/* .search .search__input:focus{
     width: 18rem;
-}
+} */
 .search .search__icon{
     position: absolute;
     top: 0px;

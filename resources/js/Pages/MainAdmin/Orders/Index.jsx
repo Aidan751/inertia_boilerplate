@@ -7,6 +7,7 @@ import { useState } from "react";
 import { Modal, ModalBody } from "@/base-components";
 import { Inertia } from "@inertiajs/inertia";
 import ValidationSuccess from "@/Components/ValidationSuccess";
+import Button from "@/Components/Button";
 
 
 export default function Index(props){
@@ -68,6 +69,15 @@ export default function Index(props){
         });
     }
 
+      // Show the state of the search dropdown menu
+      const [searchDropdown, setSearchDropdown] = useState(false);
+      const showSearchDropdown = () => {
+          setSearchDropdown(true);
+      };
+      const hideSearchDropdown = () => {
+          setSearchDropdown(false);
+      };
+
 
     return (
         <>
@@ -78,14 +88,14 @@ export default function Index(props){
             >
 
                 {/* Define Page Title */}
-                <Head title="" />
+                <Head title="View Orders" />
 
 
                 {/* Page Content */}
                 <main className="col-span-12">
 
                     {/* Page Header */}
-                    <h2 className="intro-y text-lg font-medium mt-10"></h2>
+                    <h2 className="intro-y text-lg font-medium mt-10">View Orders</h2>
 
                     {/* Show Success Validation Component */}
                     {
@@ -97,27 +107,26 @@ export default function Index(props){
                     <div className="grid grid-cols-12 gap-6 mt-5">
                         <div className="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
 
-                            {/* Link to create page */}
-                            <Link href={route("order.create")} className="btn btn-primary shadow-md mr-2">
-                                Add New 
-                            </Link>
-
                             {/* Pagination Information */}
                             <div className="hidden md:block mx-auto text-slate-500">
                                 Showing {from} to {to} of {total} entries
                             </div>
 
                             {/* Search Form */}
-                            <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={submitSearch}>
+                            <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
                                 <div className="w-56 relative text-slate-500">
-                                    <input
+
+                                    <div className="search">
+                                        <input
                                         type="text"
-                                        className="form-control w-56 box pr-10"
+                                        className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                         placeholder="Search..."
                                         value={data.search}
                                         onChange={e => setData('search', e.target.value)}
-                                    />
-                                    <Search className="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" />
+                                        />
+                                        <Search className="search__icon dark:text-slate-500" />
+                                    </div>
+
                                 </div>
                             </form>
                         </div>
@@ -148,7 +157,7 @@ export default function Index(props){
                                     <td className="table-report__action w-56">
                                         <div className="flex justify-center items-center">
                                             {/* Edit Link */}
-                                            <Link className="flex items-center mr-3" href={route("order.edit",{id:order.id})}>
+                                            <Link className="flex items-center mr-3" href={route("orders.edit",{id:order.id})}>
                                                 <CheckSquare className="w-4 h-4 mr-1" />{" "}
                                                 Edit
                                             </Link>
