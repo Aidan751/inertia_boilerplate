@@ -29,9 +29,9 @@ export default function Index(props){
 
     const [categories, setCategories] = useState(props.categories.data);
 
-    const [showingDeleteModal, setShowingDeleteModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
 
-    const [currentSelectedCategory, setCurrentSelectedCategory ] = useState(null);
 
     /**
      * Handle search form submission
@@ -48,29 +48,23 @@ export default function Index(props){
         })
     }
 
+   
     const setDeleteConfirmationModal = (e) => {
         // Prevent Default Behaviour
         e.preventDefault();
-
         // Set the current selected role to the role id
-        setCurrentSelectedCategory(e.target.id);
-
+        setDeleteId(e.target.id);
         // Show the delete confirmation modal
-        setShowingDeleteModal(true);
+        setDeleteModal(true);
     }
 
-    // TODO: unable to delete user, thought it had something to do with the user being added to endpoint as opposed to id, but it still doesn't work
-    const deleteCategory   = (e) => {
-        // Prevent Default Behaviour
-        e.preventDefault();
+    const deleteRecord = (e) => {
 
-        // Delete the role
-        Inertia.delete(route('admin-restaurantcategories.destroy', currentSelectedCategory  ), {
+        Inertia.delete(route('admin-restaurantcategories.destroy',{id:deleteId}),{
             preserveState: false,
             onSuccess: () => {
-                // Do something...
-            },
-        })
+            }
+        });
     }
 
 
@@ -172,9 +166,7 @@ export default function Index(props){
                                             <button
                                                 className="flex items-center text-danger"
                                                 type="button"
-                                                onClick={() => {
-                                                    setDeleteConfirmationModal();
-                                                }}
+                                                onClick={setDeleteConfirmationModal}
                                                 id={category.id}
                                             >
                                                 <Trash2 id={category.id} className="w-4 h-4 mr-1" /> Delete
@@ -254,10 +246,11 @@ export default function Index(props){
                     </div>
                     {/* BEGIN: Delete Confirmation Modal */}
                     <Modal
-                        show={showingDeleteModal}
+                        show={deleteModal}
                         onHidden={() => {
-                        setShowingDeleteModal(false);
+                            setDeleteConfirmationModal(false);
                         }}
+                        title="Delete Confirmation"
                     >
                         <ModalBody className="p-0">
                         <div className="p-5 text-center">
@@ -271,16 +264,14 @@ export default function Index(props){
                             </div>
                         </div>
                         <div className="px-5 pb-8 text-center">
-                            <button
+                        <button
                             type="button"
-                            onClick={() => {
-                                setShowingDeleteModal(false);
-                            }}
-                            className="btn btn-outline-secondary w-24 mr-1"
-                            >
-                                Cancel
-                            </button>
-                            <button onClick={deleteCategory} type="button" className="btn btn-danger w-24">
+                            data-dismiss="modal"
+                            onClick={e => setDeleteModal(false)}
+                            className="btn btn-outline-secondary w-24 mr-3">
+                            Cancel
+                        </button>
+                            <button onClick={deleteRecord} type="button" className="btn btn-danger w-24">
                                 Delete
                             </button>
                         </div>

@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
         // Call the laratrust seeder to initialize roles and permissions
         $this->call(LaratrustSeeder::class);
         User::factory(100)->create();
-        RestaurantCategory::factory(10)->create();
+        RestaurantCategory::factory(150)->create();
         Restaurant::factory(10)->create();
         MenuCategory::factory(10)->create();
         MenuItem::factory(50)->create();
