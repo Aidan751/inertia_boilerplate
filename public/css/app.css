@@ -324,11 +324,11 @@ Ensure the default browser behavior of the `hidden` attribute.
     -webkit-appearance: none;
        -moz-appearance: none;
             appearance: none;
-            background: white;
+            background: rgba(0, 0, 0, 0.025) !important;
             box-shadow:  20px 20px 38px #dcdcdc,
                          -20px -15px 38px #5c4b4b;
     border-color:transparent !important;
-    border-width: 1px;
+    border-width: 0.5px;
     border-radius: 35px;
     padding-top: 0.5rem;
     padding-right: 0.75rem;
@@ -19627,8 +19627,8 @@ select {
 .mr-auto {
   margin-right: auto;
 }
-.mr-3 {
-  margin-right: 0.75rem;
+.mr-4 {
+  margin-right: 1rem;
 }
 .mb-5 {
   margin-bottom: 1.25rem;
@@ -19644,9 +19644,6 @@ select {
 }
 .mt-1 {
   margin-top: 0.25rem;
-}
-.mr-4 {
-  margin-right: 1rem;
 }
 .block {
   display: block;

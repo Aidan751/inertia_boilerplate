@@ -10,6 +10,7 @@ use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Web\AdminUserController;
 use App\Http\Controllers\Web\OrderItemController;
 use App\Http\Controllers\Web\AdminRestaurantsController;
+use App\Http\Controllers\Web\AdminApplicationsController;
 use App\Http\Controllers\Web\AdminCallCentreUserController;
 use App\Http\Controllers\Web\AdminRestaurantCategoriesController;
 
@@ -34,7 +35,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // route to restaurant admin dashboard
     Route::get('/restaurant-admin', [RestaurantAdminController::class, 'index'])->name('restaurantAdmin.dashboard');
     // route to call center admin dashboard
-    Route::get('/call-center-admin', [CallCentreAdminController::class, 'index'])->name('CallCentreAdmin.dashboard');
+    Route::get('/call-center-admin', [CallCentreAdminController::class, 'index'])->name('callCentreAdmin.dashboard');
 
 
     // get all roles for users
@@ -321,6 +322,15 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // get all applications
     Route::get('/admin-applications', [AdminApplicationsController::class, 'index'])->name('admin-applications.index');
+
+    // get one application
+    Route::get('/admin-applications/{application}', [AdminApplicationsController::class, 'show'])->name('admin-applications.show');
+
+    // approve an application
+    Route::put('/admin-applications/{application}/approve', [AdminApplicationsController::class, 'approve'])->name('admin-applications.approve');
+
+    // reject an application
+    Route::put('/admin-applications/{application}/reject', [AdminApplicationsController::class, 'reject'])->name('admin-applications.reject');
 
     // create a driver
     Route::get('/admin-driver/create', [AdminDriverController::class, 'create'])->name('admin-driver.create');

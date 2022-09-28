@@ -15,7 +15,7 @@ class RestaurantFactory extends Factory
     {
         return [
             'restaurant_category_id' => $this->faker->numberBetween(1, 10),
-            'application_status' => 'approved',
+            'application_status' => $this->faker->randomElement(['pending', 'approved', 'declined', 'suspended']),
             'name' => $this->faker->company,
             'address_line_1' => $this->faker->streetAddress,
             'address_line_2' => $this->faker->secondaryAddress,

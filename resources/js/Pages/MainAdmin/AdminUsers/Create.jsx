@@ -3,6 +3,7 @@ import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from '@inertiajs/inertia-react';
 import Checkbox from "@/components/Checkbox";
+import Input from "@/components/Input";
 
 function Create(props) {
 
@@ -63,16 +64,15 @@ function Create(props) {
               <label htmlFor="crud-form-1" className="form-label">
                 First Name
               </label>
-              <input
-                id="crud-form-1"
-                type="text"
-                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                placeholder="First name..."
-                name="first_name"
-                required
-                value={data.first_name}
-                onChange={onHandleChange}
-              />
+                <input
+                    className="mt-1 block w-full"
+                    type="text"
+                    name="first_name"
+                    value={data.first_name}
+                    placeholder="First Name"
+                    onChange={onHandleChange}
+                    error={errors.first_name}
+                />
                {errors.first_name && (
                     <p className="text-xs italic text-red-500">
                         {errors.first_name}

@@ -329,11 +329,11 @@ Ensure the default browser behavior of the `hidden` attribute.
        -moz-appearance: none;
             appearance: none;
             border-radius: 50px;
-            background: white;
+            background: rgba(0, 0, 0, 0.025) !important;
             box-shadow:  20px 20px 38px #dcdcdc,
                          -20px -15px 38px #5c4b4b;
     border-color:transparent !important;
-    border-width: 1px;
+    border-width: 0.5px;
     border-radius: 35px;
     padding-top: 0.5rem;
     padding-right: 0.75rem;
