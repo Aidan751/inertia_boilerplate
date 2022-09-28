@@ -11,7 +11,7 @@ use App\Http\Controllers\Controller;
 class AdminApplicationsController extends Controller
 {
     // list all the restaurants that have applied for the admin to approve
-    public function index()
+    public function index(Request $request)
     {
         $search = $request->search ?? null;
 
@@ -32,6 +32,14 @@ class AdminApplicationsController extends Controller
             'restaurants' => $restaurants,
             "perPage" => $request->perPage ?? 10,
             "search" => $request->search ?? null
+        ]);
+    }
+
+    // show the restaurant application
+    public function show(Restaurant $restaurant)
+    {
+        return Inertia::render('MainAdmin/RestaurantAdminApplicants/Show', [
+            'restaurant' => $restaurant
         ]);
     }
 }

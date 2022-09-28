@@ -2,10 +2,9 @@ import Authenticated from "@/Layouts/Authenticated";
 import {Head, Link, useForm} from "@inertiajs/inertia-react";
 import React, {useEffect, useState} from "react";
 import {Inertia} from "@inertiajs/inertia";
-import {Search, CheckSquare, ChevronRight, ChevronsRight, ChevronsLeft, XCircle, Trash2, ChevronLeft} from "lucide-react";
+import {Search, CheckSquare, ChevronRight, ChevronsRight, ChevronsLeft, XCircle, Trash2, ChevronLeft, Eye} from "lucide-react";
 import ValidationSuccess from "@/Components/ValidationSuccess";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "@/base-components";
-import { Eye } from "lucide";
 
 export default function Index(props) {
 
@@ -32,9 +31,15 @@ export default function Index(props) {
      * Handle search form submission
      * @param {Event} e
     */
-       function handleSearch(e) {
+       function handleSubmit(e) {
         e.preventDefault();
-        Inertia.get(route('admin-applications.index'), data);
+
+        get(route('admin-applications.index'), {
+            preserveState: false,
+            onSuccess: () => {
+                // Do something...
+            },
+        })
     }
 
 
@@ -73,15 +78,16 @@ export default function Index(props) {
                         <div className="hidden md:block mx-auto text-gray-600">Showing {form} to {to} of {total} entries</div>
 
                         {/* Search Form */}
-                        <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
-                            <div className="w-56 text-slate-500 absolute right-0 top-0">
+                        <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSubmit}>
+                            <div className="w-56 text-slate-500 absolute left-0 top-0" style={{width: "20vw"}}>
                                 <div className="search">
                                  <input
                                   type="text"
-                                  className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                  className="search__input text-sm text-gray-700 border shadow appearance-none focus:outline-none focus:shadow-outline"
                                   placeholder="Search business by name"
                                   value={data.search}
                                   onChange={e => setData('search', e.target.value)}
+                                  style={{width: "20vw", height: "2.7rem"}}
                                    />
                                    <Search className="search__icon dark:text-slate-500" />
                                  </div>
@@ -90,12 +96,12 @@ export default function Index(props) {
                         </form>
                         </div>
                         {/* Begin: Data List*/}
-                        <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
-                            <table className="table table-report -mt-2">
+                        <div className="intro-y col-span-12 overflow-auto lg:overflow-visible mt-4">
+                            <table className="table table-report">
                                 <thead>
                                     <tr>
                                         <th className="whitespace-no-wrap">BUSINESS NAME</th>
-                                        <th className="whitespace-no-wrap">ACTIONS</th>
+                                        <th className="whitespace-no-wrap text-center">ACTIONS</th>
                                     </tr>
                                 </thead>
 
@@ -175,48 +181,13 @@ export default function Index(props) {
                                 </ul>
                             </nav>
                             <select className="w-20 input box mt-3 sm:mt-0" onChange={paginate} value={data.perPage}>
-                                <option value="10">10</option>
-                                <option value="20">20</option>
-                                <option value="30">30</option>
-                                <option value="50">50</option>
-                                <option value="100">100</option>
+                            <option value={10}>10</option>
+                            <option value={25}>25</option>
+                            <option value={35}>35</option>
+                            <option value={50}>50</option>
                             </select>
                             {/* END: Pagination */}
                         </div>
-                        {/* BEGIN: Delete Confirmation Modal */}
-                        <Modal
-                        show={deleteModal}
-                        onHidden={() => {
-                            setDeleteConfirmationModal(false);
-                        }}
-                        title="Delete Confirmation"
-                    >
-                        <ModalBody className="p-0">
-                        <div className="p-5 text-center">
-                            <XCircle
-                            className="w-16 h-16 text-danger mx-auto mt-3"
-                            />
-                            <div className="text-3xl mt-5">Are you sure?</div>
-                            <div className="text-slate-500 mt-2">
-                            Do you really want to delete these records? <br />
-                            This process cannot be undone.
-                            </div>
-                        </div>
-                        <div className="px-5 pb-8 text-center">
-                        <button
-                            type="button"
-                            data-dismiss="modal"
-                            onClick={e => setDeleteModal(false)}
-                            className="btn btn-outline-secondary w-24 mr-3">
-                            Cancel
-                        </button>
-                            <button onClick={deleteRecord} type="button" className="btn btn-danger w-24">
-                                Delete
-                            </button>
-                        </div>
-                        </ModalBody>
-                    </Modal>
-                        {/* END: Delete Confirmation Modal */}
                     </div>
             </main>
     </Authenticated>

@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         $this->call(LaratrustSeeder::class);
         User::factory(100)->create();
         RestaurantCategory::factory(150)->create();
-        Restaurant::factory(10)->create();
+        Restaurant::factory(100)->create();
         MenuCategory::factory(10)->create();
         MenuItem::factory(50)->create();
         Extra::factory(50)->create();
