@@ -13,7 +13,7 @@ class OrderFactory extends Factory
      */
     public function definition()
     {
-      
+
         return [
             'order_reference' => $this->faker->unique()->randomNumber(8),
             'restaurant_id' => $this->faker->numberBetween(1, 10),
@@ -42,7 +42,7 @@ class OrderFactory extends Factory
             'payment_intent_id' => $this->faker->uuid,
             'customer_name' => $this->faker->name,
             'customer_contact_number' => $this->faker->phoneNumber,
-            'user_id' => $this->faker->numberBetween(1, 10),
+            'user_id' => $this->faker->numberBetween(1, 100),
         ];
     }
 }

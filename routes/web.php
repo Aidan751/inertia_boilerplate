@@ -280,7 +280,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/restaurant/offers/delete/{offer}', [OfferController::class, 'destroy'])->name('offers.destroy');
 
     // list orders
-    Route::get('/restaurant/orders/{user}', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/restaurant/orders/', [OrderController::class, 'index'])->name('orders.index');
 
     // show an order
     Route::get('/restaurant/orders/show/{order}', [OrderController::class, 'show'])->name('orders.show');
