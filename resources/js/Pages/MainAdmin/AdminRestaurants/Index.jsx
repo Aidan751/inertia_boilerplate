@@ -40,8 +40,12 @@ export default function Index(props) {
     }
 
     const setDeleteConfirmationModal = (e) => {
+        // Prevent Default Behaviour
+        e.preventDefault();
+        // Set the current selected role to the role id
+        setDeleteId(e.target.id);
+        // Show the delete confirmation modal
         setDeleteModal(true);
-        setDeleteId(e);
     }
 
     const deleteRecord = (e) => {
@@ -137,10 +141,8 @@ export default function Index(props) {
 
                                                         {/* Delete Link */}
                                                         <button
-                                                            type="button"
-                                                            onClick={(e) => {
-                                                                setDeleteConfirmationModal(e.target.id);
-                                                            }}
+                                                             type="button"
+                                                            onClick={setDeleteConfirmationModal}
                                                             id={restaurant.id}
                                                             className="flex items-center text-danger">
                                                             <Trash2 className="w-4 h-4 mr-1" />
@@ -215,31 +217,37 @@ export default function Index(props) {
                         </div>
                         {/* BEGIN: Delete Confirmation Modal */}
                         <Modal
-                            show={deleteModal}
-                            onHidden={() => {
-                                setDeleteConfirmationModal(false);
-                            }}
-                            title="Delete Confirmation"
-                        >
-
+                        show={deleteModal}
+                        onHidden={() => {
+                            setDeleteConfirmationModal(false);
+                        }}
+                        title="Delete Confirmation"
+                    >
                         <ModalBody className="p-0">
-                            <div className="p-5 text-center">
-                            <XCircle className="w-16 h-16 text-theme-6 mx-auto mt-3" />
+                        <div className="p-5 text-center">
+                            <XCircle
+                            className="w-16 h-16 text-danger mx-auto mt-3"
+                            />
                             <div className="text-3xl mt-5">Are you sure?</div>
-                            <div className="text-gray-600 mt-2">Do you really want to delete these records? This process cannot be undone.</div>
+                            <div className="text-slate-500 mt-2">
+                            Do you really want to delete these records? <br />
+                            This process cannot be undone.
                             </div>
-                            <div className="px-5 pb-8 text-center">
-                            <button
+                        </div>
+                        <div className="px-5 pb-8 text-center">
+                        <button
                             type="button"
                             data-dismiss="modal"
                             onClick={e => setDeleteModal(false)}
                             className="btn btn-outline-secondary w-24 mr-3">
                             Cancel
+                        </button>
+                            <button onClick={deleteRecord} type="button" className="btn btn-danger w-24">
+                                Delete
                             </button>
-                            <button type="button" onClick={deleteRecord} className="btn btn-danger w-24">Delete</button>
-                            </div>
+                        </div>
                         </ModalBody>
-                        </Modal>
+                    </Modal>
                         {/* END: Delete Confirmation Modal */}
                     </div>
             </main>

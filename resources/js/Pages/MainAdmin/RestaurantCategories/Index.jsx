@@ -72,6 +72,7 @@ export default function Index(props){
         e.preventDefault();
 
         Inertia.get(route("admin-restaurantcategories.index"), {
+            preserveScroll: true,
             perPage: e.target.value,
             search: props.search
         },);
