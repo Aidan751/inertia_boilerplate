@@ -8,6 +8,7 @@ import Checkbox from "@/components/Checkbox";
 export default function Show( props ) {
     console.log( props.restaurant );
     const [option, selectedOption] = useState(null);
+    const [approvalStatus, setApproved] = useState(props.restaurant.approval_status);
     const { data, setData, put, processing, errors, reset } = useForm({
         name: props.restaurant.name || '',
         address_line_1: props.restaurant.address_line_1 || '',
@@ -32,21 +33,24 @@ export default function Show( props ) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        put(route('admin-applications.approve', props.restaurant.id), {
+        if ( approvalStatus === 'approved' ) {
+            put(route('admin-applications.approve', props.restaurant.id), {
+                preserveScroll: true,
+                onSuccess: () => {
+                },
+            });
+        } 
+        
+        if ( approvalStatus === 'rejected' ) {
+        put(route('admin-applications.decline', props.restaurant.id), {
             preserveScroll: true,
             onSuccess: () => {
             }
         });
+    }
     }
 
-    const handleDecline = (e) => {
-        e.preventDefault();
-        delete(route('admin-applications.decline', props.restaurant.id), {
-            preserveScroll: true,
-            onSuccess: () => {
-            }
-        });
-    }
+
 
     return (
         <>
@@ -352,14 +356,23 @@ export default function Show( props ) {
                     {/* End: Business Bio */}
 
 
+                    <div className="flex items-center justify-start">
 
                     {/* Start: Submit Button */}
                         <div className="mb-6">
                         <Button type="submit" className="w-30">
-                           Update
+                           Approve
                         </Button>
                         </div>
                     {/* End: Submit Button */}
+                    {/* Start: Decline Button */}
+                        <div className="mb-6">
+                        <Button className="btn btn-danger w-24 ml-3">
+                            Decline
+                        </Button>
+                        </div>
+                    {/* End: Decline Button */}
+                        </div>
                         </div>
                     </form>
                 </div>

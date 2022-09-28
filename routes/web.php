@@ -324,13 +324,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin-applications', [AdminApplicationsController::class, 'index'])->name('admin-applications.index');
 
     // get one application
-    Route::get('/admin-applications/{application}', [AdminApplicationsController::class, 'show'])->name('admin-applications.show');
+    Route::get('/admin-applications/{restaurant}', [AdminApplicationsController::class, 'show'])->name('admin-applications.show');
 
     // approve an application
-    Route::put('/admin-applications/{application}/approve', [AdminApplicationsController::class, 'approve'])->name('admin-applications.approve');
+    Route::put('/admin-applications/{restaurant}/approve', [AdminApplicationsController::class, 'approve'])->name('admin-applications.approve');
 
     // reject an application
-    Route::put('/admin-applications/{application}/reject', [AdminApplicationsController::class, 'reject'])->name('admin-applications.reject');
+    Route::put('/admin-applications/{restaurant}/decline', [AdminApplicationsController::class, 'decline'])->name('admin-applications.decline');
 
     // create a driver
     Route::get('/admin-driver/create', [AdminDriverController::class, 'create'])->name('admin-driver.create');
