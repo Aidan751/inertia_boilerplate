@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\Web\HomeController;
+use App\Http\Controllers\OrderItemController;
 use App\Http\Controllers\Web\OrderController;
 use App\Http\Controllers\Web\RolesController;
 use App\Http\Controllers\Auth\LoginController;
@@ -280,10 +281,26 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/restaurant/offers/delete/{offer}', [OfferController::class, 'destroy'])->name('offers.destroy');
 
     // list orders
-    Route::get('/restaurant/orders/', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/restaurant/orders/{user}', [OrderController::class, 'index'])->name('admin.orders.index');
 
     // show an order
-    Route::get('/restaurant/orders/show/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/restaurant/orders/show/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
+
+    // list order items
+    Route::get('/restaurant/orders/items/{order}', [OrderItemController::class, 'index'])->name('admin.orders.items.index');
+
+    // show an order item
+    Route::get('/restaurant/orders/items/show/{orderItem}', [OrderItemController::class, 'show'])->name('admin.orders.items.show');
+
+    // list order items
+    Route::get('/restaurant/orders/items/{order}/edit', [OrderItemController::class, 'edit'])->name('admin.orders.items.edit');
+
+    // list order items
+    Route::put('/restaurant/orders/items/{order}/update', [OrderItemController::class, 'update'])->name('admin.orders.items.update');
+
+    // delete order items
+    Route::delete('/restaurant/orders/items/{order}/delete', [OrderItemController::class, 'destroy'])->name('admin.orders.items.destroy');
+
 
     // create an order
     Route::get('/restaurant/orders/create', [OrderController::class, 'create'])->name('orders.create');

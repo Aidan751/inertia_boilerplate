@@ -159,7 +159,7 @@ export default function Index(props){
                                     <td className="table-report__action w-56">
                                         <div className="flex justify-center items-center">
                                             {/* start: View Orders Link */}
-                                            <Link href={route("orders.show", user.id)} className="flex items-center mr-3">
+                                            <Link href={route("admin.orders.index", user.id)} className="flex items-center mr-3">
                                                <Eye className="w-4 h-4 mr-1" />{" "}
                                                 View
                                             </Link>

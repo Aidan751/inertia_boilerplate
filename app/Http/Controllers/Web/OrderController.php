@@ -19,9 +19,8 @@ class OrderController extends Controller
      * @return \Inertia\Response
      */
 
-    public function show(Request $request, $id)
+    public function index(Request $request, User $user)
     {
-          $user = User::find($id);
           // Get all users, paginate through them using the "perPage" parameter. Search through the users, if the "search" parameter is present.
           $search = $request->search ?? null;
 
@@ -40,7 +39,8 @@ class OrderController extends Controller
 
 
           // Return an inertia view with the users
-          return Inertia::render('MainAdmin/Orders/Show', [
+          return Inertia::render('MainAdmin/Orders/Index', [
+              'user' => $user,
               'orders' => $orders,
               "perPage" => $request->perPage ?? 10,
               "search" => $request->search ?? null
