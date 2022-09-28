@@ -31,9 +31,8 @@ export default function Show( props ) {
     });
 
 
-    const handleSubmit = (e) => {
+    const handleApproval = (e) => {
         e.preventDefault();
-        if ( approvalStatus === 'approved' ) {
             put(route('admin-applications.approve', props.restaurant.id), {
                 preserveScroll: true,
                 onSuccess: () => {
@@ -41,13 +40,14 @@ export default function Show( props ) {
             });
         } 
         
-        if ( approvalStatus === 'rejected' ) {
+    const handleDecline = (e) => {
+        e.preventDefault();
         put(route('admin-applications.decline', props.restaurant.id), {
             preserveScroll: true,
             onSuccess: () => {
             }
         });
-    }
+
     }
 
 
@@ -67,7 +67,6 @@ export default function Show( props ) {
             </div>
 
             <div className="bg-white rounded shadow overflow-hidden max-w-3xl">
-                <form onSubmit={handleSubmit} encType="multipart/form-data">
                     <div className="px-10">
                     {/* Start: Interal Only Section */}
                         <div className="mb-3 mt-8">
@@ -360,21 +359,24 @@ export default function Show( props ) {
 
                     {/* Start: Submit Button */}
                         <div className="mb-6">
+                        <form onSubmit={handleApproval}>
                         <Button type="submit" className="w-30">
                            Approve
                         </Button>
+                        </form> 
                         </div>
                     {/* End: Submit Button */}
                     {/* Start: Decline Button */}
                         <div className="mb-6">
-                        <Button className="btn btn-danger w-24 ml-3">
+                        <form onSubmit={handleDecline}>
+                        <Button type="submit" className="btn btn-danger w-24 ml-3">
                             Decline
                         </Button>
+                        </form>
                         </div>
                     {/* End: Decline Button */}
                         </div>
                         </div>
-                    </form>
                 </div>
             </div>
         </Authenticated>
