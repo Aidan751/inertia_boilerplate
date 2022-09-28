@@ -328,10 +328,13 @@ Ensure the default browser behavior of the `hidden` attribute.
     -webkit-appearance: none;
        -moz-appearance: none;
             appearance: none;
-    background-color: #fff;
-    border-color: #6b7280;
+            border-radius: 50px;
+            background: white;
+            box-shadow:  20px 20px 38px #dcdcdc,
+                         -20px -15px 38px #5c4b4b;
+    border-color:transparent !important;
     border-width: 1px;
-    border-radius: 0px;
+    border-radius: 35px;
     padding-top: 0.5rem;
     padding-right: 0.75rem;
     padding-bottom: 0.5rem;
@@ -16080,7 +16083,7 @@ html body{
     color: rgb(var(--color-slate-400) / var(--tw-text-opacity));
 }
 @media (max-width: calc(1024px - 1px)) {
-    & :root {
+    :root {
         --litepicker-day-width: 35px;
     }
   }
