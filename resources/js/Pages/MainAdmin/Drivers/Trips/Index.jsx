@@ -33,16 +33,14 @@ console.log(props.orders);
     const [deleteModal, setDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
 
-    // console.log(props);
-    /**
-     * Handle search form submission
-     * @param {Event} e
-     */
-    const submitTo = (e) => {
-        e.preventDefault();
-        get(route('admin.drivers.trips.index'), {
-            to: e.target.value
-        });
+    // handle from change
+    const handleFromChange = (e) => {
+        setData('from', e.target.value)
+    }
+
+    // handle to change
+    const handleToChange = (e) => {
+        setData('to', e.target.value)
     }
 
     /**
@@ -51,10 +49,11 @@ console.log(props.orders);
      * @returns
      * @memberof Index
      *  */
-    const submitFrom = (e) => {
+    const submitForm = (e) => {
         e.preventDefault();
         get(route('admin.driver.trips.index'), {
-            from: e.target.value
+            from: e.target.value,
+            to: e.target.value,
         });
     }
 
@@ -93,41 +92,38 @@ console.log(props.orders);
                     }
 
                     <div className="grid grid-cols-12 gap-6 mt-5">
-                        <div className="intro-y col-span-12 flex items-center justify-between mt-2">
+                            <form onSubmit={submitForm} className="intro-y col-span-12 flex items-center justify-between mt-2">
                             {/* Start: filter by date */}
                                 <div className="flex-2">
-                                    <form onSubmit={submitFrom}>
                                         <input
                                             type="date"
-                                            placeholder="From"
+                                            placeholder="DD/MM/YYYY"
                                             className="px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                             name="from"
-                                            onChange={submitFrom}
-                                            style={{width: "40vw", height: "2.5rem"}}
+                                            onChange={handleFromChange}
+                                            style={{width: "38vw", height: "2.5rem"}}
                                         />
-                                    </form>
                                 </div>
-                                <div className="flex-3">
+                                <div className="mx-5">
                                     to
                                 </div>
                                 <div className="flex-2">
-                                    <form onSubmit={submitTo}>
                                         <input
                                             type="date"
-                                            placeholder="To"
+                                            placeholder="DD/MM/YYYY"
                                             className="px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                             name="to"
-                                            onChange={submitTo}
-                                            style={{width: "40vw", height: "2.5rem"}}
+                                            onChange={handleToChange}
+                                            style={{width: "38vw", height: "2.5rem"}}
                                         />
-                                    </form>
                             </div>
+                        </form>
                             {/* End: filter by date */}
                             {/* Pagination Information */}
                             <div className="hidden md:block mx-auto text-slate-500">
                                 Showing {from} to {to} of {total} entries
                             </div>
-                        </div>
+
                         {/* BEGIN: Data List */}
                         <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
                         <table className="table table-report -mt-2">
