@@ -4,6 +4,8 @@ import { Link } from "@inertiajs/inertia-react";
 import { BookOpen, Clock, ListChecks, Network, PhoneIncoming, PoundSterling, Table, Timer } from "lucide";
 import { Car, Coins, DollarSign, Home, List, ListOrdered, PhoneCall, Server, ShieldAlert, UserCheck, UserPlus, Users} from "lucide-react";
 export default function SideBar(props){
+    // Get the current user
+    const user = props.auth.user;
 
     // Links for Site Admin to access course categories
     const linkArray = [
@@ -114,7 +116,7 @@ export default function SideBar(props){
         <>
         {/* Main Admin SideBar */}
             <nav className="side-nav">
-                <Link href="/" className="intro-x flex items-center pl-5 pt-4">
+                <Link href={user.role_id === 1 ? "/" : user.role_id === 2 ? "/restaurant-admin" : "/call-center-admin"} className="intro-x flex items-center pl-5 pt-4">
                     <img alt="" className="w-6" src="/img/icons/logo.png" />
                     <span className="hidden xl:block text-white text-lg ml-3"> ORDER IT </span>
                 </Link>

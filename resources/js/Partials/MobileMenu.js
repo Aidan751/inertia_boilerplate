@@ -9,18 +9,19 @@ import { Fragment } from "react";
 
 
 export default function MobileMenu(props){
-
+    // Get the current user
+    const user = props.auth.user;
     return (
         <>
         <Menu as={"div"} className="mobile-menu md:hidden">
             <div className="mobile-menu-bar">
                 {/* Mobile Menu Logo */}
-                
-                <Link href="/dashboard" className="flex mr-auto">
-                    
+
+                <Link href={user.role_id === 1 ? "/" : user.role_id === 2 ? "/restaurant-admin" : "/call-center-admin"} className="flex mr-auto">
+
                     {/* TODO Import App logo */}
-                    <img alt="Order it" className="w-6" src="/images/logo.svg" />
-                
+                    <img alt="Order it" className="w-6 orderit-mobile-img" src="/img/icons/logo.png" />
+
                 </Link>
 
                 {/* Mobile Menu Toggler */}
@@ -48,10 +49,10 @@ export default function MobileMenu(props){
                         </MobileDropdownLink>
 
                     </Menu.Item>
-                    
+
                 </Menu.Items>
             </Transition>
-            
+
         </Menu>
 
         </>
