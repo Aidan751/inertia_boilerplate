@@ -7,6 +7,7 @@ import { Modal, ModalBody } from "@/base-components";
 import { Inertia } from "@inertiajs/inertia";
 import ValidationSuccess from "@/Components/ValidationSuccess";
 import {helper} from "@/utils/helper";
+import Button from "@/Components/Button";
 
 
 export default function Index(props){
@@ -51,7 +52,7 @@ console.log(props.orders);
      *  */
     const submitForm = (e) => {
         e.preventDefault();
-        get(route('admin.driver.trips.index'), {
+        get(route('admin-driver.trips.index', {id: props.driver.id}), {
             from: e.target.value,
             to: e.target.value,
         });
@@ -61,7 +62,7 @@ console.log(props.orders);
     const paginate = (e) => {
         e.preventDefault();
 
-        Inertia.get(route("admin-driver.trips.index"), {
+        Inertia.get(route("admin-driver.trips.index", {id: props.driver.id}), {
             perPage: e.target.value,
             search: props.search
         },);
@@ -92,7 +93,13 @@ console.log(props.orders);
                     }
 
                     <div className="grid grid-cols-12 gap-6 mt-5">
-                            <form onSubmit={submitForm} className="intro-y col-span-12 flex items-center justify-between mt-2">
+                            {/* title for filter by date */}
+                            <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-12 intro-y">
+                                <div className="flex flex-col sm:flex-row items-center">
+                                    <p className="text-sm mr-auto mt-5 mb-0 ml-3">Filter By Date</p>
+                                </div>
+                            </div>
+                            <form onSubmit={submitForm} className="intro-y col-span-12 flex items-center justify-between mt-0">
                             {/* Start: filter by date */}
                                 <div className="flex-2">
                                         <input
@@ -101,7 +108,7 @@ console.log(props.orders);
                                             className="px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                             name="from"
                                             onChange={handleFromChange}
-                                            style={{width: "38vw", height: "2.5rem"}}
+                                            style={{width: "33vw", height: "2.3rem"}}
                                         />
                                 </div>
                                 <div className="mx-5">
@@ -114,9 +121,17 @@ console.log(props.orders);
                                             className="px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                             name="to"
                                             onChange={handleToChange}
-                                            style={{width: "38vw", height: "2.5rem"}}
+                                            style={{width: "33vw", height: "2.3rem"}}
                                         />
                             </div>
+                            {/* search button */}
+                                <Button
+                                    type="submit"
+                                    className="mr-5 text-md"
+
+                                >
+                                    Search
+                                </Button>
                         </form>
                             {/* End: filter by date */}
                             {/* Pagination Information */}
