@@ -141,7 +141,7 @@ console.log(props.orders);
 
                         {/* BEGIN: Data List */}
                         <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
-                        <table className="table table-report -mt-2">
+                        <table className="table table-report mt-2">
                             <thead>
                             <tr>
                                 <th className="text-left whitespace-nowrap">DATE</th>
@@ -156,7 +156,7 @@ console.log(props.orders);
                                     </td>
 
                                     {/* restaurant name */}
-                                    <td className="text-left">
+                                    <td className="text-left" style={{width: '60%'}}>
                                             {order.restaurant.name}
                                     </td>
                                 </tr>
