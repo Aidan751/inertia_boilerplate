@@ -99,7 +99,7 @@ export default function Index(props){
 
                             {/* Link to create page */}
                             <Link href={route("orderItem.create")} className="btn btn-primary shadow-md mr-2">
-                                Add New 
+                                Add New
                             </Link>
 
                             {/* Pagination Information */}
@@ -119,7 +119,8 @@ export default function Index(props){
                                         onChange={e => setData('search', e.target.value)}
                                         />
                                         <Search className="search__icon dark:text-slate-500" />
-                                    </div>                                </div>
+                                    </div>
+                                 </div>
                             </form>
                         </div>
                         {/* BEGIN: Data List */}

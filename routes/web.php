@@ -9,6 +9,8 @@ use App\Http\Controllers\Web\RolesController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Web\AdminUserController;
 use App\Http\Controllers\Web\OrderItemController;
+use App\Http\Controllers\Web\AdminDriverController;
+use App\Http\Controllers\Web\AdminDriverTripsController;
 use App\Http\Controllers\Web\AdminRestaurantsController;
 use App\Http\Controllers\Web\AdminApplicationsController;
 use App\Http\Controllers\Web\AdminCallCentreUserController;
@@ -342,13 +344,16 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin-driver/store', [AdminDriverController::class, 'store'])->name('admin-driver.store');
 
     // edit a driver
-    Route::get('/admin-driver/edit/{id}', [AdminDriverController::class, 'edit'])->name('admin-driver.edit');
+    Route::get('/admin-driver/edit/{driver}', [AdminDriverController::class, 'edit'])->name('admin-driver.edit');
 
     // update a driver
-    Route::put('/admin-driver/update/{id}', [AdminDriverController::class, 'update'])->name('admin-driver.update');
+    Route::put('/admin-driver/update/{driver}', [AdminDriverController::class, 'update'])->name('admin-driver.update');
 
     // delete a driver
-    Route::delete('/admin-driver/delete/{id}', [AdminDriverController::class, 'destroy'])->name('admin-driver.destroy');
+    Route::delete('/admin-driver/delete/{driver}', [AdminDriverController::class, 'destroy'])->name('admin-driver.destroy');
+
+    // list driver trips
+    Route::get('/admin-driver/trips/{driver}', [AdminDriverTripsController::class, 'index'])->name('admin-driver.trips.index');
 
     // get all delivery costs
     Route::get('/admin-configurations', [AdminConfigurationsController::class, 'index'])->name('admin-configurations.index');
