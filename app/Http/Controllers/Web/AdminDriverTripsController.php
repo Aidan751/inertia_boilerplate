@@ -18,10 +18,9 @@ class AdminDriverTripsController extends Controller
         */
         public function index(Request $request, User $driver)
         {
-            $from = $request->get('from', '') ?? null;
-            $to = $request->get('to', '') ?? null;
+                $from = $request->get('from', '');
+                $to = $request->get('to', '');
 
-            if($from !== null && $to !== null){
                 $orders = Order::with('restaurant')->where('user_id', $driver->id)
                 ->when($from, function($q) use ($from) {
                    $q->whereDate('pickup_date', '>=', $from);
@@ -30,18 +29,16 @@ class AdminDriverTripsController extends Controller
                    $q->whereDate('pickup_date', '<=', $to);
                })
                 ->latest()
-                ->paginate(10);
-            }
-            else {
-                $orders = Order::with('restaurant')->where('user_id', $driver->id)->latest()->paginate($request->perPage ?? 10);
-            }
+                ->paginate($request->perPage ?? 10);
+
+
 
 
             return Inertia::render('MainAdmin/Drivers/Trips/Index', [
                 'orders' => $orders,
                 'driver' => $driver,
-                'from' => $from,
-                'to' => $to,
+                'from' => $request->from ?? '',
+                'to' => $request->to ?? '',
                 'perPage' => $request->perPage ?? 10
             ]);
         }

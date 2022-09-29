@@ -11,11 +11,14 @@ import Button from "@/Components/Button";
 
 
 export default function Index(props){
-console.log(props.orders);
+console.log(props);
     const { data, setData, get, processing, errors } = useForm({
         perPage: props.perPage,
         search: props.search,
+        from: props.from,
+        to: props.to,
       })
+
 
     const from = props.orders.from;
 
@@ -30,9 +33,6 @@ console.log(props.orders);
     const links = props.orders.links;
 
     const [orders, setOrders] = useState(props.orders.data);
-
-    const [deleteModal, setDeleteModal] = useState(false);
-    const [deleteId, setDeleteId] = useState(null);
 
     // handle from change
     const handleFromChange = (e) => {
@@ -53,8 +53,7 @@ console.log(props.orders);
     const submitForm = (e) => {
         e.preventDefault();
         get(route('admin-driver.trips.index', {id: props.driver.id}), {
-            from: e.target.value,
-            to: e.target.value,
+            preserveState: false,
         });
     }
 
@@ -76,59 +75,54 @@ console.log(props.orders);
                 activeGroup={5}
                 activeItem={2}
             >
-
                 {/* Define Page Title */}
                 <Head title="View Trips" />
-
-
                 {/* Page Content */}
                 <main className="col-span-12">
                     {/* Page Header */}
-                    <h2 className="intro-y text-lg font-medium mt-10">View Trips</h2>
+                    <h2 className="intro-y text-lg font-medium mt-10">View Trips - {props.driver.first_name} {props.driver.last_name}</h2>
 
                     {/* Show Success Validation Component */}
                     {
                         props.success &&
                         <ValidationSuccess message={props.success} />
                     }
-
                     <div className="grid grid-cols-12 gap-6 mt-5">
                             {/* title for filter by date */}
                             <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-12 intro-y">
                                 <div className="flex flex-col sm:flex-row items-center">
-                                    <p className="text-sm mr-auto mt-5 mb-0 ml-3">Filter By Date</p>
+                                    <p className="text-sm mr-auto mt-5 mb-0">Filter By Date</p>
                                 </div>
                             </div>
-                            <form onSubmit={submitForm} className="intro-y col-span-12 flex items-center justify-between mt-0">
+                            <form onSubmit={submitForm} className="intro-y col-span-12 flex items-center justify-between flex-wrap mt-0">
                             {/* Start: filter by date */}
-                                <div className="flex-2">
+                                <div className="flex-2 mb-3">
                                         <input
                                             type="date"
-                                            placeholder="DD/MM/YYYY"
                                             className="px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                             name="from"
+                                            value={data.from}
                                             onChange={handleFromChange}
-                                            style={{width: "33vw", height: "2.3rem"}}
+                                            style={{width: "35vw", height: "2.3rem"}}
                                         />
                                 </div>
-                                <div className="mx-5">
+                                <div className="mx-5 mb-3">
                                     to
                                 </div>
-                                <div className="flex-2">
+                                <div className="flex-2 mb-3">
                                         <input
                                             type="date"
-                                            placeholder="DD/MM/YYYY"
                                             className="px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                             name="to"
+                                            value={data.to}
                                             onChange={handleToChange}
-                                            style={{width: "33vw", height: "2.3rem"}}
+                                            style={{width: "35vw", height: "2.3rem"}}
                                         />
                             </div>
                             {/* search button */}
                                 <Button
                                     type="submit"
-                                    className="mr-5 text-md"
-
+                                    className="mr-5 text-md mb-3"
                                 >
                                     Search
                                 </Button>
@@ -141,7 +135,7 @@ console.log(props.orders);
 
                         {/* BEGIN: Data List */}
                         <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
-                        <table className="table table-report mt-2">
+                        <table className="table table-report">
                             <thead>
                             <tr>
                                 <th className="text-left whitespace-nowrap">DATE</th>
