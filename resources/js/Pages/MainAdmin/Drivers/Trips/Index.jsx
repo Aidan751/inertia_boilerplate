@@ -6,10 +6,11 @@ import { useState } from "react";
 import { Modal, ModalBody } from "@/base-components";
 import { Inertia } from "@inertiajs/inertia";
 import ValidationSuccess from "@/Components/ValidationSuccess";
+import {helper} from "@/utils/helper";
 
 
 export default function Index(props){
-console.log(props);
+console.log(props.orders);
     const { data, setData, get, processing, errors } = useForm({
         perPage: props.perPage,
         search: props.search,
@@ -138,11 +139,9 @@ console.log(props);
                             </thead>
                             <tbody>
                             { orders.map((order, key) => (
-
                                 <tr key={key} className="intro-x">
-
                                     <td className="text-left">
-                                        {order.pickup_date}
+                                        {helper.formatDate(order.pickup_date, 'DD/MM/YYYY')}
                                     </td>
 
                                     {/* restaurant name */}
