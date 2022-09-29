@@ -114,8 +114,8 @@ export default function SideBar(props){
         <>
         {/* Main Admin SideBar */}
             <nav className="side-nav">
-                <Link href="/admin" className="intro-x flex items-center pl-5 pt-4">
-                    <img alt="" className="w-6" src="/images/logo.svg" />
+                <Link href="/" className="intro-x flex items-center pl-5 pt-4">
+                    <img alt="" className="w-6" src="/img/icons/logo.png" />
                     <span className="hidden xl:block text-white text-lg ml-3"> ORDER IT </span>
                 </Link>
                 <div className="side-nav__devider my-6"></div>
