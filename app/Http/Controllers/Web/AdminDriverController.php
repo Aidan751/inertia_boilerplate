@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
+use App\Models\UserDriver;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -67,7 +68,7 @@ class AdminDriverController extends Controller
            $user = new User;
 
            // Update the parameters
-           $user->role_id = 2;
+           $user->role_id = 4;
            $user->first_name = $request->first_name;
            $user->last_name = $request->last_name;
            $user->email = $request->email;
@@ -113,7 +114,9 @@ class AdminDriverController extends Controller
         public function create(Request $request)
         {
             $driver = new UserDriver;
-            return view('admin.admindrivers.create', compact('driver'));
+            return Inertia::render('MainAdmin/Drivers/Create', [
+                'driver' => $driver,
+            ]);
         }
 
 
@@ -144,7 +147,9 @@ class AdminDriverController extends Controller
 
 
             // Load the view
-            return view('admin.admindrivers.edit', compact('driver'));
+            return Inertia::render('MainAdmin/Drivers/Edit', [
+                'driver' => $driver,
+            ]);
         }
 
         /**
@@ -154,52 +159,17 @@ class AdminDriverController extends Controller
          * @param  int  $id
          * @return \Illuminate\Http\Response
          */
-        public function update(Request $request, $id)
+        public function update(Request $request, UserDriver $driver)
         {
 
             // Validate the data
             $request->validate([
-                'first_name' => ['required', 'string', 'max:191'],
-                'last_name' => ['required', 'string', 'max:191'],
-                'email' => ['required', 'email', 'max:191', 'unique:users,email,' . $id],
-                'password' => ['nullable', 'confirmed', 'min:6'],
-                'address_line_1' => ['required', 'string', 'max:191'],
-                 'town' => ['required', 'string', 'max:191'],
-                 'county' => ['required', 'string', 'max:191'],
-                 'postcode' => ['required', 'string', 'max:191'],
-                 'account_number' => ['required', 'string', 'max:191'],
-                 'sort_code' => ['required', 'string', 'max:191'],
+                'iCabbi' => ['nullable', 'string', 'max:191'],
             ]);
 
-            // Find the model for this ID
-            $user = User::find($id);
-
             // Update the parameters
-            $user->first_name = $request->first_name;
-            $user->last_name = $request->last_name;
-            $user->email = $request->email;
-
-            if (!is_null($request->password)) {
-             $user->password = $request->password;
-             }
-
-             $user->push();
-
-             $driver = UserDriver::with('user')
-                 ->where('user_id', $id)
-                 ->first();
-
-                 $driver->address_line_1 = $request->address_line_1;
-                 if (!is_null($request->address_line_2)) {
-                     $driver->address_line_2 = $request->address_line_2;
-                 }
-                 $driver->town = $request->town;
-                 $driver->county = $request->county;
-                 $driver->postcode = $request->postcode;
-                 $driver->account_number = $request->account_number;
-                 $driver->sort_code = $request->sort_code;
-
-             $driver->save();
+            $driver->iCabbi = $request->iCabbi;
+            $driver->save();
 
             // Redirect and inform the user
             return redirect()->route('admin-driver.index')->with('success', 'Driver updated.');

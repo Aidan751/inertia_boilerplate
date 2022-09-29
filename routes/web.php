@@ -344,7 +344,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/admin-driver/store', [AdminDriverController::class, 'store'])->name('admin-driver.store');
 
     // edit a driver
-    Route::get('/admin-driver/edit/{driver}', [AdminDriverController::class, 'edit'])->name('admin-driver.edit');
+    Route::get('/admin-driver/edit/{id}', [AdminDriverController::class, 'edit'])->name('admin-driver.edit');
 
     // update a driver
     Route::put('/admin-driver/update/{driver}', [AdminDriverController::class, 'update'])->name('admin-driver.update');

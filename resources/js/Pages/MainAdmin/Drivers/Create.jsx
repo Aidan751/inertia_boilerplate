@@ -6,17 +6,15 @@ import { useForm } from '@inertiajs/inertia-react'
 import Checkbox from "@/Components/Checkbox";
 
 function Create(props) {
-
   const [categories, setCategories] = useState([1, 3]);
 
   const { data, setData, post, processing, errors } = useForm({
     first_name: '',
     last_name: '',
+    iCabbi: '',
     email: '',
     password: '',
     password_confirmation: '',
-    email_password_to_user: false,
-    role: 'call_centre_admin',
   })
 
   const editorConfig = {
@@ -32,7 +30,7 @@ function Create(props) {
   const submit = (e) => {
       e.preventDefault();
 
-      post(route('admin-callcentreuser.store'));
+      post(route('admin-driver.store'));
   };
 
 
@@ -43,16 +41,16 @@ function Create(props) {
         <Authenticated
             auth={props.auth}
             errors={props.errors}
-            activeGroup={2}
+            activeGroup={5}
             activeItem={1}
         >
 
     <div className="col-span-12">
       <div className="intro-y flex items-center mt-8">
-        <h2 className="text-lg font-medium mr-auto">Add new call centre user</h2>
+        <h2 className="text-lg font-medium mr-auto">Add new driver</h2>
       </div>
       <div className="intro-y flex items-center mt-3">
-        <p className="text-gray-600">Fill in the following details to add a new user</p>
+        <p className="text-gray-600">Fill in the following details to add a new driver</p>
       </div>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="intro-y col-span-12 lg:col-span-6">
@@ -101,6 +99,28 @@ function Create(props) {
                     </p>
                 )}
             </div>
+            {/* START: iCabbi form group */}
+            <div className="mt-3">
+                <label htmlFor="crud-form-1" className="form-label">
+                    iCabbi #
+                </label>
+                <input
+                    id="crud-form-1"
+                    type="text"
+                    className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    placeholder="iCabbi..."
+                    name="iCabbi"
+                    required
+                    value={data.iCabbi}
+                    onChange={onHandleChange}
+                />
+                {errors.iCabbi && (
+                    <p className="text-xs italic text-red-500">
+                        {errors.iCabbi}
+                    </p>
+                )}
+            </div>
+            {/* END: iCabbi form group */}
             <div className="mt-3">
               <label htmlFor="crud-form-2" className="form-label">
                 Email address
@@ -157,18 +177,9 @@ function Create(props) {
                     </p>
                 )}
               </div>
-            <div className="mt-3 pt-3">
-                <Checkbox
-                    name="email_password_to_user"
-                    label="Email password to user"
-                    checked={data.email_password_to_user}
-                    onChange={onHandleChange}
-                />
-                <span className="text-black-600 ml-2">Email password to new admin user?</span>
-            </div>
             <div className="text-right mt-5">
               <Button type="submit" className="w-30">
-                Add new User
+                Add
               </Button>
             </div>
           </form>

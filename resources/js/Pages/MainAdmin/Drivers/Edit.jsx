@@ -6,16 +6,13 @@ import { useForm } from '@inertiajs/inertia-react';
 import Checkbox from "@/components/Checkbox";
 
 function Edit(props) {
+    console.log(props);
   const [categories, setCategories] = useState([1, 3]);
 
   const { data, setData, put, processing, errors } = useForm({
-    first_name: props.user.first_name,
-    last_name: props.user.last_name,
-    email: props.user.email,
-    password: '',
-    password_confirmation: '',
-    email_password_to_user: false,
-    role: 'call_centre_admin',
+    iCabbi: props.driver.iCabbi ?? '',
+    first_name: props.driver.user.first_name,
+    last_name: props.driver.user.last_name,
   })
 
   const editorConfig = {
@@ -30,7 +27,7 @@ function Edit(props) {
 
   const submit = (e) => {
       e.preventDefault();
-      put(route('admin-callcentreuser.update', { id: props.user.id }));
+      put(route('admin-driver.update', { id: props.driver.id }));
   };
 
 
@@ -41,16 +38,15 @@ function Edit(props) {
         <Authenticated
             auth={props.auth}
             errors={props.errors}
-            activeGroup={2}
-
+            activeGroup={4}
         >
 
     <div className="col-span-12">
       <div className="intro-y flex items-center mt-8">
-        <h2 className="text-lg font-medium mr-auto">Edit call centre user</h2>
+        <h2 className="text-lg font-medium mr-auto">Update Driver</h2>
       </div>
       <div className="intro-y flex items-center mt-3">
-        <p className="text-gray-600">Fill in the following details to edit user</p>
+        <p className="text-gray-600">Fill in the following details to edit driver</p>
       </div>
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="intro-y col-span-12 lg:col-span-6">
@@ -66,11 +62,10 @@ function Edit(props) {
                 id="crud-form-1"
                 type="text"
                 className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                placeholder="First name..."
                 name="first_name"
                 required
                 value={data.first_name}
-                onChange={onHandleChange}
+                readOnly
               />
                {errors.first_name && (
                     <p className="text-xs italic text-red-500">
@@ -87,11 +82,10 @@ function Edit(props) {
                 id="crud-form-1"
                 type="text"
                 className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                placeholder="Last name..."
                 name="last_name"
                 required
                 value={data.last_name}
-                onChange={onHandleChange}
+                readOnly
               />
                 {errors.last_name && (
                     <p className="text-xs italic text-red-500">
@@ -99,73 +93,31 @@ function Edit(props) {
                     </p>
                 )}
             </div>
+            {/* START: iCabbi form group */}
             <div className="mt-3">
-              <label htmlFor="crud-form-2" className="form-label">
-                Email address
-              </label>
-                <input
-                    id="crud-form-2"
-                    type="email"
-                    required
-                    className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    placeholder="Email address..."
-                    name="email"
-                    value={data.email}
-                    onChange={onHandleChange}
-                />
-                {errors.email && (
-                    <p className="text-xs italic text-red-500">
-                        {errors.email}
-                    </p>
-                )}
-            </div>
-            <div className="mt-3">
-                <label htmlFor="crud-form-3" className="form-label">
-                    Password
+                <label htmlFor="crud-form-1" className="form-label">
+                    iCabbi #
                 </label>
                 <input
-                    id="crud-form-3"
-                    type="password"
-                    name="password"
-                    required
-                    value={data.password}
-                    onChange={onHandleChange}
+                    id="crud-form-1"
+                    type="text"
                     className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    placeholder="Password..."
-                />
-                {errors.password && (
-                    <p className="text-xs italic text-red-500">
-                        {errors.password}
-                    </p>
-                )}
-
-                <input
-                    id="crud-form-4"
-                    type="password"
-                    name="password_confirmation"
+                    placeholder="iCabbi..."
+                    name="iCabbi"
                     required
-                    value={data.password_confirmation}
+                    value={data.iCabbi}
                     onChange={onHandleChange}
-                    className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline mt-3"
-                    placeholder="Repeat password..."
                 />
-                {errors.password_confirmation && (
+                {errors.iCabbi && (
                     <p className="text-xs italic text-red-500">
-                        {errors.password_confirmation}
+                        {errors.iCabbi}
                     </p>
                 )}
-              </div>
-            <div className="mt-3 pt-3">
-                <Checkbox
-                    name="email_password_to_user"
-                    checked={data.email_password_to_user}
-                    onChange={onHandleChange}
-                 />
-                <span className="text-black-600 ml-2">Email password to new admin user?</span>
             </div>
+            {/* END: iCabbi form group */}
             <div className="text-right mt-5">
               <Button type="submit" className="w-30">
-                Update Admin User
+                Update driver
               </Button>
             </div>
           </form>
