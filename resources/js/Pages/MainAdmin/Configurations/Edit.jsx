@@ -54,7 +54,7 @@ function Edit(props) {
                 <input
                     type="number"
                     step="any"
-                    className="form-control"
+                    className="rounded form-control"
                     placeholder="Mile"
                     name="mile"
                     value={data.mile}
@@ -67,7 +67,7 @@ function Edit(props) {
                 <input
                     type="number"
                     step="any"
-                    className="form-control"
+                    className="rounded form-control"
                     placeholder="Minute"
                     name="minute"
                     value={data.minute}

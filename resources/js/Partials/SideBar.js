@@ -45,7 +45,7 @@ export default function SideBar(props){
 
     // Links for user to access driver cost
     const driverCostLinks = [
-        {title: "List Costs", href: route("admin-configurations.edit", {id: user.id})},
+        {title: "Driver Cost", href: route("admin-configurations.edit", {id: user.id})},
     ];
 
     // Links for user to access orders
