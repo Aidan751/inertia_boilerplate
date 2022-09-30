@@ -14,6 +14,7 @@ use App\Http\Controllers\Web\AdminDriverTripsController;
 use App\Http\Controllers\Web\AdminRestaurantsController;
 use App\Http\Controllers\Web\AdminApplicationsController;
 use App\Http\Controllers\Web\AdminCallCentreUserController;
+use App\Http\Controllers\Web\AdminConfigurationsController;
 use App\Http\Controllers\Web\AdminRestaurantCategoriesController;
 
 /*
@@ -356,10 +357,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin-driver/trips/{driver}', [AdminDriverTripsController::class, 'index'])->name('admin-driver.trips.index');
 
     // get all delivery costs
-    Route::get('/admin-configurations', [AdminConfigurationsController::class, 'index'])->name('admin-configurations.index');
+    Route::get('/admin-configurations/{configuration}', [AdminConfigurationsController::class, 'index'])->name('admin-configurations.index');
+
+    // edit delivery costs
+    Route::get('/admin-configurations/edit/{user}', [AdminConfigurationsController::class, 'edit'])->name('admin-configurations.edit');
 
     // update delivery costs
-    Route::put('/admin-configurations/update/', [AdminConfigurationsController::class, 'update'])->name('admin-configurations.update');
+    Route::put('/admin-configurations/update/{configuration}', [AdminConfigurationsController::class, 'update'])->name('admin-configurations.update');
 
     // get all orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

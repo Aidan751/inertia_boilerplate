@@ -45,7 +45,7 @@ export default function SideBar(props){
 
     // Links for user to access driver cost
     const driverCostLinks = [
-        {title: "List Costs", href: route("admin-configurations.update")},
+        {title: "List Costs", href: route("admin-configurations.edit", {id: user.id})},
     ];
 
     // Links for user to access orders
@@ -116,11 +116,11 @@ export default function SideBar(props){
         <>
         {/* Main Admin SideBar */}
             <nav className="side-nav">
-                <Link href={user.role_id === 1 ? "/" : user.role_id === 2 ? "/restaurant-admin" : "/call-center-admin"} className="intro-x flex items-center pl-5 pt-4">
+                <Link href={user.role_id === 1 ? "/" : user.role_id === 2 ? "/restaurant-admin" : "/call-center-admin"} className="flex items-center pt-4 pl-5 intro-x">
                     <img alt="" className="w-6" src="/img/icons/logo.png" />
-                    <span className="hidden xl:block text-white text-lg ml-3"> ORDER IT </span>
+                    <span className="hidden ml-3 text-lg text-white xl:block"> ORDER IT </span>
                 </Link>
-                <div className="side-nav__devider my-6"></div>
+                <div className="my-6 side-nav__devider"></div>
                 <ul>
 
                     {/* <DropdownLink groupTitle="Dashboard" links={linkArray} active={props.activeGroup == 0 ? true:false}>

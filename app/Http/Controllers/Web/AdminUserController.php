@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Models\Configuration;
 use App\Http\Controllers\Controller;
-use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 
@@ -90,6 +91,12 @@ class AdminUserController extends Controller
 
         // Assign user to a role using the laratrust package
         $user->attachRole($role);
+
+        if($user->role_id == 1){
+            $configuration = Configuration::create([
+                "user_id" => $user->id,
+            ]);
+        }
 
         // Redirect back to the index page with a success message
         return redirect()->route('admin-user.index')->with('success', 'Admin User created successfully');

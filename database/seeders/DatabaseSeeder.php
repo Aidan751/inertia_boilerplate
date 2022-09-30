@@ -10,6 +10,7 @@ use App\Models\GroupDeal;
 use App\Models\OrderItem;
 use App\Models\Restaurant;
 use App\Models\MenuCategory;
+use App\Models\Configuration;
 use Illuminate\Database\Seeder;
 use App\Models\RestaurantCategory;
 

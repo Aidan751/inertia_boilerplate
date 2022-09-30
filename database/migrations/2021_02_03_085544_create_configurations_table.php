@@ -15,8 +15,9 @@ class CreateConfigurationsTable extends Migration
     {
         Schema::create('configurations', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('title');
-            $table->decimal('price', 10, 2);  
+            $table->decimal('mile', 10, 2)->nullable();
+            $table->decimal('minute', 10, 2)->nullable();
+            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }
