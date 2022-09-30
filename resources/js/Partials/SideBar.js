@@ -47,9 +47,9 @@ export default function SideBar(props){
         {title: "Driver Cost", href: route("admin-configurations.edit", {id: user.id})},
     ];
 
-    // Links for user to access orders
-    const orderLinks = [
-        {title: "List Orders", href: route("orders.index")},
+    // Links for restaurant user to access orders
+    const restaurantOrderLinks = [
+        {title: "List Orders", href: route("restaurant.orders.index")},
     ];
 
     // Links for user to access restaurant admins
@@ -102,7 +102,7 @@ export default function SideBar(props){
 
     // Links for user to manage making orders
     const makeOrderLinks = [
-        {title: "Make Order", href: route("orders.create")},
+        {title: "Make Order", href: route("call-centre.orders.create")},
     ];
 
     // Links for user to manage order history
@@ -164,42 +164,42 @@ export default function SideBar(props){
                         hasRole("restaurant_admin") && (
                         <>
                             {/* View Orders */}
-                            <DropdownLink groupTitle="View Orders" links={orderLinks} active={props.activeGroup == 1 ? true:false}>
+                            <DropdownLink groupTitle="View Orders" links={restaurantOrderLinks} active={props.activeGroup == 7 ? true:false}>
                                 <Menu />
                             </DropdownLink>
 
                             {/* Restaurant Admin Users */}
-                            <DropdownLink groupTitle="Admin Users" links={restaurantAdminLinks} active={props.activeGroup == 2 ? true:false}>
+                            <DropdownLink groupTitle="Admin Users" links={restaurantAdminLinks} active={props.activeGroup == 8 ? true:false}>
                                 <Users />
                             </DropdownLink>
 
                             {/* Stripe Gateway */}
-                            <DropdownLink groupTitle="Stripe Gateway" links={stripeGatewayLinks} active={props.activeGroup == 3 ? true:false}>
+                            <DropdownLink groupTitle="Stripe Gateway" links={stripeGatewayLinks} active={props.activeGroup == 9 ? true:false}>
                                 <CreditCard />
                             </DropdownLink>
 
                             {/* Products */}
-                            <DropdownLink groupTitle="Products" links={productLinks} active={props.activeGroup == 4 ? true:false}>
+                            <DropdownLink groupTitle="Products" links={productLinks} active={props.activeGroup == 10 ? true:false}>
                                 <Cookie />
                             </DropdownLink>
 
                             {/* Opening Times */}
-                            <DropdownLink groupTitle="Opening Times" links={openingTimeLinks} active={props.activeGroup == 5 ? true:false}>
+                            <DropdownLink groupTitle="Opening Times" links={openingTimeLinks} active={props.activeGroup == 11 ? true:false}>
                                 <Clock1 />
                             </DropdownLink>
 
                             {/* Table Service */}
-                            <DropdownLink groupTitle="Table Service" links={tableLinks} active={props.activeGroup == 6 ? true:false}>
+                            <DropdownLink groupTitle="Table Service" links={tableLinks} active={props.activeGroup == 13 ? true:false}>
                                 <PersonStanding />
                             </DropdownLink>
 
                             {/* Offers/News */}
-                            <DropdownLink groupTitle="Offers/News" links={offerLinks} active={props.activeGroup == 7 ? true:false}>
+                            <DropdownLink groupTitle="Offers/News" links={offerLinks} active={props.activeGroup == 14 ? true:false}>
                                 <Info />
                             </DropdownLink>
 
                             {/* Company Profile */}
-                            <DropdownLink groupTitle="Company Profile" links={companyProfileLinks} active={props.activeGroup == 8 ? true:false}>
+                            <DropdownLink groupTitle="Company Profile" links={companyProfileLinks} active={props.activeGroup == 15 ? true:false}>
                                 <Settings />
                             </DropdownLink>
                         </>
@@ -208,12 +208,12 @@ export default function SideBar(props){
                     {
                         hasRole("call_centre_admin") && (
                         <>
-                            <DropdownLink groupTitle="Make Order" links={makeOrderLinks} active={props.activeGroup == 1 ? true:false}>
+                            <DropdownLink groupTitle="Make Order" links={makeOrderLinks} active={props.activeGroup == 16 ? true:false}>
                                 <Users />
                             </DropdownLink>
 
                             {/* Order history links */}
-                            <DropdownLink groupTitle="Orders History" links={orderHistoryLinks} active={props.activeGroup == 2 ? true:false}>
+                            <DropdownLink groupTitle="Orders History" links={orderHistoryLinks} active={props.activeGroup == 17 ? true:false}>
                                 <Users />
                             </DropdownLink>
 

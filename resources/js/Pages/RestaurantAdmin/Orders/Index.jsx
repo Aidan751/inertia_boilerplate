@@ -1,3 +1,4 @@
+
 import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link } from '@inertiajs/inertia-react';
 import { Search,CheckSquare, ChevronRight ,ChevronsRight, ChevronsLeft, XCircle,Trash2,ChevronLeft, Eye} from "lucide-react";
@@ -6,95 +7,78 @@ import { useState } from "react";
 import { Modal, ModalBody } from "@/base-components";
 import { Inertia } from "@inertiajs/inertia";
 import ValidationSuccess from "@/Components/ValidationSuccess";
+import Button from "@/Components/Button";
 
 
 export default function Index(props){
-
+    console.log(props);
     const { data, setData, get, processing, errors } = useForm({
         perPage: props.perPage,
         search: props.search,
+        status: props.status,
+        to: props.to,
+        from: props.from,
       })
 
-    const from = props.users.from;
+    const from = props.orders.from;
 
-    const to = props.users.to;
+    const to = props.orders.to;
 
-    const total = props.users.total;
+    const total = props.orders.total;
 
-    const first_page_url = props.users.first_page_url;
+    const first_page_url = props.orders.first_page_url;
 
-    const last_page_url = props.users.last_page_url;
+    const last_page_url = props.orders.last_page_url;
 
-    const links = props.users.links;
+    const links = props.orders.links;
 
-    const [users, setUsers] = useState(props.users.data);
+    const [orders, setOrders] = useState(props.orders.data);
 
-    const [deleteModal, setDeleteModal] = useState(false);
-    const [deleteId, setDeleteId] = useState(null);
-
-    // console.log(props);
     /**
      * Handle search form submission
      * @param {Event} e
-     */
-    const submitSearch = (e) => {
+    */
+    function handleSearch(e) {
         e.preventDefault();
-
-        get(route('admin-callcentreuser.index'), {
-            preserveState: false,
-            onSuccess: () => {
-                // Do something...
-            },
-        })
+        Inertia.get(route('restaurant.orders.index', {id:props.user.id}), data);
     }
-
-
-    const setDeleteConfirmationModal = (e) => {
-        // Prevent Default Behaviour
-        e.preventDefault();
-        // Set the current selected role to the role id
-        setDeleteId(e.target.id);
-        // Show the delete confirmation modal
-        setDeleteModal(true);
-    }
-
-    const deleteRecord = (e) => {
-
-        Inertia.delete(route('admin-callcentreuser.destroy',{id:deleteId}),{
-            preserveState: false,
-            onSuccess: () => {
-            }
-        });
-    }
-
 
     const paginate = (e) => {
         e.preventDefault();
-
-        Inertia.get(route("admin-callcentreuser.index"), {
+        Inertia.get(route('restaurant.orders.index', {id: props.user.id}), {
             perPage: e.target.value,
             search: props.search
-        },);
+        });
     }
+
+      // Show the state of the search dropdown menu
+      const [searchDropdown, setSearchDropdown] = useState(false);
+      const showSearchDropdown = () => {
+          setSearchDropdown(true);
+      };
+      const hideSearchDropdown = () => {
+          setSearchDropdown(false);
+      };
+
 
     return (
         <>
             <Authenticated
                 auth={props.auth}
                 errors={props.errors}
-                activeGroup={2}
-                activeItem={2}
+                activeGroup={7}
+
             >
 
                 {/* Define Page Title */}
-                <Head title="Call Centre Users" />
+                <Head title="View Orders" />
 
 
                 {/* Page Content */}
                 <main className="col-span-12">
 
                     {/* Page Header */}
-                    <h2 className="intro-y text-lg font-medium mt-10">Manage Call Centre Users</h2>
+                    <h2 className="mt-10 text-lg font-medium intro-y">View Orders</h2>
 
                     {/* Show Success Validation Component */}
                     {
@@ -104,84 +88,79 @@ export default function Index(props){
 
                     {/*  */}
                     <div className="grid grid-cols-12 gap-6 mt-5">
-                        <div className="intro-y col-span-12 flex flex-wrap items-center mt-2">
-
-                            {/* Link to create page */}
-                            <Link href={route("admin-callcentreuser.create")} className="btn btn-primary shadow-md" style={{width: "auto"}}>
-                                Add New User
-                            </Link>
+                        <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
 
                             {/* Pagination Information */}
-                            <div className="hidden md:block mx-auto text-slate-500">
+                            <div className="hidden mx-auto md:block text-slate-500">
                                 Showing {from} to {to} of {total} entries
                             </div>
 
                             {/* Search Form */}
-                            <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={submitSearch}>
-                                <div className="w-56 text-slate-500 absolute right-0 top-0">
-                                <div className="search">
+                            <form className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
+                                <div className="relative w-56 text-slate-500">
+
+                                    <div className="search">
                                         <input
                                         type="text"
-                                        className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                        className="text-sm text-gray-700 border rounded shadow appearance-none search__input focus:outline-none focus:shadow-outline"
                                         placeholder="Search..."
                                         value={data.search}
                                         onChange={e => setData('search', e.target.value)}
                                         />
                                         <Search className="search__icon dark:text-slate-500" />
                                     </div>
+
                                 </div>
                             </form>
                         </div>
                         {/* BEGIN: Data List */}
-                        <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
-                        <table className="table table-report -mt-2">
+                        <div className="col-span-12 overflow-auto intro-y lg:overflow-visible">
+                        <table className="table -mt-2 table-report">
                             <thead>
                             <tr>
-                                <th className="text-left whitespace-nowrap">NAME</th>
-                                <th className="text-left whitespace-nowrap">EMAIL</th>
+                                <th className="text-left whitespace-nowrap">CUSTOMER NAME</th>
+                                <th className="text-left whitespace-nowrap">DATE/TIME</th>
+                                <th className="text-left whitespace-nowrap">PRICE</th>
+                                <th className="text-center whitespace-nowrap">METHOD</th>
+                                <th className="text-left whitespace-nowrap">STATUS</th>
+                                <th className="text-center whitespace-nowrap">ORDER ID</th>
                                 <th className="text-center whitespace-nowrap">ACTIONS</th>
                             </tr>
                             </thead>
                             <tbody>
-                            { users.map((user, key) => (
+                            { orders.map((order, key) => (
 
                                 <tr key={key} className="intro-x">
 
-                                    {/* User Info */}
+                                    {/* Customer Name */}
                                     <td className="text-left">
-                                            {user.first_name} {user.last_name}
+                                            {order.customer_name}
                                     </td>
 
-                                    {/* User email */}
-                                    <td className="text-left">{user.email}</td>
+                                    {/* Date/Time */}
+                                    <td className="text-left">{order.pickup_date} - {order.time_slot}</td>
+
+                                    {/* Price */}
+                                    <td className="text-left">{order.price}</td>
+
+                                    {/* Method */}
+                                    <td className="text-center">{order.order_method}</td>
+
+                                    {/* Status */}
+                                    <td className="text-left">{order.status}</td>
+
+                                    {/* Order ID */}
+                                    <td className="text-center">{order.id}</td>
 
                                     {/* Actions */}
-                                    <td className="table-report__action w-56">
-                                        <div className="flex justify-center items-center">
-                                            {/* start: View Orders Link */}
-                                            <Link href={route("admin.orders.index", user.id)} className="flex items-center mr-3">
+                                    <td className="w-56 table-report__action">
+                                        {/* start: View Orders Link */}
+                                            <Link href={route("restaurant.orders.show", order.id)} className="flex items-center justify-center mr-3">
                                                <Eye className="w-4 h-4 mr-1" />{" "}
                                                 View
                                             </Link>
-                                            {/* end: View Orders Link */}
-                                            {/* Edit Link */}
-                                            <Link className="flex items-center mr-3" href={route("admin-callcentreuser.edit",{id:user.id})}>
-                                                <CheckSquare className="w-4 h-4 mr-1" />{" "}
-                                                Edit
-                                            </Link>
-
-                                            {/* Delete Link */}
-                                            <button
-                                                className="flex items-center text-danger"
-                                                type="button"
-                                                onClick={setDeleteConfirmationModal}
-                                                id={user.id}
-                                            >
-                                                <Trash2 id={user.id} className="w-4 h-4 mr-1" /> Delete
-                                            </button>
-                                        </div>
+                                        {/* end: View Orders Link */}
                                     </td>
-                                    {/* end: actions */}
                                 </tr>
                             ))}
                             </tbody>
@@ -189,7 +168,7 @@ export default function Index(props){
                         </div>
                         {/* END: Data List */}
                         {/* BEGIN: Pagination */}
-                        <div className="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
+                        <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
                         <nav className="w-full sm:w-auto sm:mr-auto">
                             <ul className="pagination">
                                 <li className="page-item">
@@ -244,7 +223,7 @@ export default function Index(props){
                                 </li>
                             </ul>
                         </nav>
-                        <select className="w-20 form-select box mt-3 sm:mt-0" onChange={paginate} value={data.perPage}>
+                        <select className="w-20 mt-3 form-select box sm:mt-0" onChange={paginate} value={data.perPage}>
                             <option value={10}>10</option>
                             <option value={25}>25</option>
                             <option value={35}>35</option>
@@ -253,42 +232,7 @@ export default function Index(props){
                         </div>
                         {/* END: Pagination */}
                     </div>
-                    {/* BEGIN: Delete Confirmation Modal */}
-                    <Modal
-                        show={deleteModal}
-                        onHidden={(e) => {
-                        setDeleteModal(false);
-                        }}
-                    >
-                        <ModalBody className="p-0">
-                        <div className="p-5 text-center">
-                            <XCircle
-                            className="w-16 h-16 text-danger mx-auto mt-3"
-                            />
-                            <div className="text-3xl mt-5">Are you sure?</div>
-                            <div className="text-slate-500 mt-2">
-                            Do you really want to delete these records? <br />
-                            This process cannot be undone.
-                            </div>
-                        </div>
-                        <div className="px-5 pb-8 text-center">
-                        <button
-                            type="button"
-                            data-dismiss="modal"
-                            onClick={e => setDeleteModal(false)}
-                            className="btn btn-outline-secondary w-24 mr-3">
-                                Cancel
-                            </button>
-                            <button onClick={deleteRecord} type="button" className="btn btn-danger w-24">
-                                Delete
-                            </button>
-                        </div>
-                        </ModalBody>
-                    </Modal>
-                    {/* END: Delete Confirmation Modal */}
-
                 </main>
-
             </Authenticated>
         </>
     )

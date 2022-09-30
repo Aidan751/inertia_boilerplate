@@ -16,6 +16,8 @@ use App\Http\Controllers\Web\AdminApplicationsController;
 use App\Http\Controllers\Web\AdminCallCentreUserController;
 use App\Http\Controllers\Web\AdminConfigurationsController;
 use App\Http\Controllers\Web\AdminRestaurantCategoriesController;
+use App\Http\Controllers\Web\Restaurant\OrderController as RestaurantOrderController;
+use App\Http\Controllers\Web\CallCentre\OrderController as CallCentreOrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -237,89 +239,110 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/restaurant/tables/delete/{id}', [TableController::class, 'destroy'])->name('tables.destroy');
 
     // list operating hours
-    Route::get('/restaurant/operating-hours', [OperatingHourController::class, 'index'])->name('operating-hours.index');
+    Route::get('/admin/operating-hours', [OperatingHourController::class, 'index'])->name('operating-hours.index');
 
     // create an operating hour
-    Route::get('/restaurant/operating-hours/create', [OperatingHourController::class, 'create'])->name('operating-hours.create');
+    Route::get('/admin/operating-hours/create', [OperatingHourController::class, 'create'])->name('operating-hours.create');
 
     // store an operating hour
-    Route::post('/restaurant/operating-hours/store', [OperatingHourController::class, 'store'])->name('operating-hours.store');
+    Route::post('/admin/operating-hours/store', [OperatingHourController::class, 'store'])->name('operating-hours.store');
 
     // edit an operating hour
-    Route::get('/restaurant/operating-hours/edit/{id}', [OperatingHourController::class, 'edit'])->name('operating-hours.edit');
+    Route::get('/admin/operating-hours/edit/{id}', [OperatingHourController::class, 'edit'])->name('operating-hours.edit');
 
     // update an operating hour
-    Route::put('/restaurant/operating-hours/update/{id}', [OperatingHourController::class, 'update'])->name('operating-hours.update');
+    Route::put('/admin/operating-hours/update/{id}', [OperatingHourController::class, 'update'])->name('operating-hours.update');
 
     // delete an operating hour
-    Route::delete('/restaurant/operating-hours/delete/{id}', [OperatingHourController::class, 'destroy'])->name('operating-hours.destroy');
+    Route::delete('/admin/operating-hours/delete/{id}', [OperatingHourController::class, 'destroy'])->name('operating-hours.destroy');
 
     // delete an extra
-    Route::delete('/restaurant/extras/delete/{id}', [ExtraController::class, 'destroy'])->name('extras.destroy');
+    Route::delete('/admin/extras/delete/{id}', [ExtraController::class, 'destroy'])->name('extras.destroy');
 
     // show company profile
-    Route::get('/restaurant/profile', [CompanyProfileController::class, 'show'])->name('profile.show');
+    Route::get('/admin/profile', [CompanyProfileController::class, 'show'])->name('profile.show');
 
     // edit company profile
-    Route::get('/restaurant/profile/edit', [CompanyProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/admin/profile/edit', [CompanyProfileController::class, 'edit'])->name('profile.edit');
 
     // update company profile
-    Route::put('/restaurant/profile/update', [CompanyProfileController::class, 'update'])->name('profile.update');
+    Route::put('/admin/profile/update', [CompanyProfileController::class, 'update'])->name('profile.update');
 
     // list offers
-    Route::get('/restaurant/offers', [OfferController::class, 'index'])->name('offers.index');
+    Route::get('/admin/offers', [OfferController::class, 'index'])->name('offers.index');
 
     // create an offer
-    Route::get('/restaurant/offers/create', [OfferController::class, 'create'])->name('offers.create');
+    Route::get('/admin/offers/create', [OfferController::class, 'create'])->name('offers.create');
 
     // store an offer
-    Route::post('/restaurant/offers/store', [OfferController::class, 'store'])->name('offers.store');
+    Route::post('/admin/offers/store', [OfferController::class, 'store'])->name('offers.store');
 
     // edit an offer
-    Route::get('/restaurant/offers/edit/{offer}', [OfferController::class, 'edit'])->name('offers.edit');
+    Route::get('/admin/offers/edit/{offer}', [OfferController::class, 'edit'])->name('offers.edit');
 
     // update an offer
-    Route::put('/restaurant/offers/update/{offer}', [OfferController::class, 'update'])->name('offers.update');
+    Route::put('/admin/offers/update/{offer}', [OfferController::class, 'update'])->name('offers.update');
 
     // delete an offer
-    Route::delete('/restaurant/offers/delete/{offer}', [OfferController::class, 'destroy'])->name('offers.destroy');
+    Route::delete('/admin/offers/delete/{offer}', [OfferController::class, 'destroy'])->name('offers.destroy');
 
     // list orders
-    Route::get('/restaurant/orders/{user}', [OrderController::class, 'index'])->name('admin.orders.index');
+    Route::get('/admin/orders/{user}', [OrderController::class, 'index'])->name('admin.orders.index');
 
     // show an order
-    Route::get('/restaurant/orders/show/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
+    Route::get('/admin/orders/show/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
 
     // list order items
-    Route::get('/restaurant/orders/items/{order}', [OrderItemController::class, 'index'])->name('admin.orders.items.index');
+    Route::get('/admin/orders/items/{order}', [OrderItemController::class, 'index'])->name('admin.orders.items.index');
 
     // show an order item
-    Route::get('/restaurant/orders/items/show/{orderItem}', [OrderItemController::class, 'show'])->name('admin.orders.items.show');
+    Route::get('/admin/orders/items/show/{orderItem}', [OrderItemController::class, 'show'])->name('admin.orders.items.show');
 
     // list order items
-    Route::get('/restaurant/orders/items/{order}/edit', [OrderItemController::class, 'edit'])->name('admin.orders.items.edit');
+    Route::get('/admin/orders/items/{order}/edit', [OrderItemController::class, 'edit'])->name('admin.orders.items.edit');
 
     // list order items
-    Route::put('/restaurant/orders/items/{order}/update', [OrderItemController::class, 'update'])->name('admin.orders.items.update');
+    Route::put('/admin/orders/items/{order}/update', [OrderItemController::class, 'update'])->name('admin.orders.items.update');
 
     // delete order items
-    Route::delete('/restaurant/orders/items/{order}/delete', [OrderItemController::class, 'destroy'])->name('admin.orders.items.destroy');
+    Route::delete('/admin/orders/items/{order}/delete', [OrderItemController::class, 'destroy'])->name('admin.orders.items.destroy');
 
+    // list restaurant orders
+    Route::get('/restaurant/orders', [RestaurantOrderController::class, 'index'])->name('restaurant.orders.index');
 
     // create an order
-    Route::get('/restaurant/orders/create', [OrderController::class, 'create'])->name('orders.create');
+    Route::get('/restaurant/orders/create', [RestaurantOrderController::class, 'create'])->name('restaurant.orders.create');
 
     // store an order
-    Route::post('/restaurant/orders/store', [OrderController::class, 'store'])->name('orders.store');
+    Route::post('/restaurant/orders/store', [RestaurantOrderController::class, 'store'])->name('restaurant.orders.store');
 
     // edit an order
-    Route::get('/restaurant/orders/edit/{order}', [OrderController::class, 'edit'])->name('orders.edit');
+    Route::get('/restaurant/orders/edit/{order}', [RestaurantOrderController::class, 'edit'])->name('restaurant.orders.edit');
 
     // update an order
-    Route::put('/restaurant/orders/update/{order}', [OrderController::class, 'update'])->name('orders.update');
+    Route::put('/restaurant/orders/update/{order}', [RestaurantOrderController::class, 'update'])->name('restaurant.orders.update');
 
     // delete an order
-    Route::delete('/restaurant/orders/delete/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
+    Route::delete('/restaurant/orders/delete/{order}', [RestaurantOrderController::class, 'destroy'])->name('restaurant.orders.destroy');
+
+
+    // list call centre orders
+    Route::get('/call-centre/orders', [CallCentreOrderController::class, 'index'])->name('call-centre.orders.index');
+
+    // create an order
+    Route::get('/call-centre/orders/create', [CallCentreOrderController::class, 'create'])->name('call-centre.orders.create');
+
+    // store an order
+    Route::post('/call-centre/orders/store', [CallCentreOrderController::class, 'store'])->name('call-centre.orders.store');
+
+    // edit an order
+    Route::get('/call-centre/orders/edit/{order}', [CallCentreOrderController::class, 'edit'])->name('call-centre.orders.edit');
+
+    // update an order
+    Route::put('/call-centre/orders/update/{order}', [CallCentreOrderController::class, 'update'])->name('call-centre.orders.update');
+
+    // delete an order
+    Route::delete('/call-centre/orders/delete/{order}', [CallCentreOrderController::class, 'destroy'])->name('call-centre.orders.destroy');
 
 
 
