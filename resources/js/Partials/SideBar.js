@@ -1,8 +1,7 @@
 import DropdownLink from "@/Components/DropdownLink";
 import { hasRole } from "@/utils/Utils";
 import { Link } from "@inertiajs/inertia-react";
-import { BookOpen, Clock, ListChecks, Network, PhoneIncoming, PoundSterling, Table, Timer } from "lucide";
-import { Car, Coins, DollarSign, Home, List, ListOrdered, PhoneCall, Server, ShieldAlert, UserCheck, UserPlus, Users} from "lucide-react";
+import { Car, Coins, ListOrdered, PhoneCall, Users, Menu, Cookie, CreditCard, Clock1, Table, Info, Settings, PersonStanding } from "lucide-react";
 export default function SideBar(props){
     // Get the current user
     const user = props.auth.user;
@@ -166,7 +165,7 @@ export default function SideBar(props){
                         <>
                             {/* View Orders */}
                             <DropdownLink groupTitle="View Orders" links={orderLinks} active={props.activeGroup == 1 ? true:false}>
-                                <Users />
+                                <Menu />
                             </DropdownLink>
 
                             {/* Restaurant Admin Users */}
@@ -176,32 +175,32 @@ export default function SideBar(props){
 
                             {/* Stripe Gateway */}
                             <DropdownLink groupTitle="Stripe Gateway" links={stripeGatewayLinks} active={props.activeGroup == 3 ? true:false}>
-                                <Coins />
+                                <CreditCard />
                             </DropdownLink>
 
                             {/* Products */}
                             <DropdownLink groupTitle="Products" links={productLinks} active={props.activeGroup == 4 ? true:false}>
-                                <Users />
+                                <Cookie />
                             </DropdownLink>
 
                             {/* Opening Times */}
                             <DropdownLink groupTitle="Opening Times" links={openingTimeLinks} active={props.activeGroup == 5 ? true:false}>
-                                <Users />
+                                <Clock1 />
                             </DropdownLink>
 
                             {/* Table Service */}
                             <DropdownLink groupTitle="Table Service" links={tableLinks} active={props.activeGroup == 6 ? true:false}>
-                                <Users />
+                                <PersonStanding />
                             </DropdownLink>
 
                             {/* Offers/News */}
                             <DropdownLink groupTitle="Offers/News" links={offerLinks} active={props.activeGroup == 7 ? true:false}>
-                                <Users />
+                                <Info />
                             </DropdownLink>
 
                             {/* Company Profile */}
                             <DropdownLink groupTitle="Company Profile" links={companyProfileLinks} active={props.activeGroup == 8 ? true:false}>
-                                <Users />
+                                <Settings />
                             </DropdownLink>
                         </>
                         )

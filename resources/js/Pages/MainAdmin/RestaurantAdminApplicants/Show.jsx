@@ -38,8 +38,8 @@ export default function Show( props ) {
                 onSuccess: () => {
                 },
             });
-        } 
-        
+        }
+
     const handleDecline = (e) => {
         e.preventDefault();
         put(route('admin-applications.decline', props.restaurant.id), {
@@ -61,15 +61,15 @@ export default function Show( props ) {
             activeItem={3}
         >
 
-        <div className="col-span-12">
-            <div className="intro-y flex items-center mt-5 mb-5">
-                <h2 className="text-lg font-medium mr-auto">Business Application</h2>
+        <div className="col-span-12 overflow-auto">
+            <div className="flex items-center mt-5 mb-5 intro-y">
+                <h2 className="mr-auto text-lg font-medium">Business Application</h2>
             </div>
 
-            <div className="bg-white rounded shadow overflow-hidden max-w-3xl">
+            <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
                     <div className="px-10">
                     {/* Start: Interal Only Section */}
-                        <div className="mb-3 mt-8">
+                        <div className="mt-8 mb-3">
                             <label className="block mb-2 text-sm font-medium text-gray-600">Internal Only</label>
                             <div className="flex items-center py-3">
 
@@ -215,7 +215,7 @@ export default function Show( props ) {
                                 Address
                             </label>
                             <input
-                                className="w-full mb-2 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                className="w-full px-3 py-2 mb-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="address_line_1"
                                 type="text"
                                 name="address_line_1"
@@ -249,7 +249,7 @@ export default function Show( props ) {
                             )}
 
                             <input
-                                className="w-full px-3 py-2 text-sm mb-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                className="w-full px-3 py-2 mb-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="town"
                                 type="text"
                                 name="town"
@@ -266,7 +266,7 @@ export default function Show( props ) {
                             )}
 
                             <input
-                                className="w-full px-3 py-2 text-sm mb-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                className="w-full px-3 py-2 mb-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="county"
                                 type="text"
                                 name="county"
@@ -363,13 +363,13 @@ export default function Show( props ) {
                         <Button type="submit" className="w-30">
                            Approve
                         </Button>
-                        </form> 
+                        </form>
                         </div>
                     {/* End: Submit Button */}
                     {/* Start: Decline Button */}
                         <div className="mb-6">
                         <form onSubmit={handleDecline}>
-                        <Button type="submit" className="btn btn-danger w-24 ml-3">
+                        <Button type="submit" className="w-24 ml-3 btn btn-danger">
                             Decline
                         </Button>
                         </form>

@@ -8,8 +8,8 @@ function Edit(props) {
   const [categories, setCategories] = useState([1, 3]);
 
   const { data, setData, put, processing, errors } = useForm({
-        mile: props.configuration.mile,
-        minute: props.configuration.minute,
+        mile: props.configuration.mile || '',
+        minute: props.configuration.minute || '',
   })
 
 

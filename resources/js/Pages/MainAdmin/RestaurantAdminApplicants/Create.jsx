@@ -46,25 +46,25 @@ export default function Create(props) {
             activeItem={1}
         >
 
-        <div className="col-span-12">
-            <div className="intro-y flex items-center mt-5 mb-5">
-                <h2 className="text-lg font-medium mr-auto">Add new Business</h2>
+        <div className="col-span-12 overflow-auto">
+            <div className="flex items-center mt-5 mb-5 intro-y">
+                <h2 className="mr-auto text-lg font-medium">Add new Business</h2>
             </div>
-            <div className="intro-y flex items-center mb-5">
+            <div className="flex items-center mb-5 intro-y">
                 <p className="text-gray-600">Fill in the following details to add a new Business</p>
             </div>
 
-            <div className="bg-white rounded shadow overflow-hidden max-w-3xl">
+            <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
                 <form onSubmit={handleSubmit} encType="multipart/form-data">
                     <div className="px-10">
                     {/* Start: Interal Only Section */}
-                        <div className="mb-3 mt-8">
+                        <div className="mt-8 mb-3">
                             <label className="block mb-2 text-sm font-medium text-gray-600">Internal Only</label>
                             <div className="flex items-center py-3">
 
                                 <input
                                     type="checkbox"
-                                    className="input border mr-2"
+                                    className="mr-2 border input"
                                     name="allows_table_orders"
                                     id="allows_table_orders"
                                     value={data.allows_table_orders}
@@ -74,7 +74,7 @@ export default function Create(props) {
 
                                 <input
                                     type="checkbox"
-                                    className="input border mr-2 ml-4"
+                                    className="ml-4 mr-2 border input"
                                     name="allows_collection"
                                     id="allows_collection"
                                     value={data.allows_collection}
@@ -84,7 +84,7 @@ export default function Create(props) {
 
                                 <input
                                     type="checkbox"
-                                    className="input border mr-2 ml-4"
+                                    className="ml-4 mr-2 border input"
                                     name="allows_delivery"
                                     id="allows_delivery"
                                     value={data.allows_delivery}
@@ -94,7 +94,7 @@ export default function Create(props) {
 
                                 <input
                                     type="checkbox"
-                                    className="input border mr-2 ml-4"
+                                    className="ml-4 mr-2 border input"
                                     name="allows_call_center"
                                     id="allows_call_center"
                                     value={data.allows_call_center}
@@ -222,7 +222,7 @@ export default function Create(props) {
                                 Address
                             </label>
                             <input
-                                className="w-full mb-2 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                className="w-full px-3 py-2 mb-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="address_line_1"
                                 type="text"
                                 name="address_line_1"
@@ -256,7 +256,7 @@ export default function Create(props) {
                             )}
 
                             <input
-                                className="w-full px-3 py-2 text-sm mb-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                className="w-full px-3 py-2 mb-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="town"
                                 type="text"
                                 name="town"
@@ -273,7 +273,7 @@ export default function Create(props) {
                             )}
 
                             <input
-                                className="w-full px-3 py-2 text-sm mb-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                className="w-full px-3 py-2 mb-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="county"
                                 type="text"
                                 name="county"
