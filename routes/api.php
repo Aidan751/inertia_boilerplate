@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\PermissionsController;
@@ -34,6 +35,21 @@ Route::put('/restaurants/{id}', [AdminRestaurantsController::class, 'update']);
 
 // list call centre users
 Route::get('/call-centre-users', [AdminCallCentreUserController::class, 'index']);
+
+// list orders
+Route::get('/orders', [OrderController::class, 'list']);
+
+// add a new order
+Route::post('/orders', [OrderController::class, 'store']);
+
+// get a single order
+Route::get('/orders/{id}', [OrderController::class, 'show']);
+
+// update an order
+Route::put('/orders/{id}', [OrderController::class, 'update']);
+
+// delete an order
+Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
 
 
 
