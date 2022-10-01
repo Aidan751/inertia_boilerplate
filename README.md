@@ -126,7 +126,7 @@
 
 #### create a order
 ```http
-  POST https://orderit.createaclients.co.uk/api/order
+  POST https://orderit.createaclients.co.uk/api/orders
 ```
 
 | Parameter       | Type       | Description                                                                       |
@@ -162,7 +162,7 @@
 
 #### update a order
 ```http
-  PUT https://orderit.createaclients.co.uk/api/order/{order}
+  PUT https://orderit.createaclients.co.uk/api/orders/{order}
 ```
 
 | Parameter       | Type       | Description                                                                       |
@@ -197,18 +197,18 @@
 
 #### delete a order
 ```http
-  DELETE https://orderit.createaclients.co.uk/api/order/{order}
+  DELETE https://orderit.createaclients.co.uk/api/orders/{order}
 ```
 
 ### OrderItem
 #### get all order items
 ```http
-  GET https://orderit.createaclients.co.uk/api/order-item
+  GET https://orderit.createaclients.co.uk/api/order-items
 ```
 
 #### get a order item
 ```http
-  GET https://orderit.createaclients.co.uk/api/order-item/{orderItem}
+  GET https://orderit.createaclients.co.uk/api/order-items/{orderItem}
 ```
 
 #### create a order item
