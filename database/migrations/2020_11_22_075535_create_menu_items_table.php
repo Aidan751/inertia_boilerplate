@@ -20,12 +20,12 @@ class CreateMenuItemsTable extends Migration
             $table->string('title');
             $table->longText('description')->nullable();
             $table->longText('dietary_requirements')->nullable();
-            $table->decimal('price', 10, 2);    
-         
+            $table->decimal('price', 10, 2);
+
             $table->timestamps();
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
             $table->foreign('menu_category_id')->references('id')->on('menu_categories')->onDelete('cascade');
-       
+
         });
     }
 
