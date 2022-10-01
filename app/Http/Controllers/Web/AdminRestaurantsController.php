@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Models\Logo;
+use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Banner;
@@ -212,6 +213,7 @@ class AdminRestaurantsController extends Controller
         $user->save();
 
         $user->attachRole($role);
+
         $stripeCustomerAccount = $stripe->customers->create([
             'email' => $user->email,
         ]);
