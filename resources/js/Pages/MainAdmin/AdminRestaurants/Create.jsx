@@ -24,6 +24,7 @@ export default function Create(props) {
         category: "",
         logo: "",
         banner: "",
+        role: 'restaurant_admin',
     });
 
     function handleSubmit(e) {
