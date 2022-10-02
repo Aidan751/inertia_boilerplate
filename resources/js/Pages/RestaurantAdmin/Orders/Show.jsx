@@ -10,7 +10,7 @@ import ValidationSuccess from "@/Components/ValidationSuccess";
 
 
 export default function Show(props){
-console.log(props);
+
     return (
         <>
             <Authenticated
@@ -40,13 +40,13 @@ console.log(props);
                                 <div className="flex flex-col sm:flex-row">
                                     <label className="sm:w-40 sm:flex-shrink-0 sm:flex-grow-0">Name</label>
                                     <div className="sm:ml-6">
-                                        <div className="font-medium text-base">{props.user.first_name} {props.user.last_name}</div>
+                                        <div className="font-medium text-base">{props.order.customer_name}</div>
                                     </div>
                                 </div>
                                 <div className="flex flex-col sm:flex-row mt-3">
                                     <label className="sm:w-40 sm:flex-shrink-0 sm:flex-grow-0">Contact Number</label>
                                     <div className="sm:ml-6">
-                                        <div className="font-medium text-base">{props.user.contact_number}</div>
+                                        <div className="font-medium text-base">{props.order.customer_contact_number}</div>
                                 </div>
                                 </div>
                                 </div>

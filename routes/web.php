@@ -308,7 +308,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/admin/orders/items/{order}/delete', [OrderItemController::class, 'destroy'])->name('admin.orders.items.destroy');
 
     // show a single restaurant order
-    Route::get('/restaurant/orders/show/{order}', [OrderController::class, 'show'])->name('restaurant.orders.show');
+    Route::get('/restaurant/orders/show/{order}', [RestaurantOrderController::class, 'show'])->name('restaurant.orders.show');
 
     // list restaurant orders
     Route::get('/restaurant/orders/{id}', [RestaurantOrderController::class, 'index'])->name('restaurant.orders.index');

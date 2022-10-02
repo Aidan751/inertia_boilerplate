@@ -51,6 +51,7 @@ export default function Index(props){
         });
     }
 
+
       // Show the state of the search dropdown menu
       const [searchDropdown, setSearchDropdown] = useState(false);
       const showSearchDropdown = () => {
@@ -60,6 +61,28 @@ export default function Index(props){
           setSearchDropdown(false);
       };
 
+         // handle from change
+          const handleFromChange = (e) => {
+              setData('from', e.target.value)
+          }
+
+          // handle to change
+          const handleToChange = (e) => {
+              setData('to', e.target.value)
+          }
+
+        /**
+           * Handle search form submission
+           * @param {Event} e
+           * @returns
+           * @memberof Index
+           *  */
+          const submitDateFilterForm = (e) => {
+              e.preventDefault();
+              get(route('restaurant.orders.index', {id: props.auth.user.id}), {
+                  preserveState: false,
+              });
+          }
 
     return (
         <>
@@ -86,6 +109,44 @@ export default function Index(props){
                         <ValidationSuccess message={props.success} />
                     }
 
+                    <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-12 intro-y">
+                        <div className="flex flex-col sm:flex-row items-center">
+                            <p className="text-sm mr-auto mt-10 mb-6">Filter By Date</p>
+                        </div>
+                    </div>
+                    <form onSubmit={submitDateFilterForm} className="intro-y col-span-12 flex items-center justify-between flex-wrap mt-0">
+                    {/* Start: filter by date */}
+                        <div className="flex-2 mb-3">
+                                <input
+                                    type="date"
+                                    className="px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                    name="from"
+                                    value={data.from}
+                                    onChange={handleFromChange}
+                                    style={{width: "35vw", height: "2.3rem"}}
+                                />
+                        </div>
+                        <div className="mx-5 mb-3">
+                            to
+                        </div>
+                        <div className="flex-2 mb-3">
+                                <input
+                                    type="date"
+                                    className="px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                    name="to"
+                                    value={data.to}
+                                    onChange={handleToChange}
+                                    style={{width: "35vw", height: "2.3rem"}}
+                                />
+                    </div>
+                    {/* search button */}
+                        <Button
+                            type="submit"
+                            className="mr-5 text-md mb-3"
+                        >
+                            Search
+                        </Button>
+                    </form>
                     {/*  */}
                     <div className="grid grid-cols-12 gap-6 mt-5">
                         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
@@ -99,13 +160,14 @@ export default function Index(props){
                             <form className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
                                 <div className="relative w-56 text-slate-500">
 
-                                    <div className="search">
+                                    <div className="search"  style={{width: "35vw", height: "2.3rem"}}>
                                         <input
                                         type="text"
                                         className="text-sm text-gray-700 border rounded shadow appearance-none search__input focus:outline-none focus:shadow-outline"
                                         placeholder="Search..."
                                         value={data.search}
                                         onChange={e => setData('search', e.target.value)}
+                                        style={{width: "35vw", height: "2.3rem"}}
                                         />
                                         <Search className="search__icon dark:text-slate-500" />
                                     </div>

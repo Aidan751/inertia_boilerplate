@@ -19,23 +19,24 @@ class OrderController extends Controller
         */
         public function index(Request $request, $id)
         {
-
             $user = User::find($id);
                // Get all users, paginate through them using the "perPage" parameter. Search through the users, if the "search" parameter is present.
-          $search = $request->search ?? null;
-
-          if($search !== null){
+          $search = $request->get('search', '');
+          $from = $request->get('from', '');
+          $to = $request->get('to', '');
 
               $orders = Order::where('restaurant_id', $user->restaurant_id)->where(function ($q) use ($search) {
                  $q->where('customer_name', 'LIKE', '%' . $search . '%')->orWhere('customer_contact_number', 'LIKE', '%' . $search . '%')->orWhere('address_line_1', 'LIKE', '%' . $search . '%')->orWhere('address_line_2', 'LIKE', '%' . $search . '%')->orWhere('town', 'LIKE', '%' . $search . '%')->orWhere('postcode', 'LIKE', '%' . $search . '%')->orWhere('status', 'LIKE', '%' . $search . '%');
               })
+              ->when($from, function($q) use ($from) {
+                $q->whereDate('pickup_date', '>=', $from);
+            })
+            ->when($to, function($q) use ($to) {
+                $q->whereDate('pickup_date', '<=', $to);
+            })
               ->latest()
-              ->paginate(10);
-          }
-          else {
+              ->paginate($request->perPage ?? 10);
 
-              $orders = Order::where('restaurant_id', $user->restaurant_id)->paginate($request->perPage ?? 10);
-          }
 
 
           // Return an inertia view with the users
@@ -43,7 +44,9 @@ class OrderController extends Controller
               'user' => $user,
               'orders' => $orders,
               "perPage" => $request->perPage ?? 10,
-              "search" => $request->search ?? null
+              "search" => $request->search ?? null,
+              "from" => $request->from ?? null,
+              "to" => $request->to ?? null,
           ]);
         }
 
@@ -157,5 +160,17 @@ class OrderController extends Controller
                     'Order updated!'
                 );
             }
+    }
+
+    public function show(Request $request, Order $order)
+    {
+        $order_items = OrderItem::where('order_id', $order->id)->get();
+        $user = User::find($order->user_id);
+        // Return an inertia view with the order
+        return Inertia::render('RestaurantAdmin/Orders/Show', [
+            'user' => $user,
+            'order' => $order,
+            'order_items' => $order_items
+        ]);
     }
 }

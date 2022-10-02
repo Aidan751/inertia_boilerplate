@@ -126,7 +126,7 @@ console.log(props);
                                 >
                                     Search
                                 </Button>
-                        </form>
+                            </form>
                             {/* End: filter by date */}
                             {/* Pagination Information */}
                             <div className="hidden md:block mx-auto text-slate-500">
