@@ -22,7 +22,7 @@ function Create(props) {
   const submit = (e) => {
       e.preventDefault();
 
-      post(route('restaurant.users.store', {id: props.auth.user.restaurant_id}));
+      post(route('restaurant.users.store'));
   };
 
   return (

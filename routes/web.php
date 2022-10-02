@@ -309,13 +309,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::delete('/admin/orders/items/{order}/delete', [OrderItemController::class, 'destroy'])->name('admin.orders.items.destroy');
 
     // list restaurant users
-    Route::get('/restaurant/users/{id}', [RestaurantAdminUserController::class, 'index'])->name('restaurant.users.index');
+    Route::get('/restaurant/users/', [RestaurantAdminUserController::class, 'index'])->name('restaurant.users.index');
 
     // create a restaurant user
-    Route::get('/restaurant/users/create/{id}', [RestaurantAdminUserController::class, 'create'])->name('restaurant.users.create');
+    Route::get('/restaurant/users/create/', [RestaurantAdminUserController::class, 'create'])->name('restaurant.users.create');
 
     // store a restaurant user
-    Route::post('/restaurant/users/store/{id}', [RestaurantAdminUserController::class, 'store'])->name('restaurant.users.store');
+    Route::post('/restaurant/users/store/', [RestaurantAdminUserController::class, 'store'])->name('restaurant.users.store');
 
     // edit a restaurant user
     Route::get('/restaurant/users/edit/{user}', [RestaurantAdminUserController::class, 'edit'])->name('restaurant.users.edit');

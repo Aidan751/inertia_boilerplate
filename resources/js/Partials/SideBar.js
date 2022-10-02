@@ -53,8 +53,8 @@ export default function SideBar(props){
 
     // Links for user to access restaurant admins
     const restaurantAdminLinks = [
-        {title: "Add User", href: route("restaurant.users.create", {id: user.restaurant_id})},
-        {title: "List Users", href: route("restaurant.users.index", {id: user.restaurant_id})},
+        {title: "Add User", href: route("restaurant.users.create")},
+        {title: "List Users", href: route("restaurant.users.index")},
     ];
 
     // Links for user to access stripe gateways

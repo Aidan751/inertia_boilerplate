@@ -9,6 +9,7 @@ use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use App\Models\Configuration;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 
@@ -22,14 +23,14 @@ class AdminUserController extends Controller
      * @return \Inertia\Response
      */
 
-    public function index(Request $request, $id)
+    public function index(Request $request)
     {
         // Get all users, paginate through them using the "perPage" parameter. Search through the users, if the "search" parameter is present.
         $search = $request->search ?? null;
 
         if($search !== null){
 
-            $users = User::where('role_id', 2)->where('restaurant_id', $id)->where(function ($q) use ($search) {
+            $users = User::where('role_id', 2)->where('restaurant_id', Auth::user()->restaurant_id)->where(function ($q) use ($search) {
                $q->where('first_name', 'LIKE', '%' . $search . '%')->orWhere('last_name', 'LIKE', '%' . $search . '%')->orWhere('email', 'LIKE', '%' . $search . '%');
             })
             ->latest()
@@ -37,7 +38,7 @@ class AdminUserController extends Controller
         }
         else {
 
-            $users = User::where('role_id', 2)->where('restaurant_id', $id)->paginate($request->perPage ?? 10);
+            $users = User::where('role_id', 2)->where('restaurant_id', Auth::user()->restaurant_id)->paginate($request->perPage ?? 10);
         }
 
 
@@ -57,10 +58,8 @@ class AdminUserController extends Controller
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function create($id){
-        return Inertia::render('RestaurantAdmin/AdminUsers/Create', [
-            'restaurant' => Restaurant::find($id)
-        ]);
+    public function create(){
+        return Inertia::render('RestaurantAdmin/AdminUsers/Create');
     }
 
 
@@ -70,11 +69,8 @@ class AdminUserController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $id)
+    public function store(Request $request)
     {
-
-        // get the restaurant
-        $restaurant = Restaurant::find($id);
         // validate the request
         $request->validate([
             'first_name' => 'required|string|max:255',
@@ -94,7 +90,7 @@ class AdminUserController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
             "role_id" => $role->id,
-            "restaurant_id" => $request->restaurant_id
+            "restaurant_id" => Auth::user()->restaurant_id
         ]);
 
         // Assign user to a role using the laratrust package
@@ -106,7 +102,7 @@ class AdminUserController extends Controller
         }
 
         // Redirect back to the index page with a success message
-        return redirect()->route('restaurant.users.index', ['id' => $request->restaurant_id])->with('success', 'Admin User created successfully');
+        return redirect()->route('restaurant.users.index')->with('success', 'Admin User created successfully');
     }
 
     /**
@@ -162,7 +158,7 @@ class AdminUserController extends Controller
         $user->update($data);
 
 
-        return redirect()->route('restaurant.users.index', ['id' => $user->restaurant_id])->with('success', 'Admin user updated successfully');
+        return redirect()->route('restaurant.users.index')->with('success', 'Admin user updated successfully');
     }
 
     /**
@@ -173,9 +169,10 @@ class AdminUserController extends Controller
      */
     public function destroy(User $user)
     {
-        $restaurant = Restaurant::where('id', $user->restaurant_id)->first();
+
         $user->delete();
 
-        return redirect()->route('restaurant.users.index', ['id' => $restaurant->id])->with('success', 'Admin user deleted successfully');
+        return redirect()->route('restaurant.users.index')->with('success', 'Admin user deleted successfully');
+
     }
 }

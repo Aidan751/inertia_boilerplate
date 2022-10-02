@@ -32,7 +32,6 @@ export default function Index(props){
     const [deleteModal, setDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
 
-    console.log(props);
     /**
      * Handle search form submission
      * @param {Event} e
@@ -40,7 +39,7 @@ export default function Index(props){
     const submitSearch = (e) => {
         e.preventDefault();
 
-        get(route('restaurant.users.index', {id:props.auth.user.restaurant_id}), {
+        get(route('restaurant.users.index'), {
             preserveState: false,
             onSuccess: () => {
                 // Do something...
@@ -70,7 +69,7 @@ export default function Index(props){
     const paginate = (e) => {
         e.preventDefault();
 
-        Inertia.get(route("restaurant.users.index", {id:props.auth.user.restaurant_id}), {
+        Inertia.get(route("restaurant.users.index"), {
             perPage: e.target.value,
             search: props.search
         },);
