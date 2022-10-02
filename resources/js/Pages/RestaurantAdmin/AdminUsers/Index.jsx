@@ -40,7 +40,7 @@ export default function Index(props){
     const submitSearch = (e) => {
         e.preventDefault();
 
-        get(route('restaurant.users.index'), {
+        get(route('restaurant.users.index', {id:props.auth.user.restaurant_id}), {
             preserveState: false,
             onSuccess: () => {
                 // Do something...
@@ -70,7 +70,7 @@ export default function Index(props){
     const paginate = (e) => {
         e.preventDefault();
 
-        Inertia.get(route("restaurant.users.index"), {
+        Inertia.get(route("restaurant.users.index", {id:props.auth.user.restaurant_id}), {
             perPage: e.target.value,
             search: props.search
         },);
