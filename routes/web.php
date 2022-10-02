@@ -17,6 +17,7 @@ use App\Http\Controllers\Web\AdminCallCentreUserController;
 use App\Http\Controllers\Web\AdminConfigurationsController;
 use App\Http\Controllers\Web\AdminRestaurantCategoriesController;
 use App\Http\Controllers\Web\Restaurant\OrderController as RestaurantOrderController;
+use App\Http\Controllers\Web\Restaurant\AdminUserController as RestaurantAdminUserController;
 use App\Http\Controllers\Web\CallCentre\OrderController as CallCentreOrderController;
 
 /*
@@ -306,6 +307,25 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // delete order items
     Route::delete('/admin/orders/items/{order}/delete', [OrderItemController::class, 'destroy'])->name('admin.orders.items.destroy');
+
+    // list restaurant users
+    Route::get('/restaurant/users/{id}', [RestaurantAdminUserController::class, 'index'])->name('restaurant.users.index');
+
+    // create a restaurant user
+    Route::get('/restaurant/users/create/{id}', [RestaurantAdminUserController::class, 'create'])->name('restaurant.users.create');
+
+    // store a restaurant user
+    Route::post('/restaurant/users/store/{id}', [RestaurantAdminUserController::class, 'store'])->name('restaurant.users.store');
+
+    // edit a restaurant user
+    Route::get('/restaurant/users/edit/{user}', [RestaurantAdminUserController::class, 'edit'])->name('restaurant.users.edit');
+
+    // update a restaurant user
+    Route::put('/restaurant/users/update/{user}', [RestaurantAdminUserController::class, 'update'])->name('restaurant.users.update');
+
+    // delete a restaurant user
+    Route::delete('/restaurant/users/delete/{user}', [RestaurantAdminUserController::class, 'destroy'])->name('restaurant.users.destroy');
+
 
     // show a single restaurant order
     Route::get('/restaurant/orders/show/{order}', [RestaurantOrderController::class, 'show'])->name('restaurant.orders.show');

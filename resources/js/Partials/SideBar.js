@@ -5,7 +5,6 @@ import { Car, Coins, ListOrdered, PhoneCall, Users, Menu, Cookie, CreditCard, Cl
 export default function SideBar(props){
     // Get the current user
     const user = props.auth.user;
-
     // Links for Site Admin to access course categories
     const linkArray = [
         {title:"Link Title",href:"/url"},
@@ -54,8 +53,8 @@ export default function SideBar(props){
 
     // Links for user to access restaurant admins
     const restaurantAdminLinks = [
-        {title: "Add User", href: route("admin-restaurants.create")},
-        {title: "List Users", href: route("admin-restaurants.index")},
+        {title: "Add User", href: route("restaurant.users.create", {id: user.restaurant_id})},
+        {title: "List Users", href: route("restaurant.users.index", {id: user.restaurant_id})},
     ];
 
     // Links for user to access stripe gateways
