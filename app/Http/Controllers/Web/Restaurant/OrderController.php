@@ -17,73 +17,34 @@ class OrderController extends Controller
         *
         * @return \Illuminate\Http\Response
         */
-        public function index(Request $request)
+        public function index(Request $request, $id)
         {
 
-            $user = User::where('role_id', '4')->first();
+            $user = User::find($id);
+               // Get all users, paginate through them using the "perPage" parameter. Search through the users, if the "search" parameter is present.
+          $search = $request->search ?? null;
 
-            $customer = $request->get('customer', '');
-            $status = $request->get('status', '');
-            $from = $request->get('from', '');
-            $to = $request->get('to', '');
+          if($search !== null){
 
-            $customers = User::whereHas('orders', function ($q) use($user) {
-                $q->where('restaurant_id', Auth::user()->restaurant_id);
-            })->orderBy('last_name')->get();
-            $customersArray = [];
-            array_push($customersArray, ["placeholder" => true, "text" => "Select a customer"]);
+              $orders = Order::where('restaurant_id', $user->restaurant_id)->where(function ($q) use ($search) {
+                 $q->where('customer_name', 'LIKE', '%' . $search . '%')->orWhere('customer_contact_number', 'LIKE', '%' . $search . '%')->orWhere('address_line_1', 'LIKE', '%' . $search . '%')->orWhere('address_line_2', 'LIKE', '%' . $search . '%')->orWhere('town', 'LIKE', '%' . $search . '%')->orWhere('postcode', 'LIKE', '%' . $search . '%')->orWhere('status', 'LIKE', '%' . $search . '%');
+              })
+              ->latest()
+              ->paginate(10);
+          }
+          else {
 
-            foreach ($customers as $user) {
-
-                $selected = false;
-
-                if ($customer == $user->id) {
-                    $selected = true;
-                }
-
-                array_push($customersArray, ["text" => $user->getFullName(), "value" => $user->id, "selected" =>  $selected]);
-
-            }
+              $orders = Order::where('restaurant_id', $user->restaurant_id)->paginate($request->perPage ?? 10);
+          }
 
 
-            // Create a model for this
-            $order = new Order;
-
-            $orders = $order->with('customer', 'driver')
-                ->where('restaurant_id', Auth::user()->restaurant_id)
-                ->when($from, function($q) use ($from) {
-                    $q->whereDate('pickup_date', '>=', $from);
-                })
-                ->when($to, function($q) use ($to) {
-                    $q->whereDate('pickup_date', '<=', $to);
-                })
-                ->when('customer' != null, function($q) use ($customer) {
-                    if ($customer != null) {
-                        $q->where('id', $customer);
-                    }
-                })
-                 ->where('payment_status', 'paid')
-                 ->where(function ($q) use ($status) {
-
-                     if ($status == 'complete') {
-                         $q->where('status', 'completed');
-                     } else if ($status == 'incomplete') {
-                         $q->where('status', '!=', 'completed');
-                     }
-                 })
-                 ->latest()
-                 ->paginate(10)->appends(request()->query());
-
-
-
-            return Inertia::render('RestaurantAdmin/Orders/Index', [
-                'orders' => $orders,
-                'customers' => $customersArray,
-                'status' => $status,
-                'from' => $from,
-                'to' => $to,
-                'customer' => $customer,
-            ]);
+          // Return an inertia view with the users
+          return Inertia::render('RestaurantAdmin/Orders/Index', [
+              'user' => $user,
+              'orders' => $orders,
+              "perPage" => $request->perPage ?? 10,
+              "search" => $request->search ?? null
+          ]);
         }
 
         public function sendPush(Request $request, $id) {

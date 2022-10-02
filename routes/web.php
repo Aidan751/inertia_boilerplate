@@ -307,8 +307,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // delete order items
     Route::delete('/admin/orders/items/{order}/delete', [OrderItemController::class, 'destroy'])->name('admin.orders.items.destroy');
 
+    // show a single restaurant order
+    Route::get('/restaurant/orders/show/{order}', [OrderController::class, 'show'])->name('restaurant.orders.show');
+
     // list restaurant orders
-    Route::get('/restaurant/orders', [RestaurantOrderController::class, 'index'])->name('restaurant.orders.index');
+    Route::get('/restaurant/orders/{id}', [RestaurantOrderController::class, 'index'])->name('restaurant.orders.index');
 
     // create an order
     Route::get('/restaurant/orders/create', [RestaurantOrderController::class, 'create'])->name('restaurant.orders.create');

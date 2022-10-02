@@ -4,16 +4,19 @@ namespace App\Http\Controllers\Api;
 
 use Carbon\Carbon;
 use Stripe\Stripe;
+use Stripe\Customer;
 use App\Models\Order;
 use Stripe\StripeClient;
 use Stripe\PaymentMethod;
 use App\Events\OrderAdded;
 use App\Models\Restaurant;
 use App\Models\UserDriver;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\StripePayment;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Database\QueryException;
 
@@ -33,14 +36,14 @@ class OrderController extends Controller
 
     public function list()
     {
-        $role = auth('api')->user()->role_id;
+        $role = Auth::user()->role_id;
 
         if ($role == 2) {
-            $query = Order::with('items','restaurant')->where('driver_id', auth('api')->user()->id)
+            $query = Order::with('items','restaurant')->where('driver_id', Auth::user()->id)
             ->orderBy('pickup_date', 'desc')
             ->paginate(25);
         } else {
-            $query = Order::with('items','restaurant')->where('customer_id', auth('api')->user()->id)
+            $query = Order::with('items','restaurant')->where('customer_id', Auth::user()->id)
             ->orderBy('pickup_date', 'desc')
             ->paginate(25);
         }
@@ -73,194 +76,194 @@ class OrderController extends Controller
     }
 
     public function add(Request $request) {
-
-            $reference = $this->generateRandomString();
-
-            while (Order::where('order_reference', $reference)->exists()) {
-                $reference = $this->generateRandomString();
-            }
-
             $restaurant = Restaurant::where('id', $request->restaurant_id)->first();
 
-            if ($restaurant == null) {
-                return response('fail', 404);
-            } else {
-                $stripe = new StripeClient(
-                    config('services.stripe_secret_key')
-                );
+            // create an order
+            $order = Order::create([
+                'order_reference' => $request->order_reference,
+                'restaurant_id' => $restaurant->id,
+                'pickup_date' => $request->pickup_date,
+                'time_slot' => $request->time_slot,
+                'order_method' => $request->order_method,
+                'price' => $request->price,
+                'delivery_price' => $request->delivery_price,
+                'payment_status' => $request->payment_status,
+                'payment_method' => $request->payment_method,
+                'pickup_method' => $request->pickup_method,
+                'status' => $request->status,
+                'address' => $request->address,
+                'address_line_1' => $request->address_line_1,
+                'address_line_2' => $request->address_line_2,
+                'town' => $request->town,
+                'county' => $request->county,
+                'postcode' => $request->postcode,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'table_number' => $request->table_number,
+                'customer_name' => $request->customer_name,
+                'customer_contact_number' => $request->customer_contact_number,
+                'user_id' => $request->user_id,
+            ]);
 
-                // Amount does not include delivery fee
-                $amount = round((doubleval($request->price) * 100), 2);
+            return response($order, 200);
 
-                $percentageTransaction = 10;
-                $restaurantStripe = $restaurant->stripe_account_id;
-                $deliveryFeeAmount = round(doubleval($request->delivery_price * 100), 2);
+            // if ($restaurant == null) {
+            //     return response('fail', 404);
+            // } else {
+            //     $stripe = new StripeClient(
+            //         config('services.stripe_secret_key')
+            //     );
 
-                // Application fee does not include delivery fee
-                $applicationFeeAmount = round(($amount / $percentageTransaction), 2);
-                $customerStripe = auth('api')->user()->stripe->stripe_account_id;
-                $customerPaymentMethod = auth('api')->user()->stripe->payment_method_id;
+            //     // Amount does not include delivery fee
+            //     $amount = round((doubleval($request->price) * 100), 2);
 
-                $totalAmount = $amount + $deliveryFeeAmount;
+            //     $percentageTransaction = 10;
+            //     $restaurantStripe = $restaurant->stripe_account_id;
+            //     $deliveryFeeAmount = round(doubleval($request->delivery_price * 100), 2);
 
-                $stripePayment = new StripePayment;
+            //     // Application fee does not include delivery fee
+            //     $applicationFeeAmount = round(($amount / $percentageTransaction), 2);
+            //     $customerStripe = Auth::user()->stripe->stripe_account_id;
+            //     $customerPaymentMethod = auth('api')->user()->stripe->payment_method_id;
 
-                if ($restaurant->company_drivers == 1) {
-                    // Client gets application fee + delivery charge
-                    $applicationFeeAmount = $applicationFeeAmount + $deliveryFeeAmount;
-                }
+            //     $totalAmount = $amount + $deliveryFeeAmount;
 
-                if ($request->paymentIntent == "" || $request->paymentIntent == null) {
+            //     $stripePayment = new StripePayment;
 
-                    Stripe::setApiKey(config('services.stripe_secret_key'));
+            //     if ($restaurant->company_drivers == 1) {
+            //         // Client gets application fee + delivery charge
+            //         $applicationFeeAmount = $applicationFeeAmount + $deliveryFeeAmount;
+            //     }
 
-                    $payment_method = PaymentMethod::create([
-                        'customer' => $customerStripe,
-                        'payment_method' => $customerPaymentMethod,
-                      ], [
-                        'stripe_account' => $restaurantStripe,
-                      ]);
+            //     if ($request->paymentIntent == "" || $request->paymentIntent == null) {
 
-                      $newCustomer = \Stripe\Customer::create([
-                        'payment_method' => $payment_method->id,
-                      ], [
-                        'stripe_account' => $restaurantStripe,
-                      ]);
+            //         Stripe::setApiKey(config('services.stripe_secret_key'));
 
-                    $paymentIntent = $stripe->paymentIntents->create([
-                        'amount' => $totalAmount,
-                        'currency' => 'gbp',
-                        'payment_method' => $payment_method->id,
-                        'confirm' => true,
-                        'customer' => $newCustomer->id,
-                        'capture_method' => 'manual',
-                        'application_fee_amount' => round($applicationFeeAmount),
-                    ],['stripe_account' => $restaurantStripe]);
+            //         $payment_method = PaymentMethod::create([
+            //             'customer' => $customerStripe,
+            //             'payment_method' => $customerPaymentMethod,
+            //           ], [
+            //             'stripe_account' => $restaurantStripe,
+            //           ]);
 
-                    if ($paymentIntent->status == "requires_action") {
-                        return response()->json([
-                            "payment_intent" => $paymentIntent->id,
-                            "client_secret" => $paymentIntent->client_secret,
-                            "message" => "Order not found"
-                        ], 402);
-                    }
-                } else {
-                    $paymentIntent = $stripe->paymentIntents->retrieve($request->paymentIntent, [
-                        'client_secret' => $request->clientSecret,
-                    ]);
-                }
+            //           $newCustomer = Customer::create([
+            //             'payment_method' => $payment_method->id,
+            //           ], [
+            //             'stripe_account' => $restaurantStripe,
+            //           ]);
 
-                $stripePayment->payment_intent_id = $paymentIntent->id;
-                $stripePayment->client_secret = $paymentIntent->client_secret;
-                $stripePayment->user_id = auth('api')->user()->id;
-                $stripePayment->amount = $totalAmount;
-                $stripePayment->application_fee_amount = $applicationFeeAmount;
+            //         $paymentIntent = $stripe->paymentIntents->create([
+            //             'amount' => $totalAmount,
+            //             'currency' => 'gbp',
+            //             'payment_method' => $payment_method->id,
+            //             'confirm' => true,
+            //             'customer' => $newCustomer->id,
+            //             'capture_method' => 'manual',
+            //             'application_fee_amount' => round($applicationFeeAmount),
+            //         ],['stripe_account' => $restaurantStripe]);
 
-                $stripePayment->status = $paymentIntent->status;
+            //         if ($paymentIntent->status == "requires_action") {
+            //             return response()->json([
+            //                 "payment_intent" => $paymentIntent->id,
+            //                 "client_secret" => $paymentIntent->client_secret,
+            //                 "message" => "Order not found"
+            //             ], 402);
+            //         }
+            //     } else {
+            //         $paymentIntent = $stripe->paymentIntents->retrieve($request->paymentIntent, [
+            //             'client_secret' => $request->clientSecret,
+            //         ]);
+            //     }
 
-                $stripePayment->save();
+            //     $stripePayment->payment_intent_id = $paymentIntent->id;
+            //     $stripePayment->client_secret = $paymentIntent->client_secret;
+            //     $stripePayment->user_id = auth('api')->user()->id;
+            //     $stripePayment->amount = $totalAmount;
+            //     $stripePayment->application_fee_amount = $applicationFeeAmount;
 
-                $order = new Order;
-                $order->order_reference = $reference;
-                $order->restaurant_id = $request->restaurant_id;
-                $order->customer_id = auth('api')->user()->id;
-                $order->pickup_date = $request->pickup_date;
-                $order->time_slot = $request->time_slot;
-                $order->price = doubleval($request->price);
-                $order->delivery_price = doubleval($request->delivery_price);
-                $order->payment_method = $request->payment_method;
-                $order->pickup_method = $request->pickup_method;
-                $order->status = 'pending';
-                $order->payment_status = 'paid';
+            //     $stripePayment->status = $paymentIntent->status;
 
-                $order->address = $request->address;
-                $order->latitude = $request->latitude;
-                $order->longitude = $request->longitude;
+            //     $stripePayment->save();
 
-                $order->payment_intent_id = $paymentIntent->id;
+            //     $order = new Order;
+            //     $order->order_reference = $reference;
+            //     $order->restaurant_id = $request->restaurant_id;
+            //     $order->customer_id = auth('api')->user()->id;
+            //     $order->pickup_date = $request->pickup_date;
+            //     $order->time_slot = $request->time_slot;
+            //     $order->price = doubleval($request->price);
+            //     $order->delivery_price = doubleval($request->delivery_price);
+            //     $order->payment_method = $request->payment_method;
+            //     $order->pickup_method = $request->pickup_method;
+            //     $order->status = 'pending';
+            //     $order->payment_status = 'paid';
 
-                if (!is_null($request->table_number)) {
-                    $order->table_number = $request->table_number;
-                }
+            //     $order->address = $request->address;
+            //     $order->latitude = $request->latitude;
+            //     $order->longitude = $request->longitude;
 
-                if (!is_null($request->address_line_1)) {
-                    $order->address_line_1 = $request->address_line_1;
-                }
-                if (!is_null($request->address_line_2)) {
-                    $order->address_line_2 = $request->address_line_2;
-                }
-                if (!is_null($request->town)) {
-                    $order->town = $request->town;
-                }
-                if (!is_null($request->county)) {
-                    $order->county = $request->county;
-                }
-                if (!is_null($request->postcode)) {
-                    $order->postcode = $request->postcode;
-                }
+            //     $order->payment_intent_id = $paymentIntent->id;
+
+            //     if (!is_null($request->table_number)) {
+            //         $order->table_number = $request->table_number;
+            //     }
+
+            //     if (!is_null($request->address_line_1)) {
+            //         $order->address_line_1 = $request->address_line_1;
+            //     }
+            //     if (!is_null($request->address_line_2)) {
+            //         $order->address_line_2 = $request->address_line_2;
+            //     }
+            //     if (!is_null($request->town)) {
+            //         $order->town = $request->town;
+            //     }
+            //     if (!is_null($request->county)) {
+            //         $order->county = $request->county;
+            //     }
+            //     if (!is_null($request->postcode)) {
+            //         $order->postcode = $request->postcode;
+            //     }
 
 
-                try {
-                    $order->save();
-                    $order->items()->createMany(
-                        $request->items
-                    );
+            //     try {
+            //         $order->save();
+            //         $order->items()->createMany(
+            //             $request->items
+            //         );
 
-                    event(new OrderAdded($order->restaurant_id));
+            //         event(new OrderAdded($order->restaurant_id));
 
-                } catch (QueryException $ex) {
-                    $errorCode = $ex->errorInfo[1];
-                    if ($errorCode == 1062) {
-                        return response()->json([
-                        'message' => $ex->errorInfo[2],
-                    ], 400);
-                    } else {
-                        return response()->json([
-                        'message' => $ex,
-                    ], 422);
-                    }
-                }
-                return response($order, 200);
-            }
+            //     } catch (QueryException $ex) {
+            //         $errorCode = $ex->errorInfo[1];
+            //         if ($errorCode == 1062) {
+            //             return response()->json([
+            //             'message' => $ex->errorInfo[2],
+            //         ], 400);
+            //         } else {
+            //             return response()->json([
+            //             'message' => $ex,
+            //         ], 422);
+            //         }
+            //     }
+            //     return response($order, 200);
+            // }
+
 
     }
 
-    public function get($id)
+    public function getOrders(Restaurant $restaurant, Request $request)
     {
-        // Attempt to find the order
-        $order = Order::with('items',  'customer',  'restaurant', 'driver','driver.location')
-            ->where('id', $id)
-            ->firstOrFail();
-
-            $url =  '';//config('app.url');
-
-        if ($order->restaurant != null) {
-            $logo = $order->restaurant->getMedia('logos');
-        $banner = $order->restaurant->getMedia('banners');
-
-        if(!$logo->isEmpty()){
-            $order->restaurant->setAttribute('logo', $url . $logo[0]->getFullUrl());
-        }
-        else{
-            $order->restaurant->setAttribute('logo', null);
-        }
-
-        if(!$banner->isEmpty()){
-            $order->restaurant->setAttribute('banner', $url . $banner[0]->getFullUrl());
-        }
-        else{
-            $order->restaurant->setAttribute('banner', null);
-        }
-        }
+        $orders = $restaurant->orders()->with('items')->get();
+        return response($orders, 200);
+    }
 
 
-        if ($order === null) {
-            return response()->json([
-                "message" => "Order not found"
-            ], 401);
-        } else {
-            return response($order, 200);
-        }
+    // get all orders
+    public function getAll()
+    {
+        $orders = Order::all();
+
+        return response($orders, 200);
     }
 
 

@@ -64,4 +64,9 @@ class User extends Authenticatable
         return $this->hasOne(Configuration::class);
     }
 
+    // get user full name
+    public function getFullName()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
 }

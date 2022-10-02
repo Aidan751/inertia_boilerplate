@@ -49,7 +49,7 @@ export default function SideBar(props){
 
     // Links for restaurant user to access orders
     const restaurantOrderLinks = [
-        {title: "List Orders", href: route("restaurant.orders.index")},
+        {title: "List Orders", href: route("restaurant.orders.index", {id: user.id})},
     ];
 
     // Links for user to access restaurant admins
