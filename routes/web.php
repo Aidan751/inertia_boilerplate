@@ -331,7 +331,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // delete a restaurant user
     Route::delete('/restaurant/users/delete/{user}', [RestaurantAdminUserController::class, 'destroy'])->name('restaurant.users.destroy');
 
-
     // show a single restaurant order
     Route::get('/restaurant/orders/show/{order}', [RestaurantOrderController::class, 'show'])->name('restaurant.orders.show');
 
@@ -425,11 +424,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // delete a restaurant extra
     Route::delete('/restaurant/extras/delete/{extra}', [RestaurantExtraController::class, 'destroy'])->name('restaurant.extras.destroy');
 
-
-
-
-
-
     // list call centre orders
     Route::get('/call-centre/orders', [CallCentreOrderController::class, 'index'])->name('call-centre.orders.index');
 
@@ -447,8 +441,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // delete an order
     Route::delete('/call-centre/orders/delete/{order}', [CallCentreOrderController::class, 'destroy'])->name('call-centre.orders.destroy');
-
-
 
     // get all applications
     Route::get('/admin-applications', [AdminApplicationsController::class, 'index'])->name('admin-applications.index');
@@ -501,6 +493,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Route::view('/restaurant/restaurant-tables', 'livewire.table_numbers')->name('restaurant.alltables');
 });
-
 
 require __DIR__ . "/auth.php";
