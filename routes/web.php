@@ -18,6 +18,7 @@ use App\Http\Controllers\Web\AdminConfigurationsController;
 use App\Http\Controllers\Web\AdminRestaurantCategoriesController;
 use App\Http\Controllers\Web\Restaurant\OrderController as RestaurantOrderController;
 use App\Http\Controllers\Web\Restaurant\AdminUserController as RestaurantAdminUserController;
+use App\Http\Controllers\Web\Restaurant\StripeController as RestaurantStripeController;
 use App\Http\Controllers\Web\CallCentre\OrderController as CallCentreOrderController;
 
 /*
@@ -146,9 +147,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/restaurant/restaurant-tables', 'livewire.table_numbers')->name('restaurant.alltables');
 
     // TODO: stripe routes
-    Route::get('/restaurant/stripe', [RestaurantStripeController::class, 'link'])->name('stripe.link');
-    Route::get('/restaurant/stripe/complete', [RestaurantStripeController::class, 'complete'])->name('stripe.complete');
-    Route::post('/restaurant/order/{id}/push', [OrderController::class, 'sendPush'])->name('order.push');
+    Route::get('/restaurant/stripe', [RestaurantStripeController::class, 'link'])->name('restaurant.stripe.link');
+    Route::get('/restaurant/stripe/complete', [RestaurantStripeController::class, 'complete'])->name('restaurant.stripe.complete');
+    Route::post('/restaurant/order/{id}/push', [OrderController::class, 'sendPush'])->name('restaurant.order.push');
 
 
 

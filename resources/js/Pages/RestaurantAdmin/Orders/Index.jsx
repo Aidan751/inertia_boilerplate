@@ -55,28 +55,29 @@ export default function Index(props){
     const handleStatusFilter = (e) => {
         e.preventDefault();
         Inertia.get(route('restaurant.orders.index', {id:props.user.id}), {
-            status: e.target.value
+            status: e.target.value,
+            from: data.from,
+            to: data.to,
         });
     }
 
 
-      // Show the state of the search dropdown menu
-      const [searchDropdown, setSearchDropdown] = useState(false);
-      const showSearchDropdown = () => {
-          setSearchDropdown(true);
-      };
-      const hideSearchDropdown = () => {
-          setSearchDropdown(false);
-      };
-
          // handle from change
           const handleFromChange = (e) => {
-              setData('from', e.target.value)
+            e.preventDefault();
+            Inertia.get(route('restaurant.orders.index', {id:props.user.id}), {
+                    from: e.target.value,
+                    to: data.to
+                });
           }
 
           // handle to change
           const handleToChange = (e) => {
-              setData('to', e.target.value)
+            e.preventDefault();
+            Inertia.get(route('restaurant.orders.index', {id:props.user.id}), {
+                    from: data.from,
+                    to: e.target.value
+                });
           }
 
         /**
@@ -122,7 +123,7 @@ export default function Index(props){
                             <p className="text-sm mr-auto mt-10 mb-6">Filter By Date</p>
                         </div>
                     </div>
-                    <form onSubmit={submitDateFilterForm} className="intro-y col-span-12 flex items-center justify-between flex-wrap mt-0">
+                    <div onSubmit={submitDateFilterForm} className="intro-y col-span-12 flex items-center justify-between flex-wrap mt-0">
                     {/* Start: filter by date */}
                         <div className="flex-2 mb-3">
                                 <input
@@ -147,14 +148,7 @@ export default function Index(props){
                                     style={{width: "35vw", height: "2.3rem"}}
                                 />
                     </div>
-                    {/* search button */}
-                        <Button
-                            type="submit"
-                            className="mr-5 text-md mb-3"
-                        >
-                            Search
-                        </Button>
-                    </form>
+                    </div>
 
                     {/* filter orders by status 'pending', 'confirmed', 'driver-en-route', 'order-en-route', 'completed', 'cancelled' */}
 
@@ -170,6 +164,7 @@ export default function Index(props){
                             value={data.status}
                             style={{width: "35vw", height: "2.3rem"}}
                         >
+                            <option value="">All</option>
                             <option value="pending">Pending</option>
                             <option value="confirmed">Confirmed</option>
                             <option value="driver-en-route">Driver En Route</option>

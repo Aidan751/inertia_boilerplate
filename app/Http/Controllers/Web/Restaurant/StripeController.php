@@ -1,5 +1,5 @@
 <?php
-namespace App\Http\Controllers\Web;
+namespace App\Http\Controllers\Web\Restaurant;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -8,7 +8,7 @@ use App\Models\Restaurant;
 use Illuminate\Support\Facades\Auth;
 
 
-class RestaurantStripeController extends Controller
+class StripeController extends Controller
 {
     public function link(Request $request)
     {
