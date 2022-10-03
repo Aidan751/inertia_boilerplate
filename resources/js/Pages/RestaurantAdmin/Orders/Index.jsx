@@ -51,6 +51,14 @@ export default function Index(props){
         });
     }
 
+    // handle status filter
+    const handleStatusFilter = (e) => {
+        e.preventDefault();
+        Inertia.get(route('restaurant.orders.index', {id:props.user.id}), {
+            status: e.target.value
+        });
+    }
+
 
       // Show the state of the search dropdown menu
       const [searchDropdown, setSearchDropdown] = useState(false);
@@ -147,6 +155,29 @@ export default function Index(props){
                             Search
                         </Button>
                     </form>
+
+                    {/* filter orders by status 'pending', 'confirmed', 'driver-en-route', 'order-en-route', 'completed', 'cancelled' */}
+
+                    <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-12 intro-y">
+                        <div className="flex flex-col sm:flex-row items-center">
+                            <p className="text-sm mr-auto mt-6 mb-6">Filter By Status</p>
+                        </div>
+                    </div>
+                    <div className="w-full sm:w-auto mt-0 sm:mt-0 sm:ml-auto md:ml-0"  style={{width: "35vw", height: "2.3rem"}}>
+                        <select
+                            className="px-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                            onChange={handleStatusFilter}
+                            value={data.status}
+                            style={{width: "35vw", height: "2.3rem"}}
+                        >
+                            <option value="pending">Pending</option>
+                            <option value="confirmed">Confirmed</option>
+                            <option value="driver-en-route">Driver En Route</option>
+                            <option value="order-en-route">Order En Route</option>
+                            <option value="completed">Completed</option>
+                            <option value="cancelled">Cancelled</option>
+                        </select>
+                    </div>
                     {/*  */}
                     <div className="grid grid-cols-12 gap-6 mt-5">
                         <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
@@ -163,7 +194,7 @@ export default function Index(props){
                                     <div className="search"  style={{width: "35vw", height: "2.3rem"}}>
                                         <input
                                         type="text"
-                                        className="text-sm text-gray-700 border rounded shadow appearance-none search__input focus:outline-none focus:shadow-outline"
+                                        className="text-sm text-gray-700 border shadow appearance-none search__input focus:outline-none focus:shadow-outline"
                                         placeholder="Search..."
                                         value={data.search}
                                         onChange={e => setData('search', e.target.value)}

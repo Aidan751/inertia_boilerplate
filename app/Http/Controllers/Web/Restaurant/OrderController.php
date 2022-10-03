@@ -22,6 +22,7 @@ class OrderController extends Controller
             $user = User::find($id);
                // Get all users, paginate through them using the "perPage" parameter. Search through the users, if the "search" parameter is present.
           $search = $request->get('search', '');
+          $status = $request->get('status', '');
           $from = $request->get('from', '');
           $to = $request->get('to', '');
 
@@ -33,6 +34,9 @@ class OrderController extends Controller
             })
             ->when($to, function($q) use ($to) {
                 $q->whereDate('pickup_date', '<=', $to);
+            })
+            ->when($status, function($q) use ($status) {
+                $q->where('status', $status);
             })
               ->latest()
               ->paginate($request->perPage ?? 10);
@@ -47,6 +51,7 @@ class OrderController extends Controller
               "search" => $request->search ?? null,
               "from" => $request->from ?? null,
               "to" => $request->to ?? null,
+              "status" => $request->status ?? null,
           ]);
         }
 
