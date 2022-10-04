@@ -4,7 +4,7 @@ import React, {useEffect, useState} from "react";
 import {Inertia} from "@inertiajs/inertia";
 import {Search, CheckSquare, ChevronRight, ChevronsRight, ChevronsLeft, XCircle, Trash2, ChevronLeft, Eye} from "lucide-react";
 import ValidationSuccess from "@/Components/ValidationSuccess";
-import { Modal, ModalHeader, ModalBody, ModalFooter } from "@/base-components";
+import Button from "@/Components/Button";
 
 export default function Index(props) {
 
@@ -31,7 +31,7 @@ export default function Index(props) {
      * Handle search form submission
      * @param {Event} e
     */
-       function handleSubmit(e) {
+       function handleSearch(e) {
         e.preventDefault();
 
         get(route('admin-applications.index'), {
@@ -77,23 +77,25 @@ export default function Index(props) {
                         {/* Pagination Information */}
                         <div className="hidden md:block mx-auto text-gray-600">Showing {form} to {to} of {total} entries</div>
 
-                        {/* Search Form */}
-                        <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSubmit}>
-                            <div className="w-56 text-slate-500 absolute left-0 top-0" style={{width: "20vw"}}>
-                                <div className="search">
-                                 <input
-                                  type="text"
-                                  className="search__input text-sm text-gray-700 border shadow appearance-none focus:outline-none focus:shadow-outline"
-                                  placeholder="Search business by name"
-                                  value={data.search}
-                                  onChange={e => setData('search', e.target.value)}
-                                  style={{width: "20vw", height: "2.7rem"}}
-                                   />
-                                   <Search className="search__icon dark:text-slate-500" />
-                                 </div>
-                            </div>
-                           
-                        </form>
+                           {/* start: Search Form */}
+                           <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
+                                <div className="w-56 relative text-slate-500">
+                                    <div style={{width: '30vw', height: '2.5rem'}} className="flex justify-start">
+                                        <input
+                                        type="text"
+                                        className="search__input text-sm text-gray-700 bitem rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                        placeholder="Search..."
+                                        value={data.search}
+                                        onChange={e => setData('search', e.target.value)}
+                                        style={{width: '30vw', height: '2.5rem'}}
+                                        />
+                                    <Button type="submit" className="search__button ml-3 flex items-center justify-center text-gray-700">
+                                        Search
+                                    </Button>
+                                    </div>
+                                </div>
+                            </form>
+                            {/* end: Search Form */}
                         </div>
                         {/* Begin: Data List*/}
                         <div className="intro-y col-span-12 overflow-auto lg:overflow-visible mt-4">

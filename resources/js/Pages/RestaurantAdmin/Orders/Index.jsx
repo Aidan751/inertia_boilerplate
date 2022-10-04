@@ -11,7 +11,7 @@ import Button from "@/Components/Button";
 
 
 export default function Index(props){
-    console.log(props);
+    console.log('hello');
     const { data, setData, get, processing, errors } = useForm({
         perPage: props.perPage,
         search: props.search,
@@ -182,24 +182,25 @@ export default function Index(props){
                                 Showing {from} to {to} of {total} entries
                             </div>
 
-                            {/* Search Form */}
-                            <form className="w-full mt-3 sm:w-auto sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
-                                <div className="relative w-56 text-slate-500">
-
-                                    <div className="search"  style={{width: "35vw", height: "2.3rem"}}>
+                            {/* start: Search Form */}
+                            <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
+                                <div className="w-56 relative text-slate-500">
+                                    <div style={{width: '30vw', height: '2.5rem'}} className="flex justify-start">
                                         <input
                                         type="text"
-                                        className="text-sm text-gray-700 border shadow appearance-none search__input focus:outline-none focus:shadow-outline"
+                                        className="search__input text-sm text-gray-700 bitem rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                         placeholder="Search..."
                                         value={data.search}
                                         onChange={e => setData('search', e.target.value)}
-                                        style={{width: "35vw", height: "2.3rem"}}
+                                        style={{width: '30vw', height: '2.5rem'}}
                                         />
-                                        <Search className="search__icon dark:text-slate-500" />
+                                    <Button type="submit" className="search__button ml-3 flex items-center justify-center text-gray-700">
+                                        Search
+                                    </Button>
                                     </div>
-
                                 </div>
                             </form>
+                            {/* end: Search Form */}
                         </div>
                         {/* BEGIN: Data List */}
                         <div className="col-span-12 overflow-auto intro-y lg:overflow-visible">

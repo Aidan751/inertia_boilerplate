@@ -5,6 +5,7 @@ import {Inertia} from "@inertiajs/inertia";
 import {Search, CheckSquare, ChevronRight, ChevronsRight, ChevronsLeft, XCircle, Trash2, ChevronLeft} from "lucide-react";
 import ValidationSuccess from "@/Components/ValidationSuccess";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "@/base-components";
+import Button from "@/Components/Button";
 
 export default function Index(props) {
 
@@ -34,7 +35,7 @@ export default function Index(props) {
      * Handle search form submission
      * @param {Event} e
     */
-    function handleSearch(e) {
+    function submitSearch(e) {
         e.preventDefault();
         Inertia.get(route('admin-restaurants.index'), data);
     }
@@ -92,23 +93,21 @@ export default function Index(props) {
 
                         {/* Pagination Information */}
                         <div className="hidden md:block mx-auto text-gray-600">Showing {form} to {to} of {total} entries</div>
-
-                        {/* Search Form */}
-                        <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
-                            <div className="w-56 text-slate-500 absolute right-0 top-0">
-                                <div className="search">
-                                 <input
-                                  type="text"
-                                  className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                  placeholder="Search..."
-                                  value={data.search}
-                                  onChange={e => setData('search', e.target.value)}
-                                   />
-                                   <Search className="search__icon dark:text-slate-500" />
-                                 </div>
-                            </div>
-                           
-                        </form>
+         {/* Search Form */}
+         <div className="w-56 text-slate-500 absolute right-0 top-0">
+                            <form className="flex justify-end w-full sm:w-auto sm:mt-0 sm:ml-auto md:ml-0" onSubmit={submitSearch}>
+                                        <input
+                                        type="text"
+                                        className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                        placeholder="Search..."
+                                        value={data.search}
+                                        onChange={e => setData('search', e.target.value)}
+                                        />
+                                        <Button type="submit" className="ml-3">
+                                            Search
+                                        </Button>
+                            </form>
+                        </div>
                         </div>
                         {/* Begin: Data List*/}
                         <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">

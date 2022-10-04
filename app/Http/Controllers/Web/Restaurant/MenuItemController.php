@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Restaurant;
+namespace App\Http\Controllers\Web\Restaurant;
 
 use App\Models\User;
 use Inertia\Inertia;
@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class MenuItemsController extends Controller
+class MenuItemController extends Controller
 {
  /**
      * Display a listing of the resource.
@@ -24,49 +24,28 @@ class MenuItemsController extends Controller
         $item = new MenuItem;
         $search = $request->get('search', '');
         $filter = $request->get('filter', '');
-        $categoriesArray = [];
+        $perPage = $request->get('perPage', 10);
 
-        $categories = MenuCategory::where('restaurant_id', Auth::user()->restaurant_id)->orderBy('title')->get();
-
-            array_push($categoriesArray, ["placeholder" => true, "text" => "Select a category"]);
-
-            if ($filter == '' || $filter == 0) {
-                array_push($categoriesArray, ["text" => "All", "value" => 0, "selected" => true]);
-            } else {
-                array_push($categoriesArray, ["text" => "All", "value" => 0, "selected" => false]);
-            }
-
-            foreach ($categories as $category) {
-
-                $selected = false;
-
-                if ($filter == $category->id) {
-                    $selected = true;
-                }
-
-                array_push($categoriesArray, ["text" => ucfirst($category->title), "value" => $category->id, "selected" =>  $selected]);
-
-            }
-
+        // get menu categories for this restaurant
+        $menuCategories = MenuCategory::where('restaurant_id', Auth::user()->restaurant_id)->get();
 
         $items = $item
-                    ->where('restaurant_id', Auth::user()->restaurant_id)
-                    ->when('filter', function($q) use ($filter) {
-                        if ($filter != null && $filter != "" && $filter != 0) {
-                            $q->where('menu_category_id', $filter);
-                        }
-                    })
-                      ->where(function ($q) use ($search) {
-                          $q->where('title', 'LIKE', '%' . $search . '%');
-                      })
-                      ->latest()
-                      ->paginate(10);
+            ->where('restaurant_id', Auth::user()->restaurant_id)
+            ->with('category')
+            ->where(function ($q) use ($search) {
+                $q->where('title', 'LIKE', '%' . $search . '%');
+            })
+            ->where('menu_category_id', 'LIKE', '%' . $filter . '%')
+            ->latest()
+            ->paginate(10 ?? $perPage);
+
 
         return Inertia::render('RestaurantAdmin/Products/Index', [
             'items' => $items,
-            'categories' => $categoriesArray,
+            'menuCategories' => $menuCategories,
             'search' => $search,
             'filter' => $filter,
+            'perPage' => $perPage ?? 10,
         ]);
     }
 
