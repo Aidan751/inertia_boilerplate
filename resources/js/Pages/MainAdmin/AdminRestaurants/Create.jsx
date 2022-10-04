@@ -2,6 +2,7 @@ import Button from "@/Components/Button";
 import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from "@inertiajs/inertia-react";
+import MidoneUpload from "@/Components/MidoneUpload";
 
 export default function Create(props) {
     const [option, selectedOption] = useState(null);
@@ -27,6 +28,7 @@ export default function Create(props) {
         role: 'restaurant_admin',
     });
 
+    console.log(data);
     function handleSubmit(e) {
         e.preventDefault();
         post(route("admin-restaurants.store"));
@@ -36,6 +38,12 @@ export default function Create(props) {
         let value = e.target.value;
         data.category = value;
         selectedOption(value);
+    }
+
+    function handleBannerChange(e) {
+        let value = e.target.value;
+        console.log(value);
+        setData("banner", value);
     }
 
     return (
@@ -60,7 +68,7 @@ export default function Create(props) {
                     <div className="px-10">
                     {/* Start: Interal Only Section */}
                         <div className="mt-8 mb-3">
-                            <label className="block mb-2 text-sm font-medium text-gray-600">Internal Only</label>
+                            <label className="block mb-2 text-md font-medium text-gray-600">Internal Only</label>
                             <div className="flex items-center py-3">
 
                                 <input
@@ -109,7 +117,7 @@ export default function Create(props) {
                     {/* Start: Business Name */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block font-medium mb-3 text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="name"
                             >
                                 Business Name
@@ -133,60 +141,31 @@ export default function Create(props) {
                         </div>
                     {/* End: Business Name */}
                       {/* Start: Business Logo */}
-                      <div className="mb-6">
-                            <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="logo"
-                            >
-                                Logo
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="logo"
-                                type="file"
-                                name="logo"
-                                value={data.logo}
-                                onChange={(e) =>
-                                    setData("logo", e.target.value)
-                                }
-                            />
-                            {errors.image && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.logo}
-                                </p>
-                            )}
-                        </div>
+                      <MidoneUpload
+                        label="Business Logo"
+                        name="logo"
+                        value={data.logo}
+                        onChange={(e) => setData("logo", e.target.value)}
+                        errors={errors.logo}
+                        preview="\images\logos\2022-09-261664226424Cool-Background-Photos-Desktop-Free-Download.jpg"
+                      />
                     {/* End: Business Logo */}
                     {/* Start: Business Banner */}
-                        <div className="mb-6">
-                            <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="banner"
-                            >
-                                Banner Image
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="banner"
-                                type="file"
-                                name="banner"
-                                value={data.banner}
-                                onChange={(e) =>
-                                    setData("banner", e.target.value)
-                                }
-                            />
-                            {errors.image && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.banner}
-                                </p>
-                            )}
-                        </div>
+                    <MidoneUpload
+                        label="Business Banner"
+                        name="banner"
+                        value={data.banner}
+                        onChange={handleBannerChange}
+                        accept="images/*"
+                        errors={errors.banner}
+                        preview="\images\logos\2022-09-261664226424Cool-Background-Photos-Desktop-Free-Download.jpg"
+                    />
                     {/* End: Business Banner */}
                      {/* Start: Business Categories */}
                      <div className="mb-6">
                             <label
 
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-gray-600 dark:text-gray-400"
                                 htmlFor="categories"
                             >
                                 Category
@@ -217,7 +196,7 @@ export default function Create(props) {
                     {/* Start: Business Address */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="address"
                             >
                                 Address
@@ -312,7 +291,7 @@ export default function Create(props) {
                     {/* Start: Business Contact Number */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="contact_number"
                             >
                                 Business Contact Number
@@ -338,7 +317,7 @@ export default function Create(props) {
                     {/* Start: Business Bio */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="bio"
                             >
                                 Bio
@@ -373,7 +352,7 @@ export default function Create(props) {
                     {/* Start: Business Email */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="email"
                             >
                                 Email
@@ -399,7 +378,7 @@ export default function Create(props) {
                     {/* Start: Business Set Password */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="password"
                             >
                                 Set Password
@@ -425,7 +404,7 @@ export default function Create(props) {
                     {/* Start: Business Confirm Password */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="password_confirmation"
                             >
                                 Repeat Password

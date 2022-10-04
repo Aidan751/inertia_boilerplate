@@ -114,7 +114,7 @@ export default function SideBar(props){
         <>
         {/* Main Admin SideBar */}
             <nav className="side-nav">
-                <Link href={user.role_id === 1 ? "/" : user.role_id === 2 ? "/restaurant-admin" : "/call-center-admin"} className="flex items-center pt-4 pl-5 intro-x">
+                <Link href="/" className="flex items-center pt-4 pl-5 intro-x">
                     <img alt="" className="w-6" src="/img/icons/logo.png" />
                     <span className="hidden ml-3 text-lg text-white xl:block"> ORDER IT </span>
                 </Link>

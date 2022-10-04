@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Restaurant;
 
 use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Extra;
 use App\Models\MenuItem;
 use Illuminate\Support\Str;
 use App\Models\MenuCategory;
@@ -56,26 +57,14 @@ class MenuItemController extends Controller
      */
     public function create(Request $request)
     {
-        $item = new MenuItem;
-        $categories = MenuCategory::where('restaurant_id', 1)->orderBy('title')->get();
-        $categoriesArray = [];
-
-
-
-        foreach ($categories as $category) {
-            array_push($categoriesArray, ["text" => ucfirst($category->title), "value" => $category->id, "selected" =>  false]);
-        }
-
-        if (count($categoriesArray) > 0) {
-            $filter = $categoriesArray[0]['value'];
-        } else {
-            $filter = '';
-        }
+        $menuItem = new MenuItem;
+        $categories = MenuCategory::where('restaurant_id', Auth::user()->restaurant_id)->orderBy('title')->get();
+        $extras = Extra::where('restaurant_id', Auth::user()->restaurant_id)->get();
 
         return Inertia::render('RestaurantAdmin/Products/Create', [
-            'item' => $item,
-            'categories' => $categoriesArray,
-            'filter' => $filter,
+            'categories' => $categories,
+            'extras' => $extras,
+            'menuItem' => $menuItem,
         ]);
     }
 
