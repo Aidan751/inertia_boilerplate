@@ -86,7 +86,7 @@ class AdminUserController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password),
             "role_id" => $role->id,
             "restaurant_id" => Auth::user()->restaurant_id
         ]);
@@ -144,7 +144,7 @@ class AdminUserController extends Controller
     {
 
         // Validate the request
-        $data = $request->validate([
+        $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
@@ -153,7 +153,13 @@ class AdminUserController extends Controller
             "email_password_to_user" => "required|boolean"
         ]);
 
-        $user->update($data);
+        // update user
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : $user->password,
+        ]);
 
 
         return redirect()->route('restaurant.users.index')->with('success', 'Admin user updated successfully');
