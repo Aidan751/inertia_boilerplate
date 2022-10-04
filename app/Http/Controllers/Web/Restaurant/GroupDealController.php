@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Restaurant;
+namespace App\Http\Controllers\Web\Restaurant;
 
 use Stripe\Product;
 use App\Models\User;

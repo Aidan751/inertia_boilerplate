@@ -30,7 +30,7 @@ class AdminUserController extends Controller
 
         if($search !== null){
 
-            $users = User::where('role_id', 2)->where('restaurant_id', Auth::user()->restaurant_id)->where(function ($q) use ($search) {
+            $users = User::where('restaurant_id', Auth::user()->restaurant_id)->where('role_id', 2)->where(function ($q) use ($search) {
                $q->where('first_name', 'LIKE', '%' . $search . '%')->orWhere('last_name', 'LIKE', '%' . $search . '%')->orWhere('email', 'LIKE', '%' . $search . '%');
             })
             ->latest()
@@ -38,10 +38,8 @@ class AdminUserController extends Controller
         }
         else {
 
-            $users = User::where('role_id', 2)->where('restaurant_id', Auth::user()->restaurant_id)->paginate($request->perPage ?? 10);
+            $users = User::where('restaurant_id', Auth::user()->restaurant_id)->where('role_id', 2)->paginate($request->perPage ?? 10);
         }
-
-
 
         // Return an inertia view with the users
         return Inertia::render('RestaurantAdmin/AdminUsers/Index', [

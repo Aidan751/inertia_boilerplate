@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Web;
+namespace App\Http\Controllers\Web\Restaurant;
 
 use Inertia\Inertia;
 use App\Models\Offer;
@@ -71,7 +71,7 @@ class OfferController extends Controller
 
         // create the offer
 
-        return redirect()->route('offers.index')->with('success', 'Offer created successfully');
+        return redirect()->route('restaurant.offers.index')->with('success', 'Offer created successfully');
     }
 
     /**
@@ -93,9 +93,7 @@ class OfferController extends Controller
     public function edit(Offer $offer)
     {
         return Inertia::render('RestaurantAdmin/OffersAndNews/Edit', [
-            'offer' => [
-
-            ]
+            'offer' => $offer
         ]);
     }
 
@@ -107,16 +105,14 @@ class OfferController extends Controller
      */
     public function update(Request $request, Offer $offer)
     {
+        $data = $request->validate([
+            'title' => ['required', 'string', 'max:191'],
+            'description' => ['nullable', 'string', 'max:191'],
+        ]);
 
-        // Validate the request
-        //$data = Request::validate([
-                //'title' => ['required', 'max:90'],
-                //'description' => ['required'],
-            //]);
-        $offer->update(data);
+        $offer->update($data);
 
-
-        return redirect()->route('offers.index')->with('success', 'Offer updated successfully');
+        return redirect()->route('restaurant.offers.index')->with('success', 'Offer updated successfully');
     }
 
     /**
@@ -128,6 +124,6 @@ class OfferController extends Controller
     {
         $offer->delete();
 
-        return redirect()->route('offers.index')->with('success', 'Offer deleted successfully');
+        return redirect()->route('restaurant.offers.index')->with('success', 'Offer deleted successfully');
     }
 }

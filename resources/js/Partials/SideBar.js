@@ -64,34 +64,34 @@ export default function SideBar(props){
 
     // Links for user to access products
     const productLinks = [
-        {title: "Add Category", href: route("menu-categories.create")},
-        {title: "List Categories", href: route("menu-categories.index")},
-        {title: "Add Product", href: route("menu-items.create")},
-        {title: "List Products", href: route("menu-items.index")},
+        {title: "Add Category", href: route("restaurant.menu.categories.create")},
+        {title: "List Categories", href: route("restaurant.menu.categories.index")},
+        {title: "Add Product", href: route("restaurant.menu.items.create")},
+        {title: "List Products", href: route("restaurant.menu.items.index")},
         // add new group deal
-        {title: "Add Group Deal", href: route("group-deals.create")},
+        {title: "Add Group Deal", href: route("restaurant.group-deals.create")},
         // list group deals
-        {title: "List Group Deals", href: route("group-deals.index")},
+        {title: "List Group Deals", href: route("restaurant.group-deals.index")},
         // add new extra
-        {title: "Add Extra", href: route("extras.create")},
+        {title: "Add Extra", href: route("restaurant.extras.create")},
         // list extras
-        {title: "List Extras", href: route("extras.index")},
+        {title: "List Extras", href: route("restaurant.extras.index")},
     ];
 
     // Links for user to access opening times
     const openingTimeLinks = [
-        {title: "Manage Opening Times", href: route("operating-hours.index")},
+        {title: "Manage Opening Times", href: route("restaurant.operating-hours.index")},
     ];
 
     // Links for user to manage tables
     const tableLinks = [
-        {title: "Manage Tables", href: route("tables.index")},
+        {title: "Manage Tables", href: route("restaurant.tables.index")},
     ];
 
     // Links for user to manage offers/news
     const offerLinks = [
-        {title: "Add New Offer/News", href: route("offers.create")},
-        {title: "List Offers/News", href: route("offers.index")},
+        {title: "Add New Offer/News", href: route("restaurant.offers.create")},
+        {title: "List Offers/News", href: route("restaurant.offers.index")},
     ];
 
     // Links for user to manage company profile
@@ -106,7 +106,7 @@ export default function SideBar(props){
 
     // Links for user to manage order history
     const orderHistoryLinks = [
-        {title: "Order History", href: route("orders.index")},
+        {title: "Order History", href: route("call-centre.orders.index")},
     ];
 
 

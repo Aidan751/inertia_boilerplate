@@ -40,7 +40,7 @@ export default function Index(props){
     const submitSearch = (e) => {
         e.preventDefault();
 
-        get(route('admin-restaurantcategories.index'), {
+        get(route('restaurant.menu.categories.index'), {
             preserveState: false,
             onSuccess: () => {
                 // Do something...
@@ -48,7 +48,7 @@ export default function Index(props){
         })
     }
 
-   
+
     const setDeleteConfirmationModal = (e) => {
         // Prevent Default Behaviour
         e.preventDefault();
@@ -60,7 +60,7 @@ export default function Index(props){
 
     const deleteRecord = (e) => {
 
-        Inertia.delete(route('admin-restaurantcategories.destroy',{id:deleteId}),{
+        Inertia.delete(route('restaurant.menu.categories.destroy',{id:deleteId}),{
             preserveState: false,
             onSuccess: () => {
             }
@@ -71,7 +71,7 @@ export default function Index(props){
     const paginate = (e) => {
         e.preventDefault();
 
-        Inertia.get(route("admin-restaurantcategories.index"), {
+        Inertia.get(route("restaurant.menu.categories.index"), {
             preserveScroll: true,
             perPage: e.target.value,
             search: props.search
@@ -83,7 +83,7 @@ export default function Index(props){
             <Authenticated
                 auth={props.auth}
                 errors={props.errors}
-                activeGroup={3}
+                activeGroup={10}
                 activeItem={2}
             >
 
@@ -108,10 +108,10 @@ export default function Index(props){
                         <div className="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
 
                              {/* Link to create page */}
-                             <Link href={route("admin-restaurantcategories.create")} className="btn btn-primary shadow-md mr-2" style={{whiteSpace: "nowrap"}}>
+                             <Link href={route("restaurant.menu.categories.create")} className="btn btn-primary shadow-md mr-2" style={{whiteSpace: "nowrap"}}>
                                   Add New
                              </Link>
-                           
+
 
                             {/* Pagination Information */}
                             <div className="hidden md:block mx-auto text-slate-500">
@@ -132,7 +132,7 @@ export default function Index(props){
                                         <Search className="search__icon dark:text-slate-500" />
                                       </div>
                                  </div>
-                                
+
                             </form>
                         </div>
                         {/* BEGIN: Data List */}
@@ -150,7 +150,7 @@ export default function Index(props){
 
                                     {/* User Info */}
                                     <td className="text-left">
-                                            {category.name}
+                                            {category.title}
                                     </td>
 
 
@@ -158,7 +158,7 @@ export default function Index(props){
                                     <td className="table-report__action w-56">
                                         <div className="flex justify-center items-center">
                                             {/* Edit Link */}
-                                            <Link className="flex items-center mr-3" href={route("admin-restaurantcategories.edit",{id:category.id})}>
+                                            <Link className="flex items-center mr-3" href={route("restaurant.menu.categories.edit",{id:category.id})}>
                                                 <CheckSquare className="w-4 h-4 mr-1" />{" "}
                                                 Edit
                                             </Link>

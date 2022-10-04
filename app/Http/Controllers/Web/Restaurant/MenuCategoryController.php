@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin\Restaurant;
+namespace App\Http\Controllers\Web\Restaurant;
 
 use App\Models\User;
 use Inertia\Inertia;
@@ -12,7 +12,7 @@ use App\Models\RestaurantCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
-class MenuCategoriesController extends Controller
+class MenuCategoryController extends Controller
 {
  /**
      * Display a listing of the resource.
@@ -25,17 +25,19 @@ class MenuCategoriesController extends Controller
         $category = new MenuCategory;
         // Apply the search to the model
         $search = $request->get('search', '');
+        $perPage = $request->get('perPage', '');
         $categories = $category
                     ->where('restaurant_id', Auth::user()->restaurant_id)
                       ->where(function ($q) use ($search) {
                           $q->where('title', 'LIKE', '%' . $search . '%');
                       })
                       ->latest()
-                      ->paginate(10);
+                      ->paginate(10 ?? $perPage);
 
         return Inertia::render('RestaurantAdmin/Categories/Index', [
             'categories' => $categories,
             'search' => $search,
+            'perPage' => $perPage,
         ]);
     }
 
@@ -61,7 +63,7 @@ class MenuCategoriesController extends Controller
     public function store(Request $request)
     {
         // Validate the data
-        $this->validate($request, [
+        $request->validate([
             'title' => 'required|string|max:255',
         ]);
 
@@ -83,8 +85,10 @@ class MenuCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id, MenuCategory $category)
+    public function edit($id)
     {
+        // Get the category
+        $category = MenuCategory::findOrFail($id);
         // Load the view
         return Inertia::render('RestaurantAdmin/Categories/Edit', [
             'category' => $category,
@@ -98,27 +102,20 @@ class MenuCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, MenuCategory $category)
+    public function update(Request $request, $id)
     {
         // Validate the data
         $request->validate([
             'title' => ['required', 'string', 'max:191'],
-
         ]);
 
-        // Update the parameters
-        $category->title = Str::lower($request->title);
+        // Get the category
+        $category = MenuCategory::findOrFail($id);
+        // Update the category
+        $category->update([
+            'title' => $request->title,
+        ]);
 
-        if(!is_null($request->description)) {
-            $category->description = $request->description;
-        }
-
-        if(!is_null($request->notes)) {
-            $category->notes = $request->notes;
-        }
-
-        // Save to the database
-        $category->save();
 
         // Redirect and inform the user
         return redirect()->route('restaurant.menu.categories.index')->with('success', 'Category updated.');
@@ -130,8 +127,10 @@ class MenuCategoriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MenuCategory $category)
+    public function destroy($id)
     {
+        // get the category
+        $category = MenuCategory::findOrFail($id);
         // Delete the category
         $category->delete();
 

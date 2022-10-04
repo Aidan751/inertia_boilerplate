@@ -9,7 +9,7 @@ function Create(props) {
   const [categories, setCategories] = useState([1, 3]);
 
   const { data, setData, post, processing, errors } = useForm({
-    name: '',
+    title: '',
   })
 
   const editorConfig = {
@@ -19,25 +19,20 @@ function Create(props) {
   };
 
   const onHandleChange = (event) => {
-
     setData(event.target.name, event.target.value)
   };
 
   const submit = (e) => {
       e.preventDefault();
-
-      post(route('admin-restaurantcategories.store'));
+      post(route('restaurant.menu.categories.store'));
   };
-
-
-  const [editorData, setEditorData] = useState("<p>Content of the editor.</p>");
 
   return (
     <>
         <Authenticated
             auth={props.auth}
             errors={props.errors}
-            activeGroup={3}
+            activeGroup={10}
             activeItem={1}
         >
 
@@ -63,9 +58,9 @@ function Create(props) {
                 type="text"
                 className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                 placeholder="Category..."
-                name="name"
+                name="title"
                 required
-                value={data.name}
+                value={data.title}
                 onChange={onHandleChange}
               />
             </div>

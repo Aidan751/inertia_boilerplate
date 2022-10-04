@@ -8,7 +8,7 @@ function Edit(props) {
   const [categories, setCategories] = useState([1, 3]);
 
   const { data, setData, put, processing, errors } = useForm({
-    name: props.category.name,
+    title: props.category.title,
   })
 
   const editorConfig = {
@@ -23,7 +23,7 @@ function Edit(props) {
 
   const submit = (e) => {
       e.preventDefault();
-      put(route('admin-restaurantcategories.update', { id: props.category.id }));
+      put(route('restaurant.menu.categories.update', { id: props.category.id }));
   };
 
 
@@ -34,8 +34,7 @@ function Edit(props) {
         <Authenticated
             auth={props.auth}
             errors={props.errors}
-            activeGroup={3}
-
+            activeGroup={10}
         >
 
     <div className="col-span-12">
@@ -60,9 +59,9 @@ function Edit(props) {
                 type="text"
                 className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                 placeholder="Category..."
-                name="name"
+                name="title"
                 required
-                value={data.name}
+                value={data.title}
                 onChange={onHandleChange}
               />
             </div>

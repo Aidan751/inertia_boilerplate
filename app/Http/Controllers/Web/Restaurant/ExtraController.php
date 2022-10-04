@@ -2,7 +2,7 @@
 
 
 
-namespace App\Http\Controllers\Admin\Restaurant;
+namespace App\Http\Controllers\Web\Restaurant;
 
 
 use App\Models\User;
