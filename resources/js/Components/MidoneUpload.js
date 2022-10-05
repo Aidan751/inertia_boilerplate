@@ -12,7 +12,7 @@ export default function MidoneUpload(props) {
         <>
             <div className="">
                 {/* Label */}
-                <label className="form-label mt-2">
+                <label className="form-label mt-2 text-md font-medium">
                     {props.label}
                 </label>
                 {/* Image Upload */}
@@ -38,7 +38,7 @@ export default function MidoneUpload(props) {
 
                     <div className="px-4 pb-4 flex items-center cursor-pointer relative">
                         <Image data-lucide="image" className="w-4 h-4 mr-2" />
-                        <span className="text-primary mr-1">Upload a file</span> or drag and drop 
+                        <span className="text-primary mr-1">Upload a file</span> or drag and drop
                         <input type="file" accept={accept} name={props.name} onChange={props.change} className="w-full h-full top-0 left-0 absolute opacity-0" />
                     </div>
                 </div>
