@@ -31,6 +31,47 @@ export default function Create(props) {
     const [logo, setLogo] = useState();
     const [banner, setBanner] = useState();
 
+    const [fileUrl, setFileUrl] = useState({
+        logo: null,
+        banner: null,
+    });
+
+
+    /**
+     * Handle the file upload and set the state
+     * @param {*} event Image file event
+     */
+    const onHandleFileChange = (event) => {
+
+        // If there are files uploaded add them to image list
+        if(event.target.files.length !== 0){
+
+            // Add Image File
+            setData(event.target.name,event.target.files[0]);
+
+            //  Set Preview Image
+            const file = URL.createObjectURL(event.target.files[0]);
+            
+            // Get Data Structure
+            let tempFileUrl = fileUrl;
+
+            tempFileUrl[event.target.name] = file;
+        }
+        else{
+            setData(event.target.name,null);
+        }
+    }
+
+    const resetFileInput = (event) => {
+
+        // Set the file input to null
+        setData(event.target.id,null);
+
+        // 
+        let tempFileUrl = fileUrl;
+
+        tempFileUrl[event.target.id] = null;
+    }
 
     function handleSubmit(e) {
         e.preventDefault();
@@ -139,61 +180,17 @@ export default function Create(props) {
                                 </p>
                             )}
                         </div>
-                    {/* End: Business Name */}
-                    {/* Start: logo */}
+                        {/* End: Business Name */}
+                        {/* Start: logo */}
                         <div className="mb-6">
-                                <label
-                                    className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                    htmlFor="logo"
-                                >
-                                    Logo
-                                </label>
-                                <input
-                                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                    id="logo"
-                                    type="file"
-                                    name="logo"
-                                    value={data.logo}
-                                    onChange={(e) =>
-                                        setLogo(e.target.files[0])
-                                    }
-                                />
-                                {errors.logo && (
-                                    <p className="text-xs italic text-red-500">
-                                        {errors.logo}
-                                    </p>
-                                )}
-                            </div>
+                            <MidoneUpload label="Logo Upload" change={onHandleFileChange} name="logo" preview={fileUrl.logo} reset={resetFileInput} />
+                        </div>
                         {/* End: logo */}
                         {/* Start: banner */}
-                            <div className="mb-6">
-                                    <label
-                                        className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                        htmlFor="banner"
-                                    >
-                                        Banner
-                                    </label>
-                                    <input
-                                        className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                        id="banner"
-                                        type="file"
-                                        name="banner"
-                                        value={data.banner}
-                                        onChange={(e) =>
-                                        {
-
-                                            setBanner(e.target.files[0])
-
-                                        }
-                                        }
-                                    />
-                                    {errors.banner && (
-                                        <p className="text-xs italic text-red-500">
-                                            {errors.banner}
-                                        </p>
-                                    )}
-                                </div>
-                            {/* End: banner */}
+                        <div className="mb-6">
+                            <MidoneUpload label="Banner Upload" change={onHandleFileChange} name="banner" preview={fileUrl.banner} reset={resetFileInput} />
+                        </div>
+                        {/* End: banner */}
                      {/* Start: Business Categories */}
                      <div className="mb-6">
                             <label
