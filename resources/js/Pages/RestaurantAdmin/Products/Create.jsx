@@ -25,22 +25,44 @@ console.log(props);
     image: null,
 });
 
-const [sizes, setSizes] = useState([]);
-
-const [chosenExtras, setChosenExtras] = useState([]);
+const [sizes, setSizes] = useState([{
+    id: 1,
+    size: '',
+    additional_charge: ''
+}]);
 
 const addSizes = () => {
-    const newSize = {
-        size: '',
-        additional_charge: ''
-    }
-    setSizes([...sizes, newSize]);
+    setSizes([
+        ...sizes,
+        {
+            id: sizes.length + 1,
+            size: "",
+            additional_charge: ""
+        },
+    ]);
+    console.log(sizes);
 }
 
-const removeSize = (index) => {
+const removeSizes = (index) => {
     const newSizes = sizes.filter((size, i) => i !== index);
     setSizes(newSizes);
 }
+
+   // to input elements and record their values in state
+   const handleSizeInputChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...sizes];
+    list[index][name] = value;
+    setSizes(list);
+};
+
+  // user click yes delete a specific row of id:i
+  const handleSizeRemoveClick = (i) => {
+    const list = [...sizes];
+    list.splice(i, 1);
+    setSizes(list);
+};
+
 
 const addExtras = () => {
     const newExtra = {
@@ -48,6 +70,11 @@ const addExtras = () => {
     }
     setChosenExtras([...chosenExtras, newExtra]);
 }
+
+
+const onHandleChange = (event) => {
+    setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+  };
 
 /**
  * Handle the file upload and set the state
@@ -85,19 +112,6 @@ const resetImageInput = (event) => {
     tempImageUrl[event.target.id] = null;
 }
 
-const handleSizeChange = (i, e) => {
-    const {name, value} = e.target;
-    const newSizes = [...sizes];
-    newSizes[i][name] = value;
-    setSizes(newSizes);
-}
-
-const handleExtraChange = (i, e) => {
-    const {name, value} = e.target;
-    const newExtras = [...chosenExtras];
-    newExtras[i][name] = value;
-    setChosenExtras(newExtras);
-}
 
   const submit = (e) => {
       e.preventDefault();
@@ -265,9 +279,10 @@ const handleExtraChange = (i, e) => {
                 </div>
             {/* End: Assign a category */}
             {
-                sizes.map((size, index) => {
+                sizes.map((size, i) => {
+                    return (
+        <>
 
-                {/* Start: Add size option  */}
                     <div className="mb-6 mt-10">
                         <label
                             className="block mb-3 text-md font-medium text-sm text-gray-600 dark:text-gray-400"
@@ -277,13 +292,10 @@ const handleExtraChange = (i, e) => {
                         </label>
                         <input
                             className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                            id="size"
                             type="text"
                             name="size"
-                            value={size}
-                            onChange={(e) =>
-                                setData("size", e.target.value)
-                            }
+                            value={size.size}
+                            onChange={(e) => handleSizeInputChange(e, i)}
                         />
 
                         {errors.size && (
@@ -292,8 +304,7 @@ const handleExtraChange = (i, e) => {
                             </p>
                         )}
                     </div>
-                {/* End: Add size option  */}
-                {/* Start: Additional Charge */}
+
                     <div className="mb-6">
                         <label
                             className="block mb-3 text-sm text-gray-600 dark:text-gray-400"
@@ -305,13 +316,10 @@ const handleExtraChange = (i, e) => {
                         <p className="mr-5">£</p>
                         <input
                             className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                            id="additional_charge"
                             type="text"
                             name="additional_charge"
-                            value={data.additional_charge}
-                            onChange={(e) =>
-                                setData("additional_charge", e.target.value)
-                            }
+                            value={size.additional_charge}
+                            onChange={(e) => handleSizeInputChange(e, i)}
                         />
                         </div>
                         {errors.additional_charge && (
@@ -320,14 +328,27 @@ const handleExtraChange = (i, e) => {
                             </p>
                         )}
                     </div>
-                {/* End: Additional Charge */}
+                    <div className="flex justify-end">
+                    <Button
+                        className="btn btn-danger"
+                        type="button"
+                        click={() => handleSizeRemoveClick(i)}
+                        autoFocus
+                    >
+                        Remove
+                    </Button>
+                    </div>
+                    </>
+                    );
+
                 })
             }
             {/* Start: Button to add another size option with an additional charge */}
-                <div className="mb-6">
+                <div className="mb-6 flex justify-start">
                     <Button
-                        className="btn btn-primary"
+                        className="btn btn-primary mr-3"
                         type="button"
+                        click={addSizes}
                     >
                         Add another
                     </Button>
