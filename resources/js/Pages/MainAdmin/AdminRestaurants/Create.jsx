@@ -23,14 +23,19 @@ export default function Create(props) {
         allows_delivery: 0,
         allows_call_center: 0,
         category: "",
-        logo: "",
-        banner: "",
+        banner: null,
+        logo: null,
         role: 'restaurant_admin',
     });
 
-    console.log(data);
+    const [logo, setLogo] = useState();
+    const [banner, setBanner] = useState();
+
+
     function handleSubmit(e) {
         e.preventDefault();
+        data.banner = banner;
+        data.logo = logo;
         post(route("admin-restaurants.store"));
     }
 
@@ -40,11 +45,6 @@ export default function Create(props) {
         selectedOption(value);
     }
 
-    function handleBannerChange(e) {
-        let value = e.target.value;
-        data.banner = value;
-        console.log(data);
-    }
 
     return (
         <>
@@ -64,7 +64,7 @@ export default function Create(props) {
             </div>
 
             <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
-                <form onSubmit={handleSubmit} encType="multipart/form-data">
+                <form onSubmit={handleSubmit}>
                     <div className="px-10">
                     {/* Start: Interal Only Section */}
                         <div className="mt-8 mb-3">
@@ -155,7 +155,7 @@ export default function Create(props) {
                                     name="logo"
                                     value={data.logo}
                                     onChange={(e) =>
-                                        setData("logo", e.target.value)
+                                        setLogo(e.target.files[0])
                                     }
                                 />
                                 {errors.logo && (
@@ -171,7 +171,7 @@ export default function Create(props) {
                                         className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
                                         htmlFor="banner"
                                     >
-                                        Logo
+                                        Banner
                                     </label>
                                     <input
                                         className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
@@ -180,7 +180,11 @@ export default function Create(props) {
                                         name="banner"
                                         value={data.banner}
                                         onChange={(e) =>
-                                            setData("banner", e.target.value)
+                                        {
+
+                                            setBanner(e.target.files[0])
+
+                                        }
                                         }
                                     />
                                     {errors.banner && (
