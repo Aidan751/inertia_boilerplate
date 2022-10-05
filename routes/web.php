@@ -145,7 +145,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin-restaurants/edit/{restaurant}', [AdminRestaurantsController::class, 'edit'])->name('admin-restaurants.edit');
 
     // update a restaurant
-    Route::put('/admin-restaurants/update/{restaurant}', [AdminRestaurantsController::class, 'update'])->name('admin-restaurants.update');
+    Route::put('/admin-restaurants/update/{id}', [AdminRestaurantsController::class, 'update'])->name('admin-restaurants.update');
 
     // delete a restaurant
     Route::delete('/admin-restaurants/delete/{restaurant}', [AdminRestaurantsController::class, 'destroy'])->name('admin-restaurants.destroy');
