@@ -132,7 +132,7 @@ export default function Index(props){
                                     name="from"
                                     value={data.from}
                                     onChange={handleFromChange}
-                                    style={{width: "35vw", height: "2.3rem"}}
+                                    style={{width: "35vw", height: "2.5rem"}}
                                 />
                         </div>
                         <div className="mx-5 mb-3">
@@ -145,7 +145,7 @@ export default function Index(props){
                                     name="to"
                                     value={data.to}
                                     onChange={handleToChange}
-                                    style={{width: "35vw", height: "2.3rem"}}
+                                    style={{width: "35vw", height: "2.5rem"}}
                                 />
                     </div>
                     </div>
@@ -175,7 +175,7 @@ export default function Index(props){
                     </div>
                     {/*  */}
                     <div className="grid grid-cols-12 gap-6 mt-5">
-                        <div className="flex flex-wrap items-center col-span-12 mt-2 intro-y sm:flex-nowrap">
+                        <div className="flex flex-wrap items-center col-span-12 mt-5 intro-y sm:flex-nowrap">
 
                             {/* Pagination Information */}
                             <div className="hidden mx-auto md:block text-slate-500">

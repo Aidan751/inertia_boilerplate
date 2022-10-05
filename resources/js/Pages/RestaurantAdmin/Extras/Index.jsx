@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Modal, ModalBody } from "@/base-components";
 import { Inertia } from "@inertiajs/inertia";
 import ValidationSuccess from "@/Components/ValidationSuccess";
+import OrderItSearch from "@/Components/OrderItSearch";
 
 
 export default function Index(props){
@@ -115,22 +116,14 @@ export default function Index(props){
                                 Showing {from} to {to} of {total} entries
                             </div>
 
-                            {/* Search Form */}
-                            <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={submitSearch}>
-                                 <div className="w-56 text-slate-500 absolute right-0 top-0">
-                                     <div className="search">
-                                      <input
-                                       type="text"
-                                       className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                       placeholder="Search..."
-                                       value={data.search}
-                                       onChange={e => setData('search', e.target.value)}
-                                        />
-                                        <Search className="search__icon dark:text-slate-500" />
-                                      </div>
-                                 </div>
+                           <OrderItSearch
+                                submitSearch={submitSearch}
+                                data={data}
+                                setData={setData}
+                                get={get}
+                            />
 
-                            </form>
+
                         </div>
                         {/* BEGIN: Data List */}
                         <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">

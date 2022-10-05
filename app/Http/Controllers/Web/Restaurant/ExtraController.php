@@ -27,18 +27,26 @@ class ExtraController extends Controller
      */
     public function index(Request $request)
     {
-        // get a list of Extras
             // Apply a search to the model
             $search = $request->get('search', '');
+            $perPage = $request->get('perPage', 10);
+            $from = $request->get('from', '');
+            $to = $request->get('to', '');
 
+            // get the Extras
             $extras = Extra::where('restaurant_id', Auth::user()->restaurant_id)
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('description', 'like', '%' . $search . '%');
-            })->latest()->paginate(10);
+            })->latest()->paginate(10 ?? $perPage);
+
+        // return the view with the list of Extras
         return Inertia::render('RestaurantAdmin/Extras/Index', [
             'extras' => $extras,
             'search' => $search,
+            'perPage' => $perPage,
+            'from' => $from,
+            'to' => $to,
         ]);
     }
 
@@ -50,7 +58,10 @@ class ExtraController extends Controller
 
     public function create(Request $request)
     {
+        // initialize the Extra
         $extra = new Extra;
+
+        // return the view with the Extra
         return Inertia::render('RestaurantAdmin/Extras/Create', [
             'extra' => $extra,
         ]);
