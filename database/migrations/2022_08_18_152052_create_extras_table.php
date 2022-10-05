@@ -17,7 +17,7 @@ class CreateExtrasTable extends Migration
             $table->id();
             $table->string('name');
             $table->longText('description')->nullable();
-            $table->decimal('additional_charge', 10, 2);
+            $table->decimal('additional_charge', 10, 2)->nullable();
             $table->unsignedInteger('menu_item_id')->nullable();
             $table->unsignedInteger('restaurant_id');
             $table->timestamps();

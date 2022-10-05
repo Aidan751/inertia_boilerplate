@@ -6,6 +6,7 @@ namespace App\Http\Controllers\Web\Restaurant;
 
 
 use App\Models\User;
+use Inertia\Inertia;
 use App\Models\Extra;
 use App\Models\MenuItem;
 use Illuminate\Support\Str;
