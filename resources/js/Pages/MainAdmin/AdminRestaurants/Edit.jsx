@@ -136,6 +136,7 @@ export default function Edit( props ) {
                                     name="allows_call_center"
                                     value={data.allows_call_center}
                                     handleChange={onHandleChange}
+                                    defaultChecked
                                 />
                                 <label className="cursor-pointer select-none" htmlFor="allows_call_center">Call Center</label>
 
