@@ -265,16 +265,21 @@ class AdminRestaurantsController extends Controller
     public function edit(Restaurant $restaurant){
         // Find the model for this ID
         // dd(RestaurantCategory::find(9));
-        // dd($restaurant);
+        $banner = Banner::where('restaurant_id', $restaurant->id)->first();
+        $logo = Logo::where('restaurant_id', $restaurant->id)->first();
 
          $categories = RestaurantCategory::orderBy('name')->get();
+         $user = User::where('restaurant_id', $restaurant->id)->first();
 
          $restaurant->setAttribute('categories', $categories);
+         $restaurant->setAttribute('banner', $banner);
+         $restaurant->setAttribute('logo', $logo);
          $restaurant->setAttribute('edit', true);
 
         $url = '';//config('app.url');
         return Inertia::render('MainAdmin/AdminRestaurants/Edit', [
             'restaurant' => $restaurant,
+            'user' => $user,
         ]);
     }
 
@@ -356,7 +361,6 @@ class AdminRestaurantsController extends Controller
 
         // update the logo
         if ($request->hasFile('logo')) {
-            ImagePackage::delete($restaurant->logo);
             $restaurant->logo()->create([
                 "img_url" => ImagePackage::save($request->logo, 'restaurant_logo'),
             ]);
@@ -364,7 +368,6 @@ class AdminRestaurantsController extends Controller
 
         // update the banner
         if ($request->hasFile('banner')) {
-            ImagePackage::delete($restaurant->banner);
             $restaurant->banner()->create([
                 "img_url" => ImagePackage::save($request->banner, 'restaurant_banner'),
             ]);
@@ -437,16 +440,14 @@ class AdminRestaurantsController extends Controller
 
         $restaurant->update([
             'name' => $request->name,
-            'category' => $request->category,
+            'restaurant_category_id' => $request->category,
             'address_line_1' => $request->address_line_1,
             'address_line_2' => $request->address_line_2,
-            'approval_status' => "approved",
+            'application_status' => "approved",
             'town' => $request->town,
             'county' => $request->county,
             'postcode' => $request->postcode,
             'contact_number' => $request->contact_number,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
         ]);
 
         return Redirect::route('admin-restaurants.index')->with('success', 'Restaurant updated successfully.');

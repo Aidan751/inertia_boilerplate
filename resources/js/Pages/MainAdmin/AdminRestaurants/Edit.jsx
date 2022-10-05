@@ -5,10 +5,9 @@ import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from '@inertiajs/inertia-react';
 import Checkbox from "@/components/Checkbox";
 import MidoneUpload from "@/Components/MidoneUpload";
-import ValidationErrors from "@/Components/ValidationErrors";
 
 export default function Edit( props ) {
-    console.log( props.restaurant );
+    console.log( props );
     const [option, selectedOption] = useState(null);
     const { data, setData, post, processing, errors, reset } = useForm({
         name: props.restaurant.name,
@@ -18,15 +17,15 @@ export default function Edit( props ) {
         county: props.restaurant.county,
         postcode: props.restaurant.postcode,
         contact_number: props.restaurant.contact_number,
-        email: props.restaurant.email,
-        password: props.restaurant.password,
-        password_confirmation: props.restaurant.password_confirmation,
+        email: props.user.email,
+        password: props.user.password,
+        password_confirmation: props.user.password_confirmation,
         bio: props.restaurant.bio,
         allows_table_orders: props.restaurant.allows_table_orders,
         allows_collection: props.restaurant.allows_collection,
         allows_delivery: props.restaurant.allows_delivery,
         allows_call_center: props.restaurant.allows_call_center,
-        category: props.restaurant.restaurant_category_id,
+        category: '',
         logo: null,
         banner: null,
         _method: 'PUT',
@@ -34,8 +33,8 @@ export default function Edit( props ) {
 
 
     const [fileUrl, setFileUrl] = useState({
-        logo: props.restaurant.logo,
-        banner: props.restaurant.banner,
+        logo: props.restaurant.logo.img_url,
+        banner: props.restaurant.banner.img_url,
     });
 
 
@@ -104,13 +103,7 @@ export default function Edit( props ) {
             <div className="flex items-center mt-5 mb-5 intro-y">
                 <h2 className="mr-auto text-lg font-medium">Update Business</h2>
             </div>
-            {/* Validation Errors */}
-            <div className="flex items-center mt-5 mb-5 intro-y">
-                {
-                    props.errors && 
-                    <ValidationErrors errors={props.errors} />
-                }
-            </div>
+
             <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
                 <form onSubmit={handleSubmit} encType="multipart/form-data">
                     <div className="px-10">
@@ -204,22 +197,15 @@ export default function Edit( props ) {
                                     setData("category", e.target.value)}
                             >
                                 <option value="">Select Category</option>
-                               {props.restaurant.categories && props.restaurant.categories.map((category,key) => (
-                                    
-                                    <>
-                                        {/* Set selected option if the id matches the category variable */}
-                                        <option key={key} value={category.id}>
-                                            {category.name}
-                                        </option>
-                                    </>
-
-                                    
+                                {props.restaurant.categories.map((category) => (
+                                    <option id={category.id} value={category.id}>
+                                        {category.name}
+                                    </option>
                                 ))}
-
                             </select>
-                            {errors.category && (
+                            {errors.categories && (
                                 <p className="text-xs italic text-red-500">
-                                    {errors.category}
+                                    {errors.categories}
                                 </p>
                             )}
 

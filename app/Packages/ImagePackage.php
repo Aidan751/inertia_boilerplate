@@ -20,7 +20,9 @@ class ImagePackage
      */
     public static function save($image, string $folder = ""): string
     {
-        self::createImagePath();
+        if($image){
+
+            self::createImagePath();
 
         // Create Image Name
         $file_name = date("Y-m-d") . time() . $image->getClientOriginalName();
@@ -36,6 +38,7 @@ class ImagePackage
 
         // Return Image Path for database use
         return $image_path;
+    }
     }
 
     public static function createImagePath()
