@@ -351,14 +351,14 @@ const resetImageInput = (event) => {
                         )}
                     </div>
                     <div className="flex justify-end">
-                    <Button
-                        className="btn btn-danger"
+                    <button
+                        className="btn btn-danger-soft h-7 text-sm border-none"
                         type="button"
-                        click={() => handleSizeRemoveClick(i)}
-                        autoFocus
+                        onClick={() => handleSizeRemoveClick(i)}
                     >
+                        <X className="w-4 h-4 mr-1" />
                         Remove
-                    </Button>
+                    </button>
                     </div>
                     </>
                     );
@@ -385,7 +385,7 @@ const resetImageInput = (event) => {
                             <p className="text-gray-600">Search and select all the extras to be added to the product</p>
                         </div>
                     <select
-                        className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                        className="w-full px-3 py-2 pl-3 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                         id="extras"
                         type="text"
                         name="extras"
@@ -429,14 +429,14 @@ const resetImageInput = (event) => {
                                     </td>
                                     <td className="table-report__action w-56">
                                         <div className="flex justify-center items-center">
-                                            <Button
-                                                className="btn btn-danger-soft h-7 text-sm"
-                                                type="button"
-                                                click={() => handleExtraRemoveClick(key)}
-                                                autoFocus
-                                            >
-                                                Remove
-                                            </Button>
+                                          <button
+                                             className="btn btn-danger-soft h-7 text-sm border-none"
+                                             type="button"
+                                             onClick={() => handleExtraRemoveClick(key)}
+                                           >
+                                            <X className="w-4 h-4 mr-1" />
+                                            Remove
+                                          </button>
                                         </div>
                                     </td>
                                 </tr>
