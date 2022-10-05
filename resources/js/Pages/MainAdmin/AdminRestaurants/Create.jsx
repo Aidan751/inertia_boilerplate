@@ -42,8 +42,8 @@ export default function Create(props) {
 
     function handleBannerChange(e) {
         let value = e.target.value;
-        console.log(value);
-        setData("banner", value);
+        data.banner = value;
+        console.log(data);
     }
 
     return (
@@ -140,27 +140,56 @@ export default function Create(props) {
                             )}
                         </div>
                     {/* End: Business Name */}
-                      {/* Start: Business Logo */}
-                      <MidoneUpload
-                        label="Business Logo"
-                        name="logo"
-                        value={data.logo}
-                        onChange={(e) => setData("logo", e.target.value)}
-                        errors={errors.logo}
-                        preview="\images\logos\2022-09-261664226424Cool-Background-Photos-Desktop-Free-Download.jpg"
-                      />
-                    {/* End: Business Logo */}
-                    {/* Start: Business Banner */}
-                    <MidoneUpload
-                        label="Business Banner"
-                        name="banner"
-                        value={data.banner}
-                        onChange={handleBannerChange}
-                        accept="images/*"
-                        errors={errors.banner}
-                        preview="\images\logos\2022-09-261664226424Cool-Background-Photos-Desktop-Free-Download.jpg"
-                    />
-                    {/* End: Business Banner */}
+                    {/* Start: logo */}
+                        <div className="mb-6">
+                                <label
+                                    className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                    htmlFor="logo"
+                                >
+                                    Logo
+                                </label>
+                                <input
+                                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                    id="logo"
+                                    type="file"
+                                    name="logo"
+                                    value={data.logo}
+                                    onChange={(e) =>
+                                        setData("logo", e.target.value)
+                                    }
+                                />
+                                {errors.logo && (
+                                    <p className="text-xs italic text-red-500">
+                                        {errors.logo}
+                                    </p>
+                                )}
+                            </div>
+                        {/* End: logo */}
+                        {/* Start: banner */}
+                            <div className="mb-6">
+                                    <label
+                                        className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                        htmlFor="banner"
+                                    >
+                                        Logo
+                                    </label>
+                                    <input
+                                        className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                        id="banner"
+                                        type="file"
+                                        name="banner"
+                                        value={data.banner}
+                                        onChange={(e) =>
+                                            setData("banner", e.target.value)
+                                        }
+                                    />
+                                    {errors.banner && (
+                                        <p className="text-xs italic text-red-500">
+                                            {errors.banner}
+                                        </p>
+                                    )}
+                                </div>
+                            {/* End: banner */}
                      {/* Start: Business Categories */}
                      <div className="mb-6">
                             <label
