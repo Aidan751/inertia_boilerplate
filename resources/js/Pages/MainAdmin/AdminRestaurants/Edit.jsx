@@ -25,7 +25,7 @@ export default function Edit( props ) {
         allows_collection: props.restaurant.allows_collection,
         allows_delivery: props.restaurant.allows_delivery,
         allows_call_center: props.restaurant.allows_call_center,
-        category: '',
+        category: props.restaurant.restaurant_category_id,
         logo: null,
         banner: null,
         _method: 'PUT',
@@ -85,11 +85,10 @@ export default function Edit( props ) {
     }
 
 
-    function handleCategoryChange(e) {
-        let value = e.target.value;
-        data.category = value;
-        selectedOption(value);
-    }
+    const onHandleChange = (event) => {
+        setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+    };
+
 
     return (
         <>
@@ -115,28 +114,28 @@ export default function Edit( props ) {
                              <Checkbox
                                 name="allows_table_orders"
                                 value={data.allows_table_orders}
-                                handleChange={(e) => setData('allows_table_orders', e.target.checked)}
+                                handleChange={onHandleChange}
                             />
                                 <label className="mr-3 cursor-pointer select-none" htmlFor="allows_table_orders">Table Service</label>
 
                                 <Checkbox
                                     name="allows_collection"
                                     value={data.allows_collection}
-                                    handleChange={(e) => setData('allows_collection', e.target.checked)}
+                                    handleChange={onHandleChange}
                                 />
                                 <label className="mr-3 cursor-pointer select-none" htmlFor="allows_collection">Collection</label>
 
                              <Checkbox
                                 name="allows_delivery"
                                 value={data.allows_delivery}
-                                handleChange={(e) => setData('allows_delivery', e.target.checked)}
+                                handleChange={onHandleChange}
                             />
                                 <label className="mr-3 cursor-pointer select-none" htmlFor="allows_delivery">Delivery</label>
 
                                 <Checkbox
                                     name="allows_call_center"
                                     value={data.allows_call_center}
-                                    handleChange={(e) => setData('allows_call_center', e.target.checked)}
+                                    handleChange={onHandleChange}
                                 />
                                 <label className="cursor-pointer select-none" htmlFor="allows_call_center">Call Center</label>
 
@@ -196,16 +195,15 @@ export default function Edit( props ) {
                                 onChange={(e) =>
                                     setData("category", e.target.value)}
                             >
-                                <option value="">Select Category</option>
                                 {props.restaurant.categories.map((category) => (
                                     <option id={category.id} value={category.id}>
                                         {category.name}
                                     </option>
                                 ))}
                             </select>
-                            {errors.categories && (
+                            {errors.category && (
                                 <p className="text-xs italic text-red-500">
-                                    {errors.categories}
+                                    {errors.category}
                                 </p>
                             )}
 

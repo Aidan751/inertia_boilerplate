@@ -317,62 +317,6 @@ class AdminRestaurantsController extends Controller
         } // Error
 
 
-        // Update the parameters
-        $restaurant->name = $request->name;
-        $restaurant->restaurant_category_id = $request->category;
-        $restaurant->address_line_1 = $request->address_line_1;
-        if (!is_null($request->address_line_2)) {
-            $restaurant->address_line_2 = $request->address_line_2;
-        }
-        $restaurant->town = $request->town;
-        $restaurant->county = $request->county;
-        $restaurant->postcode = $request->postcode;
-
-        if ($request->company_drivers == "1") {
-            $restaurant->company_drivers = 1;
-        } else {
-            $restaurant->company_drivers = 0;
-        }
-
-        if ($request->table_service == "1") {
-            $restaurant->allows_table_orders = 1;
-        } else {
-            $restaurant->allows_table_orders = 0;
-        }
-
-        if ($request->collection_service == "1") {
-            $restaurant->allows_collection = 1;
-        } else {
-            $restaurant->allows_collection = 0;
-        }
-
-        if ($request->delivery_service == "1") {
-            $restaurant->allows_delivery = 1;
-        } else {
-            $restaurant->allows_delivery = 0;
-        }
-
-        if (!is_null($request->bio)) {
-            $restaurant->bio = $request->bio;
-        }
-
-        // Save to the database
-        $restaurant->save();
-
-        // update the logo
-        if ($request->hasFile('logo')) {
-            $restaurant->logo()->create([
-                "img_url" => ImagePackage::save($request->logo, 'restaurant_logo'),
-            ]);
-        }
-
-        // update the banner
-        if ($request->hasFile('banner')) {
-            $restaurant->banner()->create([
-                "img_url" => ImagePackage::save($request->banner, 'restaurant_banner'),
-            ]);
-        }
-
 
         $user = User::where('restaurant_id', $id)->first();
 
@@ -408,7 +352,7 @@ class AdminRestaurantsController extends Controller
 
             $newUser = new User;
             $newUser->email = $request->email;
-            $newUser->role_id = 4;
+            $newUser->role_id = 2;
             $password = '';
 
             if (!is_null($request->password)) {
@@ -444,11 +388,30 @@ class AdminRestaurantsController extends Controller
             'address_line_1' => $request->address_line_1,
             'address_line_2' => $request->address_line_2,
             'application_status' => "approved",
+            'allows_table_orders' => $request->allows_table_orders,
+            'allows_collection' => $request->allows_collection,
+            'allows_delivery' => $request->allows_delivery,
+            'allows_call_center' => $request->allows_call_center,
             'town' => $request->town,
             'county' => $request->county,
             'postcode' => $request->postcode,
             'contact_number' => $request->contact_number,
         ]);
+
+             // update the logo
+             if ($request->hasFile('logo')) {
+                $restaurant->logo()->update([
+                    "img_url" => ImagePackage::save($request->logo, 'restaurant_logo'),
+                ]);
+            }
+
+            // update the banner
+            if ($request->hasFile('banner')) {
+                $restaurant->banner()->update([
+                    "img_url" => ImagePackage::save($request->banner, 'restaurant_banner'),
+                ]);
+            }
+
 
         return Redirect::route('admin-restaurants.index')->with('success', 'Restaurant updated successfully.');
 
