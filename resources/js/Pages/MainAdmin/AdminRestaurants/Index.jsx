@@ -5,6 +5,7 @@ import {Inertia} from "@inertiajs/inertia";
 import {Search, CheckSquare, ChevronRight, ChevronsRight, ChevronsLeft, XCircle, Trash2, ChevronLeft} from "lucide-react";
 import ValidationSuccess from "@/Components/ValidationSuccess";
 import { Modal, ModalHeader, ModalBody, ModalFooter } from "@/base-components";
+import Button from "@/Components/Button";
 
 export default function Index(props) {
 
@@ -34,14 +35,18 @@ export default function Index(props) {
      * Handle search form submission
      * @param {Event} e
     */
-    function handleSearch(e) {
+    function submitSearch(e) {
         e.preventDefault();
         Inertia.get(route('admin-restaurants.index'), data);
     }
 
     const setDeleteConfirmationModal = (e) => {
+        // Prevent Default Behaviour
+        e.preventDefault();
+        // Set the current selected role to the role id
+        setDeleteId(e.target.id);
+        // Show the delete confirmation modal
         setDeleteModal(true);
-        setDeleteId(e);
     }
 
     const deleteRecord = (e) => {
@@ -88,14 +93,21 @@ export default function Index(props) {
 
                         {/* Pagination Information */}
                         <div className="hidden md:block mx-auto text-gray-600">Showing {form} to {to} of {total} entries</div>
-
-                        {/* Search Form */}
-                        <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
-                            <div className="w-56 relative text-slate-500">
-                                <input type="text" className="input w-56 box pr-10 placeholder-theme-13" placeholder="Search..." onChange={e => setData('search', e.target.value)} value={data.search} />
-                                <Search className="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" />
-                            </div>
-                        </form>
+         {/* Search Form */}
+         <div className="w-56 text-slate-500 absolute right-0 top-0">
+                            <form className="flex justify-end w-full sm:w-auto sm:mt-0 sm:ml-auto md:ml-0" onSubmit={submitSearch}>
+                                        <input
+                                        type="text"
+                                        className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                        placeholder="Search..."
+                                        value={data.search}
+                                        onChange={e => setData('search', e.target.value)}
+                                        />
+                                        <Button type="submit" className="ml-3">
+                                            Search
+                                        </Button>
+                            </form>
+                        </div>
                         </div>
                         {/* Begin: Data List*/}
                         <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
@@ -128,10 +140,8 @@ export default function Index(props) {
 
                                                         {/* Delete Link */}
                                                         <button
-                                                            type="button"
-                                                            onClick={(e) => {
-                                                                setDeleteConfirmationModal(e.target.id);
-                                                            }}
+                                                             type="button"
+                                                            onClick={setDeleteConfirmationModal}
                                                             id={restaurant.id}
                                                             className="flex items-center text-danger">
                                                             <Trash2 className="w-4 h-4 mr-1" />
@@ -206,31 +216,37 @@ export default function Index(props) {
                         </div>
                         {/* BEGIN: Delete Confirmation Modal */}
                         <Modal
-                            show={deleteModal}
-                            onHidden={() => {
-                                setDeleteConfirmationModal(false);
-                            }}
-                            title="Delete Confirmation"
-                        >
-
+                        show={deleteModal}
+                        onHidden={() => {
+                            setDeleteConfirmationModal(false);
+                        }}
+                        title="Delete Confirmation"
+                    >
                         <ModalBody className="p-0">
-                            <div className="p-5 text-center">
-                            <XCircle className="w-16 h-16 text-theme-6 mx-auto mt-3" />
+                        <div className="p-5 text-center">
+                            <XCircle
+                            className="w-16 h-16 text-danger mx-auto mt-3"
+                            />
                             <div className="text-3xl mt-5">Are you sure?</div>
-                            <div className="text-gray-600 mt-2">Do you really want to delete these records? This process cannot be undone.</div>
+                            <div className="text-slate-500 mt-2">
+                            Do you really want to delete these records? <br />
+                            This process cannot be undone.
                             </div>
-                            <div className="px-5 pb-8 text-center">
-                            <button
+                        </div>
+                        <div className="px-5 pb-8 text-center">
+                        <button
                             type="button"
                             data-dismiss="modal"
                             onClick={e => setDeleteModal(false)}
                             className="btn btn-outline-secondary w-24 mr-3">
                             Cancel
+                        </button>
+                            <button onClick={deleteRecord} type="button" className="btn btn-danger w-24">
+                                Delete
                             </button>
-                            <button type="button" onClick={deleteRecord} className="btn btn-danger w-24">Delete</button>
-                            </div>
+                        </div>
                         </ModalBody>
-                        </Modal>
+                    </Modal>
                         {/* END: Delete Confirmation Modal */}
                     </div>
             </main>

@@ -4,13 +4,10 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 
-
-class UserDriver extends Model implements HasMedia
+class UserDriver extends Model
 {
-    use HasMediaTrait;
+    use HasFactory;
 
     protected $guarded = [];
     protected $table = 'user_drivers';
@@ -18,13 +15,6 @@ class UserDriver extends Model implements HasMedia
     public function user()
     {
         return $this->belongsTo(User::class);
-    }
-
-
-    public function registerMediaCollections()
-    {
-
-
     }
 
 }

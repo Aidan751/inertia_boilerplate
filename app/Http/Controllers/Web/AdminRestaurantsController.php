@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 use App\Models\Logo;
+use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Banner;
@@ -98,7 +99,11 @@ class AdminRestaurantsController extends Controller
             'contact_number' => ['required', 'string', 'max:191'],
             'email' => ['required', 'email', 'max:191', 'unique:users,email,'],
             'password' => ['nullable', 'confirmed', 'min:6'],
+            "role" => "required|exists:roles,name",
         ]);
+
+          // Get the role based on the name
+          $role = Role::where('name', $request->role)->first();
 
         $stripe = new StripeClient(
             config('services.stripe_secret_key')
@@ -175,7 +180,6 @@ class AdminRestaurantsController extends Controller
 
          //    save the logo
          if ($request->hasFile('logo')) {
-            $restaurant->logo()->delete();
             $restaurant->logo()->create([
                 "img_url" => ImagePackage::save($request->logo, 'logos'),
             ]);
@@ -184,7 +188,6 @@ class AdminRestaurantsController extends Controller
 
         // save the banner
          if ($request->hasFile('banner')) {
-            $restaurant->banner()->delete();
             $restaurant->banner()->create([
                 "img_url" => ImagePackage::save($request->banner, 'banners'),
             ]);
@@ -197,7 +200,7 @@ class AdminRestaurantsController extends Controller
         $user = new User;
 
         // Update the parameters
-        $user->role_id = 4;
+        $user->role_id = 2;
         $user->restaurant_id = $restaurant->id;
         $user->first_name = '';
         $user->last_name = '';
@@ -206,6 +209,8 @@ class AdminRestaurantsController extends Controller
 
          // Save to the database
         $user->save();
+
+        $user->attachRole($role);
 
         $stripeCustomerAccount = $stripe->customers->create([
             'email' => $user->email,

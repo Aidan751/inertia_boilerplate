@@ -6,6 +6,7 @@ import { useState } from "react";
 import { Modal, ModalBody } from "@/base-components";
 import { Inertia } from "@inertiajs/inertia";
 import ValidationSuccess from "@/Components/ValidationSuccess";
+import Button from "@/Components/Button";
 
 
 export default function Index(props){
@@ -104,10 +105,10 @@ export default function Index(props){
 
                     {/*  */}
                     <div className="grid grid-cols-12 gap-6 mt-5">
-                        <div className="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+                        <div className="intro-y col-span-12 flex flex-wrap items-center mt-2">
 
                             {/* Link to create page */}
-                            <Link href={route("admin-callcentreuser.create")} className="btn btn-primary shadow-md mr-2">
+                            <Link href={route("admin-callcentreuser.create")} className="btn btn-primary shadow-md" style={{width: "auto"}}>
                                 Add New User
                             </Link>
 
@@ -116,19 +117,21 @@ export default function Index(props){
                                 Showing {from} to {to} of {total} entries
                             </div>
 
-                            {/* Search Form */}
-                            <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={submitSearch}>
-                                <div className="w-56 relative text-slate-500">
-                                    <input
+                                   {/* Search Form */}
+                                   <div className="w-56 text-slate-500 absolute right-0 top-0">
+                            <form className="flex justify-end w-full sm:w-auto sm:mt-0 sm:ml-auto md:ml-0" onSubmit={submitSearch}>
+                                        <input
                                         type="text"
-                                        className="text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                        className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                         placeholder="Search..."
                                         value={data.search}
                                         onChange={e => setData('search', e.target.value)}
-                                    />
-                                    <Search className="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" />
-                                </div>
+                                        />
+                                        <Button type="submit" className="ml-3">
+                                            Search
+                                        </Button>
                             </form>
+                        </div>
                         </div>
                         {/* BEGIN: Data List */}
                         <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
@@ -157,7 +160,7 @@ export default function Index(props){
                                     <td className="table-report__action w-56">
                                         <div className="flex justify-center items-center">
                                             {/* start: View Orders Link */}
-                                            <Link href={route("orders.index", user.id)} className="flex items-center mr-3">
+                                            <Link href={route("admin.orders.index", user.id)} className="flex items-center mr-3">
                                                <Eye className="w-4 h-4 mr-1" />{" "}
                                                 View
                                             </Link>

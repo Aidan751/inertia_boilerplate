@@ -81,7 +81,7 @@ class AdminCallCentreUserController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password),
             "role_id" => $role->id
         ]);
 
@@ -126,7 +126,7 @@ class AdminCallCentreUserController extends Controller
     public function update(Request $request, User $user)
     {
         // Validate the request
-        $data = $request->validate([
+        $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
@@ -136,7 +136,12 @@ class AdminCallCentreUserController extends Controller
         ]);
 
         // Update the user
-        $user->update($data);
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : $user->password,
+        ]);
 
         // Redirect the user to the users index page with a success message
         return redirect()->route('admin-callcentreuser.index')->with('success', 'User updated successfully');

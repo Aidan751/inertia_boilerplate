@@ -15,10 +15,36 @@ class Order extends Model
     protected $fillable = [
         'user_id',
         'restaurant_id',
+        'driver_id',
+        'call_center_id',
+        'order_reference',
+        'driver_paid',
+        'pickup_date',
+        'time_slot',
+        'order_method',
+        'price',
+        'delivery_price',
+        'payment_status',
+        'payment_method',
+        'pickup_method',
+        'status',
+        'address',
+        'address_line_1',
+        'address_line_2',
+        'town',
+        'county',
+        'postcode',
+        'latitude',
+        'longitude',
+        'table_number',
+        'payment_intent_id',
+        'customer_name',
+        'customer_contact_number',
         'order_status',
         'order_total',
+        'user_id',
     ];
- 
+
 
     public function customer()
     {
@@ -42,13 +68,13 @@ class Order extends Model
 
     public function unread($query) {
 
-        
+
         $user = ConversationUser::where('order_id', '=', 'id')
         ->where('user_id', auth('api')->user()->id)
         ->first();
 
         return Message::where('order_id', '=', 'id')
-        ->where('created_at', '>', $user->last_active) 
+        ->where('created_at', '>', $user->last_active)
         ->count();
     }
 

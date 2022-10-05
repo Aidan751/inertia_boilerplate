@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Logo;
+use App\Models\Order;
 use App\Models\Banner;
 use App\Models\GroupDeal;
 use Illuminate\Database\Eloquent\Model;
@@ -49,6 +50,11 @@ class Restaurant extends Model
 
     public function collectionTimes() {
         return $this->hasMany(CollectionTime::class)->orderBy('day_id', 'ASC')->orderBy('from', 'ASC');
+    }
+
+    // orders belonging to restaurant
+    public function orders() {
+        return $this->hasMany(Order::class);
     }
 
     public function menuItems() {

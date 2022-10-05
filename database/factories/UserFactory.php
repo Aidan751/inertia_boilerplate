@@ -23,7 +23,7 @@ class UserFactory extends Factory
             'password' => bcrypt('password'), // password
             'is_suspended' => $this->faker->randomElement(['yes', 'no']),
             'remember_token' => Str::random(10),
-            'role_id' => $this->faker->numberBetween(1, 3),
+            'role_id' => $this->faker->numberBetween(1, 5),
         ];
     }
 

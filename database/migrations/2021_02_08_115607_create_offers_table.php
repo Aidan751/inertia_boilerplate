@@ -16,13 +16,10 @@ class CreateOffersTable extends Migration
         Schema::create('offers', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('restaurant_id');
-        
             $table->string('title');
             $table->longText('description')->nullable();
-           
-            $table->timestamps();
-
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 

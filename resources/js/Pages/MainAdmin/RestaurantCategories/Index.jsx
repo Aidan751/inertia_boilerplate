@@ -29,9 +29,9 @@ export default function Index(props){
 
     const [categories, setCategories] = useState(props.categories.data);
 
-    const [showingDeleteModal, setShowingDeleteModal] = useState(false);
+    const [deleteModal, setDeleteModal] = useState(false);
+    const [deleteId, setDeleteId] = useState(null);
 
-    const [currentSelectedCategory, setCurrentSelectedCategory ] = useState(null);
 
     /**
      * Handle search form submission
@@ -48,29 +48,23 @@ export default function Index(props){
         })
     }
 
+   
     const setDeleteConfirmationModal = (e) => {
         // Prevent Default Behaviour
         e.preventDefault();
-
         // Set the current selected role to the role id
-        setCurrentSelectedCategory(e.target.id);
-
+        setDeleteId(e.target.id);
         // Show the delete confirmation modal
-        setShowingDeleteModal(true);
+        setDeleteModal(true);
     }
 
-    // TODO: unable to delete user, thought it had something to do with the user being added to endpoint as opposed to id, but it still doesn't work
-    const deleteCategory   = (e) => {
-        // Prevent Default Behaviour
-        e.preventDefault();
+    const deleteRecord = (e) => {
 
-        // Delete the role
-        Inertia.delete(route('admin-restaurantcategories.destroy', currentSelectedCategory  ), {
+        Inertia.delete(route('admin-restaurantcategories.destroy',{id:deleteId}),{
             preserveState: false,
             onSuccess: () => {
-                // Do something...
-            },
-        })
+            }
+        });
     }
 
 
@@ -78,6 +72,7 @@ export default function Index(props){
         e.preventDefault();
 
         Inertia.get(route("admin-restaurantcategories.index"), {
+            preserveScroll: true,
             perPage: e.target.value,
             search: props.search
         },);
@@ -112,10 +107,11 @@ export default function Index(props){
                     <div className="grid grid-cols-12 gap-6 mt-5">
                         <div className="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
 
-                            {/* Link to create page */}
-                            <Link href={route("admin-restaurantcategories.create")} className="btn btn-primary shadow-md mr-2">
-                                Add New
-                            </Link>
+                             {/* Link to create page */}
+                             <Link href={route("admin-restaurantcategories.create")} className="btn btn-primary shadow-md mr-2" style={{whiteSpace: "nowrap"}}>
+                                  Add New
+                             </Link>
+                           
 
                             {/* Pagination Information */}
                             <div className="hidden md:block mx-auto text-slate-500">
@@ -124,16 +120,19 @@ export default function Index(props){
 
                             {/* Search Form */}
                             <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={submitSearch}>
-                                <div className="w-56 relative text-slate-500">
-                                    <input
-                                        type="text"
-                                        className="text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                        placeholder="Search..."
-                                        value={data.search}
-                                        onChange={e => setData('search', e.target.value)}
-                                    />
-                                    <Search className="w-4 h-4 absolute my-auto inset-y-0 mr-3 right-0" />
-                                </div>
+                                 <div className="w-56 text-slate-500 absolute right-0 top-0">
+                                     <div className="search">
+                                      <input
+                                       type="text"
+                                       className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                       placeholder="Search..."
+                                       value={data.search}
+                                       onChange={e => setData('search', e.target.value)}
+                                        />
+                                        <Search className="search__icon dark:text-slate-500" />
+                                      </div>
+                                 </div>
+                                
                             </form>
                         </div>
                         {/* BEGIN: Data List */}
@@ -168,9 +167,7 @@ export default function Index(props){
                                             <button
                                                 className="flex items-center text-danger"
                                                 type="button"
-                                                onClick={() => {
-                                                    setDeleteConfirmationModal();
-                                                }}
+                                                onClick={setDeleteConfirmationModal}
                                                 id={category.id}
                                             >
                                                 <Trash2 id={category.id} className="w-4 h-4 mr-1" /> Delete
@@ -250,10 +247,11 @@ export default function Index(props){
                     </div>
                     {/* BEGIN: Delete Confirmation Modal */}
                     <Modal
-                        show={showingDeleteModal}
+                        show={deleteModal}
                         onHidden={() => {
-                        setShowingDeleteModal(false);
+                            setDeleteConfirmationModal(false);
                         }}
+                        title="Delete Confirmation"
                     >
                         <ModalBody className="p-0">
                         <div className="p-5 text-center">
@@ -267,16 +265,14 @@ export default function Index(props){
                             </div>
                         </div>
                         <div className="px-5 pb-8 text-center">
-                            <button
+                        <button
                             type="button"
-                            onClick={() => {
-                                setShowingDeleteModal(false);
-                            }}
-                            className="btn btn-outline-secondary w-24 mr-1"
-                            >
-                                Cancel
-                            </button>
-                            <button onClick={deleteCategory} type="button" className="btn btn-danger w-24">
+                            data-dismiss="modal"
+                            onClick={e => setDeleteModal(false)}
+                            className="btn btn-outline-secondary w-24 mr-3">
+                            Cancel
+                        </button>
+                            <button onClick={deleteRecord} type="button" className="btn btn-danger w-24">
                                 Delete
                             </button>
                         </div>

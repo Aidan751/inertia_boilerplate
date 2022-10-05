@@ -1,72 +1,343 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# API Reference
+## Users
+#### register a new user
+```http
+  POST https://orderit.createaclients.co.uk/api/user/register
+```
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+| Parameter       | Type       | Description                                                                       |
+| :-------------- | :-------   | :---------------------------------------------------------------------------------|
+| `first_name`    | `string`   | **Required**.                                                                     |
+| `last_name`     | `string`   | **Required**.                                                                     |
+| `email`         | `string`   | **Required**.                                                                     |
+| `password`      | `string`   | **Required**.                                                                     |
+| `contact_number`| `string`   | **Required**.                                                                     |
+| `role_id`       | `integer`  | **Required**.                                                                     |
+| `restaurant_id` | `integer`  | **Required**.                                                                     |
 
-## About Laravel
+#### login a user
+```http
+  POST https://orderit.createaclients.co.uk/api/user/login
+```
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+| Parameter       | Type       | Description                                                                       |
+| :-------------- | :-------   | :---------------------------------------------------------------------------------|
+| `email`         | `string`   | **Required**.                                                                     |
+| `password`      | `string`   | **Required**.                                                                     |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
-
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
-
-## Learning Laravel
-
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
-
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+#### get a user
+```http
+  GET https://orderit.createaclients.co.uk/api/user/{user}
+```
 
 
-## colors
-### button colors
+## Restaurants
+#### get all restaurants
+```http
+  GET https://orderit.createaclients.co.uk/api/restaurant
+```
 
-**background color** | **foreground color** |
----------------------|---------------------|
-rgb(183, 38, 126)    | white          |
+#### get a restaurant
+```http
+  GET https://orderit.createaclients.co.uk/api/restaurant/{restaurant}
+```
+#### create a restaurant
+```http
+  POST https://orderit.createaclients.co.uk/api/restaurant
+```
+
+| Parameter       | Type       | Description                                                                       |
+| :-------------- | :-------   | :---------------------------------------------------------------------------------|
+| `restaurant_category_id`| `integer`  | **Required**.                                                                     |
+| `application_status`| `string`  | **Required**.                                                                     |
+| `name`| `string`  | **Required**.                                                                     |
+| `address_line_1`| `string`  | **Required**.                                                                     |
+| `address_line_2`| `string`  | **Required**.                                                                     |
+| `town`| `string`  | **Required**.                                                                     |
+| `county`| `string`  | **Required**.                                                                     |
+| `postcode`| `string`  | **Required**.                                                                     |
+| `banner`| `file`  | **Required**.                                                                     |
+| `logo`| `file`  | **Required**.                                                                     |
+| `latitude`| `decimal`  | **Required**.                                                                     |
+| `longitude`| `decimal`  | **Required**.                                                                     |
+| `contact_number`| `string`  | **Required**.                                                                     |
+| `front_facing_number`| `string`  | **Required**.                                                                     |
+| `bio`| `text`  | **Required**.                                                                     |
+| `minimum_order_value`| `decimal`  | **Required**.                                                                     |
+| `delivery_charge`| `decimal`  | **Required**.                                                                     |
+| `average_delivery_time`| `string`  | **Required**.                                                                     |
+| `stripe_account_id`| `string`  | **Required**.                                                                     |
+| `stripe_status`| `string`  | **Required**.                                                                     |
+| `company_drivers`| `boolean`  | **Required**.                                                                     |
+| `allows_table_orders`| `boolean`  | **Required**.                                                                     |
+| `allows_collection`| `boolean`  | **Required**.                                                                     |
+| `allows_delivery`| `boolean`  | **Required**.                                                                     |
+| `allows_call_center`| `boolean`  | **Required**.                                                                     |
+
+
+#### update a restaurant
+```http
+  PUT https://orderit.createaclients.co.uk/api/restaurant/{restaurant}
+```
+
+| Parameter       | Type       | Description                                                                       |
+| :-------------- | :-------   | :---------------------------------------------------------------------------------|
+| `restaurant_category_id`| `integer`  | **Required**.                                                                     |
+| `application_status`| `string`  |                                                                   |
+| `name`| `string`  |                                                                      |
+| `address_line_1`| `string`  |                                                                      |
+| `address_line_2`| `string`  |                                                                      |
+| `town`| `string`  |                                                                      |
+| `county`| `string`  |                                                                      |
+| `postcode`| `string`  |                                                                      |
+| `banner`| `file`  |                                                                      |
+| `logo`| `file`  |                                                                      |
+| `latitude`| `decimal`  |                                                                      |
+| `longitude`| `decimal`  |                                                                      |
+| `contact_number`| `string`  |                                                                      |
+| `front_facing_number`| `string`  |                                                                      |
+| `bio`| `text`  |                                                                      |
+| `minimum_order_value`| `decimal`  |                                                                      |
+| `delivery_charge`| `decimal`  |                                                                      |
+| `average_delivery_time`| `string`  |                                                                      |
+| `stripe_account_id`| `string`  |                                                                      |
+| `stripe_status`| `string`  |                                                                      |
+| `company_drivers`| `boolean`  |                                                                      |
+| `allows_table_orders`| `boolean`  |                                                                      |
+| `allows_collection`| `boolean`  |                                                                      |
+| `allows_delivery`| `boolean`  |                                                                      |
+| `allows_call_center`| `boolean`  |                                                                      |
+
+
+#### delete a restaurant
+```http
+  DELETE https://orderit.createaclients.co.uk/api/restaurant/{restaurant}
+```
+
+#### get all orders
+```http
+  GET https://orderit.createaclients.co.uk/api/order
+```
+
+#### get a order
+```http
+  GET https://orderit.createaclients.co.uk/api/order/{order}
+```
+
+#### create a order
+```http
+  POST https://orderit.createaclients.co.uk/api/orders
+```
+
+| Parameter       | Type       | Description                                                                       |
+| :-------------- | :-------   | :---------------------------------------------------------------------------------|
+| `order_reference`| `string`  | **Required**.                                                                     |
+| `restaurant_id`| `integer`  | **Required**.                                                                     |
+| `customer_id`| `integer`  |                                                                   |
+| `driver_id`| `integer`  |                                                                      |
+| `call_center_id`| `integer`  |                                                                      |
+| `driver_paid`| `string`  |                                                                      |
+| `pickup_date`| `datetime`  |                                                                      |
+| `time_slot`| `time`  |                                                                      |
+| `order_method`| `string`  |                                                                      |
+| `price`| `decimal`  |                                                                      |
+| `delivery_price`| `decimal`  |                                                                      |
+| `payment_status`| `string`  |                                                                      |
+| `payment_method`| `string`  |                                                                      |
+| `pickup_method`| `string`  |                                                                      |
+| `status`| `string`  |                                                                      |
+| `address`| `string`  |                                                                      |
+| `address_line_1`| `string`  |                                                                      |
+| `address_line_2`| `string`  |                                                                      |
+| `town`| `string`  |                                                                      |
+| `county`| `string`  |                                                                      |
+| `postcode`| `string`  |                                                                      |
+| `latitude`| `decimal`  |                                                                      |
+| `longitude`| `decimal`  |                                                                      |
+| `table_number`| `string`  |                                                                      |
+| `payment_intent_id`| `string`  |                                                                      |
+| `customer_name`| `string`  |                                                                      |
+| `customer_contact_number`| `string`  |                                                                      |
+
+
+#### update a order
+```http
+  PUT https://orderit.createaclients.co.uk/api/orders/{order}
+```
+
+| Parameter       | Type       | Description                                                                       |
+| :-------------- | :-------   | :---------------------------------------------------------------------------------|
+| `order_reference`| `string`  | **Required**.                                                                     |
+| `restaurant_id`| `integer`  | **Required**.                                                                     |
+| `customer_id`| `integer`  |                                                                   |
+| `driver_id`| `integer`  |                                                                      |
+| `call_center_id`| `integer`  |                                                                      |
+| `driver_paid`| `string`  |                                                                      |
+| `pickup_date`| `datetime`  |                                                                      |
+| `time_slot`| `time`  |                                                                      |
+| `order_method`| `string`  |                                                                      |
+| `price`| `decimal`  |                                                                      |
+| `delivery_price`| `decimal`  |                                                                      |
+| `payment_status`| `string`  |                                                                      |
+| `payment_method`| `string`  |                                                                      |
+| `pickup_method`| `string`  |                                                                      |
+| `status`| `string`  |                                                                      |
+| `address`| `string`  |                                                                      |
+| `address_line_1`| `string`  |                                                                      |
+| `address_line_2`| `string`  |                                                                      |
+| `town`| `string`  |                                                                      |
+| `county`| `string`  |                                                                      |
+| `postcode`| `string`  |                                                                      |
+| `latitude`| `decimal`  |                                                                      |
+| `longitude`| `decimal`  |                                                                      |
+| `table_number`| `string`  |                                                                      |
+| `payment_intent_id`| `string`  |                                                                      |
+| `customer_name`| `string`  |                                                                      |
+| `customer_contact_number`| `string`  |                                                                      |
+
+#### delete a order
+```http
+  DELETE https://orderit.createaclients.co.uk/api/orders/{order}
+```
+
+### OrderItem
+#### get all order items
+```http
+  GET https://orderit.createaclients.co.uk/api/order-items
+```
+
+#### get a order item
+```http
+  GET https://orderit.createaclients.co.uk/api/order-items/{orderItem}
+```
+
+#### create a order item
+```http
+  POST https://orderit.createaclients.co.uk/api/order-item
+```
+
+| Parameter       | Type       | Description                                                                       |
+| :-------------- | :-------   | :---------------------------------------------------------------------------------|
+| `order_id`| `integer`  | **Required**.                                                                     |
+| `product_id`| `integer`  | **Required**.                                                                     |
+| `product_name`| `string`  |                                                                   |
+| `product_description`| `string`  |                                                                      |
+| `price`| `decimal`  |                                                                      |
+| `quantity`| `decimal`  |                                                                      |
+| `total`| `decimal`  |                                                                      |
+
+#### update a order item
+```http
+  PUT https://orderit.createaclients.co.uk/api/order-item/{orderItem}
+```
+
+| Parameter       | Type       | Description                                                                       |
+| :-------------- | :-------   | :---------------------------------------------------------------------------------|
+| `order_id`| `integer`  | **Required**.                                                                     |
+| `product_id`| `integer`  | **Required**.                                                                     |
+| `product_name`| `string`  |                                                                   |
+| `product_description`| `string`  |                                                                      |
+| `price`| `decimal`  |                                                                      |
+| `quantity`| `decimal`  |                                                                      |
+| `total`| `decimal`  |                                                                      |
+
+#### delete a order item
+```http
+  DELETE https://orderit.createaclients.co.uk/api/order-item/{orderItem}
+```
+
+### Menu Items
+
+#### get all menu items
+```http
+  GET https://orderit.createaclients.co.uk/api/menu-item
+```
+
+#### get a menu item
+```http
+  GET https://orderit.createaclients.co.uk/api/menu-item/{menuItem}
+```
+
+#### create a menu item
+```http
+  POST https://orderit.createaclients.co.uk/api/menu-item
+```
+
+| Parameter       | Type       | Description                                                                       |
+| :-------------- | :-------   | :---------------------------------------------------------------------------------|
+| `menu_category_id`| `integer`  | **Required**.                                                                     |
+| `restaurant_id`| `integer`  | **Required**.                                                                     |
+| `title`| `string`  | **Required**.                                                                     |
+| `description`| `string`  |                                                                      |
+| `dietary_requirements`| `string`  |                                                                      |
+| `price`| `decimal`  |                                                                      |
+
+
+#### update a menu item
+```http
+  PUT https://orderit.createaclients.co.uk/api/menu-item/{menuItem}
+```
+
+| Parameter       | Type       | Description                                                                       |
+| :-------------- | :-------   | :---------------------------------------------------------------------------------|
+| `menu_category_id`| `integer`  | **Required**.                                                                     |
+| `restaurant_id`| `integer`  | **Required**.                                                                     |
+| `title`| `string`  | **Required**.                                                                     |
+| `description`| `string`  |                                                                      |
+| `dietary_requirements`| `string`  |                                                                      |
+| `price`| `decimal`  |                                                                      |
+
+#### delete a menu item
+```http
+  DELETE https://orderit.createaclients.co.uk/api/menu-item/{menuItem}
+```
+
+### Menu Category
+<!-- 
+             $table->increments('id');
+            $table->unsignedInteger('restaurant_id');
+            $table->string('title');
+            $table->longText('notes')->nullable();
+            $table->timestamps();
+
+            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
+        }); -->
+
+#### get all menu categories
+```http
+  GET https://orderit.createaclients.co.uk/api/menu-category
+```
+
+#### get a menu category
+```http
+  GET https://orderit.createaclients.co.uk/api/menu-category/{menuCategory}
+```
+
+#### create a menu category
+```http
+  POST https://orderit.createaclients.co.uk/api/menu-category
+```
+
+| Parameter       | Type       | Description                                                                       |
+| :-------------- | :-------   | :---------------------------------------------------------------------------------|
+| `restaurant_id`| `integer`  | **Required**.                                                                     |
+| `title`| `string`  | **Required**.                                                                     |
+| `notes`| `string`  |                                                                      |
+
+
+#### update a menu category
+```http
+  PUT https://orderit.createaclients.co.uk/api/menu-category/{menuCategory}
+```
+
+| Parameter       | Type       | Description                                                                       |
+| :-------------- | :-------   | :---------------------------------------------------------------------------------|
+| `restaurant_id`| `integer`  | **Required**.                                                                     |
+| `title`| `string`  | **Required**.                                                                     |
+| `notes`| `string`  |                                                                      |
+
+#### delete a menu category
+```http
+  DELETE https://orderit.createaclients.co.uk/api/menu-category/{menuCategory}
+```
+

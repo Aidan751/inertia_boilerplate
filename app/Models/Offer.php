@@ -4,13 +4,9 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-use Spatie\MediaLibrary\HasMedia\HasMedia;
-use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
-
-class Offer extends Model implements HasMedia
+class Offer extends Model
 {
-    use HasFactory, HasMediaTrait;
+    use HasFactory;
 
     protected $guarded = [];
     protected $table = 'offers';
@@ -18,11 +14,5 @@ class Offer extends Model implements HasMedia
     public function restaurant()
     {
         return $this->belongsTo(Restaurant::class, 'id', 'restaurant_id');
-    }
-
-    public function registerMediaCollections()
-    {
-        $this->addMediaCollection('offers')
-            ->singleFile();
     }
 }

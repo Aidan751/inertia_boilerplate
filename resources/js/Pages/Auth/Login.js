@@ -48,7 +48,7 @@ export default function Login({ status, canResetPassword }) {
                         type="text"
                         name="email"
                         value={data.email}
-                        className="mt-1 block w-full"
+                        className="mt-1 block w-full form-control"
                         autoComplete="username"
                         isFocused={true}
                         handleChange={onHandleChange}

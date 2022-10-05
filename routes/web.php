@@ -8,9 +8,23 @@ use App\Http\Controllers\Web\OrderController;
 use App\Http\Controllers\Web\RolesController;
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\Web\AdminUserController;
+use App\Http\Controllers\Web\OrderItemController;
+use App\Http\Controllers\Web\AdminDriverController;
+use App\Http\Controllers\Web\AdminDriverTripsController;
 use App\Http\Controllers\Web\AdminRestaurantsController;
+use App\Http\Controllers\Web\Restaurant\ExtraController;
+use App\Http\Controllers\Web\Restaurant\OfferController;
+use App\Http\Controllers\Web\AdminApplicationsController;
+use App\Http\Controllers\Web\Restaurant\StripeController;
 use App\Http\Controllers\Web\AdminCallCentreUserController;
+use App\Http\Controllers\Web\AdminConfigurationsController;
+use App\Http\Controllers\Web\Restaurant\MenuItemController;
+use App\Http\Controllers\Web\Restaurant\GroupDealController;
+use App\Http\Controllers\Web\Restaurant\MenuCategoryController;
 use App\Http\Controllers\Web\AdminRestaurantCategoriesController;
+use App\Http\Controllers\Web\CallCentre\OrderController as CallCentreOrderController;
+use App\Http\Controllers\Web\Restaurant\OrderController as RestaurantOrderController;
+use App\Http\Controllers\Web\Restaurant\AdminUserController as RestaurantAdminUserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,6 +40,8 @@ use App\Http\Controllers\Web\AdminRestaurantCategoriesController;
 Route::middleware(['auth', 'verified'])->group(function () {
     // handle stripe payments
     Route::get('/pay', [ItemPaymentController::class, 'index'])->name('pay');
+
+    // handle stripe payments
     Route::post('/pay', [ItemPaymentController::class, 'store'])->name('pay.store');
 
     // route to main admin dashboard
@@ -33,8 +49,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // route to restaurant admin dashboard
     Route::get('/restaurant-admin', [RestaurantAdminController::class, 'index'])->name('restaurantAdmin.dashboard');
     // route to call center admin dashboard
-    Route::get('/call-center-admin', [CallCentreAdminController::class, 'index'])->name('CallCentreAdmin.dashboard');
-
+    Route::get('/call-center-admin', [CallCentreAdminController::class, 'index'])->name('callCentreAdmin.dashboard');
 
     // get all roles for users
     Route::get('/roles', [RolesController::class, 'index'])->name('roles.index');
@@ -138,172 +153,270 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/restaurant/restaurant-tables', 'livewire.table_numbers')->name('restaurant.alltables');
 
     // TODO: stripe routes
-    Route::get('/restaurant/stripe', [RestaurantStripeController::class, 'link'])->name('stripe.link');
-    Route::get('/restaurant/stripe/complete', [RestaurantStripeController::class, 'complete'])->name('stripe.complete');
-    Route::post('/restaurant/order/{id}/push', [OrderController::class, 'sendPush'])->name('order.push');
-
-
+    Route::get('/restaurant/stripe', [RestaurantStripeController::class, 'link'])->name('restaurant.stripe.link');
+    Route::get('/restaurant/stripe/complete', [RestaurantStripeController::class, 'complete'])->name('restaurant.stripe.complete');
+    Route::post('/restaurant/order/{id}/push', [OrderController::class, 'sendPush'])->name('restaurant.order.push');
 
     // list menu categories
-    Route::get('/restaurant/menu-categories', [MenuCategoryController::class, 'index'])->name('menu-categories.index');
+    Route::get('/restaurant/menu-categories', [MenuCategoryController::class, 'index'])->name('restaurant.categories.index');
 
     // create a menu category
-    Route::get('/restaurant/menu-categories/create', [MenuCategoryController::class, 'create'])->name('menu-categories.create');
+    Route::get('/restaurant/menu-categories/create', [MenuCategoryController::class, 'create'])->name('restaurant.categories.create');
 
     // store a menu category
-    Route::post('/restaurant/menu-categories/store', [MenuCategoryController::class, 'store'])->name('menu-categories.store');
+    Route::post('/restaurant/menu-categories/store', [MenuCategoryController::class, 'store'])->name('restaurant.categories.store');
 
     // edit a menu category
-    Route::get('/restaurant/menu-categories/edit/{id}', [MenuCategoryController::class, 'edit'])->name('menu-categories.edit');
+    Route::get('/restaurant/menu-categories/edit/{id}', [MenuCategoryController::class, 'edit'])->name('restaurant.categories.edit');
 
     // update a menu category
-    Route::put('/restaurant/menu-categories/update/{id}', [MenuCategoryController::class, 'update'])->name('menu-categories.update');
+    Route::put('/restaurant/menu-categories/update/{id}', [MenuCategoryController::class, 'update'])->name('restaurant.categories.update');
 
     // delete a menu category
-    Route::delete('/restaurant/menu-categories/delete/{id}', [MenuCategoryController::class, 'destroy'])->name('menu-categories.destroy');
+    Route::delete('/restaurant/menu-categories/delete/{id}', [MenuCategoryController::class, 'destroy'])->name('restaurant.categories.destroy');
 
     // list menu items
-    Route::get('/restaurant/menu-items', [MenuItemController::class, 'index'])->name('menu-items.index');
+    Route::get('/restaurant/menu-items', [MenuItemController::class, 'index'])->name('restaurant.menu-items.index');
 
     // create a menu item
-    Route::get('/restaurant/menu-items/create', [MenuItemController::class, 'create'])->name('menu-items.create');
+    Route::get('/restaurant/menu-items/create', [MenuItemController::class, 'create'])->name('restaurant.menu-items.create');
 
     // store a menu item
-    Route::post('/restaurant/menu-items/store', [MenuItemController::class, 'store'])->name('menu-items.store');
+    Route::post('/restaurant/menu-items/store', [MenuItemController::class, 'store'])->name('restaurant.menu-items.store');
 
     // edit a menu item
-    Route::get('/restaurant/menu-items/edit/{id}', [MenuItemController::class, 'edit'])->name('menu-items.edit');
+    Route::get('/restaurant/menu-items/edit/{id}', [MenuItemController::class, 'edit'])->name('restaurant.menu-items.edit');
 
     // update a menu item
-    Route::put('/restaurant/menu-items/update/{id}', [MenuItemController::class, 'update'])->name('menu-items.update');
+    Route::put('/restaurant/menu-items/update/{id}', [MenuItemController::class, 'update'])->name('restaurant.menu-items.update');
 
     // delete a menu item
-    Route::delete('/restaurant/menu-items/delete/{id}', [MenuItemController::class, 'destroy'])->name('menu-items.destroy');
-
-    // list group deals
-    Route::get('/restaurant/group-deals', [GroupDealController::class, 'index'])->name('group-deals.index');
-
-    // create a group deal
-    Route::get('/restaurant/group-deals/create', [GroupDealController::class, 'create'])->name('group-deals.create');
-
-    // store a group deal
-    Route::post('/restaurant/group-deals/store', [GroupDealController::class, 'store'])->name('group-deals.store');
-
-    // edit a group deal
-    Route::get('/restaurant/group-deals/edit/{id}', [GroupDealController::class, 'edit'])->name('group-deals.edit');
-
-    // update a group deal
-    Route::put('/restaurant/group-deals/update/{id}', [GroupDealController::class, 'update'])->name('group-deals.update');
-
-    // delete a group deal
-    Route::delete('/restaurant/group-deals/delete/{id}', [GroupDealController::class, 'destroy'])->name('group-deals.destroy');
-
-    //list extras
-    Route::get('/restaurant/extras', [ExtraController::class, 'index'])->name('extras.index');
-
-    // create an extra
-    Route::get('/restaurant/extras/create', [ExtraController::class, 'create'])->name('extras.create');
-
-    // store an extra
-    Route::post('/restaurant/extras/store', [ExtraController::class, 'store'])->name('extras.store');
-
-    // edit an extra
-    Route::get('/restaurant/extras/edit/{id}', [ExtraController::class, 'edit'])->name('extras.edit');
-
-    // update an extra
-    Route::put('/restaurant/extras/update/{id}', [ExtraController::class, 'update'])->name('extras.update');
+    Route::delete('/restaurant/menu-items/delete/{id}', [MenuItemController::class, 'destroy'])->name('restaurant.menu-items.destroy');
 
     // list tables
-    Route::get('/restaurant/tables', [TableController::class, 'index'])->name('tables.index');
+    Route::get('/restaurant/tables', [TableController::class, 'index'])->name('restaurant.tables.index');
 
     // create a table
-    Route::get('/restaurant/tables/create', [TableController::class, 'create'])->name('tables.create');
+    Route::get('/restaurant/tables/create', [TableController::class, 'create'])->name('restaurant.tables.create');
 
     // store a table
-    Route::post('/restaurant/tables/store', [TableController::class, 'store'])->name('tables.store');
+    Route::post('/restaurant/tables/store', [TableController::class, 'store'])->name('restaurant.tables.store');
 
     // edit a table
-    Route::get('/restaurant/tables/edit/{id}', [TableController::class, 'edit'])->name('tables.edit');
+    Route::get('/restaurant/tables/edit/{id}', [TableController::class, 'edit'])->name('restaurant.tables.edit');
 
     // update a table
-    Route::put('/restaurant/tables/update/{id}', [TableController::class, 'update'])->name('tables.update');
+    Route::put('/restaurant/tables/update/{id}', [TableController::class, 'update'])->name('restaurant.tables.update');
 
     // delete a table
-    Route::delete('/restaurant/tables/delete/{id}', [TableController::class, 'destroy'])->name('tables.destroy');
+    Route::delete('/restaurant/tables/delete/{id}', [TableController::class, 'destroy'])->name('restaurant.tables.destroy');
 
     // list operating hours
-    Route::get('/restaurant/operating-hours', [OperatingHourController::class, 'index'])->name('operating-hours.index');
+    Route::get('/admin/operating-hours', [OperatingHourController::class, 'index'])->name('restaurant.operating-hours.index');
 
     // create an operating hour
-    Route::get('/restaurant/operating-hours/create', [OperatingHourController::class, 'create'])->name('operating-hours.create');
+    Route::get('/admin/operating-hours/create', [OperatingHourController::class, 'create'])->name('restaurant.operating-hours.create');
 
     // store an operating hour
-    Route::post('/restaurant/operating-hours/store', [OperatingHourController::class, 'store'])->name('operating-hours.store');
+    Route::post('/admin/operating-hours/store', [OperatingHourController::class, 'store'])->name('restaurant.operating-hours.store');
 
     // edit an operating hour
-    Route::get('/restaurant/operating-hours/edit/{id}', [OperatingHourController::class, 'edit'])->name('operating-hours.edit');
+    Route::get('/admin/operating-hours/edit/{id}', [OperatingHourController::class, 'edit'])->name('restaurant.operating-hours.edit');
 
     // update an operating hour
-    Route::put('/restaurant/operating-hours/update/{id}', [OperatingHourController::class, 'update'])->name('operating-hours.update');
+    Route::put('/admin/operating-hours/update/{id}', [OperatingHourController::class, 'update'])->name('restaurant.operating-hours.update');
 
     // delete an operating hour
-    Route::delete('/restaurant/operating-hours/delete/{id}', [OperatingHourController::class, 'destroy'])->name('operating-hours.destroy');
-
-    // delete an extra
-    Route::delete('/restaurant/extras/delete/{id}', [ExtraController::class, 'destroy'])->name('extras.destroy');
+    Route::delete('/admin/operating-hours/delete/{id}', [OperatingHourController::class, 'destroy'])->name('restaurant.operating-hours.destroy');
 
     // show company profile
-    Route::get('/restaurant/profile', [CompanyProfileController::class, 'show'])->name('profile.show');
+    Route::get('/admin/profile', [CompanyProfileController::class, 'show'])->name('profile.show');
 
     // edit company profile
-    Route::get('/restaurant/profile/edit', [CompanyProfileController::class, 'edit'])->name('profile.edit');
+    Route::get('/admin/profile/edit', [CompanyProfileController::class, 'edit'])->name('profile.edit');
 
     // update company profile
-    Route::put('/restaurant/profile/update', [CompanyProfileController::class, 'update'])->name('profile.update');
-
-    // list offers
-    Route::get('/restaurant/offers', [OfferController::class, 'index'])->name('offers.index');
-
-    // create an offer
-    Route::get('/restaurant/offers/create', [OfferController::class, 'create'])->name('offers.create');
-
-    // store an offer
-    Route::post('/restaurant/offers/store', [OfferController::class, 'store'])->name('offers.store');
-
-    // edit an offer
-    Route::get('/restaurant/offers/edit/{offer}', [OfferController::class, 'edit'])->name('offers.edit');
-
-    // update an offer
-    Route::put('/restaurant/offers/update/{offer}', [OfferController::class, 'update'])->name('offers.update');
-
-    // delete an offer
-    Route::delete('/restaurant/offers/delete/{offer}', [OfferController::class, 'destroy'])->name('offers.destroy');
+    Route::put('/admin/profile/update', [CompanyProfileController::class, 'update'])->name('profile.update');
 
     // list orders
-    Route::get('/restaurant/orders/{user}', [OrderController::class, 'index'])->name('orders.index');
+    Route::get('/admin/orders/{user}', [OrderController::class, 'index'])->name('admin.orders.index');
 
     // show an order
-    Route::get('/restaurant/orders/show/{order}', [OrderController::class, 'show'])->name('orders.show');
+    Route::get('/admin/orders/show/{order}', [OrderController::class, 'show'])->name('admin.orders.show');
+
+    // list order items
+    Route::get('/admin/orders/items/{order}', [OrderItemController::class, 'index'])->name('admin.orders.items.index');
+
+    // show an order item
+    Route::get('/admin/orders/items/show/{orderItem}', [OrderItemController::class, 'show'])->name('admin.orders.items.show');
+
+    // list order items
+    Route::get('/admin/orders/items/{order}/edit', [OrderItemController::class, 'edit'])->name('admin.orders.items.edit');
+
+    // list order items
+    Route::put('/admin/orders/items/{order}/update', [OrderItemController::class, 'update'])->name('admin.orders.items.update');
+
+    // delete order items
+    Route::delete('/admin/orders/items/{order}/delete', [OrderItemController::class, 'destroy'])->name('admin.orders.items.destroy');
+
+    // list restaurant users
+    Route::get('/restaurant/users/', [RestaurantAdminUserController::class, 'index'])->name('restaurant.users.index');
+
+    // create a restaurant user
+    Route::get('/restaurant/users/create/', [RestaurantAdminUserController::class, 'create'])->name('restaurant.users.create');
+
+    // store a restaurant user
+    Route::post('/restaurant/users/store/', [RestaurantAdminUserController::class, 'store'])->name('restaurant.users.store');
+
+    // edit a restaurant user
+    Route::get('/restaurant/users/edit/{user}', [RestaurantAdminUserController::class, 'edit'])->name('restaurant.users.edit');
+
+    // update a restaurant user
+    Route::put('/restaurant/users/update/{user}', [RestaurantAdminUserController::class, 'update'])->name('restaurant.users.update');
+
+    // delete a restaurant user
+    Route::delete('/restaurant/users/delete/{user}', [RestaurantAdminUserController::class, 'destroy'])->name('restaurant.users.destroy');
+
+    // show a single restaurant order
+    Route::get('/restaurant/orders/show/{order}', [OrderController::class, 'show'])->name('restaurant.orders.show');
+
+    // list restaurant orders
+    Route::get('/restaurant/orders/{id}', [RestaurantOrderController::class, 'index'])->name('restaurant.orders.index');
 
     // create an order
-    Route::get('/restaurant/orders/create', [OrderController::class, 'create'])->name('orders.create');
+    Route::get('/restaurant/orders/create', [RestaurantOrderController::class, 'create'])->name('restaurant.orders.create');
 
     // store an order
-    Route::post('/restaurant/orders/store', [OrderController::class, 'store'])->name('orders.store');
+    Route::post('/restaurant/orders/store', [RestaurantOrderController::class, 'store'])->name('restaurant.orders.store');
 
     // edit an order
-    Route::get('/restaurant/orders/edit/{order}', [OrderController::class, 'edit'])->name('orders.edit');
+    Route::get('/restaurant/orders/edit/{order}', [RestaurantOrderController::class, 'edit'])->name('restaurant.orders.edit');
 
     // update an order
-    Route::put('/restaurant/orders/update/{order}', [OrderController::class, 'update'])->name('orders.update');
+    Route::put('/restaurant/orders/update/{order}', [RestaurantOrderController::class, 'update'])->name('restaurant.orders.update');
 
     // delete an order
-    Route::delete('/restaurant/orders/delete/{order}', [OrderController::class, 'destroy'])->name('orders.destroy');
+    Route::delete('/restaurant/orders/delete/{order}', [RestaurantOrderController::class, 'destroy'])->name('restaurant.orders.destroy');
 
+    // list restaurant menu categories
+    Route::get('/restaurant/menu/categories', [MenuCategoryController::class, 'index'])->name('restaurant.menu.categories.index');
 
+    // create a restaurant menu category
+    Route::get('/restaurant/menu/categories/create', [MenuCategoryController::class, 'create'])->name('restaurant.menu.categories.create');
+
+    // store a restaurant menu category
+    Route::post('/restaurant/menu/categories/store', [MenuCategoryController::class, 'store'])->name('restaurant.menu.categories.store');
+
+    // edit a restaurant menu category
+    Route::get('/restaurant/menu/categories/edit/{menuCategory}', [MenuCategoryController::class, 'edit'])->name('restaurant.menu.categories.edit');
+
+    // update a restaurant menu category
+    Route::put('/restaurant/menu/categories/update/{menuCategory}', [MenuCategoryController::class, 'update'])->name('restaurant.menu.categories.update');
+
+    // delete a restaurant menu category
+    Route::delete('/restaurant/menu/categories/delete/{menuCategory}', [MenuCategoryController::class, 'destroy'])->name('restaurant.menu.categories.destroy');
+
+    // list restaurant menu items
+    Route::get('/restaurant/menu/items', [MenuItemController::class, 'index'])->name('restaurant.menu.items.index');
+
+    // create a restaurant menu item
+    Route::get('/restaurant/menu/items/create', [MenuItemController::class, 'create'])->name('restaurant.menu.items.create');
+
+    // store a restaurant menu item
+    Route::post('/restaurant/menu/items/store', [MenuItemController::class, 'store'])->name('restaurant.menu.items.store');
+
+    // edit a restaurant menu item
+    Route::get('/restaurant/menu/items/edit/{menuItem}', [MenuItemController::class, 'edit'])->name('restaurant.menu.items.edit');
+
+    // update a restaurant menu item
+    Route::put('/restaurant/menu/items/update/{menuItem}', [MenuItemController::class, 'update'])->name('restaurant.menu.items.update');
+
+    // delete a restaurant menu item
+    Route::delete('/restaurant/menu/items/delete/{menuItem}', [MenuItemController::class, 'destroy'])->name('restaurant.menu.items.destroy');
+
+    // list restaurant group deals
+    Route::get('/restaurant/group-deals', [GroupDealController::class, 'index'])->name('restaurant.group-deals.index');
+
+    // create a restaurant group deal
+    Route::get('/restaurant/group-deals/create', [GroupDealController::class, 'create'])->name('restaurant.group-deals.create');
+
+    // store a restaurant group deal
+    Route::post('/restaurant/group-deals/store', [GroupDealController::class, 'store'])->name('restaurant.group-deals.store');
+
+    // edit a restaurant group deal
+    Route::get('/restaurant/group-deals/edit/{groupDeal}', [GroupDealController::class, 'edit'])->name('restaurant.group-deals.edit');
+
+    // update a restaurant group deal
+    Route::put('/restaurant/group-deals/update/{groupDeal}', [GroupDealController::class, 'update'])->name('restaurant.group-deals.update');
+
+    // delete a restaurant group deal
+    Route::delete('/restaurant/group-deals/delete/{groupDeal}', [GroupDealController::class, 'destroy'])->name('restaurant.group-deals.destroy');
+
+    // list restaurant extras
+    Route::get('/restaurant/extras', [ExtraController::class, 'index'])->name('restaurant.extras.index');
+
+    // create a restaurant extra
+    Route::get('/restaurant/extras/create', [ExtraController::class, 'create'])->name('restaurant.extras.create');
+
+    // store a restaurant extra
+    Route::post('/restaurant/extras/store', [ExtraController::class, 'store'])->name('restaurant.extras.store');
+
+    // edit a restaurant extra
+    Route::get('/restaurant/extras/edit/{extra}', [ExtraController::class, 'edit'])->name('restaurant.extras.edit');
+
+    // update a restaurant extra
+    Route::put('/restaurant/extras/update/{extra}', [ExtraController::class, 'update'])->name('restaurant.extras.update');
+
+    // delete a restaurant extra
+    Route::delete('/restaurant/extras/delete/{extra}', [ExtraController::class, 'destroy'])->name('restaurant.extras.destroy');
+
+    // list restaurant offers
+    Route::get('/restaurant/offers', [OfferController::class, 'index'])->name('restaurant.offers.index');
+
+    // create a restaurant offer
+    Route::get('/restaurant/offers/create', [OfferController::class, 'create'])->name('restaurant.offers.create');
+
+    // store a restaurant offer
+    Route::post('/restaurant/offers/store', [OfferController::class, 'store'])->name('restaurant.offers.store');
+
+    // edit a restaurant offer
+    Route::get('/restaurant/offers/edit/{offer}', [OfferController::class, 'edit'])->name('restaurant.offers.edit');
+
+    // update a restaurant offer
+    Route::put('/restaurant/offers/update/{offer}', [OfferController::class, 'update'])->name('restaurant.offers.update');
+
+    // delete a restaurant offer
+    Route::delete('/restaurant/offers/delete/{offer}', [OfferController::class, 'destroy'])->name('restaurant.offers.destroy');
+
+    // list call centre orders
+    Route::get('/call-centre/orders', [CallCentreOrderController::class, 'index'])->name('call-centre.orders.index');
+
+    // create an order
+    Route::get('/call-centre/orders/create', [CallCentreOrderController::class, 'create'])->name('call-centre.orders.create');
+
+    // store an order
+    Route::post('/call-centre/orders/store', [CallCentreOrderController::class, 'store'])->name('call-centre.orders.store');
+
+    // edit an order
+    Route::get('/call-centre/orders/edit/{order}', [CallCentreOrderController::class, 'edit'])->name('call-centre.orders.edit');
+
+    // update an order
+    Route::put('/call-centre/orders/update/{order}', [CallCentreOrderController::class, 'update'])->name('call-centre.orders.update');
+
+    // delete an order
+    Route::delete('/call-centre/orders/delete/{order}', [CallCentreOrderController::class, 'destroy'])->name('call-centre.orders.destroy');
 
     // get all applications
     Route::get('/admin-applications', [AdminApplicationsController::class, 'index'])->name('admin-applications.index');
+
+    // get one application
+    Route::get('/admin-applications/{restaurant}', [AdminApplicationsController::class, 'show'])->name('admin-applications.show');
+
+    // approve an application
+    Route::put('/admin-applications/{restaurant}/approve', [AdminApplicationsController::class, 'approve'])->name('admin-applications.approve');
+
+    // reject an application
+    Route::put('/admin-applications/{restaurant}/decline', [AdminApplicationsController::class, 'decline'])->name('admin-applications.decline');
 
     // create a driver
     Route::get('/admin-driver/create', [AdminDriverController::class, 'create'])->name('admin-driver.create');
@@ -318,16 +431,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin-driver/edit/{id}', [AdminDriverController::class, 'edit'])->name('admin-driver.edit');
 
     // update a driver
-    Route::put('/admin-driver/update/{id}', [AdminDriverController::class, 'update'])->name('admin-driver.update');
+    Route::put('/admin-driver/update/{driver}', [AdminDriverController::class, 'update'])->name('admin-driver.update');
 
     // delete a driver
-    Route::delete('/admin-driver/delete/{id}', [AdminDriverController::class, 'destroy'])->name('admin-driver.destroy');
+    Route::delete('/admin-driver/delete/{driver}', [AdminDriverController::class, 'destroy'])->name('admin-driver.destroy');
+
+    // list driver trips
+    Route::get('/admin-driver/trips/{driver}', [AdminDriverTripsController::class, 'index'])->name('admin-driver.trips.index');
 
     // get all delivery costs
-    Route::get('/admin-configurations', [AdminConfigurationsController::class, 'index'])->name('admin-configurations.index');
+    Route::get('/admin-configurations/{configuration}', [AdminConfigurationsController::class, 'index'])->name('admin-configurations.index');
+
+    // edit delivery costs
+    Route::get('/admin-configurations/edit/{user}', [AdminConfigurationsController::class, 'edit'])->name('admin-configurations.edit');
 
     // update delivery costs
-    Route::put('/admin-configurations/update/', [AdminConfigurationsController::class, 'update'])->name('admin-configurations.update');
+    Route::put('/admin-configurations/update/{configuration}', [AdminConfigurationsController::class, 'update'])->name('admin-configurations.update');
 
     // get all orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
@@ -338,6 +457,5 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Route::view('/restaurant/restaurant-tables', 'livewire.table_numbers')->name('restaurant.alltables');
 });
-
 
 require __DIR__ . "/auth.php";

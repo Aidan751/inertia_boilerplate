@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\PermissionsController;
@@ -19,21 +20,6 @@ use App\Http\Controllers\Api\AdminCallCentreUserController;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
-
-// dev test routes
-// create a new restaurant
-Route::post('/restaurants', [AdminRestaurantsController::class, 'store']);
-
-// get all restaurants
-Route::get('/restaurants', [AdminRestaurantsController::class, 'index']);
-// just to test edit works
-Route::get('/restaurants/{id}', [AdminRestaurantsController::class, 'edit']);
-// update a restaurant
-Route::put('/restaurants/{id}', [AdminRestaurantsController::class, 'update']);
-
-// list call centre users
-Route::get('/call-centre-users', [AdminCallCentreUserController::class, 'index']);
 
 
 
@@ -97,4 +83,35 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // stripe create session
     Route::get('/stripe/create-session', [StripeController::class, 'createSession']);
+
+    // create a new restaurant
+Route::post('/restaurants', [AdminRestaurantsController::class, 'store']);
+
+// get all restaurants
+Route::get('/restaurants', [AdminRestaurantsController::class, 'index']);
+// just to test edit works
+Route::get('/restaurants/{id}', [AdminRestaurantsController::class, 'edit']);
+// update a restaurant
+Route::put('/restaurants/{id}', [AdminRestaurantsController::class, 'update']);
+
+// list call centre users
+Route::get('/call-centre-users', [AdminCallCentreUserController::class, 'index']);
+
+// list orders
+Route::get('/orders', [OrderController::class, 'getAll']);
+
+// get all orders for the restaurant
+Route::get('/orders/{restaurant}', [OrderController::class, 'getOrders']);
+
+// add a new order
+Route::post('/orders', [OrderController::class, 'add']);
+
+// get a single order
+Route::get('/orders/{id}', [OrderController::class, 'show']);
+
+// update an order
+Route::put('/orders/{id}', [OrderController::class, 'update']);
+
+// delete an order
+Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
 });

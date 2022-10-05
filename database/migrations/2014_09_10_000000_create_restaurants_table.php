@@ -42,7 +42,7 @@ class CreateRestaurantsTable extends Migration
             $table->boolean('allows_call_center')->default(0);
             $table->timestamps();
 
-            $table->foreign('restaurant_category_id')->references('id')->on('restaurant_categories')->onDelete('cascade');
+            $table->foreign('restaurant_category_id')->references('id')->on('restaurant_categories');
 
         });
     }

@@ -11,13 +11,13 @@ export default function Authenticated({ auth, header, children,activeGroup,secon
             <section className="py-5 px-2">
 
                 {/* Mobile Menu */}
-                <MobileMenu />
+                <MobileMenu auth={auth} />
 
                 {/* Content and Side Menu */}
                 <section className='flex'>
 
                     {/* SideBar */}
-                    <SideBar activeGroup={activeGroup} secondActiveGroup={secondActiveGroup} />
+                    <SideBar activeGroup={activeGroup} secondActiveGroup={secondActiveGroup} auth={auth} />
 
                     {/* Content Container */}
                     <main className='content'>

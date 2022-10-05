@@ -7,6 +7,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+
 class AuthController extends Controller
 {
     /**
@@ -38,8 +39,9 @@ class AuthController extends Controller
 
         // Create a token for the user
         $tokenResult = $user->createToken('Personal Access Token');
+
         // Get the token from the token result
-        $token = $tokenResult->token;
+        $token = $tokenResult->plainTextToken;
         // Check if the remember me checkbox was checked
         if ($request->remember_me){
             $token->expires_at = Carbon::now()->addWeeks(1);
@@ -48,11 +50,8 @@ class AuthController extends Controller
         // Return the token
         return response()->json([
             "user" => $user,
-            'access_token' => $tokenResult->accessToken,
+            'access_token' => $token,
             'token_type' => 'Bearer',
-            'expires_at' => Carbon::parse(
-                $tokenResult->token->expires_at
-            )->toDateTimeString()
         ]);
     }
 

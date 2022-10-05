@@ -2,6 +2,7 @@ import Button from "@/Components/Button";
 import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from "@inertiajs/inertia-react";
+import MidoneUpload from "@/Components/MidoneUpload";
 
 export default function Create(props) {
     const [option, selectedOption] = useState(null);
@@ -22,12 +23,19 @@ export default function Create(props) {
         allows_delivery: 0,
         allows_call_center: 0,
         category: "",
-        logo: "",
-        banner: "",
+        banner: null,
+        logo: null,
+        role: 'restaurant_admin',
     });
+
+    const [logo, setLogo] = useState();
+    const [banner, setBanner] = useState();
+
 
     function handleSubmit(e) {
         e.preventDefault();
+        data.banner = banner;
+        data.logo = logo;
         post(route("admin-restaurants.store"));
     }
 
@@ -36,6 +44,7 @@ export default function Create(props) {
         data.category = value;
         selectedOption(value);
     }
+
 
     return (
         <>
@@ -46,25 +55,25 @@ export default function Create(props) {
             activeItem={1}
         >
 
-        <div className="col-span-12">
-            <div className="intro-y flex items-center mt-5 mb-5">
-                <h2 className="text-lg font-medium mr-auto">Add new Business</h2>
+        <div className="col-span-12 overflow-auto">
+            <div className="flex items-center mt-5 mb-5 intro-y">
+                <h2 className="mr-auto text-lg font-medium">Add new Business</h2>
             </div>
-            <div className="intro-y flex items-center mb-5">
+            <div className="flex items-center mb-5 intro-y">
                 <p className="text-gray-600">Fill in the following details to add a new Business</p>
             </div>
 
-            <div className="bg-white rounded shadow overflow-hidden max-w-3xl">
-                <form onSubmit={handleSubmit} encType="multipart/form-data">
+            <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
+                <form onSubmit={handleSubmit}>
                     <div className="px-10">
                     {/* Start: Interal Only Section */}
-                        <div className="mb-3 mt-8">
-                            <label className="block mb-2 text-sm font-medium text-gray-600">Internal Only</label>
+                        <div className="mt-8 mb-3">
+                            <label className="block mb-2 text-md font-medium text-gray-600">Internal Only</label>
                             <div className="flex items-center py-3">
 
                                 <input
                                     type="checkbox"
-                                    className="input border mr-2"
+                                    className="mr-2 border input"
                                     name="allows_table_orders"
                                     id="allows_table_orders"
                                     value={data.allows_table_orders}
@@ -74,7 +83,7 @@ export default function Create(props) {
 
                                 <input
                                     type="checkbox"
-                                    className="input border mr-2 ml-4"
+                                    className="ml-4 mr-2 border input"
                                     name="allows_collection"
                                     id="allows_collection"
                                     value={data.allows_collection}
@@ -84,7 +93,7 @@ export default function Create(props) {
 
                                 <input
                                     type="checkbox"
-                                    className="input border mr-2 ml-4"
+                                    className="ml-4 mr-2 border input"
                                     name="allows_delivery"
                                     id="allows_delivery"
                                     value={data.allows_delivery}
@@ -94,7 +103,7 @@ export default function Create(props) {
 
                                 <input
                                     type="checkbox"
-                                    className="input border mr-2 ml-4"
+                                    className="ml-4 mr-2 border input"
                                     name="allows_call_center"
                                     id="allows_call_center"
                                     value={data.allows_call_center}
@@ -108,7 +117,7 @@ export default function Create(props) {
                     {/* Start: Business Name */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block font-medium mb-3 text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="name"
                             >
                                 Business Name
@@ -131,61 +140,65 @@ export default function Create(props) {
                             )}
                         </div>
                     {/* End: Business Name */}
-                      {/* Start: Business Logo */}
-                      <div className="mb-6">
-                            <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="logo"
-                            >
-                                Logo
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="logo"
-                                type="file"
-                                name="logo"
-                                value={data.logo}
-                                onChange={(e) =>
-                                    setData("logo", e.target.value)
-                                }
-                            />
-                            {errors.image && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.logo}
-                                </p>
-                            )}
-                        </div>
-                    {/* End: Business Logo */}
-                    {/* Start: Business Banner */}
+                    {/* Start: logo */}
                         <div className="mb-6">
-                            <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="banner"
-                            >
-                                Banner Image
-                            </label>
-                            <input
-                                className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="banner"
-                                type="file"
-                                name="banner"
-                                value={data.banner}
-                                onChange={(e) =>
-                                    setData("banner", e.target.value)
-                                }
-                            />
-                            {errors.image && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.banner}
-                                </p>
-                            )}
-                        </div>
-                    {/* End: Business Banner */}
+                                <label
+                                    className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                    htmlFor="logo"
+                                >
+                                    Logo
+                                </label>
+                                <input
+                                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                    id="logo"
+                                    type="file"
+                                    name="logo"
+                                    value={data.logo}
+                                    onChange={(e) =>
+                                        setLogo(e.target.files[0])
+                                    }
+                                />
+                                {errors.logo && (
+                                    <p className="text-xs italic text-red-500">
+                                        {errors.logo}
+                                    </p>
+                                )}
+                            </div>
+                        {/* End: logo */}
+                        {/* Start: banner */}
+                            <div className="mb-6">
+                                    <label
+                                        className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                        htmlFor="banner"
+                                    >
+                                        Banner
+                                    </label>
+                                    <input
+                                        className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                        id="banner"
+                                        type="file"
+                                        name="banner"
+                                        value={data.banner}
+                                        onChange={(e) =>
+                                        {
+
+                                            setBanner(e.target.files[0])
+
+                                        }
+                                        }
+                                    />
+                                    {errors.banner && (
+                                        <p className="text-xs italic text-red-500">
+                                            {errors.banner}
+                                        </p>
+                                    )}
+                                </div>
+                            {/* End: banner */}
                      {/* Start: Business Categories */}
                      <div className="mb-6">
                             <label
 
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-gray-600 dark:text-gray-400"
                                 htmlFor="categories"
                             >
                                 Category
@@ -216,13 +229,13 @@ export default function Create(props) {
                     {/* Start: Business Address */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="address"
                             >
                                 Address
                             </label>
                             <input
-                                className="w-full mb-2 px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                className="w-full px-3 py-2 mb-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="address_line_1"
                                 type="text"
                                 name="address_line_1"
@@ -256,7 +269,7 @@ export default function Create(props) {
                             )}
 
                             <input
-                                className="w-full px-3 py-2 text-sm mb-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                className="w-full px-3 py-2 mb-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="town"
                                 type="text"
                                 name="town"
@@ -273,7 +286,7 @@ export default function Create(props) {
                             )}
 
                             <input
-                                className="w-full px-3 py-2 text-sm mb-2 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                className="w-full px-3 py-2 mb-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="county"
                                 type="text"
                                 name="county"
@@ -311,7 +324,7 @@ export default function Create(props) {
                     {/* Start: Business Contact Number */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="contact_number"
                             >
                                 Business Contact Number
@@ -337,7 +350,7 @@ export default function Create(props) {
                     {/* Start: Business Bio */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="bio"
                             >
                                 Bio
@@ -372,7 +385,7 @@ export default function Create(props) {
                     {/* Start: Business Email */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="email"
                             >
                                 Email
@@ -398,7 +411,7 @@ export default function Create(props) {
                     {/* Start: Business Set Password */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="password"
                             >
                                 Set Password
@@ -424,7 +437,7 @@ export default function Create(props) {
                     {/* Start: Business Confirm Password */}
                         <div className="mb-6">
                             <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                className="block mb-2 font-medium text-md text-gray-600 dark:text-gray-400"
                                 htmlFor="password_confirmation"
                             >
                                 Repeat Password

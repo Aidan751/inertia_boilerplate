@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Web;
 
+use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Models\Configuration;
 use App\Http\Controllers\Controller;
-use App\Models\Role;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Redirect;
 
@@ -84,12 +85,18 @@ class AdminUserController extends Controller
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => Hash::make($request->password),
+            'password' => bcrypt($request->password),
             "role_id" => $role->id
         ]);
 
         // Assign user to a role using the laratrust package
         $user->attachRole($role);
+
+        if($user->role_id == 1){
+            $configuration = Configuration::create([
+                "user_id" => $user->id,
+            ]);
+        }
 
         // Redirect back to the index page with a success message
         return redirect()->route('admin-user.index')->with('success', 'Admin User created successfully');
@@ -136,16 +143,21 @@ class AdminUserController extends Controller
     {
 
         // Validate the request
-        $data = $request->validate([
+        $request->validate([
             'first_name' => 'required|string|max:255',
             'last_name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users,email,' . $user->id,
             'password' => 'nullable|string|min:6|confirmed',
             "role" => "required|exists:roles,name",
-            "email_password_to_user" => "required|boolean"
         ]);
 
-        $user->update($data);
+        // update the user
+        $user->update([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => $request->password ? bcrypt($request->password) : $user->password,
+        ]);
 
 
         return redirect()->route('admin-user.index')->with('success', 'Admin user updated successfully');

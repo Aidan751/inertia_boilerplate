@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Role;
 use App\Models\Order;
+use App\Models\Configuration;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
@@ -29,7 +30,8 @@ class User extends Authenticatable
         'email_verified_at',
         'password',
         'is_suspended',
-        "role_id"
+        "role_id",
+        "restaurant_id",
     ];
 
     /**
@@ -57,4 +59,15 @@ class User extends Authenticatable
         return $this->hasMany(Order::class);
     }
 
+    // user has one configuration
+    public function configuration()
+    {
+        return $this->hasOne(Configuration::class);
+    }
+
+    // get user full name
+    public function getFullName()
+    {
+        return "{$this->first_name} {$this->last_name}";
+    }
 }

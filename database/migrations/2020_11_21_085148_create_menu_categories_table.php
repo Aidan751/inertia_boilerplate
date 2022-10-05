@@ -19,7 +19,6 @@ class CreateMenuCategoriesTable extends Migration
             $table->string('title');
             $table->longText('notes')->nullable();
             $table->timestamps();
-
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
         });
     }
