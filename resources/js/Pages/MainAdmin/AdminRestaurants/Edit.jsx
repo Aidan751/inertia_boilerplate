@@ -5,6 +5,7 @@ import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from '@inertiajs/inertia-react';
 import Checkbox from "@/components/Checkbox";
 import MidoneUpload from "@/Components/MidoneUpload";
+import ValidationErrors from "@/Components/ValidationErrors";
 
 export default function Edit( props ) {
     console.log( props.restaurant );
@@ -25,7 +26,7 @@ export default function Edit( props ) {
         allows_collection: props.restaurant.allows_collection,
         allows_delivery: props.restaurant.allows_delivery,
         allows_call_center: props.restaurant.allows_call_center,
-        category: props.restaurant.category,
+        category: props.restaurant.restaurant_category_id,
         logo: null,
         banner: null,
         _method: 'PUT',
@@ -103,7 +104,13 @@ export default function Edit( props ) {
             <div className="flex items-center mt-5 mb-5 intro-y">
                 <h2 className="mr-auto text-lg font-medium">Update Business</h2>
             </div>
-
+            {/* Validation Errors */}
+            <div className="flex items-center mt-5 mb-5 intro-y">
+                {
+                    props.errors && 
+                    <ValidationErrors errors={props.errors} />
+                }
+            </div>
             <div className="max-w-3xl overflow-hidden bg-white rounded shadow">
                 <form onSubmit={handleSubmit} encType="multipart/form-data">
                     <div className="px-10">
@@ -191,15 +198,22 @@ export default function Edit( props ) {
                             <select
                                 className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                 id="categories"
-                                type="text"
                                 name="categories"
-                                value={option}
-                                onChange={handleCategoryChange}
+                                value={data.category}
+                                onChange={(e) =>
+                                    setData("category", e.target.value)}
                             >
-                               {props.restaurant.categories && props.restaurant.categories.map((category) => (
-                                    <option key={category.id} value={category.id}>
-                                        {category.name}
-                                    </option>
+                                <option value="">Select Category</option>
+                               {props.restaurant.categories && props.restaurant.categories.map((category,key) => (
+                                    
+                                    <>
+                                        {/* Set selected option if the id matches the category variable */}
+                                        <option key={key} value={category.id}>
+                                            {category.name}
+                                        </option>
+                                    </>
+
+                                    
                                 ))}
 
                             </select>

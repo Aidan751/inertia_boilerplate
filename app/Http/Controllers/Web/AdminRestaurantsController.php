@@ -102,8 +102,6 @@ class AdminRestaurantsController extends Controller
             "role" => "required|exists:roles,name",
         ]);
 
-        DD($request->all());
-
         // Get the role based on the name
         $role = Role::where('name', $request->role)->first();
 
@@ -265,23 +263,16 @@ class AdminRestaurantsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Restaurant $restaurant){
-         // Find the model for this ID
-         $logo = $restaurant->logo()->first();
-         $banner = $restaurant->banner()->first();
+        // Find the model for this ID
+        // dd(RestaurantCategory::find(9));
+        // dd($restaurant);
+
          $categories = RestaurantCategory::orderBy('name')->get();
 
          $restaurant->setAttribute('categories', $categories);
          $restaurant->setAttribute('edit', true);
 
-             $restaurant->logo = $logo->img_url ?? null;
-
-
-
-            $restaurant->banner = $banner->img_url ?? null;
-
-
-         $url = '';//config('app.url');
-
+        $url = '';//config('app.url');
         return Inertia::render('MainAdmin/AdminRestaurants/Edit', [
             'restaurant' => $restaurant,
         ]);
@@ -306,10 +297,8 @@ class AdminRestaurantsController extends Controller
             'town' => ['required', 'string', 'max:191'],
             'county' => ['required', 'string', 'max:191'],
             'postcode' => ['required', 'string', 'max:191'],
-            'email' => ['required', 'email', 'max:191', 'unique:users,email,' . $uid],
             'password' => ['nullable', 'confirmed', 'min:6'],
         ]);
-
         // Find the model for this ID
         $restaurant = Restaurant::find($id);
 
