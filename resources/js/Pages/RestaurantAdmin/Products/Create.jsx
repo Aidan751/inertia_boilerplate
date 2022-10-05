@@ -4,6 +4,7 @@ import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from '@inertiajs/inertia-react'
 import MidoneUpload from "@/Components/MidoneUpload";
+import { X } from "lucide-react";
 
 function Create(props) {
 console.log(props);
@@ -31,6 +32,8 @@ const [sizes, setSizes] = useState([{
     additional_charge: ''
 }]);
 
+const [extras, setExtras] = useState([]);
+
 const addSizes = () => {
     setSizes([
         ...sizes,
@@ -43,9 +46,21 @@ const addSizes = () => {
     console.log(sizes);
 }
 
-const removeSizes = (index) => {
-    const newSizes = sizes.filter((size, i) => i !== index);
-    setSizes(newSizes);
+const addExtras = (e) => {
+    setData(e.target.name, e.target.type === 'checkbox' ? e.target.checked : e.target.value);
+    console.log(props.extras);
+    props.extras.forEach(extra => {
+    if (extra.id == e.target.value) {
+    setExtras([
+        ...extras,
+        {
+            id: extra.id,
+            name: extra.name,
+            additional_charge: extra.additional_charge,
+        },
+    ])
+}
+})
 }
 
    // to input elements and record their values in state
@@ -56,6 +71,15 @@ const removeSizes = (index) => {
     setSizes(list);
 };
 
+const handleExtraInputChange = (e) => {
+    setData(e.target.name, e.target.type === 'checkbox' ? e.target.checked : e.target.value);
+    const { name, value } = e.target;
+    const list = [...extras];
+    list[name] = value;
+    setExtras(list);
+    console.log(name, value, list);
+};
+
   // user click yes delete a specific row of id:i
   const handleSizeRemoveClick = (i) => {
     const list = [...sizes];
@@ -63,13 +87,11 @@ const removeSizes = (index) => {
     setSizes(list);
 };
 
-
-const addExtras = () => {
-    const newExtra = {
-        extra_id: '',
-    }
-    setChosenExtras([...chosenExtras, newExtra]);
-}
+const handleExtraRemoveClick = (i) => {
+    const list = [...extras];
+    list.splice(i, 1);
+    setExtras(list);
+};
 
 
 const onHandleChange = (event) => {
@@ -354,6 +376,78 @@ const resetImageInput = (event) => {
                     </Button>
                 </div>
             {/* End: Button to add another size option with an additional charge */}
+            {/* start: select extras title and description */}
+                <div className="mb-6">
+                        <div className="intro-y flex items-center mt-8">
+                            <h2 className="text-lg font-medium mr-auto">Select Extra</h2>
+                        </div>
+                        <div className="intro-y flex items-center mt-3 mb-3">
+                            <p className="text-gray-600">Search and select all the extras to be added to the product</p>
+                        </div>
+                    <select
+                        className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                        id="extras"
+                        type="text"
+                        name="extras"
+                        value={data.extras}
+                        onChange={(e) => addExtras(e)}
+                    >
+                        <option value="">Select Extras</option>
+                        {props.extras.map((extra, key) => (
+                            <option key={key} value={extra.id}>
+                                {extra.name}
+                            </option>
+                        ))}
+                    </select>
+                    {errors.extras && (
+                        <p className="text-xs italic text-red-500">
+                            {errors.extras}
+                        </p>
+                    )}
+                </div>
+            {/* end: select extras title and description */}
+            {/* start: table mapping extras added to group deal */}
+                <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
+                    <table className="table table-report mt-2">
+                        <thead>
+                            <tr>
+                                <th className="whitespace-no-wrap">EXTRA NAME</th>
+                                <th className="whitespace-no-wrap">ADDITIONAL CHARGE</th>
+                                <th className="whitespace-no-wrap text-center">ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {extras.map((extra, key) => {
+                               return ( <tr key={key} className="intro-x">
+                                    <td>
+                                        <a href="" className="font-medium whitespace-no-wrap">
+                                            {extra.name}
+                                        </a>
+                                    </td>
+                                    <td>
+                                        {extra.additional_charge ?? "N/A"}
+                                    </td>
+                                    <td className="table-report__action w-56">
+                                        <div className="flex justify-center items-center">
+                                            <Button
+                                                className="btn btn-danger-soft h-7 text-sm"
+                                                type="button"
+                                                click={() => handleExtraRemoveClick(key)}
+                                                autoFocus
+                                            >
+                                                Remove
+                                            </Button>
+                                        </div>
+                                    </td>
+                                </tr>
+                               )
+                            })}
+                        </tbody>
+                    </table>
+                </div>
+            {/* end: table mapping extras added to group deal */}
+
+
             <div className="text-right mt-5">
               <Button type="submit" className="w-30">
                 Save
