@@ -4,42 +4,86 @@ import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from '@inertiajs/inertia-react';
 import Checkbox from "@/components/Checkbox";
+import MidoneUpload from "@/Components/MidoneUpload";
 
 export default function Edit( props ) {
     console.log( props.restaurant );
     const [option, selectedOption] = useState(null);
-    const { data, setData, put, processing, errors, reset } = useForm({
-        name: props.restaurant.name || '',
-        address_line_1: props.restaurant.address_line_1 || '',
-        address_line_2: props.restaurant.address_line_2 || '',
-        town: props.restaurant.town || '',
-        county: props.restaurant.county || '',
-        postcode: props.restaurant.postcode || '',
-        contact_number: props.restaurant.contact_number || '',
-        email: props.restaurant.email || '',
-        password: props.restaurant.password || '',
-        password_confirmation: props.restaurant.password_confirmation || '',
-        bio: props.restaurant.bio || '',
-        allows_table_orders: props.restaurant.allows_table_orders || '',
-        allows_collection: props.restaurant.allows_collection || '',
-        allows_delivery: props.restaurant.allows_delivery || '',
-        allows_call_center: props.restaurant.allows_call_center || '',
-        category: props.restaurant.category || '',
-        logo: props.restaurant.logo || '',
-        banner: props.restaurant.banner || '',
+    const { data, setData, post, processing, errors, reset } = useForm({
+        name: props.restaurant.name,
+        address_line_1: props.restaurant.address_line_1,
+        address_line_2: props.restaurant.address_line_2,
+        town: props.restaurant.town,
+        county: props.restaurant.county,
+        postcode: props.restaurant.postcode,
+        contact_number: props.restaurant.contact_number,
+        email: props.restaurant.email,
+        password: props.restaurant.password,
+        password_confirmation: props.restaurant.password_confirmation,
+        bio: props.restaurant.bio,
+        allows_table_orders: props.restaurant.allows_table_orders,
+        allows_collection: props.restaurant.allows_collection,
+        allows_delivery: props.restaurant.allows_delivery,
+        allows_call_center: props.restaurant.allows_call_center,
+        category: props.restaurant.category,
+        logo: null,
+        banner: null,
+        _method: 'PUT',
     });
 
 
+    const [fileUrl, setFileUrl] = useState({
+        logo: props.restaurant.logo,
+        banner: props.restaurant.banner,
+    });
+
+
+    /**
+     * Handle the file upload and set the state
+     * @param {*} event Image file event
+     */
+    const onHandleFileChange = (event) => {
+
+        // If there are files uploaded add them to image list
+        if(event.target.files.length !== 0){
+
+            // Add Image File
+            setData(event.target.name,event.target.files[0]);
+
+            //  Set Preview Image
+            const file = URL.createObjectURL(event.target.files[0]);
+            
+            // Get Data Structure
+            let tempFileUrl = fileUrl;
+
+            tempFileUrl[event.target.name] = file;
+        }
+        else{
+            setData(event.target.name,null);
+        }
+    }
+
+    const resetFileInput = (event) => {
+
+        // Set the file input to null
+        setData(event.target.id,null);
+
+        // 
+        let tempFileUrl = fileUrl;
+
+        tempFileUrl[event.target.id] = null;
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
-        put(route('admin.restaurants.update', props.restaurant.id), {
+        post(route('admin.restaurants.update', props.restaurant.id), {
             preserveScroll: true,
             onSuccess: () => {
                 reset('password', 'password_confirmation')
             }
         });
     }
-
+    
 
     function handleCategoryChange(e) {
         let value = e.target.value;
@@ -124,52 +168,17 @@ export default function Edit( props ) {
                                 </p>
                             )}
                         </div>
-                    {/* End: Business Name */}
-                      {/* Start: Business Logo */}
-                      <div className="mb-6">
-                            <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="logo"
-                            >
-                                Logo
-                            </label>
-                           <img src={data.logo} id="logo_img" alt="Logo" className="mb-3" />
-                            <input
-                                className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="logo"
-                                type="file"
-                                name="logo"
-                            />
-                            {errors.image && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.logo}
-                                </p>
-                            )}
-                        </div>
-                    {/* End: Business Logo */}
-                    {/* Start: Business Banner */}
+                        {/* End: Business Name */}
+                        {/* Start: logo */}
                         <div className="mb-6">
-                            <label
-                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="banner"
-                            >
-                                Banner Image
-                            </label>
-                            <img className="mb-3" id="banner_img" src={data.banner} alt="Banner" />
-                            <input
-                                className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="banner"
-                                type="file"
-                                name="banner"
-
-                            />
-                            {errors.image && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.banner}
-                                </p>
-                            )}
+                            <MidoneUpload label="Logo Upload" change={onHandleFileChange} name="logo" preview={fileUrl.logo} reset={resetFileInput} />
                         </div>
-                    {/* End: Business Banner */}
+                        {/* End: logo */}
+                        {/* Start: banner */}
+                        <div className="mb-6">
+                            <MidoneUpload label="Banner Upload" change={onHandleFileChange} name="banner" preview={fileUrl.banner} reset={resetFileInput} />
+                        </div>
+                        {/* End: banner */}
                      {/* Start: Business Categories */}
                      <div className="mb-6">
                             <label

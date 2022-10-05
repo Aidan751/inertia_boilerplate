@@ -28,9 +28,6 @@ export default function Create(props) {
         role: 'restaurant_admin',
     });
 
-    const [logo, setLogo] = useState();
-    const [banner, setBanner] = useState();
-
     const [fileUrl, setFileUrl] = useState({
         logo: null,
         banner: null,
@@ -75,8 +72,6 @@ export default function Create(props) {
 
     function handleSubmit(e) {
         e.preventDefault();
-        data.banner = banner;
-        data.logo = logo;
         post(route("admin-restaurants.store"));
     }
 

@@ -102,8 +102,10 @@ class AdminRestaurantsController extends Controller
             "role" => "required|exists:roles,name",
         ]);
 
-          // Get the role based on the name
-          $role = Role::where('name', $request->role)->first();
+        DD($request->all());
+
+        // Get the role based on the name
+        $role = Role::where('name', $request->role)->first();
 
         $stripe = new StripeClient(
             config('services.stripe_secret_key')
