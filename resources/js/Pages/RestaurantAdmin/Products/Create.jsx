@@ -372,7 +372,7 @@ const resetImageInput = (event) => {
                         type="button"
                         click={addSizes}
                     >
-                        Add another
+                        {sizes.length > 0 ? 'Add another' : 'Add size option'}
                     </Button>
                 </div>
             {/* End: Button to add another size option with an additional charge */}
