@@ -52,7 +52,7 @@ export default function Edit( props ) {
 
             //  Set Preview Image
             const file = URL.createObjectURL(event.target.files[0]);
-            
+
             // Get Data Structure
             let tempFileUrl = fileUrl;
 
@@ -68,7 +68,7 @@ export default function Edit( props ) {
         // Set the file input to null
         setData(event.target.id,null);
 
-        // 
+        //
         let tempFileUrl = fileUrl;
 
         tempFileUrl[event.target.id] = null;
@@ -76,14 +76,14 @@ export default function Edit( props ) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        post(route('admin.restaurants.update', props.restaurant.id), {
+        post(route('admin-restaurants.update', props.restaurant.id), {
             preserveScroll: true,
             onSuccess: () => {
                 reset('password', 'password_confirmation')
             }
         });
     }
-    
+
 
     function handleCategoryChange(e) {
         let value = e.target.value;

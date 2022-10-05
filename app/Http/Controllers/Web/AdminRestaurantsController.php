@@ -295,7 +295,7 @@ class AdminRestaurantsController extends Controller
      * @param \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Restaurant $restaurant){
+    public function update(Request $request, $id){
         $uid = $request->_userID;
 
         // Validate the data
