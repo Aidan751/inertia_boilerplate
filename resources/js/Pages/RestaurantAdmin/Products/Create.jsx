@@ -184,6 +184,7 @@ function Create(props) {
                     className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="title"
                     type="text"
+                    placeholder="Title..."
                     name="title"
                     value={data.title}
                     onChange={(e) => setData("title", e.target.value)}
@@ -207,6 +208,7 @@ function Create(props) {
                     className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="description"
                     type="text"
+                    placeholder="Description..."
                     name="description"
                     value={data.description}
                     onChange={(e) => setData("description", e.target.value)}
@@ -231,6 +233,7 @@ function Create(props) {
                     id="dietary_requirements"
                     type="text"
                     name="dietary_requirements"
+                    placeholder="Dietary Requirements..."
                     value={data.dietary_requirements}
                     onChange={(e) =>
                       setData("dietary_requirements", e.target.value)
@@ -257,6 +260,7 @@ function Create(props) {
                     type="text"
                     name="price"
                     value={data.price}
+                    placeholder="Price..."
                     onChange={(e) => setData("price", e.target.value)}
                   />
                   {errors.price && (
@@ -311,6 +315,7 @@ function Create(props) {
                           type="text"
                           name="size"
                           value={size.size}
+                          placeholder="Size..."
                           onChange={(e) => handleSizeInputChange(e, i)}
                         />
 
@@ -335,6 +340,7 @@ function Create(props) {
                             type="text"
                             name="additional_charge"
                             value={size.additional_charge}
+                            placeholder="Additional Charge..."
                             onChange={(e) => handleSizeInputChange(e, i)}
                           />
                         </div>
