@@ -18,10 +18,8 @@ class CreateExtrasTable extends Migration
             $table->string('name');
             $table->longText('description')->nullable();
             $table->decimal('additional_charge', 10, 2)->nullable();
-            $table->unsignedInteger('menu_item_id')->nullable();
             $table->unsignedInteger('restaurant_id');
             $table->timestamps();
-            $table->foreign('menu_item_id')->references('id')->on('menu_items')->onDelete('cascade')->onUpdate('cascade');
             $table->foreign('restaurant_id')->references('id')->constrained()->on('restaurants')->onDelete('cascade');
         });
     }

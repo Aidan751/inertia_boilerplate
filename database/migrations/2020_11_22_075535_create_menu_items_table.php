@@ -20,6 +20,7 @@ class CreateMenuItemsTable extends Migration
             $table->string('title');
             $table->longText('description')->nullable();
             $table->longText('dietary_requirements')->nullable();
+            $table->json('extras')->nullable();
             $table->string('image')->nullable();
             $table->decimal('price', 10, 2);
             $table->timestamps();

@@ -2,20 +2,21 @@
 
 namespace App\Models;
 
-use App\Models\Extra;
+use App\Models\MenuImage;
 use Illuminate\Database\Eloquent\Model;
-// use Spatie\MediaLibrary\HasMedia\HasMedia;
-// use Spatie\MediaLibrary\HasMedia\HasMediaTrait;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 // class MenuItem extends Model implements HasMedia
 class MenuItem extends Model
 {
-    // use HasFactory, HasMediaTrait;
     use HasFactory;
 
     protected $guarded = [];
     protected $table = 'menu_items';
+
+    protected $casts = [
+        'extras' => 'array',
+    ];
 
     public function category()
     {
@@ -27,13 +28,4 @@ class MenuItem extends Model
         $this->addMediaCollection('items')
             ->singleFile();
     }
-
-    public function extras()
-    {
-        return $this->hasMany(Extra::class, 'menu_item_id', 'id');
-    }
-
-
-
-
 }

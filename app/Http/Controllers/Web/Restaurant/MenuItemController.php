@@ -76,35 +76,18 @@ class MenuItemController extends Controller
      */
     public function store(Request $request)
     {
-        // Validate the data
+        dd($request->all());
+        // validate
         $request->validate([
-            'title' => ['required', 'string', 'max:191'],
-            'price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
-
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required',
+            'extras' => 'nullable|array',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'category' => 'required',
+            'size' => 'nullable|string',
+            'additional_charge' => 'nullable|numeric',
         ]);
-
-        // Create a model for this User
-        $item = new MenuItem;
-
-        $item->restaurant_id = 1;
-        $item->title = Str::lower($request->title);
-        $item->price = $request->price;
-        $item->menu_category_id = $request->filter;
-
-        if(!is_null($request->description)) {
-            $item->description = $request->description;
-        }
-
-        if(!is_null($request->dietary_requirements)) {
-            $item->dietary_requirements = $request->dietary_requirements;
-        }
-
-        // Save to the database
-        $item->save();
-
-        if (!is_null($request->image)) {
-            $item->addMediaFromRequest('image')->toMediaCollection('items');
-        }
 
         // Redirect and inform the user
         return redirect()->route('restaurant.menu.items.index')->with('success', 'Item created.');
