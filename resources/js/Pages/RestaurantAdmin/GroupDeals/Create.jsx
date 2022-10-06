@@ -205,27 +205,26 @@ console.log(props);
                         subtitle="Search and select all the products to be shown in Item 1 of the group deal"
                       />
 
-                      <select
-                        className="w-full px-3 py-2 pl-3 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                        id="menuItemId"
-                        type="text"
-                        value={data.menuItemId}
-                        name="menuItemId"
-                        onChange={(e) => addMenuItem(e)}
-                      >
-                        <option value="">Select menu items</option>
-                        {props.existingMenuItems.map((existing_menu_item, key) => {
-                            {console.log(group_deal_item)}
-                          <option key={key} value={existing_menu_item.id}>
-                            {existing_menu_item.title}
-                          </option>
-                        })}
-                      </select>
-                      {errors.existingMenuItems && (
-                        <p className="text-xs italic text-red-500">
-                          {errors.existingMenuItems}
-                        </p>
-                      )}
+                  <select
+                    className="w-full px-3 py-2 pl-3 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    id="menu_item_id"
+                    type="text"
+                    name="menu_item_id"
+                    value={data.menuItemId}
+                    onChange={(e) => addMenuItem(e)}
+                  >
+                    <option value="">Select Item</option>
+                    {data.existingMenuItems.map((item, key) => (
+                      <option key={key} value={item.id}>
+                        {item.title}
+                      </option>
+                    ))}
+                  </select>
+                  {errors.existingMenuItems && (
+                    <p className="text-xs italic text-red-500">
+                      {errors.existingMenuItems}
+                    </p>
+                  )}
 
                       {/* start: table mapping extras added to group deal */}
                       <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
