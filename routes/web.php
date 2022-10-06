@@ -24,6 +24,7 @@ use App\Http\Controllers\Web\Restaurant\MenuCategoryController;
 use App\Http\Controllers\Web\AdminRestaurantCategoriesController;
 use App\Http\Controllers\Web\CallCentre\OrderController as CallCentreOrderController;
 use App\Http\Controllers\Web\Restaurant\OrderController as RestaurantOrderController;
+use App\Http\Controllers\Web\Restaurant\ConfigurationController as RestaurantConfigurationController;
 use App\Http\Controllers\Web\Restaurant\AdminUserController as RestaurantAdminUserController;
 
 /*
@@ -387,6 +388,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // delete a restaurant offer
     Route::delete('/restaurant/offers/delete/{offer}', [OfferController::class, 'destroy'])->name('restaurant.offers.destroy');
+
+    // edit my restaurant
+    Route::get('/my/restaurant/edit', [RestaurantConfigurationController::class, 'edit'])->name('my.restaurant.edit');
+
+    // update my restaurant
+    Route::put('/my/restaurant/update/{id}', [RestaurantConfigurationController::class, 'update'])->name('my.restaurant.update');
 
     // list call centre orders
     Route::get('/call-centre/orders', [CallCentreOrderController::class, 'index'])->name('call-centre.orders.index');

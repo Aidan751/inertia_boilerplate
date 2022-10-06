@@ -55,7 +55,9 @@ function Create(props) {
 
   return (
     <>
-      <Authenticated auth={props.auth} errors={props.errors}>
+      <Authenticated auth={props.auth} errors={props.errors}
+           activeGroup={14}
+           activeItem={1}>
         <div className="col-span-12">
           <div className="intro-y flex items-center mt-8">
             <h2 className="text-lg font-medium mr-auto">Add offer/news</h2>

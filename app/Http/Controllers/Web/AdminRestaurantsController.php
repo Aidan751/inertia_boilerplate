@@ -388,6 +388,7 @@ class AdminRestaurantsController extends Controller
             'address_line_1' => $request->address_line_1,
             'address_line_2' => $request->address_line_2,
             'application_status' => "approved",
+            'bio' => $request->bio,
             'allows_table_orders' => $request->allows_table_orders,
             'allows_collection' => $request->allows_collection,
             'allows_delivery' => $request->allows_delivery,

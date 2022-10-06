@@ -96,7 +96,7 @@ export default function SideBar(props){
 
     // Links for user to manage company profile
     const companyProfileLinks = [
-        {title: "Manage Profile", href: route("profile.edit")},
+        {title: "Manage Profile", href: route("my.restaurant.edit")},
     ];
 
     // Links for user to manage making orders

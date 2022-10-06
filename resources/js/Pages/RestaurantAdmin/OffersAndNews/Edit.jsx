@@ -113,7 +113,11 @@ console.log(props);
 
   return (
     <>
-      <Authenticated auth={props.auth} errors={props.errors}>
+      <Authenticated
+      auth={props.auth}
+      errors={props.errors}
+      activeGroup={14}
+      >
         <div className="col-span-12">
           <div className="intro-y flex items-center mt-8">
             <h2 className="text-lg font-medium mr-auto">Update offer/news</h2>

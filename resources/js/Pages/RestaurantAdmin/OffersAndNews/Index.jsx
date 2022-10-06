@@ -75,8 +75,8 @@ export default function Index(props){
             <Authenticated
                 auth={props.auth}
                 errors={props.errors}
-                activeGroup={13}
-                activeoffer={2}
+                activeGroup={14}
+                activeItem={2}
             >
 
                 {/* Define Page Title */}
