@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Web\Restaurant;
 use Inertia\Inertia;
 use App\Models\Offer;
 use Illuminate\Http\Request;
+use App\Packages\ImagePackage;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class OfferController extends Controller
 {
@@ -22,11 +24,10 @@ class OfferController extends Controller
          // Create a model for this
          $offer = new Offer;
 
-         $search = $request->search ?? null;
+        $search = $request->get('search', '');
+        $perPage = $request->get('perPage', '');
 
          // Get all offers, paginate through them using the "perPage" parameter. Search through the offers, if the "search" parameter is present.
-        if($search !== null){
-
             $offers = $offer
             ->where('restaurant_id', auth()->user()->restaurant_id)
             ->where(function ($q) use ($search) {
@@ -34,15 +35,12 @@ class OfferController extends Controller
             })
             ->latest()
             ->paginate(10);
-        }
-        else {
 
-            $offers = Offer::paginate($request->perPage ?? 10);
-        }
+
 
 
         // Return an inertia view with the offers
-        return Inertia::render('indexView', [
+        return Inertia::render('RestaurantAdmin/OffersAndNews/Index', [
             'offers' => $offers,
             "perPage" => $request->perPage ?? 10,
             "search" => $request->search ?? null
@@ -68,8 +66,18 @@ class OfferController extends Controller
     public function store(Request $request)
     {
         // validate the request
-
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'required|image',
+        ]);
         // create the offer
+        $offer = Offer::create([
+            'restaurant_id' => Auth::user()->restaurant_id,
+            'title' => $request->title,
+            'description' => $request->description,
+            'image' => ImagePackage::save($request->image, 'offers'),
+        ]);
 
         return redirect()->route('restaurant.offers.index')->with('success', 'Offer created successfully');
     }
@@ -105,12 +113,19 @@ class OfferController extends Controller
      */
     public function update(Request $request, Offer $offer)
     {
-        $data = $request->validate([
-            'title' => ['required', 'string', 'max:191'],
-            'description' => ['nullable', 'string', 'max:191'],
+        // validate the request
+        $request->validate([
+            'title' => 'required',
+            'description' => 'required',
+            'image' => 'image',
         ]);
 
-        $offer->update($data);
+        // update the offer
+        $offer->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'image' => is_null($request->image) ? $menuItem->image : ImagePackage::save($request->image, 'offers'),
+        ]);
 
         return redirect()->route('restaurant.offers.index')->with('success', 'Offer updated successfully');
     }

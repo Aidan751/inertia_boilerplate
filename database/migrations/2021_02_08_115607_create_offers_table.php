@@ -17,6 +17,7 @@ class CreateOffersTable extends Migration
             $table->increments('id');
             $table->unsignedInteger('restaurant_id');
             $table->string('title');
+            $table->text('image')->nullable();
             $table->longText('description')->nullable();
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
             $table->timestamps();
