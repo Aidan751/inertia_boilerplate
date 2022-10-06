@@ -112,7 +112,7 @@ class MenuItemController extends Controller
         foreach ($request->sizes as $key => $size) {
             $size = new Size;
             $size->size = $request->sizes[$key]['size'];
-            $size->additional_charge = $request->sizes[$key]['additional_charge'];
+            $size->additional_charge = $request->sizes[$key]['additional_charge'] ?? "N/A";
             $size->menu_item_id = $menuItem->id;
             $size->save();
         }
@@ -132,45 +132,19 @@ class MenuItemController extends Controller
      */
     public function edit(MenuItem $menuItem)
     {
+        // get menu categories for this restaurant
+        $categories = MenuCategory::where('restaurant_id', Auth::user()->restaurant_id)->orderBy('title')->get();
 
-        // get the image from the menu item
-        $image = $menuItem->getMedia('items');
+        $menuItem = MenuItem::where('id', $menuItem->id)->with('sizes')->first();
 
-        $url =  '';//config('app.url');
-
-        if(!$image->isEmpty()){
-            $item->setAttribute('image', $url . $image[0]->getFullUrl());
-        }
-        else{
-            $menuItem->setAttribute('image', null);
-        }
-
-
-
-        $categories = MenuCategory::where('restaurant_id', $menuItem->restaurant_id)->orderBy('title')->get();
-        $categoriesArray = [];
-
-        foreach ($categories as $category) {
-
-            $selected = false;
-            if ($menuItem->menu_category_id == $category->id){
-                $selected = true;
-            }
-
-            array_push($categoriesArray, ["text" => ucfirst($category->title), "value" => $category->id, "selected" =>  $selected]);
-        }
-
-        if (count($categoriesArray) > 0) {
-            $filter = $item->menu_category_id;
-        } else {
-            $filter = '';
-        }
+        // get extras for this restaurant
+        $existingExtras = Extra::where('restaurant_id', Auth::user()->restaurant_id)->get();
 
         // Load the view
         return Inertia::render('RestaurantAdmin/Products/Edit', [
             'menuItem' => $menuItem,
-            'categories' => $categoriesArray,
-            'filter' => $filter,
+            'categories' => $categories,
+            'existingExtras' => $existingExtras,
         ]);
     }
 
@@ -183,30 +157,35 @@ class MenuItemController extends Controller
      */
     public function update(Request $request, MenuItem $menuItem)
     {
-        // Validate the data
+        // validate
         $request->validate([
-            'title' => ['required', 'string', 'max:191'],
-            'price' => ['required', 'regex:/^\d+(\.\d{1,2})?$/'],
+            'title' => 'required',
+            'description' => 'required',
+            'price' => 'required',
+            'extras' => 'nullable|array',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'menu_category_id' => 'required|integer',
+            'sizes' => 'nullable|array',
+            'additional_charge' => 'nullable|numeric',
         ]);
 
-        // Update the parameters
-        $menuItem->title = Str::lower($request->title);
-        $menuItem->price = $request->price;
-        $menuItem->menu_category_id = $request->filter;
-        $menuItem->restaurant_id = 1;
+        // update menu item
+        $menuItem->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'price' => $request->price,
+            'menu_category_id' => $request->menu_category_id,
+            'extras' => $request->extras,
+            'dietary_requirements' => $request->dietary_requirements,
+            'image' => is_null($request->image) ? $menuItem->image : ImagePackage::save($request->image, 'menu_items'),
+        ]);
 
-        if(!is_null($request->description)) {
-            $menuItem->description = $request->description;
-        }
-
-        if(!is_null($request->dietary_requirements)) {
-            $menuItem->dietary_requirements = $request->dietary_requirements;
-        }
-        // Save to the database
-        $menuItem->save();
-
-        if (!is_null($request->image)) {
-            $menuItem->addMediaFromRequest('image')->toMediaCollection('items');
+        foreach ($request->sizes as $key => $size) {
+        // update sizes
+        $menuItem->sizes()->updateOrCreate([
+            'size' => $request->sizes[$key]['size'],
+            'additional_charge' => $request->sizes[$key]['additional_charge'] ?? null,
+        ]);
         }
 
 
@@ -220,8 +199,10 @@ class MenuItemController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(MenuItem $menuItem)
+    public function destroy($id)
     {
+        // get the menu item
+        $menuItem = MenuItem::find($id);
         // Delete the menu item
         $menuItem->delete();
 

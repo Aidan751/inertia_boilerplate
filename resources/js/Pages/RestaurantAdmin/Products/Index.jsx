@@ -54,8 +54,12 @@ export default function Index(props){
       };
 
     const setDeleteConfirmationModal = (e) => {
-        setDeleteModal(true);
-        setDeleteId(e);
+          // Prevent Default Behaviour
+          e.preventDefault();
+          // Set the current selected role to the role id
+          setDeleteId(e.target.id);
+          // Show the delete confirmation modal
+          setDeleteModal(true);
     }
 
     const deleteRecord = (e) => {

@@ -332,7 +332,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/restaurant/menu/items/update/{menuItem}', [MenuItemController::class, 'update'])->name('restaurant.menu.items.update');
 
     // delete a restaurant menu item
-    Route::delete('/restaurant/menu/items/delete/{menuItem}', [MenuItemController::class, 'destroy'])->name('restaurant.menu.items.destroy');
+    Route::delete('/restaurant/menu/items/delete/{id}', [MenuItemController::class, 'destroy'])->name('restaurant.menu.items.destroy');
 
     // list restaurant group deals
     Route::get('/restaurant/group-deals', [GroupDealController::class, 'index'])->name('restaurant.group-deals.index');

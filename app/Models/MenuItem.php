@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Size;
 use App\Models\MenuImage;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -27,5 +28,11 @@ class MenuItem extends Model
     {
         $this->addMediaCollection('items')
             ->singleFile();
+    }
+
+    // many sizes
+    public function sizes()
+    {
+        return $this->hasMany(Size::class);
     }
 }
