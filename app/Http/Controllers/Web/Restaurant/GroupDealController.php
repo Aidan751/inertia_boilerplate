@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\Restaurant;
 
 use Stripe\Product;
 use App\Models\User;
+use Inertia\Inertia;
 use App\Models\Extra;
 use App\Models\MenuItem;
 use App\Models\GroupDeal;
@@ -32,14 +33,14 @@ class GroupDealController extends Controller
         // Apply a search to the model
         $search = $request->get('search', '');
         $perPage = $request->get('perPage', '');
-        $group_deals = GroupDeal::where('restaurant_id', Auth::user()->restaurant_id)
+        $groupDeals = GroupDeal::where('restaurant_id', Auth::user()->restaurant_id)
         ->where(function ($query) use ($search) {
             $query->where('title', 'like', '%' . $search . '%')
                 ->orWhere('description', 'like', '%' . $search . '%');
         })->latest()->paginate(10 ?? $perPage);
 
         return Inertia::render('RestaurantAdmin/GroupDeals/Index', [
-            'group_deals' => $group_deals,
+            'groupDeals' => $groupDeals,
             'search' => $search ?? '',
             'perPage' => $perPage ?? 10,
         ]);
@@ -88,7 +89,7 @@ class GroupDealController extends Controller
 
 
         // redirect to the Group Deal page
-        return redirect()->route('restaurant.groupdeals.index')->with('success', 'Group Deal created successfully');
+        return redirect()->route('restaurant.group-deals.index')->with('success', 'Group Deal created successfully');
 
     }
 
@@ -142,7 +143,7 @@ class GroupDealController extends Controller
         $group_deal->delete();
 
         // redirect to the Group Deal page
-        return redirect()->route('restaurant.groupdeals.index')->with('success', 'Group Deal deleted successfully');
+        return redirect()->route('restaurant.group-deals.index')->with('success', 'Group Deal deleted successfully');
     }
 
 }
