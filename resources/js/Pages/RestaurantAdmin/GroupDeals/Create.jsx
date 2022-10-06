@@ -42,11 +42,10 @@ console.log(props);
     ]);
   };
 
-  const addMenuItem = (e) => {
-    setData(
-      e.target.name,
-      e.target.type === "checkbox" ? e.target.checked : e.target.value
-    );
+  const addMenuItem = (e, i) => {
+    console.log(e);
+    setData("menuItemId", e.target.value);
+
     data.existingMenuItems.forEach((item) => {
       if (item.id == e.target.value) {
         setMenuItems([
@@ -54,6 +53,7 @@ console.log(props);
           {
             id: item.id,
             title: item.title,
+            join_id: i + 1,
           },
         ]);
       }
@@ -198,7 +198,7 @@ console.log(props);
                 {/* End: price */}
                 <hr />
                 {groupDealItems.map((group_deal_item, group_deal_index) => {
-                  return (
+                   return (
                     <>
                       <Title
                         title={`Select Items for Group Deal Item ${group_deal_index + 1}`}
@@ -211,7 +211,7 @@ console.log(props);
                     type="text"
                     name="menu_item_id"
                     value={data.menuItemId}
-                    onChange={(e) => addMenuItem(e)}
+                    onChange={(e, group_deal_index) => addMenuItem(e, group_deal_index)}
                   >
                     <option value="">Select Item</option>
                     {data.existingMenuItems.map((item, key) => (
