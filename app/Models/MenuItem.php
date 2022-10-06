@@ -17,6 +17,7 @@ class MenuItem extends Model
 
     protected $casts = [
         'extras' => 'array',
+        'sizes' => 'array',
     ];
 
     public function category()
@@ -28,11 +29,5 @@ class MenuItem extends Model
     {
         $this->addMediaCollection('items')
             ->singleFile();
-    }
-
-    // many sizes
-    public function sizes()
-    {
-        return $this->hasMany(Size::class);
     }
 }

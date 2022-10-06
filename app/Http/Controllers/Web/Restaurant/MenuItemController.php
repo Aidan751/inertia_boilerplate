@@ -102,21 +102,11 @@ class MenuItemController extends Controller
         $menuItem->price = $request->price;
         $menuItem->menu_category_id = $request->menu_category_id;
         $menuItem->extras = $request->extras;
+        $menuItem->sizes = $request->sizes;
         $menuItem->dietary_requirements = $request->dietary_requirements;
         $menuItem->restaurant_id = Auth::user()->restaurant_id;
         $menuItem->image = ImagePackage::save($request->image, 'menu_items');
         $menuItem->save();
-
-
-        // create sizes
-        foreach ($request->sizes as $key => $size) {
-            $size = new Size;
-            $size->size = $request->sizes[$key]['size'];
-            $size->additional_charge = $request->sizes[$key]['additional_charge'] ?? "N/A";
-            $size->menu_item_id = $menuItem->id;
-            $size->save();
-        }
-
 
         // Redirect and inform the user
         return redirect()->route('restaurant.menu.items.index')->with('success', 'Item created.');
@@ -134,8 +124,6 @@ class MenuItemController extends Controller
     {
         // get menu categories for this restaurant
         $categories = MenuCategory::where('restaurant_id', Auth::user()->restaurant_id)->orderBy('title')->get();
-
-        $menuItem = MenuItem::where('id', $menuItem->id)->with('sizes')->first();
 
         // get extras for this restaurant
         $existingExtras = Extra::where('restaurant_id', Auth::user()->restaurant_id)->get();
@@ -163,6 +151,7 @@ class MenuItemController extends Controller
             'description' => 'required',
             'price' => 'required',
             'extras' => 'nullable|array',
+            'sizes' => 'nullable|array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'menu_category_id' => 'required|integer',
             'sizes' => 'nullable|array',
@@ -175,19 +164,11 @@ class MenuItemController extends Controller
             'description' => $request->description,
             'price' => $request->price,
             'menu_category_id' => $request->menu_category_id,
+            'sizes' => $request->sizes,
             'extras' => $request->extras,
             'dietary_requirements' => $request->dietary_requirements,
             'image' => is_null($request->image) ? $menuItem->image : ImagePackage::save($request->image, 'menu_items'),
         ]);
-
-        foreach ($request->sizes as $key => $size) {
-        // update sizes
-        $menuItem->sizes()->updateOrCreate([
-            'size' => $request->sizes[$key]['size'],
-            'additional_charge' => $request->sizes[$key]['additional_charge'] ?? null,
-        ]);
-        }
-
 
         // Redirect and inform the user
         return redirect()->route('restaurant.menu.items.index')->with('success', 'Item updated.');
