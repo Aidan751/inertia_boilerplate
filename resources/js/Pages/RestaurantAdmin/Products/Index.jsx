@@ -43,6 +43,12 @@ export default function Index(props){
         Inertia.get(route('restaurant.menu.items.index'), data);
     }
 
+    function handleFilter(e) {
+        e.preventDefault();
+        setData('filter', e.target.value);
+        Inertia.get(route('restaurant.menu.items.index'), data);
+    }
+
     const setDeleteConfirmationModal = (e) => {
         setDeleteModal(true);
         setDeleteId(e);
@@ -132,13 +138,12 @@ export default function Index(props){
                             {/* Start: filter by menu category */}
                             <div className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
                                 <div className="w-56 relative text-slate-500">
-
                                     <h4 className="intro-y text-sm font-medium mb-5">Filter by menu category</h4>
                                     <div style={{width: '30vw', height: '2.5rem'}}>
                                         <select
                                             className="search__input text-sm text-gray-700 shadow appearance-none focus:outline-none focus:shadow-outline"
                                             value={data.filter}
-                                            onChange={e => setData('filter', e.target.value)}
+                                            onChange={handleFilter}
                                             style={{width: '30vw', height: '2.5rem'}}
                                         >
                                             <option value="">Filter</option>
@@ -169,6 +174,32 @@ export default function Index(props){
                                     {/* Menu Item Title */}
                                     <td className="text-left">
                                             {item.title}
+                                    </td>
+
+                                    {/* Menu Item Category */}
+                                    <td className="text-left">
+                                        {item.category.title}
+                                    </td>
+
+                                     {/* Actions */}
+                                     <td className="table-report__action w-56">
+                                        <div className="flex justify-center items-center">
+                                            {/* Edit Link */}
+                                            <Link className="flex items-center mr-3" href={route("restaurant.menu.items.edit",{id:item.id})}>
+                                                <CheckSquare className="w-4 h-4 mr-1" />{" "}
+                                                Edit
+                                            </Link>
+
+                                            {/* Delete Link */}
+                                            <button
+                                                className="flex items-center text-danger"
+                                                type="button"
+                                                onClick={setDeleteConfirmationModal}
+                                                id={item.id}
+                                            >
+                                                <Trash2 id={item.id} className="w-4 h-4 mr-1" /> Delete
+                                            </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

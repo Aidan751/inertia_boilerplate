@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\Restaurant;
 
+use App\Models\Size;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Extra;
@@ -9,6 +10,7 @@ use App\Models\MenuItem;
 use Illuminate\Support\Str;
 use App\Models\MenuCategory;
 use Illuminate\Http\Request;
+use App\Packages\ImagePackage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,15 +32,19 @@ class MenuItemController extends Controller
         // get menu categories for this restaurant
         $menuCategories = MenuCategory::where('restaurant_id', Auth::user()->restaurant_id)->get();
 
+
         $items = $item
             ->where('restaurant_id', Auth::user()->restaurant_id)
             ->with('category')
             ->where(function ($q) use ($search) {
                 $q->where('title', 'LIKE', '%' . $search . '%');
             })
-            ->where('menu_category_id', 'LIKE', '%' . $filter . '%')
+            ->when($filter, function ($q) use ($filter) {
+                $q->where('menu_category_id', '==', '%' . $filter . '%');
+            })
             ->latest()
             ->paginate(10 ?? $perPage);
+
 
 
         return Inertia::render('RestaurantAdmin/Products/Index', [
@@ -76,7 +82,6 @@ class MenuItemController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
         // validate
         $request->validate([
             'title' => 'required',
@@ -84,10 +89,33 @@ class MenuItemController extends Controller
             'price' => 'required',
             'extras' => 'nullable|array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'category' => 'required',
-            'size' => 'nullable|string',
+            'menu_category_id' => 'required|integer',
+            'sizes' => 'nullable|array',
             'additional_charge' => 'nullable|numeric',
         ]);
+
+        // create new menu item
+        $menuItem = new MenuItem;
+        $menuItem->title = $request->title;
+        $menuItem->description = $request->description;
+        $menuItem->price = $request->price;
+        $menuItem->menu_category_id = $request->menu_category_id;
+        $menuItem->extras = $request->extras;
+        $menuItem->dietary_requirements = $request->dietary_requirements;
+        $menuItem->restaurant_id = Auth::user()->restaurant_id;
+        $menuItem->image = ImagePackage::save($request->image, 'menu_items');
+        $menuItem->save();
+
+
+        // create sizes
+        foreach ($request->sizes as $key => $size) {
+            $size = new Size;
+            $size->size = $request->sizes[$key]['size'];
+            $size->additional_charge = $request->sizes[$key]['additional_charge'];
+            $size->menu_item_id = $menuItem->id;
+            $size->save();
+        }
+
 
         // Redirect and inform the user
         return redirect()->route('restaurant.menu.items.index')->with('success', 'Item created.');

@@ -14,6 +14,7 @@ function Create(props) {
     dietary_requirements: "",
     price: "",
     image: null,
+    extra: null,
     additional_charge: "",
     categories: props.categories,
     existingExtras: props.extras,
@@ -384,8 +385,8 @@ function Create(props) {
                     className="w-full px-3 py-2 pl-3 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="extras"
                     type="text"
-                    name="extras"
-                    value={data.existingExtras}
+                    name="extra"
+                    value={data.extra}
                     onChange={(e) => addExtras(e)}
                   >
                     <option value="">Select Extras</option>
