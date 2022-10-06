@@ -11,12 +11,13 @@ import Button from "@/Components/Button";
 
 
 export default function Index(props){
+    console.log(props);
     const { data, setData, get, processing, errors } = useForm({
         perPage: props.perPage,
         search: props.search,
         filter: props.filter,
     })
-    console.log(props);
+
 
     const from = props.items.from;
 
@@ -34,6 +35,7 @@ export default function Index(props){
     const [deleteModal, setDeleteModal] = useState(false);
     const [deleteId, setDeleteId] = useState(null);
 
+
     /**
      * Handle search form submission
      * @param {Event} e
@@ -43,11 +45,13 @@ export default function Index(props){
         Inertia.get(route('restaurant.menu.items.index'), data);
     }
 
-    function handleFilter(e) {
-        e.preventDefault();
-        setData('filter', e.target.value);
-        Inertia.get(route('restaurant.menu.items.index'), data);
-    }
+    const filterBySearch = (event) => {
+        event.preventDefault();
+        Inertia.get(route('restaurant.menu.items.index'), {
+            filter: event.target.value,
+            search: data.search,
+        });
+      };
 
     const setDeleteConfirmationModal = (e) => {
         setDeleteModal(true);
@@ -143,7 +147,7 @@ export default function Index(props){
                                         <select
                                             className="search__input text-sm text-gray-700 shadow appearance-none focus:outline-none focus:shadow-outline"
                                             value={data.filter}
-                                            onChange={handleFilter}
+                                            onChange={filterBySearch}
                                             style={{width: '30vw', height: '2.5rem'}}
                                         >
                                             <option value="">Filter</option>

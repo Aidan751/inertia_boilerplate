@@ -29,6 +29,7 @@ class MenuItemController extends Controller
         $filter = $request->get('filter', '');
         $perPage = $request->get('perPage', 10);
 
+
         // get menu categories for this restaurant
         $menuCategories = MenuCategory::where('restaurant_id', Auth::user()->restaurant_id)->get();
 
@@ -40,7 +41,7 @@ class MenuItemController extends Controller
                 $q->where('title', 'LIKE', '%' . $search . '%');
             })
             ->when($filter, function ($q) use ($filter) {
-                $q->where('menu_category_id', '==', '%' . $filter . '%');
+                $q->where('menu_category_id', $filter);
             })
             ->latest()
             ->paginate(10 ?? $perPage);
@@ -51,7 +52,7 @@ class MenuItemController extends Controller
             'items' => $items,
             'menuCategories' => $menuCategories,
             'search' => $search,
-            'filter' => $filter,
+            'filter' => $filter ?? null,
             'perPage' => $perPage ?? 10,
         ]);
     }
