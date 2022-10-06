@@ -55,10 +55,12 @@ class GroupDealController extends Controller
     {
         // create a new Group Deal
         $groupDeal = new GroupDeal;
+        $existingMenuItems = MenuItem::where('restaurant_id', Auth::user()->restaurant_id)->get();
 
         // return the view
         return Inertia::render('RestaurantAdmin/GroupDeals/Create', [
             'groupDeal' => $groupDeal,
+            'existingMenuItems' => $existingMenuItems,
         ]);
     }
 

@@ -2,67 +2,62 @@ import Button from "@/components/Button";
 import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from "@inertiajs/inertia-react";
-import MidoneUpload from "@/Components/MidoneUpload";
 import { X } from "lucide-react";
+import Title from "@/Components/Title";
+import Input from "@/Components/Input";
 
 function Create(props) {
+console.log(props);
   const { data, setData, post, processing, errors } = useForm({
-    menu_category_id: "",
     restaurant_id: "",
     title: "",
     description: "",
-    dietary_requirements: "",
-    price: "",
-    image: null,
-    extra: null,
-    additional_charge: "",
-    categories: props.categories,
-    existingExtras: props.extras,
+    group_deal_price: "",
+    existingMenuItems: props.existingMenuItems,
+    group_deal_item_title: "",
+    menuItemId: "",
   });
 
   const [imageUrl, setImageUrl] = useState({
     image: null,
   });
 
-  const [sizes, setSizes] = useState([
+  const [groupDealItems, setGroupDealItems] = useState([
     {
       id: 1,
-      size: "",
-      additional_charge: "",
+      existingMenuItems: props.existingMenuItems,
+      title: "",
     },
   ]);
 
-  const [extras, setExtras] = useState([]);
+  const [menuItems, setMenuItems] = useState([]);
 
-  const addSizes = () => {
-    setSizes([
-      ...sizes,
+  const addGroupDealItem = () => {
+    setGroupDealItems([
+      ...groupDealItems,
       {
-        id: sizes.length + 1,
-        size: "",
-        additional_charge: "",
+        id: groupDealItems.length + 1,
+        title: "",
       },
     ]);
   };
 
-  const addExtras = (e) => {
+  const addMenuItem = (e) => {
     setData(
       e.target.name,
       e.target.type === "checkbox" ? e.target.checked : e.target.value
     );
-    data.existingExtras.forEach((extra) => {
-        if (extra.id == e.target.value) {
-            setExtras([
-                ...extras,
-                {
-                    id: extra.id,
-                    name: extra.name,
-                    additional_charge: extra.additional_charge,
-                },
-            ]);
-        }
+    data.existingMenuItems.forEach((item) => {
+      if (item.id == e.target.value) {
+        setMenuItems([
+          ...menuItems,
+          {
+            id: item.id,
+            title: item.title,
+          },
+        ]);
+      }
     });
-    console.log(extras);
   };
 
   // to input elements and record their values in state
@@ -73,7 +68,7 @@ function Create(props) {
     setSizes(list);
   };
 
-  const handleExtraInputChange = (e) => {
+  const handleMenuItemInputChange = (e) => {
     setData(
       e.target.name,
       e.target.type === "checkbox" ? e.target.checked : e.target.value
@@ -86,16 +81,16 @@ function Create(props) {
   };
 
   // user click yes delete a specific row of id:i
-  const handleSizeRemoveClick = (i) => {
-    const list = [...sizes];
+  const handleGroupDealRemoveClick = (i) => {
+    const list = [...groupDealItems];
     list.splice(i, 1);
-    setSizes(list);
+    setGroupDealItems(list);
   };
 
-  const handleExtraRemoveClick = (i) => {
-    const list = [...extras];
+  const handleMenuItemRemoveClick = (i) => {
+    const list = [...menuItems];
     list.splice(i, 1);
-    setExtras(list);
+    setMenuItems(list);
   };
 
   const onHandleChange = (event) => {
@@ -107,71 +102,26 @@ function Create(props) {
     );
   };
 
-  /**
-   * Handle the file upload and set the state
-   * @param {*} event Image file event
-   */
-  const onHandleImageChange = (event) => {
-    // If there are files uploaded add them to image list
-    if (event.target.files.length !== 0) {
-      // Add Image File
-      setData(event.target.name, event.target.files[0]);
-
-      //  Set Preview Image
-      const image = URL.createObjectURL(event.target.files[0]);
-
-      // Get Data Structure
-      let tempImageUrl = imageUrl;
-
-      tempImageUrl[event.target.name] = image;
-    } else {
-      setData(event.target.name, null);
-    }
-  };
-
-  const resetImageInput = (event) => {
-    // Set the file input to null
-    setData(event.target.id, null);
-
-    //
-    let tempImageUrl = imageUrl;
-
-    tempImageUrl[event.target.id] = null;
-  };
 
   const submit = (e) => {
     e.preventDefault();
-    post(route("restaurant.menu.items.store", {
+    post(
+      route("restaurant.menu.items.store", {
         extras: extras,
         sizes: sizes,
-    }));
+      })
+    );
   };
 
   return (
     <>
       <Authenticated auth={props.auth} errors={props.errors}>
         <div className="col-span-12">
-          <div className="intro-y flex items-center mt-8">
-            <h2 className="text-lg font-medium mr-auto">Add Product</h2>
-          </div>
-          <div className="intro-y flex items-center mt-6">
-            <p className="text-gray-600">
-              Fill in the following details to add a new product
-            </p>
-          </div>
+          <Title title="Create Group Deal" />
           <div className="grid grid-cols-12 gap-6 mt-5">
             <div className="intro-y col-span-12 lg:col-span-6">
               {/* BEGIN: Form Layout */}
               <form className="intro-y box p-5" onSubmit={submit}>
-                <MidoneUpload
-                  name="image"
-                  label="Item Image"
-                  value={data.image}
-                  change={onHandleImageChange}
-                  error={errors.image}
-                  preview={imageUrl.image}
-                  reset={resetImageInput}
-                />
                 {/* Start: title */}
                 <div className="mb-6 mt-6">
                   <label
@@ -220,32 +170,6 @@ function Create(props) {
                   )}
                 </div>
                 {/* End: description */}
-                {/* Start: dietary_requirements */}
-                <div className="mb-6">
-                  <label
-                    className="block mb-3 text-md font-medium text-sm text-gray-600 dark:text-gray-400"
-                    htmlFor="dietary_requirements"
-                  >
-                    Dietary Requirements
-                  </label>
-                  <textarea
-                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    id="dietary_requirements"
-                    type="text"
-                    name="dietary_requirements"
-                    placeholder="Dietary Requirements..."
-                    value={data.dietary_requirements}
-                    onChange={(e) =>
-                      setData("dietary_requirements", e.target.value)
-                    }
-                  />
-                  {errors.dietary_requirements && (
-                    <p className="text-xs italic text-red-500">
-                      {errors.dietary_requirements}
-                    </p>
-                  )}
-                </div>
-                {/* End: dietary_requirements */}
                 {/* Start: price */}
                 <div className="mb-6">
                   <label
@@ -256,206 +180,120 @@ function Create(props) {
                   </label>
                   <input
                     className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    id="price"
+                    id="group_deal_price"
                     type="text"
-                    name="price"
-                    value={data.price}
+                    name="group_deal_price"
+                    value={data.group_deal_price}
                     placeholder="Price..."
-                    onChange={(e) => setData("price", e.target.value)}
+                    onChange={(e) =>
+                      setData("group_deal_price", e.target.value)
+                    }
                   />
-                  {errors.price && (
+                  {errors.group_deal_price && (
                     <p className="text-xs italic text-red-500">
-                      {errors.price}
+                      {errors.group_deal_price}
                     </p>
                   )}
                 </div>
                 {/* End: price */}
-                {/* Start: Assign a category */}
-                <div className="mb-6">
-                  <label
-                    className="block mb-3 text-md font-medium text-sm text-gray-600 dark:text-gray-400"
-                    htmlFor="category_id"
-                  >
-                    Assign a category
-                  </label>
-                  <select
-                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    id="category_id"
-                    type="text"
-                    name="menu_category_id"
-                    value={data.menu_category_id}
-                    onChange={(e) => setData("menu_category_id", e.target.value)}
-                  >
-                    <option value="">Select a category</option>
-                    {props.categories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.title}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.category_id && (
-                    <p className="text-xs italic text-red-500">
-                      {errors.category_id}
-                    </p>
-                  )}
-                </div>
-                {/* End: Assign a category */}
-                {sizes.map((size, i) => {
+                <hr />
+                {groupDealItems.map((group_deal_item, group_deal_index) => {
                   return (
                     <>
-                      <div className="mb-6 mt-10">
-                        <label
-                          className="block mb-3 text-md font-medium text-sm text-gray-600 dark:text-gray-400"
-                          htmlFor="size"
-                        >
-                          Add size option if applicable
-                        </label>
-                        <input
-                          className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                          type="text"
-                          name="size"
-                          value={size.size}
-                          placeholder="Size..."
-                          onChange={(e) => handleSizeInputChange(e, i)}
+                      <Title
+                        title={`Select Items for Group Deal Item ${group_deal_index + 1}`}
+                        subtitle="Search and select all the products to be shown in Item 1 of the group deal"
+                      />
+
+                      <select
+                        className="w-full px-3 py-2 pl-3 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                        id="menuItemId"
+                        type="text"
+                        value={data.menuItemId}
+                        name="menuItemId"
+                        onChange={(e) => addMenuItem(e)}
+                      >
+                        <option value="">Select menu items</option>
+                        {props.existingMenuItems.map((existing_menu_item, key) => {
+                            {console.log(group_deal_item)}
+                          <option key={key} value={existing_menu_item.id}>
+                            {existing_menu_item.title}
+                          </option>
+                        })}
+                      </select>
+                      {errors.existingMenuItems && (
+                        <p className="text-xs italic text-red-500">
+                          {errors.existingMenuItems}
+                        </p>
+                      )}
+
+                      {/* start: table mapping extras added to group deal */}
+                      <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
+                        <table className="table table-report mt-2">
+                          <thead>
+                            <tr>
+                              <th className="whitespace-no-wrap">SELECTED ITEMS</th>
+                              <th className="whitespace-no-wrap text-center">
+                                ACTION
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {menuItems.map((menu_item, menu_item_key) => {
+                              return (
+                                <tr className="intro-x">
+                                  <td>
+                                    <a
+                                      href=""
+                                      className="font-medium whitespace-no-wrap"
+                                    >
+                                      {menu_item.title}
+                                    </a>
+                                  </td>
+                                  <td className="table-report__action w-56">
+                                    <div className="flex justify-center items-center">
+                                      <button
+                                        className="btn btn-danger-soft h-7 text-sm border-none"
+                                        type="button"
+                                        onClick={() =>
+                                          handleMenuItemRemoveClick(menu_item_key)
+                                        }
+                                      >
+                                        <X className="w-4 h-4 mr-1" />
+                                        Remove
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
+                      {/* end: table mapping items added to group deal */}
+                      {/* start: test to show in app deal */}
+                        Choose your <Input
+                        type="text"
+                        name="single_group_deal_item_title"
+                        value={group_deal_item.title}
+                        setData={setData}
+                        errors={errors}
                         />
-
-                        {errors.size && (
-                          <p className="text-xs italic text-red-500">
-                            {errors.size}
-                          </p>
-                        )}
-                      </div>
-
-                      <div className="mb-6">
-                        <label
-                          className="block mb-3 text-sm text-gray-600 dark:text-gray-400"
-                          htmlFor="additional_charge"
-                        >
-                          Additional Charge
-                        </label>
-                        <div className="flex items-center">
-                          <p className="mr-5">£</p>
-                          <input
-                            className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                            type="text"
-                            name="additional_charge"
-                            value={size.additional_charge}
-                            placeholder="Additional Charge..."
-                            onChange={(e) => handleSizeInputChange(e, i)}
-                          />
-                        </div>
-                        {errors.additional_charge && (
-                          <p className="text-xs italic text-red-500">
-                            {errors.additional_charge}
-                          </p>
-                        )}
-                      </div>
-                      <div className="flex justify-end">
-                        <button
-                          className="btn btn-danger-soft h-7 text-sm border-none"
-                          type="button"
-                          onClick={() => handleSizeRemoveClick(i)}
-                        >
-                          <X className="w-4 h-4 mr-1" />
-                          Remove
-                        </button>
-                      </div>
                     </>
                   );
                 })}
-                {/* Start: Button to add another size option with an additional charge */}
+
+                {/* Start: Button to add another group deal item */}
                 <div className="mb-6 flex justify-start">
                   <Button
                     className="btn btn-primary mr-3"
                     type="button"
-                    click={addSizes}
+                    click={addGroupDealItem}
                   >
-                    {sizes.length > 0 ? "Add another" : "Add size option"}
+                    {groupDealItems.length > 0 ? "Add another" : "Add size option"}
                   </Button>
                 </div>
-                {/* End: Button to add another size option with an additional charge */}
-                {/* start: select extras title and description */}
-                <div className="mb-6">
-                  <div className="intro-y flex items-center mt-8">
-                    <h2 className="text-lg font-medium mr-auto">
-                      Select Extra
-                    </h2>
-                  </div>
-                  <div className="intro-y flex items-center mt-3 mb-3">
-                    <p className="text-gray-600">
-                      Search and select all the extras to be added to the
-                      product
-                    </p>
-                  </div>
-                  <select
-                    className="w-full px-3 py-2 pl-3 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    id="extras"
-                    type="text"
-                    name="extra"
-                    value={data.extra}
-                    onChange={(e) => addExtras(e)}
-                  >
-                    <option value="">Select Extras</option>
-                    {data.existingExtras.map((extra, key) => (
-                      <option key={key} value={extra.id}>
-                        {extra.name}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.existingExtras && (
-                    <p className="text-xs italic text-red-500">
-                      {errors.existingExtras}
-                    </p>
-                  )}
-                </div>
-                {/* end: select extras title and description */}
-                {/* start: table mapping extras added to group deal */}
-                <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
-                  <table className="table table-report mt-2">
-                    <thead>
-                      <tr>
-                        <th className="whitespace-no-wrap">EXTRA NAME</th>
-                        <th className="whitespace-no-wrap">
-                          ADDITIONAL CHARGE
-                        </th>
-                        <th className="whitespace-no-wrap text-center">
-                          ACTION
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {extras.map((extra, key) => {
-                        return (
-                          <tr className="intro-x">
-                            <td>
-                              <a
-                                href=""
-                                className="font-medium whitespace-no-wrap"
-                              >
-                                {extra.name}
-                              </a>
-                            </td>
-                            <td>{extra.additional_charge ?? "N/A"}</td>
-                            <td className="table-report__action w-56">
-                              <div className="flex justify-center items-center">
-                                <button
-                                  className="btn btn-danger-soft h-7 text-sm border-none"
-                                  type="button"
-                                  onClick={() => handleExtraRemoveClick(key)}
-                                >
-                                  <X className="w-4 h-4 mr-1" />
-                                  Remove
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-                {/* end: table mapping extras added to group deal */}
-
+                {/* End: Button to add another group deal item */}
                 <div className="text-right mt-5">
                   <Button type="submit" className="w-30">
                     Save
