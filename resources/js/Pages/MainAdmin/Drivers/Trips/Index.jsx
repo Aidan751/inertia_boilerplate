@@ -34,15 +34,23 @@ console.log(props);
 
     const [orders, setOrders] = useState(props.orders.data);
 
-    // handle from change
-    const handleFromChange = (e) => {
-        setData('from', e.target.value)
-    }
+        // handle from change
+        const handleFromChange = (e) => {
+            e.preventDefault();
+            Inertia.get(route('admin-driver.trips.index', {id:props.user.id}), {
+                    from: e.target.value,
+                    to: data.to
+                });
+          }
 
-    // handle to change
-    const handleToChange = (e) => {
-        setData('to', e.target.value)
-    }
+          // handle to change
+          const handleToChange = (e) => {
+            e.preventDefault();
+            Inertia.get(route('admin-driver.trips.index', {id:props.user.id}), {
+                    from: data.from,
+                    to: e.target.value
+                });
+          }
 
     /**
      * Handle search form submission
@@ -119,13 +127,6 @@ console.log(props);
                                             style={{width: "35vw", height: "2.3rem"}}
                                         />
                             </div>
-                            {/* search button */}
-                                <Button
-                                    type="submit"
-                                    className="mr-5 text-md mb-3"
-                                >
-                                    Search
-                                </Button>
                             </form>
                             {/* End: filter by date */}
                             {/* Pagination Information */}

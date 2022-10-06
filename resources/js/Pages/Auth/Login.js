@@ -44,27 +44,27 @@ export default function Login({ status, canResetPassword }) {
                 <div>
                     <Label forInput="email" value="Email" />
 
-                    <Input
-                        type="text"
-                        name="email"
-                        value={data.email}
-                        className="mt-1 block w-full form-control"
-                        autoComplete="username"
-                        isFocused={true}
-                        handleChange={onHandleChange}
+                  <input
+                    id="email"
+                    type="email"
+                    className="w-full mt-2 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                    name="email"
+                    value={data.email}
+                    required
+                    autoFocus
+                    onChange={onHandleChange}
                     />
                 </div>
 
                 <div className="mt-4">
                     <Label forInput="password" value="Password" />
-
-                    <Input
+                    <input
                         type="password"
                         name="password"
                         value={data.password}
-                        className="mt-1 block w-full"
+                        className="w-full mt-2 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
                         autoComplete="current-password"
-                        handleChange={onHandleChange}
+                        onChange={onHandleChange}
                     />
                 </div>
 

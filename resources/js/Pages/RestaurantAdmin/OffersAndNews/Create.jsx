@@ -4,6 +4,10 @@ import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from "@inertiajs/inertia-react";
 import MidoneUpload from "@/Components/MidoneUpload";
 import { X } from "lucide-react";
+import Title from "@/Components/Title";
+import Label from "@/Components/Label";
+import Input from "@/Components/Input";
+import TextArea from "@/Components/TextArea";
 
 function Create(props) {
   const { data, setData, post, processing, errors } = useForm({
@@ -59,35 +63,27 @@ function Create(props) {
            activeGroup={14}
            activeItem={1}>
         <div className="col-span-12">
-          <div className="intro-y flex items-center mt-8">
-            <h2 className="text-lg font-medium mr-auto">Add offer/news</h2>
-          </div>
-          <div className="intro-y flex items-center mt-6">
-            <p className="text-gray-600">
-              Fill in the following details to add a new offer/news
-            </p>
-          </div>
+         <Title
+            title="Add Offer/News"
+            description="Add a new offer or news to your restaurant"
+            />
           <div className="grid grid-cols-12 gap-6 mt-5">
             <div className="intro-y col-span-12 lg:col-span-6">
               {/* BEGIN: Form Layout */}
               <form className="intro-y box p-5" onSubmit={submit}>
                 {/* Start: title */}
                 <div className="mb-6">
-                  <label
-                    className="block mb-3 text-md font-medium text-sm text-gray-600 dark:text-gray-400"
-                    htmlFor="title"
-                  >
-                    Title
-                  </label>
-                  <input
-                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    id="title"
+                    <Label
+                        forInput="title"
+                        value="Title"
+                        />
+
+                    <Input
                     type="text"
-                    placeholder="Title..."
                     name="title"
                     value={data.title}
-                    onChange={(e) => setData("title", e.target.value)}
-                  />
+                    setData={setData}
+                    />
                   {errors.title && (
                     <p className="text-xs italic text-red-500">
                       {errors.title}
@@ -108,21 +104,15 @@ function Create(props) {
                 {/* End: Image */}
                 {/* Start: description */}
                 <div className="mb-6 mt-8">
-                  <label
-                    className="block mb-3 text-md font-medium text-sm text-gray-600 dark:text-gray-400"
-                    htmlFor="description"
-                  >
-                    Description
-                  </label>
-                  <textarea
-                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    id="description"
-                    type="text"
-                    placeholder="Description..."
+                    <Label
+                        forInput="description"
+                        value="Description"
+                        />
+                  <TextArea
                     name="description"
                     value={data.description}
-                    onChange={(e) => setData("description", e.target.value)}
-                  />
+                    setData={setData}
+                    />
                   {errors.description && (
                     <p className="text-xs italic text-red-500">
                       {errors.description}

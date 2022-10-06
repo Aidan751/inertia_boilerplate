@@ -8,7 +8,7 @@ export default function Input({
     autoComplete,
     required,
     isFocused,
-    handleChange,
+    setData
 }) {
     const input = useRef();
 
@@ -19,19 +19,19 @@ export default function Input({
     }, []);
 
     return (
-        <div className="flex flex-col items-start">
+        <div className="flex flex-col items-start mt-2">
             <input
                 type={type}
                 name={name}
                 value={value}
                 className={
-                    `border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm ` +
+                    `w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm ` +
                     className
                 }
                 ref={input}
                 autoComplete={autoComplete}
                 required={required}
-                onChange={(e) => handleChange(e)}
+                onChange={(e) => setData(e.target.name, e.target.value)}
             />
         </div>
     );

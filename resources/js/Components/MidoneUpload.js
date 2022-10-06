@@ -1,4 +1,5 @@
 import { Image, X } from "lucide-react";
+import Label from "@/Components/Label";
 
 export default function MidoneUpload(props) {
     let accept;
@@ -12,11 +13,14 @@ export default function MidoneUpload(props) {
         <>
             <div className="">
                 {/* Label */}
-                <label className="form-label mt-2 text-md font-medium">
-                    {props.label}
-                </label>
+               <Label
+                    forInput={props.name}
+                    value={props.labelValue}
+                    className="mb-2"
+                />
+
                 {/* Image Upload */}
-                <div className="border-2 border-dashed rounded-md pt-4">
+                <div className="border-2 border-dashed rounded-md pt-4 mt-2">
                     {
                         props.preview &&
                             <>

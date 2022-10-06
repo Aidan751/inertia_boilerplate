@@ -117,14 +117,14 @@ class OfferController extends Controller
         $request->validate([
             'title' => 'required',
             'description' => 'required',
-            'image' => 'image',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         // update the offer
         $offer->update([
             'title' => $request->title,
             'description' => $request->description,
-            'image' => is_null($request->image) ? $menuItem->image : ImagePackage::save($request->image, 'offers'),
+            'image' => is_null($request->image) ? $offer->image : ImagePackage::save($request->image, 'offers'),
         ]);
 
         return redirect()->route('restaurant.offers.index')->with('success', 'Offer updated successfully');
