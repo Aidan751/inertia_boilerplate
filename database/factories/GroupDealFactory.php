@@ -16,7 +16,8 @@ class GroupDealFactory extends Factory
         return [
             'title' => $this->faker->name,
             'description' => $this->faker->text,
-            'group_deal_price' => $this->faker->numberBetween(1, 100),
+            'items' => $this->faker->text,
+            'group_deal_price' => $this->faker->randomFloat(2, 0, 100),
             'restaurant_id' => 1,
         ];
     }

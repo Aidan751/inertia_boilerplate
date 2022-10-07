@@ -28,14 +28,14 @@ class DatabaseSeeder extends Seeder
         $this->call(LaratrustSeeder::class);
         // create 7 days
         Day::factory()->count(7)->create();
-        User::factory(1)->create();
         RestaurantCategory::factory(10)->create();
         Restaurant::factory(1)->create();
-        MenuCategory::factory(5)->create();
+        User::factory(1)->create();
+        MenuCategory::factory(50)->create();
         MenuItem::factory(50)->create();
         Extra::factory(50)->create();
         GroupDeal::factory(50)->create();
-        Order::factory(30)->create();
+        Order::factory(50)->create();
         OrderItem::factory(100)->create();
     }
 }
