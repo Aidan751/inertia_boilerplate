@@ -109,7 +109,7 @@ console.log(props);
       errors={props.errors}
       activeGroup={14}
       >
-        <div className="col-span-12">
+         <div className="col-span-12">
          <Title
             title="Edit Offer"
             subtitle="Fill in the form below to edit an offer"

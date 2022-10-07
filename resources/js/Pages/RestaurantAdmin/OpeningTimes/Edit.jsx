@@ -5,6 +5,7 @@ import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from "@inertiajs/inertia-react";
 import Label from "@/Components/Label";
 import Input from "@/Components/Input";
+import Title from "@/Components/Title";
 
 export default function Edit(props) {
   const { data, setData, put, processing, errors } = useForm({
@@ -118,28 +119,18 @@ export default function Edit(props) {
   return (
     <>
       <Authenticated auth={props.auth} errors={props.errors} activeGroup={12}>
-        <div className="col-span-12">
-          <div className="intro-y flex items-center mt-8">
-            <h2 className="text-lg font-medium mr-auto">
-              Opening and Collection Times
-            </h2>
-          </div>
-          <div className="intro-y flex items-center mt-3">
-            <p className="text-gray-600">
-              Fill in the details below for your opening and collection times.
-              You can select multiple time periods per day (i.e. if you're open
-              for lunch and close before the evening). The opening times will be
-              displayed on your mini profile on the app, and also combine to be
-              your delivery time availability.
-            </p>
-          </div>
+      <div className="col-span-12">
+         <Title
+            title="Edit Offer"
+            subtitle="Fill in the form below to edit an offer"
+            />
           <div className="grid grid-cols-12 gap-6 mt-5">
             <div className="intro-y col-span-12 lg:col-span-6">
               {/* BEGIN: Form Layout */}
 
               <form className="intro-y box p-5" onSubmit={submit} method="post">
                 {/* start: opening times */}
-                <div className="intro-y col-span-12 lg:col-span-6">
+                <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
                   <div className="intro-y box p-5">
                     <div className="flex flex-col sm:flex-row items-center">
                       <h2 className="font-medium text-base mr-auto">
@@ -147,70 +138,51 @@ export default function Edit(props) {
                       </h2>
                     </div>
                     {/* start: monday to and from opening hours */}
-                    <div className="mt-5">
-                    <Label
-                    value="Monday"
-                    className="mb-2"
-                    />
-                      <div className="w-full flex items-start justify-between sm:w-40">
-                      <div className="flex flex-col">
-
-                      {mondayOpeningHours.map((mondayOpeningHour, index) => {
-                        return (
-                          <div key={index} className="flex flex-1 mb-2 items-center">
-                            <Input
-                              type="time"
-                              name="opening_hours_monday_from"
-                              value={mondayOpeningHour.from}
-                              setData={setData}
-                              className="flex-1 w-74"
-
-                            />
-                            <p className="flex-2 ml-5 mr-5">-</p>
-                            <Input
-                                type="time"
-                                name="opening_hours_monday_to"
-                                value={mondayOpeningHour.to}
-                                setData={setData}
-                                className="flex-1 w-74"
+                    <div className="mt-5 w-full flex flex-col items-start">
+                        <label className="font-medium text-base mr-auto">
+                            Monday
+                        </label>
+                        <div className="flex flex-col sm:flex-row items-center">
+                            <div className="w-full sm:w-1/2">
+                                <div className="mt-3">
+                                    <label>From</label>
+                                <Input
+                                    className="input w-full border mt-2"
+                                    type="time"
+                                    name="opening_hours_monday_from"
+                                    value={mondayOpeningHours[0].from}
+                                    onChange={(e) => {
+                                    setMondayOpeningHours([
+                                        {
+                                        ...mondayOpeningHours[0],
+                                        from: e.target.value,
+                                        },
+                                    ]);
+                                    }}
+                                />
+                                </div>
+                            </div>
+                            <div className="w-full sm:w-1/2">
+                                <div className="mt-3">
+                                    <label>To</label>
+                                 <Input
+                                    className="input w-full border mt-2"
+                                    type="time"
+                                    name="opening_hours_monday_to"
+                                    value={mondayOpeningHours[0].to}
+                                    onChange={(e) => {
+                                    setMondayOpeningHours([
+                                        {
+                                        ...mondayOpeningHours[0],
+                                        to: e.target.value,
+                                        },
+                                    ]);
+                                    }}
                                 />
 
-                          </div>
-                        );
-                      })}
-                      </div>
-
-                        {/* start: button to add another opening time for monday */}
-                        <Button
-                          className="button bg-theme-1 text-white mt-3"
-                          type="button"
-                          click={() => {
-                            setMondayOpeningHours([
-                              ...mondayOpeningHours,
-                              {
-                                from: "",
-                                to: "",
-                              },
-                            ]);
-                          }}
-                        >
-                          Add another
-                        </Button>
-                        {/* end: button to add another opening time for monday */}
-                        {/* start: button to remove opening time for monday */}
-                        <Button
-                            className="button btn-danger-soft text-white mt-3"
-                            type="button"
-                            click={() => {
-                                setMondayOpeningHours(
-                                    mondayOpeningHours.slice(0, -1)
-                                );
-                            }}
-                        >
-                            Remove
-                        </Button>
-                        {/* end: button to remove opening time for monday */}
-                      </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     {/* end: monday to and from opening hours */}
                     {/* start: tuesday to and from opening hours */}
