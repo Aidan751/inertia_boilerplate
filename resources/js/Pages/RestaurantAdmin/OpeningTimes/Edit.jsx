@@ -117,7 +117,7 @@ export default function Edit(props) {
 
   return (
     <>
-      <Authenticated auth={props.auth} errors={props.errors} activeGroup={13}>
+      <Authenticated auth={props.auth} errors={props.errors} activeGroup={12}>
         <div className="col-span-12">
           <div className="intro-y flex items-center mt-8">
             <h2 className="text-lg font-medium mr-auto">
@@ -212,8 +212,412 @@ export default function Edit(props) {
                         {/* end: button to remove opening time for monday */}
                       </div>
                     </div>
+                    {/* end: monday to and from opening hours */}
+                    {/* start: tuesday to and from opening hours */}
+                    <div className="mt-5">
+                    <Label
+                    value="tuesday"
+                    className="mb-2"
+                    />
+                      <div className="w-full flex items-start justify-between sm:w-40">
+                      <div className="flex flex-col">
+
+                      {tuesdayOpeningHours.map((tuesdayOpeningHour, index) => {
+                        return (
+                          <div key={index} className="flex flex-1 mb-2 items-center">
+                            <Input
+                              type="time"
+                              name="opening_hours_tuesday_from"
+                              value={tuesdayOpeningHour.from}
+                              setData={setData}
+                              className="flex-1 w-74"
+
+                            />
+                            <p className="flex-2 ml-5 mr-5">-</p>
+                            <Input
+                                type="time"
+                                name="opening_hours_tuesday_to"
+                                value={tuesdayOpeningHour.to}
+                                setData={setData}
+                                className="flex-1 w-74"
+                                />
+
+                          </div>
+                        );
+                      })}
+                      </div>
+
+                        {/* start: button to add another opening time for tuesday */}
+                        <Button
+                          className="button bg-theme-1 text-white mt-3"
+                          type="button"
+                          click={() => {
+                            setTuesdayOpeningHours([
+                              ...tuesdayOpeningHours,
+                              {
+                                from: "",
+                                to: "",
+                              },
+                            ]);
+                          }}
+                        >
+                          Add another
+                        </Button>
+                        {/* end: button to add another opening time for tuesday */}
+                        {/* start: button to remove opening time for tuesday */}
+                        <Button
+                            className="button btn-danger-soft text-white mt-3"
+                            type="button"
+                            click={() => {
+                                setTuesdayOpeningHours(
+                                    tuesdayOpeningHours.slice(0, -1)
+                                );
+                            }}
+                        >
+                            Remove
+                        </Button>
+                        {/* end: button to remove opening time for tuesday */}
+                      </div>
+                    </div>
+                    {/* end: tuesday to and from opening hours */}
+                    {/* start: wednesday to and from opening hours */}
+                    <div className="mt-5">
+                    <Label
+                    value="Wednesday"
+                    className="mb-2"
+                    />
+                      <div className="w-full flex items-start justify-between sm:w-40">
+                      <div className="flex flex-col">
+
+                      {wednesdayOpeningHours.map((wednesdayOpeningHour, index) => {
+                        return (
+                          <div key={index} className="flex flex-1 mb-2 items-center">
+                            <Input
+                              type="time"
+                              name="opening_hours_wednesday_from"
+                              value={wednesdayOpeningHour.from}
+                              setData={setData}
+                              className="flex-1 w-74"
+
+                            />
+                            <p className="flex-2 ml-5 mr-5">-</p>
+                            <Input
+                                type="time"
+                                name="opening_hours_wednesday_to"
+                                value={wednesdayOpeningHour.to}
+                                setData={setData}
+                                className="flex-1 w-74"
+                                />
+
+                          </div>
+                        );
+                      })}
+                      </div>
+
+                        {/* start: button to add another opening time for wednesday */}
+                        <Button
+                          className="button bg-theme-1 text-white mt-3"
+                          type="button"
+                          click={() => {
+                            setWednesdayOpeningHours([
+                              ...wednesdayOpeningHours,
+                              {
+                                from: "",
+                                to: "",
+                              },
+                            ]);
+                          }}
+                        >
+                          Add another
+                        </Button>
+                        {/* end: button to add another opening time for wednesday */}
+                        {/* start: button to remove opening time for wednesday */}
+                        <Button
+                            className="button btn-danger-soft text-white mt-3"
+                            type="button"
+                            click={() => {
+                                setWednesdayOpeningHours(
+                                    wednesdayOpeningHours.slice(0, -1)
+                                );
+                            }}
+                        >
+                            Remove
+                        </Button>
+                        {/* end: button to remove opening time for wednesday */}
+                      </div>
+                    </div>
+                    {/* end: wednesday to and from opening hours */}
+                    {/* start: thursday to and from opening hours */}
+                    <div className="mt-5">
+                    <Label
+                    value="Thursday"
+                    className="mb-2"
+                    />
+                      <div className="w-full flex items-start justify-between sm:w-40">
+                      <div className="flex flex-col">
+
+                      {thursdayOpeningHours.map((thursdayOpeningHour, index) => {
+                        return (
+                          <div key={index} className="flex flex-1 mb-2 items-center">
+                            <Input
+                              type="time"
+                              name="opening_hours_thursday_from"
+                              value={thursdayOpeningHour.from}
+                              setData={setData}
+                              className="flex-1 w-74"
+
+                            />
+                            <p className="flex-2 ml-5 mr-5">-</p>
+                            <Input
+                                type="time"
+                                name="opening_hours_thursday_to"
+                                value={thursdayOpeningHour.to}
+                                setData={setData}
+                                className="flex-1 w-74"
+                                />
+
+                          </div>
+                        );
+                      })}
+                      </div>
+
+                        {/* start: button to add another opening time for thursday */}
+                        <Button
+                          className="button bg-theme-1 text-white mt-3"
+                          type="button"
+                          click={() => {
+                            setThursdayOpeningHours([
+                              ...thursdayOpeningHours,
+                              {
+                                from: "",
+                                to: "",
+                              },
+                            ]);
+                          }}
+                        >
+                          Add another
+                        </Button>
+                        {/* end: button to add another opening time for thursday */}
+                        {/* start: button to remove opening time for thursday */}
+                        <Button
+                            className="button btn-danger-soft text-white mt-3"
+                            type="button"
+                            click={() => {
+                                setThursdayOpeningHours(
+                                    thursdayOpeningHours.slice(0, -1)
+                                );
+                            }}
+                        >
+                            Remove
+                        </Button>
+                        {/* end: button to remove opening time for thursday */}
+                      </div>
+                    </div>
+                    {/* end: thursday to and from opening hours */}
+                    {/* start: friday to and from opening hours */}
+                    <div className="mt-5">
+                    <Label
+                    value="Friday"
+                    className="mb-2"
+                    />
+                      <div className="w-full flex items-start justify-between sm:w-40">
+                      <div className="flex flex-col">
+
+                      {fridayOpeningHours.map((fridayOpeningHour, index) => {
+                        return (
+                          <div key={index} className="flex flex-1 mb-2 items-center">
+                            <Input
+                              type="time"
+                              name="opening_hours_friday_from"
+                              value={fridayOpeningHour.from}
+                              setData={setData}
+                              className="flex-1 w-74"
+
+                            />
+                            <p className="flex-2 ml-5 mr-5">-</p>
+                            <Input
+                                type="time"
+                                name="opening_hours_friday_to"
+                                value={fridayOpeningHour.to}
+                                setData={setData}
+                                className="flex-1 w-74"
+                                />
+
+                          </div>
+                        );
+                      })}
+                      </div>
+
+                        {/* start: button to add another opening time for friday */}
+                        <Button
+                          className="button bg-theme-1 text-white mt-3"
+                          type="button"
+                          click={() => {
+                            setFridayOpeningHours([
+                              ...fridayOpeningHours,
+                              {
+                                from: "",
+                                to: "",
+                              },
+                            ]);
+                          }}
+                        >
+                          Add another
+                        </Button>
+                        {/* end: button to add another opening time for friday */}
+                        {/* start: button to remove opening time for friday */}
+                        <Button
+                            className="button btn-danger-soft text-white mt-3"
+                            type="button"
+                            click={() => {
+                                setFridayOpeningHours(
+                                    fridayOpeningHours.slice(0, -1)
+                                );
+                            }}
+                        >
+                            Remove
+                        </Button>
+                        {/* end: button to remove opening time for friday */}
+                      </div>
+                    </div>
+                    {/* end: friday to and from opening hours */}
+                    {/* start: saturday to and from opening hours */}
+                    <div className="mt-5">
+                    <Label
+                    value="Saturday"
+                    className="mb-2"
+                    />
+                      <div className="w-full flex items-start justify-between sm:w-40">
+                      <div className="flex flex-col">
+
+                      {saturdayOpeningHours.map((saturdayOpeningHour, index) => {
+                        return (
+                          <div key={index} className="flex flex-1 mb-2 items-center">
+                            <Input
+                              type="time"
+                              name="opening_hours_saturday_from"
+                              value={saturdayOpeningHour.from}
+                              setData={setData}
+                              className="flex-1 w-74"
+
+                            />
+                            <p className="flex-2 ml-5 mr-5">-</p>
+                            <Input
+                                type="time"
+                                name="opening_hours_saturday_to"
+                                value={saturdayOpeningHour.to}
+                                setData={setData}
+                                className="flex-1 w-74"
+                                />
+
+                          </div>
+                        );
+                      })}
+                      </div>
+
+                        {/* start: button to add another opening time for saturday */}
+                        <Button
+                          className="button bg-theme-1 text-white mt-3"
+                          type="button"
+                          click={() => {
+                            setSaturdayOpeningHours([
+                              ...saturdayOpeningHours,
+                              {
+                                from: "",
+                                to: "",
+                              },
+                            ]);
+                          }}
+                        >
+                          Add another
+                        </Button>
+                        {/* end: button to add another opening time for saturday */}
+                        {/* start: button to remove opening time for saturday */}
+                        <Button
+                            className="button btn-danger-soft text-white mt-3"
+                            type="button"
+                            click={() => {
+                                setSaturdayOpeningHours(
+                                    saturdayOpeningHours.slice(0, -1)
+                                );
+                            }}
+                        >
+                            Remove
+                        </Button>
+                        {/* end: button to remove opening time for saturday */}
+                      </div>
+                    </div>
+                    {/* end: saturday to and from opening hours */}
+                    {/* start: sunday to and from opening hours */}
+                    <div className="mt-5">
+                    <Label
+                    value="Sunday"
+                    className="mb-2"
+                    />
+                      <div className="w-full flex items-start justify-between sm:w-40">
+                      <div className="flex flex-col">
+
+                      {sundayOpeningHours.map((sundayOpeningHour, index) => {
+                        return (
+                          <div key={index} className="flex flex-1 mb-2 items-center">
+                            <Input
+                              type="time"
+                              name="opening_hours_sunday_from"
+                              value={sundayOpeningHour.from}
+                              setData={setData}
+                              className="flex-1 w-74"
+
+                            />
+                            <p className="flex-2 ml-5 mr-5">-</p>
+                            <Input
+                                type="time"
+                                name="opening_hours_sunday_to"
+                                value={sundayOpeningHour.to}
+                                setData={setData}
+                                className="flex-1 w-74"
+                                />
+
+                          </div>
+                        );
+                      })}
+                      </div>
+
+                        {/* start: button to add another opening time for sunday */}
+                        <Button
+                          className="button bg-theme-1 text-white mt-3"
+                          type="button"
+                          click={() => {
+                            setSundayOpeningHours([
+                              ...sundayOpeningHours,
+                              {
+                                from: "",
+                                to: "",
+                              },
+                            ]);
+                          }}
+                        >
+                          Add another
+                        </Button>
+                        {/* end: button to add another opening time for sunday */}
+                        {/* start: button to remove opening time for sunday */}
+                        <Button
+                            className="button btn-danger-soft text-white mt-3"
+                            type="button"
+                            click={() => {
+                                setSundayOpeningHours(
+                                    sundayOpeningHours.slice(0, -1)
+                                );
+                            }}
+                        >
+                            Remove
+                        </Button>
+                        {/* end: button to remove opening time for sunday */}
+                      </div>
+                    </div>
+                    {/* end: sunday to and from opening hours */}
+
+
                   </div>
-                  {/* end: monday to and from opening hours */}
                 </div>
                 <div className="text-right mt-5">
                   <Button type="submit" className="w-30">

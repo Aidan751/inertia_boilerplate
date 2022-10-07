@@ -202,11 +202,11 @@ console.log(props);
                     <>
                       <Title
                         title={`Select Items for Group Deal Item ${group_deal_index + 1}`}
-                        subtitle="Search and select all the products to be shown in Item 1 of the group deal"
+                        subtitle={`Search and select all the products to be shown in Item ${group_deal_index + 1} of the group deal`}
                       />
 
                   <select
-                    className="w-full px-3 py-2 pl-3 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    className="w-full mt-2 px-3 py-2 pl-3 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="menu_item_id"
                     type="text"
                     name="menu_item_id"
@@ -285,7 +285,7 @@ console.log(props);
                 {/* Start: Button to add another group deal item */}
                 <div className="mb-6 flex justify-start">
                   <Button
-                    className="btn btn-primary mr-3"
+                    className="btn btn-primary mt-3"
                     type="button"
                     click={addGroupDealItem}
                   >
