@@ -48,7 +48,7 @@ export default function Create(props) {
 
             //  Set Preview Image
             const file = URL.createObjectURL(event.target.files[0]);
-            
+
             // Get Data Structure
             let tempFileUrl = fileUrl;
 
@@ -64,7 +64,7 @@ export default function Create(props) {
         // Set the file input to null
         setData(event.target.id,null);
 
-        // 
+        //
         let tempFileUrl = fileUrl;
 
         tempFileUrl[event.target.id] = null;
@@ -203,6 +203,7 @@ export default function Create(props) {
                                 value={option}
                                 onChange={handleCategoryChange}
                             >
+                                <option value="">Select Category</option>
                                {props.restaurant.categories && props.restaurant.categories.map((category) => (
                                     <option key={category.id} value={category.id}>
                                         {category.name}

@@ -80,7 +80,7 @@ export default function SideBar(props){
 
     // Links for user to access opening times
     const openingTimeLinks = [
-        {title: "Manage Opening Times", href: route("restaurant.operating-hours.index")},
+        {title: "Manage Opening Times", href: route("restaurant.operating-hours.edit")},
     ];
 
     // Links for user to manage tables

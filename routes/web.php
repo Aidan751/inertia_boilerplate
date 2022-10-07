@@ -213,20 +213,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // delete a table
     Route::delete('/restaurant/tables/delete/{tableNumber}', [TableController::class, 'destroy'])->name('restaurant.tables.destroy');
 
-    // list operating hours
-    Route::get('/admin/operating-hours', [OperatingHourController::class, 'index'])->name('restaurant.operating-hours.index');
-
-    // create an operating hour
-    Route::get('/admin/operating-hours/create', [OperatingHourController::class, 'create'])->name('restaurant.operating-hours.create');
-
-    // store an operating hour
-    Route::post('/admin/operating-hours/store', [OperatingHourController::class, 'store'])->name('restaurant.operating-hours.store');
-
     // edit an operating hour
-    Route::get('/admin/operating-hours/edit/{id}', [OperatingHourController::class, 'edit'])->name('restaurant.operating-hours.edit');
+    Route::get('/admin/operating-hours/edit', [OperatingHourController::class, 'edit'])->name('restaurant.operating-hours.edit');
 
     // update an operating hour
-    Route::put('/admin/operating-hours/update/{id}', [OperatingHourController::class, 'update'])->name('restaurant.operating-hours.update');
+    Route::put('/admin/operating-hours/update', [OperatingHourController::class, 'update'])->name('restaurant.operating-hours.update');
 
     // delete an operating hour
     Route::delete('/admin/operating-hours/delete/{id}', [OperatingHourController::class, 'destroy'])->name('restaurant.operating-hours.destroy');

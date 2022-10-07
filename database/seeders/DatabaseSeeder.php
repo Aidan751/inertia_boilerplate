@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Day;
 use App\Models\User;
 use App\Models\Extra;
 use App\Models\Order;
@@ -25,6 +26,7 @@ class DatabaseSeeder extends Seeder
     {
         // Call the laratrust seeder to initialize roles and permissions
         $this->call(LaratrustSeeder::class);
-
+        // create 7 days
+        Day::factory()->count(7)->create();
     }
 }

@@ -18,7 +18,7 @@ class GroupDeal extends Model
     ];
 
     protected $casts = [
-        'group_deal_items' => 'array'
+        'items' => 'array'
     ];
 
     public function restaurant()
