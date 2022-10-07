@@ -14,6 +14,7 @@ use App\Http\Controllers\Web\AdminDriverTripsController;
 use App\Http\Controllers\Web\AdminRestaurantsController;
 use App\Http\Controllers\Web\Restaurant\ExtraController;
 use App\Http\Controllers\Web\Restaurant\OfferController;
+use App\Http\Controllers\Web\Restaurant\TableController;
 use App\Http\Controllers\Web\AdminApplicationsController;
 use App\Http\Controllers\Web\Restaurant\StripeController;
 use App\Http\Controllers\Web\AdminCallCentreUserController;
@@ -24,8 +25,8 @@ use App\Http\Controllers\Web\Restaurant\MenuCategoryController;
 use App\Http\Controllers\Web\AdminRestaurantCategoriesController;
 use App\Http\Controllers\Web\CallCentre\OrderController as CallCentreOrderController;
 use App\Http\Controllers\Web\Restaurant\OrderController as RestaurantOrderController;
-use App\Http\Controllers\Web\Restaurant\ConfigurationController as RestaurantConfigurationController;
 use App\Http\Controllers\Web\Restaurant\AdminUserController as RestaurantAdminUserController;
+use App\Http\Controllers\Web\Restaurant\ConfigurationController as RestaurantConfigurationController;
 
 /*
 |--------------------------------------------------------------------------

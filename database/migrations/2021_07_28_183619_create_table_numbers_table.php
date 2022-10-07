@@ -16,7 +16,7 @@ class CreateTableNumbersTable extends Migration
         Schema::create('table_numbers', function (Blueprint $table) {
             $table->increments('id');
             $table->unsignedInteger('restaurant_id');
-          
+
             $table->string('table_number');
             $table->string('table_reference')->nullable();
             $table->timestamps();
