@@ -25,7 +25,7 @@ class CreateUsersTable extends Migration
             $table->unsignedInteger('restaurant_id')->nullable();
             $table->rememberToken();
             $table->timestamps();
-            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
+            $table->foreign('restaurant_id')->references('id')->on('restaurants');
             $table->foreignId('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
     }

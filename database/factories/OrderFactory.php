@@ -16,10 +16,10 @@ class OrderFactory extends Factory
 
         return [
             'order_reference' => $this->faker->unique()->randomNumber(8),
-            'restaurant_id' => $this->faker->numberBetween(1, 10),
+            'restaurant_id' => 1,
             'customer_id' => $this->faker->numberBetween(1, 10),
             'driver_id' => $this->faker->numberBetween(1, 10),
-            'call_center_id' => $this->faker->numberBetween(1, 10),
+            'call_center_id' => 1,
             'driver_paid' => $this->faker->randomElement(['Y', 'N']),
             'pickup_date' => $this->faker->dateTimeBetween('-1 year', 'now'),
             'time_slot' => $this->faker->time('H:i:s', 'now'),
@@ -42,7 +42,7 @@ class OrderFactory extends Factory
             'payment_intent_id' => $this->faker->uuid,
             'customer_name' => $this->faker->name,
             'customer_contact_number' => $this->faker->phoneNumber,
-            'user_id' => $this->faker->numberBetween(1, 100),
+            'user_id' => 4,
         ];
     }
 }

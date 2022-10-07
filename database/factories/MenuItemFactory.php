@@ -15,7 +15,7 @@ class MenuItemFactory extends Factory
     {
         return [
             'menu_category_id' => $this->faker->numberBetween(1, 10),
-            'restaurant_id' => $this->faker->numberBetween(1, 10),
+            'restaurant_id' => 1,
             'title' => $this->faker->name,
             'description' => $this->faker->text,
             'dietary_requirements' => $this->faker->text,

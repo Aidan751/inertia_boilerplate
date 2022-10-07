@@ -14,7 +14,7 @@ class MenuCategoryFactory extends Factory
     public function definition()
     {
         return [
-            'restaurant_id' => $this->faker->numberBetween(1, 10),
+            'restaurant_id' => 1,
             'title' => $this->faker->name,
             'notes' => $this->faker->text,
         ];
