@@ -205,13 +205,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::post('/restaurant/tables/store', [TableController::class, 'store'])->name('restaurant.tables.store');
 
     // edit a table
-    Route::get('/restaurant/tables/edit/{id}', [TableController::class, 'edit'])->name('restaurant.tables.edit');
+    Route::get('/restaurant/tables/edit/{tableNumber}', [TableController::class, 'edit'])->name('restaurant.tables.edit');
 
     // update a table
-    Route::put('/restaurant/tables/update/{id}', [TableController::class, 'update'])->name('restaurant.tables.update');
+    Route::put('/restaurant/tables/update/{tableNumber}', [TableController::class, 'update'])->name('restaurant.tables.update');
 
     // delete a table
-    Route::delete('/restaurant/tables/delete/{id}', [TableController::class, 'destroy'])->name('restaurant.tables.destroy');
+    Route::delete('/restaurant/tables/delete/{tableNumber}', [TableController::class, 'destroy'])->name('restaurant.tables.destroy');
 
     // list operating hours
     Route::get('/admin/operating-hours', [OperatingHourController::class, 'index'])->name('restaurant.operating-hours.index');

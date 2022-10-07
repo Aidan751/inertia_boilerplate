@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Auth;
 
 
 
-class ExtraController extends Controller
+class TableController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -74,7 +74,7 @@ class ExtraController extends Controller
         ]);
 
         // redirect to the table number index page
-        return redirect()->route('restaurant.table.index')->with('success', 'Table Number created successfully');
+        return redirect()->route('restaurant.tables.index')->with('success', 'Table Number created successfully');
     }
 
     /**
@@ -126,7 +126,7 @@ class ExtraController extends Controller
         ]);
 
         // redirect to the table number index page
-        return redirect()->route('restaurant.table.index')->with('success', 'Table Number updated successfully');
+        return redirect()->route('restaurant.tables.index')->with('success', 'Table Number updated successfully');
     }
 
     /**
@@ -142,6 +142,6 @@ class ExtraController extends Controller
         $tableNumber->delete();
 
         // redirect to the table number index page
-        return redirect()->route('restaurant.table.index')->with('success', 'Table Number deleted successfully');
+        return redirect()->route('restaurant.tables.index')->with('success', 'Table Number deleted successfully');
     }
 }

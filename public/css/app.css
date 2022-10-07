@@ -19609,6 +19609,9 @@ select {
 .mb-1 {
   margin-bottom: 0.25rem;
 }
+.mb-2 {
+  margin-bottom: 0.5rem;
+}
 .mb-5 {
   margin-bottom: 1.25rem;
 }
@@ -19623,6 +19626,12 @@ select {
 }
 .mr-1 {
   margin-right: 0.25rem;
+}
+.mr-auto {
+  margin-right: auto;
+}
+.mt-6 {
+  margin-top: 1.5rem;
 }
 .mb-4 {
   margin-bottom: 1rem;
@@ -19639,12 +19648,6 @@ select {
 .mt-5 {
   margin-top: 1.25rem;
 }
-.mt-6 {
-  margin-top: 1.5rem;
-}
-.mr-auto {
-  margin-right: auto;
-}
 .mr-4 {
   margin-right: 1rem;
 }
@@ -19659,9 +19662,6 @@ select {
 }
 .mt-1 {
   margin-top: 0.25rem;
-}
-.mb-2 {
-  margin-bottom: 0.5rem;
 }
 .block {
   display: block;
