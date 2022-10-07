@@ -15,9 +15,8 @@ class CreateGroupDealSingleItemsTable extends Migration
     {
         Schema::create('group_deal_single_items', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->unsignedBigInteger('group_deal_item_id');
-            $table->foreign('group_deal_item_id')->references('id')->on('group_deal_items')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('group_deal_item_id')->references('id')->on('group_deal_items')->onDelete("cascade");
+            $table->foreignId('menu_item_id')->references('id')->on('menu_items')->onDelete("cascade");
             $table->timestamps();
         });
     }

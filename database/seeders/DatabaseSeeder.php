@@ -3,15 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\Day;
-use App\Models\User;
 use App\Models\Extra;
 use App\Models\Order;
 use App\Models\MenuItem;
 use App\Models\GroupDeal;
 use App\Models\OrderItem;
-use App\Models\Restaurant;
 use App\Models\MenuCategory;
-use App\Models\Configuration;
 use Illuminate\Database\Seeder;
 use App\Models\RestaurantCategory;
 
@@ -29,13 +26,35 @@ class DatabaseSeeder extends Seeder
         // create 7 days
         Day::factory()->count(7)->create();
         RestaurantCategory::factory(10)->create();
-        Restaurant::factory(1)->create();
-        User::factory(1)->create();
-        MenuCategory::factory(50)->create();
+        $restaurant = \App\Models\Restaurant::factory()->create();
+
+        $user = \App\Models\User::factory()->create([
+            "first_name" => "Michael",
+            "last_name" => "Brennan",
+            "email" => "michael@app.com",
+            "password" => bcrypt("password"),
+            "role_id" => 2,
+            "restaurant_id" => $restaurant->id,
+        ]);
+
+        $role = \App\Models\Role::where("name","restaurant_admin")->first();
+
+        $user->attachRole($role);
+
+        MenuCategory::factory(50)->create([
+            "restaurant_id" => $restaurant->id,
+        ]);
         MenuItem::factory(50)->create();
-        Extra::factory(50)->create();
-        GroupDeal::factory(50)->create();
-        Order::factory(50)->create();
-        OrderItem::factory(100)->create();
+        Extra::factory(50)->create([
+            "restaurant_id" => $restaurant->id,
+        ]);
+        GroupDeal::factory(50)->create([
+            "restaurant_id" => $restaurant->id,
+        ]);
+        Order::factory(50)->create([
+            "restaurant_id" => $restaurant->id,
+        ]);
+        OrderItem::factory(100)->create([
+        ]);
     }
 }
