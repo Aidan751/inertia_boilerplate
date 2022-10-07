@@ -21,6 +21,7 @@ use App\Http\Controllers\Web\AdminCallCentreUserController;
 use App\Http\Controllers\Web\AdminConfigurationsController;
 use App\Http\Controllers\Web\Restaurant\MenuItemController;
 use App\Http\Controllers\Web\Restaurant\GroupDealController;
+use App\Http\Controllers\Web\Restaurant\OpeningHourController;
 use App\Http\Controllers\Web\Restaurant\MenuCategoryController;
 use App\Http\Controllers\Web\AdminRestaurantCategoriesController;
 use App\Http\Controllers\Web\CallCentre\OrderController as CallCentreOrderController;
@@ -213,14 +214,12 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // delete a table
     Route::delete('/restaurant/tables/delete/{tableNumber}', [TableController::class, 'destroy'])->name('restaurant.tables.destroy');
 
-    // edit an operating hour
-    Route::get('/admin/operating-hours/edit', [OperatingHourController::class, 'edit'])->name('restaurant.operating-hours.edit');
+    // edit an opening hour
+    Route::get('/restaurant/opening-hours/edit/{id}', [OpeningHourController::class, 'edit'])->name('restaurant.opening-hours.edit');
 
-    // update an operating hour
-    Route::put('/admin/operating-hours/update', [OperatingHourController::class, 'update'])->name('restaurant.operating-hours.update');
+    // update an opening hour
+    Route::put('/restaurant/opening-hours/update/{id}', [OpeningHourController::class, 'update'])->name('restaurant.opening-hours.update');
 
-    // delete an operating hour
-    Route::delete('/admin/operating-hours/delete/{id}', [OperatingHourController::class, 'destroy'])->name('restaurant.operating-hours.destroy');
 
     // show company profile
     Route::get('/admin/profile', [CompanyProfileController::class, 'show'])->name('profile.show');

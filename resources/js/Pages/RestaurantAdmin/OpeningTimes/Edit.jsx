@@ -5,41 +5,108 @@ import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from "@inertiajs/inertia-react";
 import Label from "@/Components/Label";
 import Input from "@/Components/Input";
-import TextArea from "@/Components/TextArea";
 
 export default function Edit(props) {
   const { data, setData, put, processing, errors } = useForm({
-    opening_hours: props.opening_hours,
-    collection_times: props.collection_times,
-    from_monday_opening_hours: props.from_monday_opening_hours,
-    from_monday_collection_times: props.from_monday_collection_times,
-    from_tuesday_opening_hours: props.from_tuesday_opening_hours,
-    from_tuesday_collection_times: props.from_tuesday_collection_times,
-    from_wednesday_opening_hours: props.from_wednesday_opening_hours,
-    from_wednesday_collection_times: props.from_wednesday_collection_times,
-    from_thursday_opening_hours: props.from_thursday_opening_hours,
-    from_thursday_collection_times: props.from_thursday_collection_times,
-    from_friday_opening_hours: props.from_friday_opening_hours,
-    from_friday_collection_times: props.from_friday_collection_times,
-    from_saturday_opening_hours: props.from_saturday_opening_hours,
-    from_saturday_collection_times: props.from_saturday_collection_times,
-    from_sunday_opening_hours: props.from_sunday_opening_hours,
-    from_sunday_collection_times: props.from_sunday_collection_times,
-    to_monday_opening_hours: props.to_monday_opening_hours,
-    to_monday_collection_times: props.to_monday_collection_times,
-    to_tuesday_opening_hours: props.to_tuesday_opening_hours,
-    to_tuesday_collection_times: props.to_tuesday_collection_times,
-    to_wednesday_opening_hours: props.to_wednesday_opening_hours,
-    to_wednesday_collection_times: props.to_wednesday_collection_times,
-    to_thursday_opening_hours: props.to_thursday_opening_hours,
-    to_thursday_collection_times: props.to_thursday_collection_times,
-    to_friday_opening_hours: props.to_friday_opening_hours,
-    to_friday_collection_times: props.to_friday_collection_times,
-    to_saturday_opening_hours: props.to_saturday_opening_hours,
-    to_saturday_collection_times: props.to_saturday_collection_times,
-    to_sunday_opening_hours: props.to_sunday_opening_hours,
-    to_sunday_collection_times: props.to_sunday_collection_times,
+    opening_hours_monday_from: props.opening_hours_monday.from || "",
+    opening_hours_monday_to: props.opening_hours_monday.to || "",
+    opening_hours_tuesday_from: props.opening_hours_tuesday.from || "",
+    opening_hours_tuesday_to: props.opening_hours_tuesday.to || "",
+    opening_hours_wednesday_from: props.opening_hours_wednesday.from || "",
+    opening_hours_wednesday_to: props.opening_hours_wednesday.to || "",
+    opening_hours_thursday_from: props.opening_hours_thursday.from || "",
+    opening_hours_thursday_to: props.opening_hours_thursday.to || "",
+    opening_hours_friday_from: props.opening_hours_friday.from || "",
+    opening_hours_friday_to: props.opening_hours_friday.to || "",
+    opening_hours_saturday_from: props.opening_hours_saturday.from || "",
+    opening_hours_saturday_to: props.opening_hours_saturday.to || "",
+    opening_hours_sunday_from: props.opening_hours_sunday.from || "",
+    opening_hours_sunday_to: props.opening_hours_sunday.to || "",
+    collection_times_monday_from: props.collection_times_monday.from || "",
+    collection_times_monday_to: props.collection_times_monday.to || "",
+    collection_times_tuesday_from: props.collection_times_tuesday.from || "",
+    collection_times_tuesday_to: props.collection_times_tuesday.to || "",
+    collection_times_wednesday_from: props.collection_times_wednesday.from || "",
+    collection_times_wednesday_to: props.collection_times_wednesday.to || "",
+    collection_times_thursday_from: props.collection_times_thursday.from || "",
+    collection_times_thursday_to: props.collection_times_thursday.to || "",
+    collection_times_friday_from: props.collection_times_friday.from || "",
+    collection_times_friday_to: props.collection_times_friday.to || "",
+    collection_times_saturday_from: props.collection_times_saturday.from || "",
+    collection_times_saturday_to: props.collection_times_saturday.to || "",
+    collection_times_sunday_from: props.collection_times_sunday.from || "",
+    collection_times_sunday_to: props.collection_times_sunday.to || "",
   });
+
+  const [mondayOpeningHours, setMondayOpeningHours] = useState([{
+    from: props.opening_hours_monday.from || "",
+    to: props.opening_hours_monday.to || "",
+  }]);
+
+    const [tuesdayOpeningHours, setTuesdayOpeningHours] = useState([{
+    from: props.opening_hours_tuesday.from || "",
+    to: props.opening_hours_tuesday.to || "",
+    }]);
+
+    const [wednesdayOpeningHours, setWednesdayOpeningHours] = useState([{
+    from: props.opening_hours_wednesday.from || "",
+    to: props.opening_hours_wednesday.to || "",
+    }]);
+
+    const [thursdayOpeningHours, setThursdayOpeningHours] = useState([{
+    from: props.opening_hours_thursday.from || "",
+    to: props.opening_hours_thursday.to || "",
+    }]);
+
+    const [fridayOpeningHours, setFridayOpeningHours] = useState([{
+    from: props.opening_hours_friday.from || "",
+    to: props.opening_hours_friday.to || "",
+    }]);
+
+    const [saturdayOpeningHours, setSaturdayOpeningHours] = useState([{
+    from: props.opening_hours_saturday.from || "",
+    to: props.opening_hours_saturday.to || "",
+    }]);
+
+    const [sundayOpeningHours, setSundayOpeningHours] = useState([{
+    from: props.opening_hours_sunday.from || "",
+    to: props.opening_hours_sunday.to || "",
+    }]);
+
+    const [mondayCollectionTimes, setMondayCollectionTimes] = useState([{
+    from: props.collection_times_monday.from || "",
+    to: props.collection_times_monday.to || "",
+    }]);
+
+    const [tuesdayCollectionTimes, setTuesdayCollectionTimes] = useState([{
+    from: props.collection_times_tuesday.from || "",
+    to: props.collection_times_tuesday.to || "",
+    }]);
+
+    const [wednesdayCollectionTimes, setWednesdayCollectionTimes] = useState([{
+    from: props.collection_times_wednesday.from || "",
+    to: props.collection_times_wednesday.to || "",
+    }]);
+
+    const [thursdayCollectionTimes, setThursdayCollectionTimes] = useState([{
+    from: props.collection_times_thursday.from || "",
+    to: props.collection_times_thursday.to || "",
+    }]);
+
+    const [fridayCollectionTimes, setFridayCollectionTimes] = useState([{
+    from: props.collection_times_friday.from || "",
+    to: props.collection_times_friday.to || "",
+    }]);
+
+    const [saturdayCollectionTimes, setSaturdayCollectionTimes] = useState([{
+    from: props.collection_times_saturday.from || "",
+    to: props.collection_times_saturday.to || "",
+    }]);
+
+    const [sundayCollectionTimes, setSundayCollectionTimes] = useState([{
+    from: props.collection_times_sunday.from || "",
+    to: props.collection_times_sunday.to || "",
+    }]);
 
   const submit = (e) => {
     e.preventDefault();
@@ -80,43 +147,69 @@ export default function Edit(props) {
                       </h2>
                     </div>
                     {/* start: monday to and from opening hours */}
-                    <div className="flex flex-col sm:flex-row items-center mt-3">
-                      <Label className="w-full sm:w-40 sm:text-right sm:mr-5">
-                        Monday
-                      </Label>
-                      <div className="w-full sm:w-40">
-                        <Input
-                          className="input border mt-2 flex-1"
-                          type="time"
-                          name="from_monday_opening_hours"
-                          value={data.from_monday_opening_hours}
-                          setData={setData}
-                        />{" "}
-                        -{" "}
-                        <Input
-                          className="input border mt-2 flex-1"
-                          type="time"
-                          name="to_monday_opening_hours"
-                          value={data.to_monday_opening_hours}
-                          setData={setData}
-                        />
+                    <div className="mt-5">
+                    <Label
+                    value="Monday"
+                    className="mb-2"
+                    />
+                      <div className="w-full flex items-start justify-between sm:w-40">
+                      <div className="flex flex-col">
+
+                      {mondayOpeningHours.map((mondayOpeningHour, index) => {
+                        return (
+                          <div key={index} className="flex flex-1 mb-2 items-center">
+                            <Input
+                              type="time"
+                              name="opening_hours_monday_from"
+                              value={mondayOpeningHour.from}
+                              setData={setData}
+                              className="flex-1 w-74"
+
+                            />
+                            <p className="flex-2 ml-5 mr-5">-</p>
+                            <Input
+                                type="time"
+                                name="opening_hours_monday_to"
+                                value={mondayOpeningHour.to}
+                                setData={setData}
+                                className="flex-1 w-74"
+                                />
+
+                          </div>
+                        );
+                      })}
+                      </div>
+
                         {/* start: button to add another opening time for monday */}
                         <Button
-                          className="button bg-theme-1 text-white mt-5"
+                          className="button bg-theme-1 text-white mt-3"
                           type="button"
-                          onClick={() => {
-                            setData(
-                              "monday_opening_hours",
-                              data.monday_opening_hours.concat({
-                                from_monday_opening_hours: "",
-                                to_monday_opening_hours: "",
-                              })
-                            );
+                          click={() => {
+                            setMondayOpeningHours([
+                              ...mondayOpeningHours,
+                              {
+                                from: "",
+                                to: "",
+                              },
+                            ]);
                           }}
                         >
                           Add another
                         </Button>
                         {/* end: button to add another opening time for monday */}
+                        {/* start: button to remove opening time for monday */}
+                        <Button
+                            className="button btn-danger-soft text-white mt-3"
+                            type="button"
+                            click={() => {
+                                setMondayOpeningHours(
+                                    mondayOpeningHours.slice(0, -1)
+                                );
+                            }}
+                        >
+                            Remove
+                        </Button>
+                        {/* end: button to remove opening time for monday */}
                       </div>
                     </div>
                   </div>
