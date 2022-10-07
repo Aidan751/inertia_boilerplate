@@ -17,9 +17,7 @@ class GroupDeal extends Model
         'restaurant_id',
     ];
 
-    protected $casts = [
-        'items' => 'array'
-    ];
+    
 
     public function restaurant()
     {

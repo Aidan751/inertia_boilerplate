@@ -16,6 +16,9 @@ class GroupDealItem extends Model
         'group_deal_id',
     ];
 
+    protected $casts = [
+        'items' => 'array'
+    ];
 
     public function groupDeal()
     {
