@@ -159,7 +159,7 @@ export default function Index(props){
                                      <td className="table-report__action w-56">
                                         <div className="flex justify-center groupDeals-center">
                                             {/* Edit Link */}
-                                            <Link className="flex groupDeals-center mr-3" href={route("restaurant.menu.groupDeals.edit",{id:groupDeal.id})}>
+                                            <Link className="flex groupDeals-center mr-3" href={route("restaurant.group-deals.edit",{id:groupDeal.id})}>
                                                 <CheckSquare className="w-4 h-4 mr-1" />{" "}
                                                 Edit
                                             </Link>

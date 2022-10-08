@@ -29,9 +29,9 @@ class DatabaseSeeder extends Seeder
         $restaurant = \App\Models\Restaurant::factory()->create();
 
         $user = \App\Models\User::factory()->create([
-            "first_name" => "Michael",
-            "last_name" => "Brennan",
-            "email" => "michael@app.com",
+            "first_name" => "Aidan",
+            "last_name" => "Clark",
+            "email" => "aidan@app.com",
             "password" => bcrypt("password"),
             "role_id" => 2,
             "restaurant_id" => $restaurant->id,
