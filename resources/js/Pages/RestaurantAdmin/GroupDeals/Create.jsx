@@ -7,7 +7,6 @@ import Title from "@/Components/Title";
 import Input from "@/Components/Input";
 
 function Create(props) {
-console.log(props);
   const { data, setData, post, processing, errors } = useForm({
     restaurant_id: "",
     title: "",
@@ -30,9 +29,18 @@ console.log(props);
     },
   ]);
 
-  const [menuItems, setMenuItems] = useState([]);
+  const [menuItems, setMenuItems] = useState([
+    [
+      
+    ]
+  ]);
 
   const addGroupDealItem = () => {
+
+    let newMenuItems = [...menuItems, []];
+
+    setMenuItems(newMenuItems);
+
     setGroupDealItems([
       ...groupDealItems,
       {
@@ -42,20 +50,27 @@ console.log(props);
     ]);
   };
 
-  const addMenuItem = (e, i) => {
-    console.log(e);
-    setData("menuItemId", e.target.value);
+  const addMenuItem = (event) => {
+
+    setData("menuItemId", event.target.value);
+    
+    const index = parseInt(event.target.id);
 
     data.existingMenuItems.forEach((item) => {
-      if (item.id == e.target.value) {
-        setMenuItems([
-          ...menuItems,
-          {
-            id: item.id,
-            title: item.title,
-            join_id: i + 1,
-          },
-        ]);
+      
+      if (item.id == event.target.value) {
+       
+        let newMenuItems = [...menuItems];
+        
+        newMenuItems[index].push({
+          id: item.id,
+          title: item.title,
+          join_id: index + 1,
+        });
+
+        setMenuItems(newMenuItems);
+
+        console.log(menuItems);
       }
     });
   };
@@ -87,9 +102,12 @@ console.log(props);
     setGroupDealItems(list);
   };
 
-  const handleMenuItemRemoveClick = (i) => {
+  const handleMenuItemRemoveClick = (index,group_deal_key) => {
+
+
     const list = [...menuItems];
-    list.splice(i, 1);
+
+    list[group_deal_key].splice(index, 1);
     setMenuItems(list);
   };
 
@@ -197,7 +215,8 @@ console.log(props);
                 </div>
                 {/* End: price */}
                 <hr />
-                {groupDealItems.map((group_deal_item, group_deal_index) => {
+                {
+                  groupDealItems.map((group_deal_item, group_deal_index) => {
                    return (
                     <>
                       <Title
@@ -207,11 +226,12 @@ console.log(props);
 
                   <select
                     className="w-full mt-2 px-3 py-2 pl-3 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    id="menu_item_id"
+                    id={group_deal_index}
+                    itemID={group_deal_index}
                     type="text"
                     name="menu_item_id"
                     value={data.menuItemId}
-                    onChange={(e, group_deal_index) => addMenuItem(e, group_deal_index)}
+                    onChange={addMenuItem}
                   >
                     <option value="">Select Item</option>
                     {data.existingMenuItems.map((item, key) => (
@@ -238,7 +258,7 @@ console.log(props);
                             </tr>
                           </thead>
                           <tbody>
-                            {menuItems.map((menu_item, menu_item_key) => {
+                            {menuItems[group_deal_index].map((menu_item, menu_item_key) => {
                               return (
                                 <tr className="intro-x">
                                   <td>
@@ -255,7 +275,7 @@ console.log(props);
                                         className="btn btn-danger-soft h-7 text-sm border-none"
                                         type="button"
                                         onClick={() =>
-                                          handleMenuItemRemoveClick(menu_item_key)
+                                          handleMenuItemRemoveClick(menu_item_key, group_deal_index)
                                         }
                                       >
                                         <X className="w-4 h-4 mr-1" />

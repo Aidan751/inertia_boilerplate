@@ -11,12 +11,16 @@ class GroupDealSingleItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'name',
         'group_deal_item_id'
     ];
 
     public function groupDealItem()
     {
         return $this->belongsTo(GroupDealItem::class);
+    }
+
+    public function menuItem()
+    {
+        return $this->belongsTo(MenuItem::class, 'menu_item_id');
     }
 }
