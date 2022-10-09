@@ -322,21 +322,19 @@ Ensure the default browser behavior of the `hidden` attribute.
 }
 [type='text'],[type='email'],[type='url'],[type='password'],[type='number'],[type='date'],[type='datetime-local'],[type='month'],[type='search'],[type='tel'],[type='time'],[type='week'],[multiple],textarea,select{
     -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
-            background: rgba(0, 0, 0, 0.025) !important;
-            box-shadow:  20px 20px 38px #dcdcdc,
-                         -20px -15px 38px #5c4b4b;
-    border-color:transparent !important;
-    border-width: 0.5px;
-    border-radius: 35px;
-    padding-top: 0.5rem;
-    padding-right: 0.75rem;
-    padding-bottom: 0.5rem;
-    padding-left: 0.75rem;
-    font-size: 1rem;
-    line-height: 1.5rem;
-    --tw-shadow: 0 0 #0000;
+    -moz-appearance: none;
+         appearance: none;
+ background-color: #fff;
+ border-color: #6b7280;
+ border-width: 1px;
+ border-radius: 0px;
+ padding-top: 0.5rem;
+ padding-right: 0.75rem;
+ padding-bottom: 0.5rem;
+ padding-left: 0.75rem;
+ font-size: 1rem;
+ line-height: 1.5rem;
+ --tw-shadow: 0 0 #0000;
 }
 [type='text']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus{
     outline: 2px solid transparent;
@@ -18804,11 +18802,18 @@ body {
     padding: 0 !important;
 }
 
+/* orderit specific styles */
 #logo_img, #banner_img {
   height: 150px;
   width: auto;
   border-radius: 8px;
 }
+
+[type='radio'] {
+    color: rgb(183,38,126) !important;
+    --tw-ring-color: rgb(183,38,126) !important;
+}
+/* orderit specific styles */
 
 
 

@@ -3,15 +3,15 @@ import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from '@inertiajs/inertia-react'
 import Label from "@/Components/Label";
 import Input from "@/Components/Input";
+import { set } from "lodash";
 
 function Search(props) {
   const { data, setData, post, processing, errors } = useForm({
-    title: '',
   })
 
   const submit = (e) => {
       e.preventDefault();
-      post(route('restaurant.menu.categories.store'));
+      post(route('call-centre.orders.details'), data);
   };
 
   return (
@@ -39,19 +39,19 @@ function Search(props) {
             <div className="mt-3">
              <Label
                 value="Restaurant number"
-                forInput="front_facing_number"
+                forInput="contact_number"
                 />
                 <Input
                     className="w-full"
-                    id="front_facing_number"
-                    name="front_facing_number"
+                    id="contact_number"
+                    name="contact_number"
                     type="text"
-                    value={data.front_facing_number}
+                    value={data.contact_number}
                     setData={setData}
-                    error={errors.front_facing_number}
+                    error={errors.contact_number}
                 />
-                {errors.front_facing_number && (
-                    <div className="text-theme-6 mt-2">{errors.front_facing_number}</div>
+                {errors.contact_number && (
+                    <div className="text-theme-6 mt-2">{errors.contact_number}</div>
                 )}
             </div>
             {/* End: Restaurant number */}
@@ -76,47 +76,97 @@ function Search(props) {
             </div>
             {/* End: To where? */}
             {/* Start: When? */}
-            <div className="mt-3">
+            <div className="mt-10 mb-5">
                 <Label
                     value="When?"
-                    forInput="time_slot"
                 />
-                <Input
-                    className="w-full"
-                    id="time_slot"
-                    name="time_slot"
-                    type="text"
-                    value={data.time_slot}
-                    setData={setData}
-                    error={errors.time_slot}
-                />
+                <div className="mt-2">
 
-                {errors.time_slot && (
-                    <div className="text-theme-6 mt-2">{errors.time_slot}</div>
+                <input
+                    id="asap"
+                    name="when_radio"
+                    type="radio"
+                    value='asap'
+                    className="mr-2"
+                    onChange={(e) => setData(e.target.name, e.target.value)}
+                    error={errors.asap}
+                />
+                <span className="d-inline-block mr-2">
+                    As soon as possible
+                </span>
+                <input
+                    name="when_radio"
+                    type="radio"
+                    value='time'
+                    onChange={(e) => setData(e.target.name, e.target.value)}
+                    error={errors.time}
+                />
+                <span className="d-inline-block ml-2 mr-2">
+                    Pick up time
+                </span>
+                {data.when_radio === 'time' && (
+                <>
+                    <input
+                    type="time"
+                    id="selected_time"
+                    name="selected_time"
+                    value={data.selected_time}
+                    className="ml-2 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm "
+                    min="00:00"
+                    max="23:59"
+                    onChange={(e) => setData(e.target.name, e.target.value)}
+                    />
+                </>
                 )}
+
+                </div>
+
             </div>
             {/* End: When? */}
             {/* Start: What type of order? */}
-            <div className="mt-3">
+            <div className="mt-5">
                 <Label
                     value="What type of order?"
-                    forInput="order_type"
                 />
-                <Input
-                    className="w-full"
-                    id="order_type"
+                <div className="mt-2">
+
+                <input
                     name="order_type"
-                    type="text"
-                    value={data.order_type}
-                    setData={setData}
-                    error={errors.order_type}
+                    type="radio"
+                    value='delivery'
+                    className="mr-2"
+                    onChange={(e) => setData(e.target.name, e.target.value)}
+                    error={errors.delivery}
                 />
-                {errors.order_type && (
-                    <div className="text-theme-6 mt-2">{errors.order_type}</div>
-                )}
+                <span className="d-inline-block mr-2">
+                    Delivery
+                </span>
+                <input
+                    name="order_type"
+                    type="radio"
+                    value='collection'
+                    onChange={(e) => setData(e.target.name, e.target.value)}
+                    error={errors.collection}
+                />
+                <span className="d-inline-block ml-2 mr-2">
+                    Collection
+                </span>
+                <input
+                    type="radio"
+                    name="order_type"
+                    value='table_order'
+                    onChange={(e) => setData(e.target.name, e.target.value)}
+                    error={errors.table_order}
+                />
+                <span className="d-inline-block ml-2 mr-2">
+                    Table Order
+                </span>
+                </div>
+
             </div>
             {/* End: What type of order? */}
             {/* Start: Customer details */}
+            <h2 className="mt-10 text-lg font-medium">Customer Details</h2>
                 {/* Start: Customer name */}
                 <div className="mt-3">
                     <Label
@@ -161,7 +211,7 @@ function Search(props) {
 
             <div className="text-right mt-5">
               <Button type="submit" className="w-30">
-                Save
+                Go
               </Button>
             </div>
           </form>

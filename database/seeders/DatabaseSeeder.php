@@ -26,7 +26,10 @@ class DatabaseSeeder extends Seeder
         // create 7 days
         Day::factory()->count(7)->create();
         RestaurantCategory::factory(10)->create();
-        $restaurant = \App\Models\Restaurant::factory()->create();
+        $restaurant = \App\Models\Restaurant::factory()->create([
+            'name' => 'Test Restaurant',
+            'contact_number' => '123456789',
+        ]);
 
         $user = \App\Models\User::factory()->create([
             "first_name" => "Aidan",

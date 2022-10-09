@@ -6,6 +6,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
 use App\Models\OrderItem;
+use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -53,6 +54,31 @@ class OrderController extends Controller
         public function search(Request $request, $id)
         {
             return Inertia::render('CallCentreAdmin/Orders/Search');
+        }
+
+        // get order details
+        public function details(Request $request)
+        {
+            
+            $restaurant = Restaurant::where('contact_number', $request->contact_number)->first();
+            $order_type = $request->order_type;
+            $selected_time = $request->selected_time;
+            $customer_contact_number = $request->customer_contact_number;
+            $customer_name = $request->customer_name;
+            $when = $request->when;
+            $address = $request->address;
+            
+
+            
+            return Inertia::render('CallCentreAdmin/Orders/Details', [
+                'restaurant' => $restaurant,
+                'order_type' => $order_type,
+                'selected_time' => $selected_time,
+                'customer_contact_number' => $customer_contact_number,
+                'customer_name' => $customer_name,
+                'when' => $when,
+                'address' => $address,
+            ]);
         }
 
         public function sendPush(Request $request, $id) {
