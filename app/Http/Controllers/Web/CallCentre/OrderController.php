@@ -17,73 +17,42 @@ class OrderController extends Controller
         *
         * @return \Illuminate\Http\Response
         */
-        public function index(Request $request)
+        public function index(Request $request, $id)
         {
-
-            $user = User::where('role_id', '4')->first();
-
-            $customer = $request->get('customer', '');
+            $user = User::find($id);
+               // Get all users, paginate through them using the "perPage" parameter. Search through the users, if the "search" parameter is present.
+            $search = $request->get('search', '');
             $status = $request->get('status', '');
             $from = $request->get('from', '');
             $to = $request->get('to', '');
 
-            $customers = User::whereHas('orders', function ($q) use($user) {
-                $q->where('restaurant_id', Auth::user()->restaurant_id);
-            })->orderBy('last_name')->get();
-            $customersArray = [];
-            array_push($customersArray, ["placeholder" => true, "text" => "Select a customer"]);
 
-            foreach ($customers as $user) {
+            // todo: query whether it was meant to be search by contact number rather than email
 
-                $selected = false;
-
-                if ($customer == $user->id) {
-                    $selected = true;
-                }
-
-                array_push($customersArray, ["text" => $user->getFullName(), "value" => $user->id, "selected" =>  $selected]);
-
-            }
-
-
-            // Create a model for this
-            $order = new Order;
-
-            $orders = $order->with('customer', 'driver')
-                ->where('restaurant_id', Auth::user()->restaurant_id)
-                ->when($from, function($q) use ($from) {
-                    $q->whereDate('pickup_date', '>=', $from);
-                })
-                ->when($to, function($q) use ($to) {
-                    $q->whereDate('pickup_date', '<=', $to);
-                })
-                ->when('customer' != null, function($q) use ($customer) {
-                    if ($customer != null) {
-                        $q->where('id', $customer);
-                    }
-                })
-                 ->where('payment_status', 'paid')
-                 ->where(function ($q) use ($status) {
-
-                     if ($status == 'complete') {
-                         $q->where('status', 'completed');
-                     } else if ($status == 'incomplete') {
-                         $q->where('status', '!=', 'completed');
-                     }
-                 })
-                 ->latest()
-                 ->paginate(10)->appends(request()->query());
+              $orders = Order::where('user_id', $user->id)->where('order_method', 'call')->where(function ($q) use ($search) {
+                 $q->where('customer_name', 'LIKE', '%' . $search . '%')->orWhere('customer_contact_number', 'LIKE', '%' . $search . '%');
+              })
+              ->orderBy('pickup_date', 'desc')
+              ->paginate($request->perPage ?? 10);
 
 
 
-            return Inertia::render('RestaurantAdmin/Orders/Index', [
-                'orders' => $orders,
-                'customers' => $customersArray,
-                'status' => $status,
-                'from' => $from,
-                'to' => $to,
-                'customer' => $customer,
-            ]);
+          // Return an inertia view with the users
+          return Inertia::render('CallCentreAdmin/Orders/Index', [
+              'user' => $user,
+              'orders' => $orders,
+              "perPage" => $request->perPage ?? 10,
+              "search" => $request->search ?? null,
+              "from" => $request->from ?? null,
+              "to" => $request->to ?? null,
+              "status" => $request->status ?? null,
+          ]);
+        }
+
+        // create order
+        public function search(Request $request, $id)
+        {
+            return Inertia::render('CallCentreAdmin/Orders/Search');
         }
 
         public function sendPush(Request $request, $id) {
@@ -132,7 +101,7 @@ class OrderController extends Controller
             $order->setAttribute('total_quantity', $totalQuantity);
 
             // Load the view
-            return Inertia::render('RestaurantAdmin/Orders/Edit', [
+            return Inertia::render('CallCentreAdmin/Orders/Edit', [
                 'order' => $order,
                 'user' => $user,
             ]);
@@ -196,5 +165,17 @@ class OrderController extends Controller
                     'Order updated!'
                 );
             }
+    }
+
+    public function show(Request $request, Order $order)
+    {
+        $order_items = OrderItem::where('order_id', $order->id)->get();
+        $user = User::find($order->user_id);
+        // Return an inertia view with the order
+        return Inertia::render('CallCentreAdmin/Orders/Show', [
+            'user' => $user,
+            'order' => $order,
+            'order_items' => $order_items
+        ]);
     }
 }

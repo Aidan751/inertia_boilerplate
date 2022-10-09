@@ -387,10 +387,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/my/restaurant/update/{id}', [RestaurantConfigurationController::class, 'update'])->name('my.restaurant.update');
 
     // list call centre orders
-    Route::get('/call-centre/orders', [CallCentreOrderController::class, 'index'])->name('call-centre.orders.index');
+    Route::get('/call-centre/orders/{id}', [CallCentreOrderController::class, 'index'])->name('call-centre.orders.index');
 
     // create an order
-    Route::get('/call-centre/orders/create', [CallCentreOrderController::class, 'create'])->name('call-centre.orders.create');
+    Route::get('/call-centre/orders/create/', [CallCentreOrderController::class, 'create'])->name('call-centre.orders.create');
+
+    // search for restaurants and place an order
+    Route::get('/call-centre/orders/search/{id}', [CallCentreOrderController::class, 'search'])->name('call-centre.orders.search');
 
     // store an order
     Route::post('/call-centre/orders/store', [CallCentreOrderController::class, 'store'])->name('call-centre.orders.store');

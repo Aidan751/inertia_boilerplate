@@ -37,8 +37,18 @@ class DatabaseSeeder extends Seeder
             "restaurant_id" => $restaurant->id,
         ]);
 
-        $role = \App\Models\Role::where("name","restaurant_admin")->first();
+        $callCentreUser = \App\Models\User::factory()->create([
+            "first_name" => "Call",
+            "last_name" => "Centre",
+            "email" => "call@app.com",
+            "password" => bcrypt("password"),
+            "role_id" => 3
+        ]);
 
+        $role = \App\Models\Role::where("name","restaurant_admin")->first();
+        $callCentreRole = \App\Models\Role::where("name","call_centre_admin")->first();
+
+        $callCentreUser->attachRole($callCentreRole);
         $user->attachRole($role);
 
         MenuCategory::factory(50)->create([
