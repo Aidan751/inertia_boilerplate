@@ -45,6 +45,7 @@ class DatabaseSeeder extends Seeder
             "last_name" => "Centre",
             "email" => "call@app.com",
             "password" => bcrypt("password"),
+            "restaurant_id" => $restaurant->id,
             "role_id" => 3
         ]);
 

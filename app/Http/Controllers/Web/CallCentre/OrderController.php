@@ -30,7 +30,7 @@ class OrderController extends Controller
 
             // todo: query whether it was meant to be search by contact number rather than email
 
-              $orders = Order::where('user_id', $user->id)->where('order_method', 'call')->where(function ($q) use ($search) {
+              $orders = Order::where('user_id', Auth::user()->id)->where('order_method', 'call')->where(function ($q) use ($search) {
                  $q->where('customer_name', 'LIKE', '%' . $search . '%')->orWhere('customer_contact_number', 'LIKE', '%' . $search . '%');
               })
               ->orderBy('pickup_date', 'desc')
@@ -59,17 +59,16 @@ class OrderController extends Controller
         // get order details
         public function details(Request $request)
         {
-            
-            $restaurant = Restaurant::where('contact_number', $request->contact_number)->first();
+            $restaurant = Restaurant::where('id', Auth::user()->restaurant_id)->first();
             $order_type = $request->order_type;
             $selected_time = $request->selected_time;
             $customer_contact_number = $request->customer_contact_number;
             $customer_name = $request->customer_name;
             $when = $request->when;
             $address = $request->address;
-            
 
-            
+
+
             return Inertia::render('CallCentreAdmin/Orders/Details', [
                 'restaurant' => $restaurant,
                 'order_type' => $order_type,

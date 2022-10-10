@@ -11,6 +11,7 @@ function Search(props) {
 
   const submit = (e) => {
       e.preventDefault();
+
       post(route('call-centre.orders.details'), data);
   };
 
@@ -19,7 +20,7 @@ function Search(props) {
         <Authenticated
             auth={props.auth}
             errors={props.errors}
-            activeGroup={15}
+            activeGroup={16}
             activeItem={1}
         >
 
