@@ -120,6 +120,19 @@ function Create(props) {
     );
   };
 
+  const changeGroupDealTitle = (event,index) => {
+
+    
+    event.preventDefault();
+
+    const value  = event.target.value;
+    const newGroupDealItems = [...groupDealItems];
+
+    newGroupDealItems[index].title = value;
+
+    setGroupDealItems(newGroupDealItems);
+
+  }
 
   const submit = (e) => {
     e.preventDefault();
@@ -291,13 +304,21 @@ function Create(props) {
                       </div>
                       {/* end: table mapping items added to group deal */}
                       {/* start: test to show in app deal */}
-                        Choose your <Input
-                        type="text"
-                        name="single_group_deal_item_title"
-                        value={group_deal_item.title}
-                        setData={setData}
-                        errors={errors}
-                        />
+                      <div className="flex flex-col items-start mt-2">
+                      Choose your <input
+                          type={"text"}
+                          name={"single_group_deal_item_title"}
+                          value={groupDealItems[group_deal_index].title}
+                          className={
+                              `w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm `
+                          }
+                          placeholder=""
+                          autoComplete=""
+                          required={true}
+                          onChange={(e) => changeGroupDealTitle(e,group_deal_index)}
+                      />
+                  </div>
+                      
                     </>
                   );
                 })}
