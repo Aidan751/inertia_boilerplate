@@ -40,10 +40,14 @@ export default function Edit(props) {
     collection_times_sunday_to: props.collection_times_sunday.to || "",
   });
 
-  const [mondayOpeningHours, setMondayOpeningHours] = useState([{
-    from: props.opening_hours_monday.from || "",
-    to: props.opening_hours_monday.to || "",
-  }]);
+  const [mondayOpeningHours, setMondayOpeningHours] = useState([
+    [
+        {
+            from: props.opening_hours_monday.from || "",
+            to: props.opening_hours_monday.to || "",
+        }
+  ]
+]);
 
     const [tuesdayOpeningHours, setTuesdayOpeningHours] = useState([{
     from: props.opening_hours_tuesday.from || "",
@@ -110,6 +114,7 @@ export default function Edit(props) {
     to: props.collection_times_sunday.to || "",
     }]);
 
+    console.log(data);
   const submit = (e) => {
     e.preventDefault();
     put(
@@ -136,7 +141,7 @@ Opening and Collection Times "
                 <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
                   <div className="intro-y box p-5">
                     <div className="flex flex-col sm:flex-row items-center">
-                      <h2 className="font-medium text-base mr-auto">
+                      <h2 className="font-medium text-base mr-auto mt-5 mb-3">
                         Opening Times
                       </h2>
                     </div>
@@ -157,8 +162,10 @@ Opening and Collection Times "
                             <Input
                                 type="time"
                                 name="opening_hours_monday_from"
-                                value={mondayOpeningHour.from}
+                                value={data.opening_hours_monday_from}
                                 setData={setData}
+                                min="00:00"
+                                max="23:59"
                                 className="flex-1 w-74"
 
                             />
@@ -166,8 +173,10 @@ Opening and Collection Times "
                             <Input
                                 type="time"
                                 name="opening_hours_monday_to"
-                                value={mondayOpeningHour.to}
+                                value={data.opening_hours_monday_to}
                                 setData={setData}
+                                min="00:00"
+                                max="23:59"
                                 className="flex-1 w-74"
                                 />
 
@@ -194,6 +203,7 @@ Opening and Collection Times "
                         </Button>
                         {/* end: button to add another opening time for Monday */}
                         {/* start: button to remove opening time for Monday */}
+                        { mondayOpeningHours.length > 1 && (
                         <button
                                   className="btn btn-danger-soft h-7 text-sm border-none"
                                   type="button"
@@ -206,6 +216,7 @@ Opening and Collection Times "
                                   <X className="w-4 h-4 mr-1" />
                                   Remove
                             </button>
+                        )}
                         {/* end: button to remove opening time for monday */}
 
                         </div>
@@ -232,7 +243,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="opening_hours_tuesday_from"
-                                    value={tuesdayOpeningHour.from}
+                                    value={data.opening_hours_tuesday_from}
                                     setData={setData}
                                     className="flex-1 w-74"
 
@@ -241,7 +252,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="opening_hours_tuesday_to"
-                                    value={tuesdayOpeningHour.to}
+                                    value={data.opening_hours_tuesday_to}
                                     setData={setData}
                                     className="flex-1 w-74"
                                     />
@@ -269,7 +280,8 @@ Opening and Collection Times "
                             </Button>
                             {/* end: button to add another opening time for tuesday */}
                             {/* start: button to remove opening time for tuesday */}
-                            <button
+                            {
+                            tuesdayOpeningHours.length > 1 && <button
                                         className="btn btn-danger-soft h-7 text-sm border-none"
                                         type="button"
                                         onClick={() => {
@@ -281,6 +293,7 @@ Opening and Collection Times "
                                         <X className="w-4 h-4 mr-1" />
                                         Remove
                                 </button>
+                            }
                             {/* end: button to remove opening time for tuesday */}
                             </div>
                         </tr>
@@ -304,7 +317,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="opening_hours_wednesday_from"
-                                    value={wednesdayOpeningHour.from}
+                                    value={data.opening_hours_wednesday_from}
                                     setData={setData}
                                     className="flex-1 w-74"
 
@@ -313,7 +326,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="opening_hours_wednesday_to"
-                                    value={wednesdayOpeningHour.to}
+                                    value={data.opening_hours_wednesday_to}
                                     setData={setData}
                                     className="flex-1 w-74"
                                     />
@@ -341,6 +354,8 @@ Opening and Collection Times "
                             </Button>
                             {/* end: button to add another opening time for wednesday */}
                             {/* start: button to remove opening time for wednesday */}
+                            {
+                            wednesdayOpeningHours.length > 1 &&
                             <button
                                         className="btn btn-danger-soft h-7 text-sm border-none"
                                         type="button"
@@ -353,6 +368,7 @@ Opening and Collection Times "
                                         <X className="w-4 h-4 mr-1" />
                                         Remove
                                 </button>
+                            }
                             {/* end: button to remove opening time for wednesday */}
                             </div>
                         </tr>
@@ -376,7 +392,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="opening_hours_thursday_from"
-                                    value={thursdayOpeningHour.from}
+                                    value={data.opening_hours_thursday_from}
                                     setData={setData}
                                     className="flex-1 w-74"
 
@@ -385,7 +401,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="opening_hours_thursday_to"
-                                    value={thursdayOpeningHour.to}
+                                    value={data.opening_hours_thursday_to}
                                     setData={setData}
                                     className="flex-1 w-74"
                                     />
@@ -413,6 +429,8 @@ Opening and Collection Times "
                             </Button>
                             {/* end: button to add another opening time for thursday */}
                             {/* start: button to remove opening time for thursday */}
+                            {
+                            thursdayOpeningHours.length > 1 &&
                             <button
                                         className="btn btn-danger-soft h-7 text-sm border-none"
                                         type="button"
@@ -425,6 +443,7 @@ Opening and Collection Times "
                                         <X className="w-4 h-4 mr-1" />
                                         Remove
                                 </button>
+                            }
                             {/* end: button to remove opening time for thursday */}
                             </div>
                         </tr>
@@ -448,7 +467,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="opening_hours_friday_from"
-                                    value={fridayOpeningHour.from}
+                                    value={data.opening_hours_friday_from}
                                     setData={setData}
                                     className="flex-1 w-74"
 
@@ -457,7 +476,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="opening_hours_friday_to"
-                                    value={fridayOpeningHour.to}
+                                    value={data.opening_hours_friday_to}
                                     setData={setData}
                                     className="flex-1 w-74"
                                     />
@@ -485,6 +504,8 @@ Opening and Collection Times "
                             </Button>
                             {/* end: button to add another opening time for friday */}
                             {/* start: button to remove opening time for friday */}
+                            {
+                            fridayOpeningHours.length > 1 &&
                             <button
                                         className="btn btn-danger-soft h-7 text-sm border-none"
                                         type="button"
@@ -498,6 +519,7 @@ Opening and Collection Times "
                                         <X className="w-4 h-4 mr-1" />
                                         Remove
                                 </button>
+                            }
                             {/* end: button to remove opening time for friday */}
                             </div>
                         </tr>
@@ -521,7 +543,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="opening_hours_saturday_from"
-                                    value={saturdayOpeningHour.from}
+                                    value={data.opening_hours_saturday_from}
                                     setData={setData}
                                     className="flex-1 w-74"
 
@@ -530,7 +552,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="opening_hours_saturday_to"
-                                    value={saturdayOpeningHour.to}
+                                    value={data.opening_hours_saturday_to}
                                     setData={setData}
                                     className="flex-1 w-74"
                                     />
@@ -559,6 +581,8 @@ Opening and Collection Times "
                             </Button>
                             {/* end: button to add another opening time for saturday */}
                             {/* start: button to remove opening time for saturday */}
+                            {
+                            saturdayOpeningHours.length > 1 &&
                             <button
                                         className="btn btn-danger-soft h-7 text-sm border-none"
                                         type="button"
@@ -571,6 +595,7 @@ Opening and Collection Times "
                                         <X className="w-4 h-4 mr-1" />
                                         Remove
                                 </button>
+                            }
                             {/* end: button to remove opening time for saturday */}
                             </div>
                         </tr>
@@ -594,7 +619,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="opening_hours_sunday_from"
-                                    value={sundayOpeningHour.from}
+                                    value={data.opening_hours_sunday_from}
                                     setData={setData}
                                     className="flex-1 w-74"
 
@@ -603,7 +628,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="opening_hours_sunday_to"
-                                    value={sundayOpeningHour.to}
+                                    value={data.opening_hours_sunday_to}
                                     setData={setData}
                                     className="flex-1 w-74"
                                     />
@@ -631,6 +656,8 @@ Opening and Collection Times "
                             </Button>
                             {/* end: button to add another opening time for sunday */}
                             {/* start: button to remove opening time for sunday */}
+                            {
+                            sundayOpeningHours.length > 1 &&
                             <button
                                 className="btn btn-danger-soft h-7 text-sm border-none"
                                 type="button"
@@ -643,6 +670,7 @@ Opening and Collection Times "
                                 <X className="w-4 h-4 mr-1" />
                                 Remove
                             </button>
+                            }
                             {/* end: button to remove opening time for sunday */}
                             </div>
                         </tr>
@@ -650,7 +678,7 @@ Opening and Collection Times "
                     </table>
                     </div>
                     {/* end: sunday to and from opening hours */}
-                    <h2 className="font-medium text-base mr-auto">
+                    <h2 className="font-medium text-base mr-auto mt-5 mb-3">
                         Collection Times
                       </h2>
                     {/* start: monday to and from collection times */}
@@ -669,7 +697,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_monday_from"
-                                    value={mondayCollectionTime.from}
+                                    value={data.collection_times_monday_from}
                                     setData={setData}
                                     className="flex-1 w-74"
 
@@ -678,7 +706,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_monday_to"
-                                    value={mondayCollectionTime.to}
+                                    value={data.collection_times_monday_to}
                                     setData={setData}
                                     className="flex-1 w-74"
                                     />
@@ -706,6 +734,8 @@ Opening and Collection Times "
                             </Button>
                             {/* end: button to add another collection time for monday */}
                             {/* start: button to remove collection time for monday */}
+                            {
+                            mondayCollectionTimes.length > 1 &&
                             <button
                                 className="btn btn-danger-soft h-7 text-sm border-none"
                                 type="button"
@@ -718,6 +748,7 @@ Opening and Collection Times "
                                 <X className="w-4 h-4 mr-1" />
                                 Remove
                             </button>
+                            }
                             {/* end: button to remove collection time for monday */}
                             </div>
                         </tr>
@@ -741,7 +772,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_tuesday_from"
-                                    value={tuesdayCollectionTime.from}
+                                    value={data.collection_times_tuesday_from}
                                     setData={setData}
                                     className="flex-1 w-74"
 
@@ -751,7 +782,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_tuesday_to"
-                                    value={tuesdayCollectionTime.to}
+                                    value={data.collection_times_tuesday_to}
                                     setData={setData}
                                     className="flex-1 w-74"
                                     />
@@ -780,6 +811,8 @@ Opening and Collection Times "
 
                             {/* end: button to add another collection time for tuesday */}
                             {/* start: button to remove collection time for tuesday */}
+                            {
+                            tuesdayCollectionTimes.length > 1 &&
                             <button
                                 className="btn btn-danger-soft h-7 text-sm border-none"
                                 type="button"
@@ -792,6 +825,7 @@ Opening and Collection Times "
                                 <X className="w-4 h-4 mr-1" />
                                 Remove
                             </button>
+                            }
                             {/* end: button to remove collection time for tuesday */}
                             </div>
                         </tr>
@@ -815,7 +849,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_wednesday_from"
-                                    value={wednesdayCollectionTime.from}
+                                    value={data.collection_times_wednesday_from}
                                     setData={setData}
                                     className="flex-1 w-74"
 
@@ -825,7 +859,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_wednesday_to"
-                                    value={wednesdayCollectionTime.to}
+                                    value={data.collection_times_wednesday_to}
                                     setData={setData}
                                     className="flex-1 w-74"
                                     />
@@ -854,6 +888,8 @@ Opening and Collection Times "
 
                             {/* end: button to add another collection time for wednesday */}
                             {/* start: button to remove collection time for wednesday */}
+                            {
+                            wednesdayCollectionTimes.length > 1 &&
                             <button
                                 className="btn btn-danger-soft h-7 text-sm border-none"
                                 type="button"
@@ -866,6 +902,7 @@ Opening and Collection Times "
                                 <X className="w-4 h-4 mr-1" />
                                 Remove
                             </button>
+                            }
                             {/* end: button to remove collection time for wednesday */}
                             </div>
                         </tr>
@@ -889,7 +926,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_thursday_from"
-                                    value={thursdayCollectionTime.from}
+                                    value={data.collection_times_thursday_from}
                                     setData={setData}
                                     className="flex-1 w-74"
 
@@ -899,7 +936,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_thursday_to"
-                                    value={thursdayCollectionTime.to}
+                                    value={data.collection_times_thursday_to}
                                     setData={setData}
                                     className="flex-1 w-74"
                                     />
@@ -928,6 +965,8 @@ Opening and Collection Times "
 
                             {/* end: button to add another collection time for thursday */}
                             {/* start: button to remove collection time for thursday */}
+                            {
+                            thursdayCollectionTimes.length > 1 &&
                             <button
                                 className="btn btn-danger-soft h-7 text-sm border-none"
                                 type="button"
@@ -940,6 +979,7 @@ Opening and Collection Times "
                                 <X className="w-4 h-4 mr-1" />
                                 Remove
                             </button>
+                            }
                             {/* end: button to remove collection time for thursday */}
                             </div>
                         </tr>
@@ -963,7 +1003,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_friday_from"
-                                    value={fridayCollectionTime.from}
+                                    value={data.collection_times_friday_from}
                                     setData={setData}
                                     className="flex-1 w-74"
 
@@ -973,7 +1013,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_friday_to"
-                                    value={fridayCollectionTime.to}
+                                    value={data.collection_times_friday_to}
                                     setData={setData}
                                     className="flex-1 w-74"
                                     />
@@ -1002,6 +1042,8 @@ Opening and Collection Times "
 
                             {/* end: button to add another collection time for friday */}
                             {/* start: button to remove collection time for friday */}
+                            {
+                            fridayCollectionTimes.length > 1 &&
                             <button
                                 className="btn btn-danger-soft h-7 text-sm border-none"
                                 type="button"
@@ -1014,6 +1056,7 @@ Opening and Collection Times "
                                 <X className="w-4 h-4 mr-1" />
                                 Remove
                             </button>
+                            }
                             {/* end: button to remove collection time for friday */}
                             </div>
                         </tr>
@@ -1037,7 +1080,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_saturday_from"
-                                    value={saturdayCollectionTime.from}
+                                    value={data.collection_times_saturday_from}
                                     setData={setData}
                                     className="flex-1 w-74"
 
@@ -1047,7 +1090,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_saturday_to"
-                                    value={saturdayCollectionTime.to}
+                                    value={data.collection_times_saturday_to}
                                     setData={setData}
                                     className="flex-1 w-74"
                                     />
@@ -1076,6 +1119,8 @@ Opening and Collection Times "
 
                             {/* end: button to add another collection time for saturday */}
                             {/* start: button to remove collection time for saturday */}
+                            {
+                            saturdayCollectionTimes.length > 1 &&
                             <button
                                 className="btn btn-danger-soft h-7 text-sm border-none"
                                 type="button"
@@ -1088,6 +1133,7 @@ Opening and Collection Times "
                                 <X className="w-4 h-4 mr-1" />
                                 Remove
                             </button>
+                            }
                             {/* end: button to remove collection time for saturday */}
                             </div>
                         </tr>
@@ -1111,7 +1157,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_sunday_from"
-                                    value={sundayCollectionTime.from}
+                                    value={data.collection_times_sunday_from}
                                     setData={setData}
                                     className="flex-1 w-74"
 
@@ -1121,7 +1167,7 @@ Opening and Collection Times "
                                 <Input
                                     type="time"
                                     name="collection_times_sunday_to"
-                                    value={sundayCollectionTime.to}
+                                    value={data.collection_times_sunday_to}
                                     setData={setData}
                                     className="flex-1 w-74"
                                     />
@@ -1150,6 +1196,8 @@ Opening and Collection Times "
 
                             {/* end: button to add another collection time for sunday */}
                             {/* start: button to remove collection time for sunday */}
+                            {
+                            sundayCollectionTimes.length > 1 &&
                             <button
                                 className="btn btn-danger-soft h-7 text-sm border-none"
                                 type="button"
@@ -1162,6 +1210,7 @@ Opening and Collection Times "
                                 <X className="w-4 h-4 mr-1" />
                                 Remove
                             </button>
+                            }
                             {/* end: button to remove collection time for sunday */}
                             </div>
                         </tr>
