@@ -89,15 +89,12 @@ class GroupDealController extends Controller
         // save the Group Deal
         $groupDeal->save();
 
-        $newGroupDealItems = [];
-        $newGroupDealSingleItems = [];
         // create new group deal items
         foreach ($request->groupDealItems as $groupDealItem) {
             $newGroupDealItem = new GroupDealItem;
             $newGroupDealItem->title = $groupDealItem['title'];
             $newGroupDealItem->group_deal_id = $groupDeal->id;
             $newGroupDealItem->save();
-            array_push($newGroupDealItems, $newGroupDealItem);
         }
         // create new group deal single items
         foreach ($request->menuItems as $key => $groupDealSingleItem) {
@@ -106,15 +103,12 @@ class GroupDealController extends Controller
                 $newGroupDealSingleItem->group_deal_item_id = $newGroupDealItems[$key]->id;
                 $newGroupDealSingleItem->menu_item_id = $item['id'];
                 $newGroupDealSingleItem->save();
-                array_push($newGroupDealSingleItems, $item);
-
             }
         }
 
 
         // redirect to the Group Deal page
         return redirect()->route('restaurant.group-deals.index')->with('success', 'Group Deal created successfully');
-
     }
 
 
