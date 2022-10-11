@@ -153,7 +153,49 @@ class GroupDealController extends Controller
 
     public function update(Request $request, GroupDeal $groupDeal)
     {
-        dd($request->all());
+        // validate the request
+        $this->validate($request, [
+            'title' => 'required|string|max:255',
+            'description' => 'required|string|max:255',
+            'group_deal_price' => 'required|numeric',
+        ]);
+
+        // update the Group Deal
+        $groupDeal->title = $request->title;
+        $groupDeal->description = $request->description;
+        $groupDeal->group_deal_price = $request->group_deal_price;
+
+        // save the Group Deal
+        $groupDeal->save();
+
+        // delete all the group deal items
+        GroupDealItem::where('group_deal_id', $groupDeal->id)->delete();
+        GroupDealSingleItem::where('group_deal_id', $groupDeal->id)->delete();
+        $newGroupDealItems = [];
+        $newGroupDealSingleItems = [];
+        // create new group deal items
+        foreach ($request->groupDealItems as $groupDealItem) {
+            $newGroupDealItem = new GroupDealItem;
+            $newGroupDealItem->title = $groupDealItem['title'];
+            $newGroupDealItem->group_deal_id = $groupDeal->id;
+            $newGroupDealItem->save();
+            array_push($newGroupDealItems, $newGroupDealItem);
+        }
+        // create new group deal single items
+        foreach ($request->groupDealSingleItems as $key => $groupDealSingleItem) {
+
+                $newGroupDealSingleItem = new GroupDealSingleItem;
+                $newGroupDealSingleItem->group_deal_item_id = $groupDealSingleItem['group_deal_item_id'];
+                $newGroupDealSingleItem->group_deal_id = $groupDeal->id;
+                $newGroupDealSingleItem->menu_item_id = $groupDealSingleItem['menu_item_id'];
+                $newGroupDealSingleItem->save();
+                array_push($newGroupDealSingleItems, $newGroupDealSingleItem);
+        }
+
+
+
+        // redirect to the Group Deal page
+        return redirect()->route('restaurant.group-deals.index')->with('success', 'Group Deal updated successfully');
     }
 
 

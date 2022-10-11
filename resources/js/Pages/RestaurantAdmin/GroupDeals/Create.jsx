@@ -136,11 +136,10 @@ function Create(props) {
 
   const submit = (e) => {
     e.preventDefault();
-
     post(
-      route("restaurant.menu.items.store", {
-        extras: extras,
-        sizes: sizes,
+      route("restaurant.group-deals.store", {
+        menuItems: menuItems,
+        groupDealItems: groupDealItems,
       })
     );
   };

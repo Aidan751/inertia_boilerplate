@@ -69,6 +69,7 @@ function Edit(props) {
         const list = [...groupDealSingleItems];
         list.splice(menu_item_key, 1);
         setGroupDealSingleItems(list);
+        setData("groupDealSingleItems", list);
       };
 
       const changeGroupDealTitle = (event, index) => {
