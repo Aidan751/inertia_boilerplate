@@ -77,17 +77,39 @@ class GroupDealController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'group_deal_price' => 'required|numeric',
-            'groupItemList' => 'required|array',
-            'groupItemKey' => 'required|array',
-            'name' => 'required|array',
-
         ]);
 
-    //   todo: I need to figure out how I am going to do this
+        // create a new Group Deal
+        $groupDeal = new GroupDeal;
+        $groupDeal->title = $request->title;
+        $groupDeal->description = $request->description;
+        $groupDeal->group_deal_price = $request->group_deal_price;
+        $groupDeal->restaurant_id = Auth::user()->restaurant_id;
 
+        // save the Group Deal
+        $groupDeal->save();
 
+        $newGroupDealItems = [];
+        $newGroupDealSingleItems = [];
+        // create new group deal items
+        foreach ($request->groupDealItems as $groupDealItem) {
+            $newGroupDealItem = new GroupDealItem;
+            $newGroupDealItem->title = $groupDealItem['title'];
+            $newGroupDealItem->group_deal_id = $groupDeal->id;
+            $newGroupDealItem->save();
+            array_push($newGroupDealItems, $newGroupDealItem);
+        }
+        // create new group deal single items
+        foreach ($request->menuItems as $key => $groupDealSingleItem) {
+            foreach($groupDealSingleItem as $item){
+                $newGroupDealSingleItem = new GroupDealSingleItem;
+                $newGroupDealSingleItem->group_deal_item_id = $newGroupDealItems[$key]->id;
+                $newGroupDealSingleItem->menu_item_id = $item['id'];
+                $newGroupDealSingleItem->save();
+                array_push($newGroupDealSingleItems, $item);
 
-
+            }
+        }
 
 
         // redirect to the Group Deal page

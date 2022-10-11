@@ -31,7 +31,7 @@ function Create(props) {
 
   const [menuItems, setMenuItems] = useState([
     [
-      
+
     ]
   ]);
 
@@ -53,15 +53,15 @@ function Create(props) {
   const addMenuItem = (event) => {
 
     setData("menuItemId", event.target.value);
-    
+
     const index = parseInt(event.target.id);
 
     data.existingMenuItems.forEach((item) => {
-      
+
       if (item.id == event.target.value) {
-       
+
         let newMenuItems = [...menuItems];
-        
+
         newMenuItems[index].push({
           id: item.id,
           title: item.title,
@@ -122,7 +122,7 @@ function Create(props) {
 
   const changeGroupDealTitle = (event,index) => {
 
-    
+
     event.preventDefault();
 
     const value  = event.target.value;
@@ -137,9 +137,9 @@ function Create(props) {
   const submit = (e) => {
     e.preventDefault();
     post(
-      route("restaurant.menu.items.store", {
-        extras: extras,
-        sizes: sizes,
+      route("restaurant.group-deals.store", {
+        menuItems: menuItems,
+        groupDealItems: groupDealItems,
       })
     );
   };
@@ -162,7 +162,7 @@ function Create(props) {
                     Title
                   </label>
                   <input
-                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    className="w-full px-3 py-2 pl-3 text-sm border-gray-300 focus:border-indigo-300 leading-tight text-gray-700 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="title"
                     type="text"
                     placeholder="Title..."
@@ -186,7 +186,7 @@ function Create(props) {
                     Description
                   </label>
                   <textarea
-                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    className="w-full px-3 py-2 pl-3 text-sm leading-tight border-gray-300 focus:border-indigo-300 text-gray-700 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="description"
                     type="text"
                     placeholder="Description..."
@@ -210,7 +210,7 @@ function Create(props) {
                     Regular Price
                   </label>
                   <input
-                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    className="w-full px-3 py-2 pl-3 text-sm leading-tight border-gray-300 focus:border-indigo-300 text-gray-700 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="group_deal_price"
                     type="text"
                     name="group_deal_price"
@@ -238,7 +238,7 @@ function Create(props) {
                       />
 
                   <select
-                    className="w-full mt-2 px-3 py-2 pl-3 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    className="w-full mt-2 px-3 py-2 pl-3 leading-tight text-gray-700 border-gray-300 focus:border-indigo-300 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id={group_deal_index}
                     itemID={group_deal_index}
                     type="text"
@@ -310,15 +310,15 @@ function Create(props) {
                           name={"single_group_deal_item_title"}
                           value={groupDealItems[group_deal_index].title}
                           className={
-                              `w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm `
+                              ` mt-2 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm `
                           }
-                          placeholder=""
+                          placeholder="eg. Main"
                           autoComplete=""
                           required={true}
                           onChange={(e) => changeGroupDealTitle(e,group_deal_index)}
                       />
                   </div>
-                      
+
                     </>
                   );
                 })}
