@@ -7,7 +7,7 @@ import Title from "@/Components/Title";
 import Input from "@/Components/Input";
 
 function Edit(props) {
-    const { data, setData, post, processing, errors } = useForm({
+    const { data, setData, put, processing, errors } = useForm({
         groupDeal: props.groupDeal,
         groupDealItems: props.groupDealItems,
         existingMenuItems: props.existingMenuItems,
@@ -31,12 +31,13 @@ function Edit(props) {
 
         setGroupDealSingleItems(newMenuItems);
 
-        setGroupDealItems([
-          ...groupDealItems,
-          {
-            id: groupDealItems.length + 1,
-            title: ""
-          }
+
+        setData("groupDealItems", [
+            ...data.groupDealItems,
+            {
+                id: data.groupDealItems.length + 1,
+                title: ""
+            }
         ]);
         console.log(groupDealItems);
       };
@@ -50,7 +51,7 @@ function Edit(props) {
         data.existingMenuItems.forEach((item) => {
           if (item.id === parseInt(event.target.value)) {
 
-            let newMenuItems = [...groupDealSingleItems];
+            let newMenuItems = [...data.groupDealSingleItems];
 
             newMenuItems.push({
                 group_deal_item_id: index + 1,
@@ -59,6 +60,7 @@ function Edit(props) {
             });
 
             setGroupDealSingleItems(newMenuItems);
+            setData("groupDealSingleItems", newMenuItems);
         }
         });
     };
@@ -72,23 +74,24 @@ function Edit(props) {
       const changeGroupDealTitle = (event, index) => {
         event.preventDefault();
 
+
         setItemTitle(event.target.value);
         const value = event.target.value;
-        const newGroupDealItems = [...groupDealItems];
+        const newGroupDealItems = [...data.groupDealItems];
 
         newGroupDealItems[index].title = value;
 
-        setGroupDealItems(newGroupDealItems);
+        setData('groupDealItems', newGroupDealItems);
       };
 
 
 
   const submit = (e) => {
     e.preventDefault();
-    post(
-      route("restaurant.group-deals.store", {
-        menuItems: menuItems,
+    put(
+      route("restaurant.group-deals.update", props.groupDeal.id, {
         groupDealItems: groupDealItems,
+        groupDealSingleItems: groupDealSingleItems,
       })
     );
   };
@@ -178,7 +181,7 @@ function Edit(props) {
                 {/* End: price */}
                 <hr />
                 {
-                  groupDealItems.map((group_deal_item, group_deal_index) => {
+                  data.groupDealItems.map((group_deal_item, group_deal_index) => {
                    return (
                     <>
                       <Title
@@ -191,7 +194,7 @@ function Edit(props) {
                     id={group_deal_index}
                     itemID={group_deal_index}
                     type="text"
-                    name="menu_item_id"
+                    name="menuItemId"
                     value={data.menuItemId}
                     onChange={(e) => addMenuItem(e, group_deal_index)}
                   >
@@ -257,7 +260,7 @@ function Edit(props) {
                       Choose your <input
                           type={"text"}
                           name={"single_group_deal_item_title"}
-                          value={groupDealItems[group_deal_index].title}
+                          value={data.groupDealItems[group_deal_index].title}
                           className={
                               ` mt-2 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm `
                           }

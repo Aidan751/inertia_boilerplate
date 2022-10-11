@@ -153,7 +153,7 @@ class GroupDealController extends Controller
 
     public function update(Request $request, GroupDeal $groupDeal)
     {
-        // todo: this needs to be planned properly then built
+        dd($request->all());
     }
 
 
