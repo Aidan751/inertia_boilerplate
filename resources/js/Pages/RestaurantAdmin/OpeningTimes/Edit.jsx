@@ -64,6 +64,37 @@ export default function Edit(props) {
     }
   ]);
 
+const handleFromChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...openHours];
+    console.log(list);
+    return false;
+    list[index].times[0].from = value;
+    setOpenHours(list);
+};
+
+const handleToChange = (e, index) => {
+    const { name, value } = e.target;
+    const list = [...openHours];
+    list[index].times[0].to = value;
+    setOpenHours(list);
+};
+
+const addOpeningTime = (e, index) => {
+    e.preventDefault();
+    const list = [...openHours];
+    list[index].times.push({from: "", to: ""});
+    setOpenHours(list);
+};
+
+const removeOpeningTime = (e, index, timeIndex) => {
+    e.preventDefault();
+    const list = [...openHours];
+    list[index].times.splice(timeIndex, 1);
+    setOpenHours(list);
+};
+
+
     const[collectionTimes, setCollectionTimes] = useState({
     mondayCollectionTimes: [{
         from: "",
@@ -180,7 +211,7 @@ export default function Edit(props) {
                         </Button>
                         {/* end: button to add another opening time for Monday */}
                         {/* start: button to remove opening time for Monday */}
-                        { Object.values(openHours).length > 1 && (
+                        { openHours.length > 1 && (
                         <button
                                   className="btn btn-danger-soft h-7 text-sm border-none"
                                   type="button"

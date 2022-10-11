@@ -380,3 +380,15 @@
 1665483601-4127-1242678516,1665483601.1782,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,507.11584091187,request
 1665483605-2385-535338367,1665483604.8886,GET,/dist/zoom-vanilla.min.js.map,,404,1186.4740848541,request
 1665484978-0664-1140221357,1665484973.2557,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,13252.905130386,request
+1665485294-6439-1857090055,1665485294.317,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,661.95511817932,request
+1665485366-7373-1498428499,1665485366.5743,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,456.75802230835,request
+1665485380-8635-1596950336,1665485380.5619,GET,/dist/zoom-vanilla.min.js.map,,404,1058.6848258972,request
+1665485441-1703-433396440,1665485440.9319,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,545.88317871094,request
+1665485445-2672-1754018062,1665485444.8891,GET,/dist/zoom-vanilla.min.js.map,,404,639.28294181824,request
+1665485464-2448-1446793045,1665485464.0541,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,445.32203674316,request
+1665485468-1341-70028539,1665485467.7901,GET,/dist/zoom-vanilla.min.js.map,,404,1015.3779983521,request
+1665485514-1527-1828940778,1665485513.9071,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,508.4080696106,request
+1665485518-1047-2004610947,1665485517.7597,GET,/dist/zoom-vanilla.min.js.map,,404,1059.4439506531,request
+1665485587-4553-291673954,1665485587.0647,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,760.82992553711,request
+1665485591-6890-1355345633,1665485591.3591,GET,/dist/zoom-vanilla.min.js.map,,404,1104.3348312378,request
+1665492129-4388-420173920,1665492121.1022,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,17416.266918182,request
