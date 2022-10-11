@@ -2,150 +2,106 @@ import Button from "@/components/Button";
 import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from "@inertiajs/inertia-react";
-import MidoneUpload from "@/Components/MidoneUpload";
 import { X } from "lucide-react";
+import Title from "@/Components/Title";
+import Input from "@/Components/Input";
 
-function Create(props) {
-console.log(props);
-  const { data, setData, post, processing, errors } = useForm({
-    menu_category_id: props.menuItem.menu_category_id,
-    title: props.menuItem.title,
-    description: props.menuItem.description,
-    dietary_requirements: props.menuItem.dietary_requirements,
-    price: props.menuItem.price,
-    image: null,
-    extra: null,
-    categories: props.categories,
-    existingExtras: props.existingExtras,
-    _method: 'PUT',
-  });
+function Edit(props) {
+    const { data, setData, post, processing, errors } = useForm({
+        groupDeal: props.groupDeal,
+        groupDealItems: props.groupDealItems,
+        existingMenuItems: props.existingMenuItems,
+        groupDealSingleItems: props.groupDealSingleItems,
+        title: props.groupDeal.title,
+        group_deal_price: props.groupDeal.group_deal_price,
+        description: props.groupDeal.description,
+        dietary_requirements: props.groupDeal.dietary_requirements,
+        menuItemId: ""
+      });
 
-  const [imageUrl, setImageUrl] = useState({
-    image: props.menuItem.image,
-  });
+      const [groupDealSingleItems, setGroupDealSingleItems] = useState(
+        data.groupDealSingleItems
+      );
+      const [groupDealItems, setGroupDealItems] = useState(data.groupDealItems);
+      const [itemTitle, setItemTitle] = useState("");
 
-  const [sizes, setSizes] = useState(props.menuItem.sizes ?? []);
 
-  const [extras, setExtras] = useState(props.menuItem.extras ?? []);
+      const addGroupDealItem = () => {
+        let newMenuItems = [...groupDealSingleItems, {}];
 
-  const addSizes = () => {
-    setSizes([
-      ...sizes,
-      {
-        id: sizes.length + 1,
-        size: "",
-        additional_charge: "",
-      },
-    ]);
-  };
+        setGroupDealSingleItems(newMenuItems);
 
-  const addExtras = (e) => {
-    setData(
-      e.target.name,
-      e.target.type === "checkbox" ? e.target.checked : e.target.value
-    );
-    data.existingExtras.forEach((extra) => {
-        if (extra.id == e.target.value) {
-            setExtras([
-                ...extras,
-                {
-                    id: extra.id,
-                    name: extra.name,
-                    additional_charge: extra.additional_charge,
-                },
-            ]);
+        setGroupDealItems([
+          ...groupDealItems,
+          {
+            id: groupDealItems.length + 1,
+            title: ""
+          }
+        ]);
+        console.log(groupDealItems);
+      };
+
+      const addMenuItem = (event) => {
+
+        setData("menuItemId", event.target.value);
+
+        const index = parseInt(event.target.id);
+
+        data.existingMenuItems.forEach((item) => {
+          if (item.id === parseInt(event.target.value)) {
+
+            let newMenuItems = [...groupDealSingleItems];
+
+            newMenuItems.push({
+                group_deal_item_id: index + 1,
+                group_deal_id: data.groupDeal.id,
+                menu_item_id: parseInt(event.target.value) - 1,
+            });
+
+            setGroupDealSingleItems(newMenuItems);
         }
-    });
-  };
+        });
+    };
 
-  // to input elements and record their values in state
-  const handleSizeInputChange = (e, index) => {
-    const { name, value } = e.target;
-    const list = [...sizes];
-    list[index][name] = value;
-    setSizes(list);
-  };
+      const handleMenuItemRemoveClick = (menu_item_key, group_deal_key) => {
+        const list = [...groupDealSingleItems];
+        list.splice(menu_item_key, 1);
+        setGroupDealSingleItems(list);
+      };
+
+      const changeGroupDealTitle = (event, index) => {
+        event.preventDefault();
+
+        setItemTitle(event.target.value);
+        const value = event.target.value;
+        const newGroupDealItems = [...groupDealItems];
+
+        newGroupDealItems[index].title = value;
+
+        setGroupDealItems(newGroupDealItems);
+      };
 
 
-  // user click yes delete a specific row of id:i
-  const handleSizeRemoveClick = (i) => {
-    const list = [...sizes];
-    list.splice(i, 1);
-    setSizes(list);
-  };
-
-  const handleExtraRemoveClick = (i) => {
-    const list = [...extras];
-    list.splice(i, 1);
-    setExtras(list);
-  };
-
-  /**
-   * Handle the file upload and set the state
-   * @param {*} event Image file event
-   */
-  const onHandleImageChange = (event) => {
-    // If there are files uploaded add them to image list
-    if (event.target.files.length !== 0) {
-      // Add Image File
-      setData(event.target.name, event.target.files[0]);
-
-      //  Set Preview Image
-      const image = URL.createObjectURL(event.target.files[0]);
-
-      // Get Data Structure
-      let tempImageUrl = imageUrl;
-
-      tempImageUrl[event.target.name] = image;
-    } else {
-      setData(event.target.name, null);
-    }
-  };
-
-  const resetImageInput = (event) => {
-    // Set the file input to null
-    setData(event.target.id, null);
-
-    //
-    let tempImageUrl = imageUrl;
-
-    tempImageUrl[event.target.id] = null;
-  };
 
   const submit = (e) => {
     e.preventDefault();
-    post(route("restaurant.menu.items.update", {
-        extras: extras,
-        sizes: sizes,
-        menuItem: props.menuItem.id,
-    }));
+    post(
+      route("restaurant.group-deals.store", {
+        menuItems: menuItems,
+        groupDealItems: groupDealItems,
+      })
+    );
   };
 
   return (
     <>
       <Authenticated auth={props.auth} errors={props.errors}>
-        <div className="col-span-12 overflow-auto">
-          <div className="intro-y flex items-center mt-8">
-            <h2 className="text-lg font-medium mr-auto">Add Product</h2>
-          </div>
-          <div className="intro-y flex items-center mt-6">
-            <p className="text-gray-600">
-              Fill in the following details to add a new product
-            </p>
-          </div>
+        <div className="col-span-12">
+          <Title title="Create Group Deal" />
           <div className="grid grid-cols-12 gap-6 mt-5">
             <div className="intro-y col-span-12 lg:col-span-6">
               {/* BEGIN: Form Layout */}
               <form className="intro-y box p-5" onSubmit={submit}>
-                <MidoneUpload
-                  name="image"
-                  label="Item Image"
-                  value={data.image}
-                  change={onHandleImageChange}
-                  error={errors.image}
-                  preview={imageUrl.image}
-                  reset={resetImageInput}
-                />
                 {/* Start: title */}
                 <div className="mb-6 mt-6">
                   <label
@@ -155,9 +111,10 @@ console.log(props);
                     Title
                   </label>
                   <input
-                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    className="w-full px-3 py-2 pl-3 text-sm border-gray-300 focus:border-indigo-300 leading-tight text-gray-700 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="title"
                     type="text"
+                    placeholder="Title..."
                     name="title"
                     value={data.title}
                     onChange={(e) => setData("title", e.target.value)}
@@ -178,9 +135,10 @@ console.log(props);
                     Description
                   </label>
                   <textarea
-                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    className="w-full px-3 py-2 pl-3 text-sm leading-tight border-gray-300 focus:border-indigo-300 text-gray-700 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                     id="description"
                     type="text"
+                    placeholder="Description..."
                     name="description"
                     value={data.description}
                     onChange={(e) => setData("description", e.target.value)}
@@ -192,31 +150,6 @@ console.log(props);
                   )}
                 </div>
                 {/* End: description */}
-                {/* Start: dietary_requirements */}
-                <div className="mb-6">
-                  <label
-                    className="block mb-3 text-md font-medium text-sm text-gray-600 dark:text-gray-400"
-                    htmlFor="dietary_requirements"
-                  >
-                    Dietary Requirements
-                  </label>
-                  <textarea
-                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    id="dietary_requirements"
-                    type="text"
-                    name="dietary_requirements"
-                    value={data.dietary_requirements}
-                    onChange={(e) =>
-                      setData("dietary_requirements", e.target.value)
-                    }
-                  />
-                  {errors.dietary_requirements && (
-                    <p className="text-xs italic text-red-500">
-                      {errors.dietary_requirements}
-                    </p>
-                  )}
-                </div>
-                {/* End: dietary_requirements */}
                 {/* Start: price */}
                 <div className="mb-6">
                   <label
@@ -226,204 +159,130 @@ console.log(props);
                     Regular Price
                   </label>
                   <input
-                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    id="price"
+                    className="w-full px-3 py-2 pl-3 text-sm leading-tight border-gray-300 focus:border-indigo-300 text-gray-700 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    id="group_deal_price"
                     type="text"
-                    name="price"
-                    value={data.price}
-                    onChange={(e) => setData("price", e.target.value)}
+                    name="group_deal_price"
+                    value={data.group_deal_price}
+                    placeholder="Price..."
+                    onChange={(e) =>
+                      setData("group_deal_price", e.target.value)
+                    }
                   />
-                  {errors.price && (
+                  {errors.group_deal_price && (
                     <p className="text-xs italic text-red-500">
-                      {errors.price}
+                      {errors.group_deal_price}
                     </p>
                   )}
                 </div>
                 {/* End: price */}
-                {/* Start: Assign a category */}
-                <div className="mb-6">
-                  <label
-                    className="block mb-3 text-md font-medium text-sm text-gray-600 dark:text-gray-400"
-                    htmlFor="category_id"
-                  >
-                    Assign a category
-                  </label>
+                <hr />
+                {
+                  groupDealItems.map((group_deal_item, group_deal_index) => {
+                   return (
+                    <>
+                      <Title
+                        title={`Select Items for Group Deal Item ${group_deal_index + 1}`}
+                        subtitle={`Search and select all the products to be shown in Item ${group_deal_index + 1} of the group deal`}
+                      />
+
                   <select
-                    className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    id="category_id"
+                    className="w-full mt-2 px-3 py-2 pl-3 leading-tight text-gray-700 border-gray-300 focus:border-indigo-300 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                    id={group_deal_index}
+                    itemID={group_deal_index}
                     type="text"
-                    name="menu_category_id"
-                    value={data.menu_category_id}
-                    onChange={(e) => setData("menu_category_id", e.target.value)}
+                    name="menu_item_id"
+                    value={data.menuItemId}
+                    onChange={(e) => addMenuItem(e, group_deal_index)}
                   >
-                    <option value="">Select a category</option>
-                    {props.categories.map((category) => (
-                      <option key={category.id} value={category.id}>
-                        {category.title}
+                    <option value="">Select Item</option>
+                    {data.existingMenuItems.map((item, key) => (
+                      <option key={key} value={item.id}>
+                        {item.title}
                       </option>
                     ))}
                   </select>
-                  {errors.category_id && (
+                  {errors.existingMenuItems && (
                     <p className="text-xs italic text-red-500">
-                      {errors.category_id}
+                      {errors.existingMenuItems}
                     </p>
                   )}
-                </div>
-                {/* End: Assign a category */}
-                {sizes.map((size, i) => {
-                  return (
-                    <>
-                      <div className="mb-6 mt-10">
-                        <label
-                          className="block mb-3 text-md font-medium text-sm text-gray-600 dark:text-gray-400"
-                          htmlFor="size"
-                        >
-                          Add size option if applicable
-                        </label>
-                        <input
-                          className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                          type="text"
-                          name="size"
-                          value={size.size}
-                          onChange={(e) => handleSizeInputChange(e, i)}
-                        />
 
-                        {errors.size && (
-                          <p className="text-xs italic text-red-500">
-                            {errors.size}
-                          </p>
-                        )}
+                      {/* start: table mapping extras added to group deal */}
+                      <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
+                        <table className="table table-report mt-2">
+                          <thead>
+                            <tr>
+                              <th className="whitespace-no-wrap">SELECTED ITEMS</th>
+                              <th className="whitespace-no-wrap text-center">
+                                ACTION
+                              </th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {groupDealSingleItems.map((menu_item, menu_item_key) => {
+                              {return menu_item.group_deal_item_id === group_deal_item.id && (
+                                <tr className="intro-x">
+                                  <td>
+                                    <a
+                                      href=""
+                                      className="font-medium whitespace-no-wrap"
+                                    >
+                                      {data.existingMenuItems[menu_item.menu_item_id].title}
+                                    </a>
+                                  </td>
+                                  <td className="table-report__action w-56">
+                                    <div className="flex justify-center items-center">
+                                      <button
+                                        className="btn btn-danger-soft h-7 text-sm border-none"
+                                        type="button"
+                                        onClick={() =>
+                                          handleMenuItemRemoveClick(menu_item_key, group_deal_index)
+                                        }
+                                      >
+                                        <X className="w-4 h-4 mr-1" />
+                                        Remove
+                                      </button>
+                                    </div>
+                                  </td>
+                                </tr>
+                              );}
+                            })}
+                          </tbody>
+                        </table>
                       </div>
+                      {/* end: table mapping items added to group deal */}
+                      {/* start: test to show in app deal */}
+                      <div className="flex flex-col items-start mt-2">
+                      Choose your <input
+                          type={"text"}
+                          name={"single_group_deal_item_title"}
+                          value={groupDealItems[group_deal_index].title}
+                          className={
+                              ` mt-2 w-full border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm `
+                          }
+                          placeholder="eg. Main"
+                          autoComplete=""
+                          required={true}
+                          onChange={(e) => changeGroupDealTitle(e,group_deal_index)}
+                      />
+                  </div>
 
-                      <div className="mb-6">
-                        <label
-                          className="block mb-3 text-sm text-gray-600 dark:text-gray-400"
-                          htmlFor="additional_charge"
-                        >
-                          Additional Charge
-                        </label>
-                        <div className="flex items-center">
-                          <p className="mr-5">£</p>
-                          <input
-                            className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                            type="text"
-                            name="additional_charge"
-                            value={size.additional_charge}
-                            onChange={(e) => handleSizeInputChange(e, i)}
-                          />
-                        </div>
-                        {errors.additional_charge && (
-                          <p className="text-xs italic text-red-500">
-                            {errors.additional_charge}
-                          </p>
-                        )}
-                      </div>
-                      <div className="flex justify-end">
-                        <button
-                          className="btn btn-danger-soft h-7 text-sm border-none"
-                          type="button"
-                          onClick={() => handleSizeRemoveClick(i)}
-                        >
-                          <X className="w-4 h-4 mr-1" />
-                          Remove
-                        </button>
-                      </div>
                     </>
                   );
                 })}
-                {/* Start: Button to add another size option with an additional charge */}
+
+                {/* Start: Button to add another group deal item */}
                 <div className="mb-6 flex justify-start">
                   <Button
-                    className="btn btn-primary mr-3"
+                    className="btn btn-primary mt-3"
                     type="button"
-                    click={addSizes}
+                    click={addGroupDealItem}
                   >
-                    {sizes.length > 0 ? "Add another" : "Add size option"}
+                    {data.groupDealItems.length > 0 ? "Add another" : "Add size option"}
                   </Button>
                 </div>
-                {/* End: Button to add another size option with an additional charge */}
-                {/* start: select extras title and description */}
-                <div className="mb-6">
-                  <div className="intro-y flex items-center mt-8">
-                    <h2 className="text-lg font-medium mr-auto">
-                      Select Extra
-                    </h2>
-                  </div>
-                  <div className="intro-y flex items-center mt-3 mb-3">
-                    <p className="text-gray-600">
-                      Search and select all the extras to be added to the
-                      product
-                    </p>
-                  </div>
-                  <select
-                    className="w-full px-3 py-2 pl-3 leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                    id="extras"
-                    type="text"
-                    name="extra"
-                    value={data.extra}
-                    onChange={(e) => addExtras(e)}
-                  >
-                    <option value="">Select Extras</option>
-                    {data.existingExtras.map((extra, key) => (
-                      <option key={key} value={extra.id}>
-                        {extra.name}
-                      </option>
-                    ))}
-                  </select>
-                  {errors.existingExtras && (
-                    <p className="text-xs italic text-red-500">
-                      {errors.existingExtras}
-                    </p>
-                  )}
-                </div>
-                {/* end: select extras title and description */}
-                {/* start: table mapping extras added to group deal */}
-                <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
-                  <table className="table table-report mt-2">
-                    <thead>
-                      <tr>
-                        <th className="whitespace-no-wrap">EXTRA NAME</th>
-                        <th className="whitespace-no-wrap">
-                          ADDITIONAL CHARGE
-                        </th>
-                        <th className="whitespace-no-wrap text-center">
-                          ACTION
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {extras.map((extra, key) => {
-                        return (
-                          <tr className="intro-x">
-                            <td>
-                              <a
-                                href=""
-                                className="font-medium whitespace-no-wrap"
-                              >
-                                {extra.name}
-                              </a>
-                            </td>
-                            <td>{extra.additional_charge ?? "N/A"}</td>
-                            <td className="table-report__action w-56">
-                              <div className="flex justify-center items-center">
-                                <button
-                                  className="btn btn-danger-soft h-7 text-sm border-none"
-                                  type="button"
-                                  onClick={() => handleExtraRemoveClick(key)}
-                                >
-                                  <X className="w-4 h-4 mr-1" />
-                                  Remove
-                                </button>
-                              </div>
-                            </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                </div>
-                {/* end: table mapping extras added to group deal */}
-
+                {/* End: Button to add another group deal item */}
                 <div className="text-right mt-5">
                   <Button type="submit" className="w-30">
                     Save
@@ -439,4 +298,4 @@ console.log(props);
   );
 }
 
-export default Create;
+export default Edit;

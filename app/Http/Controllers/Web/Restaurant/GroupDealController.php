@@ -89,20 +89,25 @@ class GroupDealController extends Controller
         // save the Group Deal
         $groupDeal->save();
 
+        $newGroupDealItems = [];
+        $newGroupDealSingleItems = [];
         // create new group deal items
         foreach ($request->groupDealItems as $groupDealItem) {
             $newGroupDealItem = new GroupDealItem;
             $newGroupDealItem->title = $groupDealItem['title'];
             $newGroupDealItem->group_deal_id = $groupDeal->id;
             $newGroupDealItem->save();
+            array_push($newGroupDealItems, $newGroupDealItem);
         }
         // create new group deal single items
         foreach ($request->menuItems as $key => $groupDealSingleItem) {
             foreach($groupDealSingleItem as $item){
                 $newGroupDealSingleItem = new GroupDealSingleItem;
                 $newGroupDealSingleItem->group_deal_item_id = $newGroupDealItems[$key]->id;
+                $newGroupDealSingleItem->group_deal_id = $groupDeal->id;
                 $newGroupDealSingleItem->menu_item_id = $item['id'];
                 $newGroupDealSingleItem->save();
+                array_push($newGroupDealSingleItems, $newGroupDealSingleItem);
             }
         }
 
@@ -121,15 +126,19 @@ class GroupDealController extends Controller
 
     public function edit(Request $request, GroupDeal $groupDeal)
     {
-        $groupDealItems = $groupDeal->groupDealItems;
+        $groupDealItems = GroupDealItem::where('group_deal_id', $groupDeal->id)->get();
+        $groupDealSingleItems = GroupDealSingleItem::where('group_deal_id', $groupDeal->id)->get();
 
-        // todo: this needs to be planned properly then built
 
+
+        $existingMenuItems = MenuItem::where('restaurant_id', Auth::user()->restaurant_id)->get();
 
 
         return Inertia::render('RestaurantAdmin/GroupDeals/Edit', [
             'groupDeal' => $groupDeal,
             'groupDealItems' => $groupDealItems,
+            'existingMenuItems' => $existingMenuItems,
+            'groupDealSingleItems' => $groupDealSingleItems,
         ]);
     }
 
