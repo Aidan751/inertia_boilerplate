@@ -110,108 +110,109 @@ class OrderController extends Controller
 
             // get opening hours for the day
             $todaysHours = OpeningHour::where('day_id', $day->id)->where('restaurant_id', $restaurant->id)->get();
-            dd($todaysHours);
 
-        //     if (count($todaysHours) > 0) {
-        //         // Business is open today but may have multiple opening / closing times
-        //         $businessClosed = true;
-        //         // Iterate through each of the opening hours to see if we find a match
-        //         foreach ($todaysHours as $hours) {
-        //             // If current time is after opening time and current time is before closing time
-        //             if ( ($selectedTime >= strtotime($hours->from)) && ($selectedTime < strtotime($hours->to)) ) {
-        //                 // Business is open
-        //                 $businessOpen = true;
-        //                 $openingHoursMessage = "Open till " . date('H:i', strtotime($hours->to));
-        //             }
-        //         }
+            if (count($todaysHours) > 0) {
+                // Business is open today but may have multiple opening / closing times
+                $businessClosed = true;
+                // Iterate through each of the opening hours to see if we find a match
+                foreach ($todaysHours as $hours) {
+                    dd($hours);
+                    // If current time is after opening time and current time is before closing time
+                    if ( ($selectedTime >= strtotime($hours->from)) && ($selectedTime < strtotime($hours->to)) ) {
+                        // Business is open
+                        $businessOpen = true;
+                        $openingHoursMessage = "Open till " . date('H:i', strtotime($hours->to));
+                    }
+                }
 
-        //         // If business is closed, check to see if it's already been open for that day
-        //         if ($businessClosed == true) {
-        //             if ($selectedTime < strtotime($hours->from)) {
-        //                 $openingHoursMessage = "Opens at " . date('H:i', strtotime($hours->from));
-        //             } else if ($selectedTime > strtotime($hours->to)) {
-        //                 $openingHoursMessage = "Closed at " . date('H:i', strtotime($hours->to));
-        //             }
-        //         }
-        //     }
+                // If business is closed, check to see if it's already been open for that day
+                if ($businessClosed == true) {
+                    if ($selectedTime < strtotime($hours->from)) {
+                        $openingHoursMessage = "Opens at " . date('H:i', strtotime($hours->from));
+                    } else if ($selectedTime > strtotime($hours->to)) {
+                        $openingHoursMessage = "Closed at " . date('H:i', strtotime($hours->to));
+                    }
+                }
+            }
 
-        //     if ($request->order_type == 'delivery') {
+            if ($request->order_type == 'delivery') {
 
-        //         $googleApiKey = config('geocoder.key');
-        //         $googleGeocoding = 'https://maps.googleapis.com/maps/api/geocode/json?key=' . $googleApiKey . '&address=' . $request->address;
-        //         $geocodingRequest = Http::get($googleGeocoding);
-        //         $decodedResponse = json_decode($geocodingRequest->body(), true);
+                $googleApiKey = config('geocoder.key');
+                $googleGeocoding = 'https://maps.googleapis.com/maps/api/geocode/json?key=' . $googleApiKey . '&address=' . $request->address;
+                $geocodingRequest = Http::get($googleGeocoding);
+                $decodedResponse = json_decode($geocodingRequest->body(), true);
 
-        //         $userLatitude = 0;
-        //         $userLongitude = 0;
-        //         $address = $request->address;
+                $userLatitude = 0;
+                $userLongitude = 0;
+                $address = $request->address;
 
-        //         if ($decodedResponse['status'] == 'OK') {
-        //             $parts = array(
-        //             'address'=>array('street_number','route'),
-        //             'town'=>array('postal_town'),
-        //             'city'=>array('locality'),
-        //             'county'=>array('administrative_area_level_2'),
-        //             'state'=>array('administrative_area_level_1'),
-        //             'postcode'=>array('postal_code'),
-        //           );
+                if ($decodedResponse['status'] == 'OK') {
+                    $parts = array(
+                    'address'=>array('street_number','route'),
+                    'town'=>array('postal_town'),
+                    'city'=>array('locality'),
+                    'county'=>array('administrative_area_level_2'),
+                    'state'=>array('administrative_area_level_1'),
+                    'postcode'=>array('postal_code'),
+                  );
 
-        //             if (!empty($decodedResponse['results'][0]['address_components'])) {
-        //                 $ac = $decodedResponse['results'][0]['address_components'];
-        //                 foreach ($parts as $need=>&$types) {
-        //                     foreach ($ac as &$a) {
-        //                         if (in_array($a['types'][0], $types)) {
-        //                             $address_out[$need] = $a['short_name'];
-        //                         } elseif (empty($address_out[$need])) {
-        //                             $address_out[$need] = '';
-        //                         }
-        //                     }
-        //                 }
-        //             }
+                    if (!empty($decodedResponse['results'][0]['address_components'])) {
+                        $ac = $decodedResponse['results'][0]['address_components'];
+                        foreach ($parts as $need=>&$types) {
+                            foreach ($ac as &$a) {
+                                if (in_array($a['types'][0], $types)) {
+                                    $address_out[$need] = $a['short_name'];
+                                } elseif (empty($address_out[$need])) {
+                                    $address_out[$need] = '';
+                                }
+                            }
+                        }
+                    }
 
-        //             $userLatitude = $decodedResponse['results'][0]['geometry']['location']['lat'];
-        //             $userLongitude = $decodedResponse['results'][0]['geometry']['location']['lng'];
+                    $userLatitude = $decodedResponse['results'][0]['geometry']['location']['lat'];
+                    $userLongitude = $decodedResponse['results'][0]['geometry']['location']['lng'];
 
-        //             $restaurant->setAttribute('address', $request->address);
-        //             $restaurant->setAttribute('userLatitude', $userLatitude);
-        //             $restaurant->setAttribute('userLongitude', $userLongitude);
+                    $restaurant->setAttribute('address', $request->address);
+                    $restaurant->setAttribute('userLatitude', $userLatitude);
+                    $restaurant->setAttribute('userLongitude', $userLongitude);
 
 
-        //         } elseif ($decodedResponse['status'] == "ZERO_RESULTS") {
-        //             return back()->withInput()->with('error', 'Address not found, please check this is a valid address.');
-        //         } else {
-        //             return back()->withInput()->with('error', 'GEOCODING ERROR: ' . $decodedResponse['status'] . ' - ' . $decodedResponse['error_message']);
-        //         }
-        //     }
+                } elseif ($decodedResponse['status'] == "ZERO_RESULTS") {
+                    return back()->withInput()->with('error', 'Address not found, please check this is a valid address.');
+                } else {
+                    return back()->withInput()->with('error', 'GEOCODING ERROR: ' . $decodedResponse['status'] . ' - ' . $decodedResponse['error_message']);
+                }
+            }
 
-        //     $logo = $restaurant->getMedia('logos');
-        //     $url =  '';//config('app.url');
-        //     if(!$logo->isEmpty()){
-        //         $restaurant->setAttribute('logo', $url . $logo[0]->getFullUrl());
-        //     }
-        //     else{
-        //         $restaurant->setAttribute('logo', null);
-        //     }
+            $logo = $restaurant->getMedia('logos');
 
-        //     $restaurant->setAttribute('delivery_charge', 0);
 
-        //     if ($restaurant->company_drivers == 1 && $request->order_type == 'delivery') {
-        //         $configurations = Configuration::get()->toArray();
+            if(!$logo->isEmpty()){
+                $restaurant->setAttribute('logo', $url . $logo[0]->getFullUrl());
+            }
+            else{
+                $restaurant->setAttribute('logo', null);
+            }
 
-        //         $google = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' . $userLatitude . ',' . $userLongitude . '&destinations=' . $restaurant->latitude . ',' . $restaurant->longitude . '&key=' . $googleApiKey;
+            $restaurant->setAttribute('delivery_charge', 0);
 
-        //         $res = Http::get($google);
-        //         $responseBody = json_decode($res->body(), true);
+            if ($restaurant->company_drivers == 1 && $request->order_type == 'delivery') {
+                $configurations = Configuration::get()->toArray();
 
-        //         $distanceInMiles = ceil($responseBody['rows'][0]['elements'][0]['distance']['value'] *  0.00062137);
-        //         $timeInMinutes = ceil($responseBody['rows'][0]['elements'][0]['duration']['value'] / 60);
+                $google = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' . $userLatitude . ',' . $userLongitude . '&destinations=' . $restaurant->latitude . ',' . $restaurant->longitude . '&key=' . $googleApiKey;
 
-        //         $fee = (($timeInMinutes * $configurations[1]['price']) + ($distanceInMiles * $configurations[0]['price']));
-        //         $roundedFee = round($fee, 2);
-        //         $restaurant->setAttribute('delivery_charge', $roundedFee);
-        //         $restaurant->setAttribute('time_in_minutes', $timeInMinutes);
-        //         $restaurant->setAttribute('distance_in_miles', $distanceInMiles);
-        //     }
+                $res = Http::get($google);
+                $responseBody = json_decode($res->body(), true);
+
+                $distanceInMiles = ceil($responseBody['rows'][0]['elements'][0]['distance']['value'] *  0.00062137);
+                $timeInMinutes = ceil($responseBody['rows'][0]['elements'][0]['duration']['value'] / 60);
+
+                $fee = (($timeInMinutes * $configurations[1]['price']) + ($distanceInMiles * $configurations[0]['price']));
+                $roundedFee = round($fee, 2);
+                $restaurant->setAttribute('delivery_charge', $roundedFee);
+                $restaurant->setAttribute('time_in_minutes', $timeInMinutes);
+                $restaurant->setAttribute('distance_in_miles', $distanceInMiles);
+            }
 
         //     $categoryItems = array();
         //     foreach($restaurant->menuCategories as $category) {
