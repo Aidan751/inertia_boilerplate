@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\CallCentre;
 
+use App\Models\Day;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
@@ -76,7 +77,9 @@ class OrderController extends Controller
 
         $restaurant = Restaurant::with('menuCategories', 'menuItems', 'openingHours')->where('contact_number', $request->contact_number)->first();
 
+        // get opening hours
         $openingHours = OpeningHour::where('restaurant_id', $restaurant->id)->get();
+
         // check if restaurant exists
         if (!is_null($restaurant)) {
             // check if restaurant order type is in line with what is requested, if not, return error
@@ -99,11 +102,15 @@ class OrderController extends Controller
                 $selectedTime = date_format(new DateTime($request->selected_time),  'H:i:s');
             }
 
-        //     // Check restaurant is open now
+            // Check restaurant is open now
+            $currentDay = date('l');
 
-        //     $currentDayID = date('w');
+            // get day
+            $day = Day::where('day_of_the_week', $currentDay)->first();
 
-        //     $todaysHours = $restaurant->openingHours->where('day_id', $currentDayID);
+            // get opening hours for the day
+            $todaysHours = OpeningHour::where('day_id', $day->id)->where('restaurant_id', $restaurant->id)->get();
+            dd($todaysHours);
 
         //     if (count($todaysHours) > 0) {
         //         // Business is open today but may have multiple opening / closing times

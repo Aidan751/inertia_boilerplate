@@ -772,3 +772,13 @@
 1665588482-6394-1545911138,1665588482.4337,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,525.53105354309,request
 1665588691-0069-1503540295,1665588690.8121,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,493.33596229553,request
 1665588701-3242-1874659189,1665588701.1345,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,450.57606697083,request
+1665589100-3664-687924429,1665589100.1504,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,638.43607902527,request
+1665589423-0638-1569240038,1665589422.7882,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,701.06291770935,request
+1665589424-4031-956518585,1665589424.0557,GET,/_ignition/health-check,"Facade\Ignition\Http\Controllers\HealthCheckController",200,3315.9818649292,request
+1665589453-8235-1057063087,1665589453.6137,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,556.30302429199,request
+1665589468-8151-952473381,1665589467.8596,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,1338.1869792938,request
+1665589470-2177-1468101846,1665589469.8602,GET,/_ignition/health-check,"Facade\Ignition\Http\Controllers\HealthCheckController",200,1080.7440280914,request
+1665589503-0535-884090868,1665589502.6104,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,1470.654964447,request
+1665589505-2982-690913133,1665589504.7731,GET,/_ignition/health-check,"Facade\Ignition\Http\Controllers\HealthCheckController",200,1714.7889137268,request
+1665589526-1509-1852235760,1665589525.8596,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,870.52083015442,request
+1665589951-4398-1085579937,1665589951.2671,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,553.45416069031,request

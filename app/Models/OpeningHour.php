@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Day;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -15,8 +16,8 @@ class OpeningHour extends Model
         return $this->belongsTo(Restaurant::class, 'restaurant_id');
     }
 
-    public function day() {
-        return $this->hasOne(Day::class, 'id', 'day_id');
+    public function days() {
+        return $this->hasMany(Day::class, 'id', 'day_id');
     }
 
 }
