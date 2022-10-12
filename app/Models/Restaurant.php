@@ -6,6 +6,7 @@ use App\Models\Logo;
 use App\Models\Order;
 use App\Models\Banner;
 use App\Models\GroupDeal;
+use App\Models\OpeningHour;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,8 +16,6 @@ class Restaurant extends Model
 {
     use  HasFactory;
 
-
-    protected $guarded = [];
     protected $table = 'restaurants';
 
     public function scopeIsWithinMaxDistance($query, $latitude, $longitude, $radius) {

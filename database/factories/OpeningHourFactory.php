@@ -13,30 +13,11 @@ class OpeningHourFactory extends Factory
      */
     public function definition()
     {
-        // Schema::create('opening_hours', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->unsignedInteger('restaurant_id');
-        //     $table->unsignedInteger('day_id');
-        //     $table->time('from');
-        //     $table->time('to');
-        //     $table->timestamps();
-
-        //     $table->foreign('day_id')->references('id')->on('days');
-        //     $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
-        // });
-
-        // Schema::create('collection_times', function (Blueprint $table) {
-        //     $table->id();
-        //     $table->unsignedInteger('restaurant_id');
-        //     $table->unsignedInteger('day_id');
-        //     $table->time('from');
-        //     $table->time('to');
-        //     $table->timestamps();
-        //     $table->foreign('day_id')->references('id')->on('days');
-        //     $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
-        // });
         return [
-
+            'restaurant_id' => $this->faker->numberBetween(1, 10),
+            'day_id' => $this->faker->numberBetween(1, 7),
+            'from' => $this->faker->time('H:i:s', 'now'),
+            'to' => $this->faker->time('H:i:s', 'now'),
         ];
     }
 }

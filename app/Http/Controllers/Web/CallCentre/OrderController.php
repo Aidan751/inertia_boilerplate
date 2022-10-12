@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use App\Models\Order;
 use App\Models\OrderItem;
 use App\Models\Restaurant;
+use App\Models\OpeningHour;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -72,7 +73,8 @@ class OrderController extends Controller
 
         $restaurant = Restaurant::with('menuCategories', 'menuItems', 'openingHours')->where('contact_number', $request->contact_number)->first();
 
-        dd($restaurant);
+        $openingHours = OpeningHour::where('restaurant_id', $restaurant->id)->get();
+        dd($openingHours);
         // check if restaurant exists
         if (!is_null($restaurant)) {
             // check if restaurant order type is in line with what is requested, if not, return error
