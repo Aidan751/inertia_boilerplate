@@ -24,8 +24,18 @@ class GroupDeal extends Model
         return $this->belongsTo(Restaurant::class);
     }
 
+    /**
+     * Get the group deal items for the group deal.
+     * 
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
     public function groupDealItems()
     {
-        return $this->hasMany(GroupDealItem::class);
+        return $this->hasMany(GroupDealItem::class,"group_deal_id","id");
     }
+
+
+    /**
+     * 
+     */
 }

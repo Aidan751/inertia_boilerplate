@@ -73,44 +73,34 @@ class GroupDealController extends Controller
     public function store(Request $request)
     {
         // validate the request
-        $this->validate($request, [
+        $request->validate([
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'group_deal_price' => 'required|numeric',
         ]);
 
         // create a new Group Deal
-        $groupDeal = new GroupDeal;
-        $groupDeal->title = $request->title;
-        $groupDeal->description = $request->description;
-        $groupDeal->group_deal_price = $request->group_deal_price;
-        $groupDeal->restaurant_id = Auth::user()->restaurant_id;
+        $groupDeal = GroupDeal::create([
+            'title' => $request->title,
+            'description' => $request->description,
+            'group_deal_price' => $request->group_deal_price,
+            'restaurant_id' => Auth::user()->restaurant_id,
+        ]);
+       
+        foreach ($request->groupDealItems as $key => $groupDealItem) {
 
-        // save the Group Deal
-        $groupDeal->save();
+            $groupDealItem = $groupDeal->groupDealItems()->create([
+                "title" => $groupDealItem['title'],
+            ]);
 
-        $newGroupDealItems = [];
-        $newGroupDealSingleItems = [];
-        // create new group deal items
-        foreach ($request->groupDealItems as $groupDealItem) {
-            $newGroupDealItem = new GroupDealItem;
-            $newGroupDealItem->title = $groupDealItem['title'];
-            $newGroupDealItem->group_deal_id = $groupDeal->id;
-            $newGroupDealItem->save();
-            array_push($newGroupDealItems, $newGroupDealItem);
-        }
-        // create new group deal single items
-        foreach ($request->menuItems as $key => $groupDealSingleItem) {
-            foreach($groupDealSingleItem as $item){
-                $newGroupDealSingleItem = new GroupDealSingleItem;
-                $newGroupDealSingleItem->group_deal_item_id = $newGroupDealItems[$key]->id;
-                $newGroupDealSingleItem->group_deal_id = $groupDeal->id;
-                $newGroupDealSingleItem->menu_item_id = $item['id'];
-                $newGroupDealSingleItem->save();
-                array_push($newGroupDealSingleItems, $newGroupDealSingleItem);
+            foreach ($request->menuItems[$key] as $item) {
+                $groupDealSingleItem = $groupDealItem->groupDealSingleItems()->create([
+                    "menu_item_id" => $item['id'],
+                    "group_deal_id" => $groupDeal->id,
+                ]);
             }
+           
         }
-
 
         // redirect to the Group Deal page
         return redirect()->route('restaurant.group-deals.index')->with('success', 'Group Deal created successfully');
@@ -120,25 +110,21 @@ class GroupDealController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  \App\Models\GroupDeal  $groupDeal
      * @return \Illuminate\Http\Response
      */
 
     public function edit(Request $request, GroupDeal $groupDeal)
-    {
-        $groupDealItems = GroupDealItem::where('group_deal_id', $groupDeal->id)->get();
-        $groupDealSingleItems = GroupDealSingleItem::where('group_deal_id', $groupDeal->id)->get();
+    {   
+        // Load the Group Deal and its related items
+        $groupDeal->load('groupDealItems.groupDealSingleItems.menuItem');
 
-
-
+        // get a list of Menu Items
         $existingMenuItems = MenuItem::where('restaurant_id', Auth::user()->restaurant_id)->get();
-
 
         return Inertia::render('RestaurantAdmin/GroupDeals/Edit', [
             'groupDeal' => $groupDeal,
-            'groupDealItems' => $groupDealItems,
             'existingMenuItems' => $existingMenuItems,
-            'groupDealSingleItems' => $groupDealSingleItems,
         ]);
     }
 
@@ -147,7 +133,7 @@ class GroupDealController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Models\GroupDeal  $groupDeal
      * @return \Illuminate\Http\Response
      */
 
@@ -158,41 +144,38 @@ class GroupDealController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'group_deal_price' => 'required|numeric',
+            "group_deal_items" => "required|array",
+            "group_deal_single_items" => "required|array",
         ]);
 
         // update the Group Deal
-        $groupDeal->title = $request->title;
-        $groupDeal->description = $request->description;
-        $groupDeal->group_deal_price = $request->group_deal_price;
+        $groupDeal->update([
+            'title' => $request->title,
+            'description' => $request->description,
+            'group_deal_price' => $request->group_deal_price,
+        ]);
 
-        // save the Group Deal
-        $groupDeal->save();
+        foreach($groupDeal->groupDealItems as $groupDealItem) {
+            
+            $groupDealItem->deleteGroupDealSingleItems();
 
-        // delete all the group deal items
-        GroupDealItem::where('group_deal_id', $groupDeal->id)->delete();
-        GroupDealSingleItem::where('group_deal_id', $groupDeal->id)->delete();
-        $newGroupDealItems = [];
-        $newGroupDealSingleItems = [];
-        // create new group deal items
-        foreach ($request->groupDealItems as $groupDealItem) {
-            $newGroupDealItem = new GroupDealItem;
-            $newGroupDealItem->title = $groupDealItem['title'];
-            $newGroupDealItem->group_deal_id = $groupDeal->id;
-            $newGroupDealItem->save();
-            array_push($newGroupDealItems, $newGroupDealItem);
-        }
-        // create new group deal single items
-        foreach ($request->groupDealSingleItems as $key => $groupDealSingleItem) {
-
-                $newGroupDealSingleItem = new GroupDealSingleItem;
-                $newGroupDealSingleItem->group_deal_item_id = $groupDealSingleItem['group_deal_item_id'];
-                $newGroupDealSingleItem->group_deal_id = $groupDeal->id;
-                $newGroupDealSingleItem->menu_item_id = $groupDealSingleItem['menu_item_id'];
-                $newGroupDealSingleItem->save();
-                array_push($newGroupDealSingleItems, $newGroupDealSingleItem);
+            $groupDealItem->delete();
         }
 
+        foreach ($request->group_deal_items as $key => $groupDealItem) {
 
+            $groupDealItem = $groupDeal->groupDealItems()->create([
+                "title" => $groupDealItem['title'],
+            ]);
+
+            foreach ($request->group_deal_single_items[$key] as $item) {
+                $groupDealSingleItem = $groupDealItem->groupDealSingleItems()->create([
+                    "menu_item_id" => $item['id'],
+                    "group_deal_id" => $groupDeal->id,
+                ]);
+            }
+           
+        }
 
         // redirect to the Group Deal page
         return redirect()->route('restaurant.group-deals.index')->with('success', 'Group Deal updated successfully');
@@ -209,7 +192,7 @@ class GroupDealController extends Controller
     public function destroy(GroupDeal $groupDeal)
     {
         // delete the Group Deal
-        $group_deal->delete();
+        $groupDeal->delete();
 
         // redirect to the Group Deal page
         return redirect()->route('restaurant.group-deals.index')->with('success', 'Group Deal deleted successfully');

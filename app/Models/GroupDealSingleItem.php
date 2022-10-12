@@ -11,7 +11,9 @@ class GroupDealSingleItem extends Model
     use HasFactory;
 
     protected $fillable = [
-        'group_deal_item_id'
+        'group_deal_item_id',
+        "group_deal_id",
+        "menu_item_id",
     ];
 
     public function groupDealItem()

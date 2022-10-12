@@ -27,6 +27,13 @@ class GroupDealItem extends Model
 
     public function groupDealSingleItems()
     {
-        return $this->hasMany(GroupDealSingleItem::class);
+        return $this->hasMany(GroupDealSingleItem::class,"group_deal_item_id","id");
+    }
+
+    public function deleteGroupDealSingleItems()
+    {
+        foreach($this->groupDealSingleItems as $groupDealSingleItem){
+            $groupDealSingleItem->delete();
+        }
     }
 }

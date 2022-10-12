@@ -70,7 +70,6 @@ function Create(props) {
 
         setMenuItems(newMenuItems);
 
-        console.log(menuItems);
       }
     });
   };
