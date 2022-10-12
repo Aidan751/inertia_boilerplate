@@ -59,26 +59,197 @@ class OrderController extends Controller
         // get order details
         public function details(Request $request)
         {
-            $restaurant = Restaurant::where('id', Auth::user()->restaurant_id)->first();
-            $order_type = $request->order_type;
-            $selected_time = $request->selected_time;
-            $customer_contact_number = $request->customer_contact_number;
-            $customer_name = $request->customer_name;
-            $when = $request->when;
-            $address = $request->address;
+        // Validate the data
+         $request->validate([
+            'customer_name' => ['required', 'string', 'max:191'],
+            'customer_contact_number' => 'phone:GB',
+            'contact_number' => 'phone:GB',
+            "role" => "required|exists:roles,name",
+        ]);
+
+        session()->forget('cart');
+        session()->forget('restaurant');
+
+        $restaurant = Restaurant::with('menuCategories', 'menuItems', 'openingHours')->where('contact_number', $request->contact_number)->first();
+
+        dd($restaurant);
+        // check if restaurant exists
+        if (!is_null($restaurant)) {
+            // check if restaurant order type is in line with what is requested, if not, return error
+            if ($request->order_type == 'delivery' && $restaurant->allows_delivery == 0) {
+                return back()->with('error', 'This business does not offer a delivery service.');
+            } else if ($request->order_type == 'collection' && $restaurant->allows_collection == 0)  {
+                return back()->with('error', 'This business does not offer a collection service.');
+            } else if ($request->order_type == 'table' && $restaurant->allows_table_orders == 0)  {
+                return back()->with('error', 'This business does not offer table service.');
+            }
+
+            $openingHoursMessage = "";
+
+            // check if restaurant delivery hours are within the time requested
+            if ($request->when_radio == 'asap') {
+                // if selected asap, check if restaurant is open
+                $selectedTime = time();
+            } else {
+                // if selected time, check if restaurant is open at the time selected
+                $selectedTime = strtotime($request->selected_time);
+            }
+
+        //     // Check restaurant is open now
+
+        //     $currentDayID = date('w');
+
+        //     $todaysHours = $restaurant->openingHours->where('day_id', $currentDayID);
+
+        //     if (count($todaysHours) > 0) {
+        //         // Business is open today but may have multiple opening / closing times
+        //         $businessClosed = true;
+        //         // Iterate through each of the opening hours to see if we find a match
+        //         foreach ($todaysHours as $hours) {
+        //             // If current time is after opening time and current time is before closing time
+        //             if ( ($selectedTime >= strtotime($hours->from)) && ($selectedTime < strtotime($hours->to)) ) {
+        //                 // Business is open
+        //                 $businessOpen = true;
+        //                 $openingHoursMessage = "Open till " . date('H:i', strtotime($hours->to));
+        //             }
+        //         }
+
+        //         // If business is closed, check to see if it's already been open for that day
+        //         if ($businessClosed == true) {
+        //             if ($selectedTime < strtotime($hours->from)) {
+        //                 $openingHoursMessage = "Opens at " . date('H:i', strtotime($hours->from));
+        //             } else if ($selectedTime > strtotime($hours->to)) {
+        //                 $openingHoursMessage = "Closed at " . date('H:i', strtotime($hours->to));
+        //             }
+        //         }
+        //     }
+
+        //     if ($request->order_type == 'delivery') {
+
+        //         $googleApiKey = config('geocoder.key');
+        //         $googleGeocoding = 'https://maps.googleapis.com/maps/api/geocode/json?key=' . $googleApiKey . '&address=' . $request->address;
+        //         $geocodingRequest = Http::get($googleGeocoding);
+        //         $decodedResponse = json_decode($geocodingRequest->body(), true);
+
+        //         $userLatitude = 0;
+        //         $userLongitude = 0;
+        //         $address = $request->address;
+
+        //         if ($decodedResponse['status'] == 'OK') {
+        //             $parts = array(
+        //             'address'=>array('street_number','route'),
+        //             'town'=>array('postal_town'),
+        //             'city'=>array('locality'),
+        //             'county'=>array('administrative_area_level_2'),
+        //             'state'=>array('administrative_area_level_1'),
+        //             'postcode'=>array('postal_code'),
+        //           );
+
+        //             if (!empty($decodedResponse['results'][0]['address_components'])) {
+        //                 $ac = $decodedResponse['results'][0]['address_components'];
+        //                 foreach ($parts as $need=>&$types) {
+        //                     foreach ($ac as &$a) {
+        //                         if (in_array($a['types'][0], $types)) {
+        //                             $address_out[$need] = $a['short_name'];
+        //                         } elseif (empty($address_out[$need])) {
+        //                             $address_out[$need] = '';
+        //                         }
+        //                     }
+        //                 }
+        //             }
+
+        //             $userLatitude = $decodedResponse['results'][0]['geometry']['location']['lat'];
+        //             $userLongitude = $decodedResponse['results'][0]['geometry']['location']['lng'];
+
+        //             $restaurant->setAttribute('address', $request->address);
+        //             $restaurant->setAttribute('userLatitude', $userLatitude);
+        //             $restaurant->setAttribute('userLongitude', $userLongitude);
 
 
+        //         } elseif ($decodedResponse['status'] == "ZERO_RESULTS") {
+        //             return back()->withInput()->with('error', 'Address not found, please check this is a valid address.');
+        //         } else {
+        //             return back()->withInput()->with('error', 'GEOCODING ERROR: ' . $decodedResponse['status'] . ' - ' . $decodedResponse['error_message']);
+        //         }
+        //     }
 
-            return Inertia::render('CallCentreAdmin/Orders/Details', [
-                'restaurant' => $restaurant,
-                'order_type' => $order_type,
-                'selected_time' => $selected_time,
-                'customer_contact_number' => $customer_contact_number,
-                'customer_name' => $customer_name,
-                'when' => $when,
-                'address' => $address,
-            ]);
-        }
+        //     $logo = $restaurant->getMedia('logos');
+        //     $url =  '';//config('app.url');
+        //     if(!$logo->isEmpty()){
+        //         $restaurant->setAttribute('logo', $url . $logo[0]->getFullUrl());
+        //     }
+        //     else{
+        //         $restaurant->setAttribute('logo', null);
+        //     }
+
+        //     $restaurant->setAttribute('delivery_charge', 0);
+
+        //     if ($restaurant->company_drivers == 1 && $request->order_type == 'delivery') {
+        //         $configurations = Configuration::get()->toArray();
+
+        //         $google = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' . $userLatitude . ',' . $userLongitude . '&destinations=' . $restaurant->latitude . ',' . $restaurant->longitude . '&key=' . $googleApiKey;
+
+        //         $res = Http::get($google);
+        //         $responseBody = json_decode($res->body(), true);
+
+        //         $distanceInMiles = ceil($responseBody['rows'][0]['elements'][0]['distance']['value'] *  0.00062137);
+        //         $timeInMinutes = ceil($responseBody['rows'][0]['elements'][0]['duration']['value'] / 60);
+
+        //         $fee = (($timeInMinutes * $configurations[1]['price']) + ($distanceInMiles * $configurations[0]['price']));
+        //         $roundedFee = round($fee, 2);
+        //         $restaurant->setAttribute('delivery_charge', $roundedFee);
+        //         $restaurant->setAttribute('time_in_minutes', $timeInMinutes);
+        //         $restaurant->setAttribute('distance_in_miles', $distanceInMiles);
+        //     }
+
+        //     $categoryItems = array();
+        //     foreach($restaurant->menuCategories as $category) {
+        //         // For each menu category lookup all items assosiated with it
+        //         $results = $restaurant->menuItems->where('menu_category_id', $category->id);
+
+        //         foreach ($results as $result) {
+        //             $itemImage = $result->getMedia('items');
+        //             $url =  '';//config('app.url');
+        //             if(!$itemImage->isEmpty()){
+        //                 $result->setAttribute('image', $url . $itemImage[0]->getFullUrl());
+        //             }
+        //             else{
+        //                 $result->setAttribute('image', null);
+        //             }
+        //         }
+
+        //         $array = array($category->title, $results);
+        //         array_push($categoryItems, $array);
+        //     }
+
+        //     $restaurant->setAttribute('menu', $categoryItems);
+        //     $restaurant->setAttribute('opening_hours_message', $openingHoursMessage);
+        //     $restaurant->setAttribute('chosen_order_type', $request->order_type);
+        //     $restaurant->setAttribute('customer_name', $request->customer_name);
+        //     $restaurant->setAttribute('customer_contact_number', $formattedContactNumber);
+        //     $restaurant->setAttribute('time_slot', date('H:i:s', $selectedTime));
+
+        //     session()->put('restaurant', $restaurant);
+
+
+        //     return Inertia::render('CallCentreAdmin/Orders/Details', [
+        //         'restaurant' => $restaurant,
+        //         'order_type' => $request->order_type,
+        //         'customer_name' => $request->customer_name,
+        //         'customer_contact_number' => $formattedContactNumber,
+        //         'time_slot' => date('H:i:s', $selectedTime),
+        //         'opening_hours_message' => $openingHoursMessage,
+        //         'chosen_order_type' => $request->order_type,
+        //         'delivery_charge' => $restaurant->delivery_charge,
+        //         'time_in_minutes' => $restaurant->time_in_minutes,
+        //         'distance_in_miles' => $restaurant->distance_in_miles,
+        //     ]);
+        // } else {
+        //     return redirect()->back()->withInput()->with('error', 'Business not found, please check the businesses number is correct.');
+        // }
+
+    }}
+
 
         public function sendPush(Request $request, $id) {
 

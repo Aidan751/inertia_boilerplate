@@ -3,10 +3,11 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class OpeningHour extends Model
 {
-   
+   use HasFactory;
     protected $guarded = [];
     protected $table = 'opening_hours';
 
@@ -18,5 +19,5 @@ class OpeningHour extends Model
     public function day() {
         return $this->hasOne(Day::class, 'id', 'day_id');
     }
- 
+
 }

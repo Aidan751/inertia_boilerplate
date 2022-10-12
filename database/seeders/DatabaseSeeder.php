@@ -28,8 +28,10 @@ class DatabaseSeeder extends Seeder
         RestaurantCategory::factory(10)->create();
         $restaurant = \App\Models\Restaurant::factory()->create([
             'name' => 'Test Restaurant',
-            'contact_number' => '123456789',
+            'contact_number' => '+447368360039',
         ]);
+
+
 
         $user = \App\Models\User::factory()->create([
             "first_name" => "Aidan",

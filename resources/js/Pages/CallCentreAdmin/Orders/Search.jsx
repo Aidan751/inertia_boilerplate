@@ -7,12 +7,13 @@ import { set } from "lodash";
 
 function Search(props) {
   const { data, setData, post, processing, errors } = useForm({
+    role: 'call_centre_admin',
   })
 
   const submit = (e) => {
       e.preventDefault();
 
-      post(route('call-centre.orders.details'), data);
+      post(route('call-centre.orders.details'));
   };
 
   return (
