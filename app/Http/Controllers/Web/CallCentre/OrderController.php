@@ -6,14 +6,17 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
 use App\Models\OrderItem;
+use Nette\Utils\DateTime;
 use App\Models\Restaurant;
 use App\Models\OpeningHour;
+use App\Packages\TimeFormat;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class OrderController extends Controller
 {
+
       /**
         * Display a listing of the resource.
         *
@@ -74,7 +77,6 @@ class OrderController extends Controller
         $restaurant = Restaurant::with('menuCategories', 'menuItems', 'openingHours')->where('contact_number', $request->contact_number)->first();
 
         $openingHours = OpeningHour::where('restaurant_id', $restaurant->id)->get();
-        dd($openingHours);
         // check if restaurant exists
         if (!is_null($restaurant)) {
             // check if restaurant order type is in line with what is requested, if not, return error
@@ -91,10 +93,10 @@ class OrderController extends Controller
             // check if restaurant delivery hours are within the time requested
             if ($request->when_radio == 'asap') {
                 // if selected asap, check if restaurant is open
-                $selectedTime = time();
+                $milliseconds =  date_format(new DateTime('+60 minutes'),  'H:i:s');
             } else {
                 // if selected time, check if restaurant is open at the time selected
-                $selectedTime = strtotime($request->selected_time);
+                $selectedTime = date_format(new DateTime($request->selected_time),  'H:i:s');
             }
 
         //     // Check restaurant is open now
