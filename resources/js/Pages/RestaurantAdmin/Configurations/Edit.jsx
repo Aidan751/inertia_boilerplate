@@ -8,6 +8,7 @@ import Checkbox from "@/components/Checkbox";
 import MidoneUpload from "@/Components/MidoneUpload";
 
 export default function Edit( props ) {
+
     const { data, setData, post, processing, errors, reset } = useForm({
         name: props.restaurant.name,
         address_line_1: props.restaurant.address_line_1,
@@ -20,15 +21,16 @@ export default function Edit( props ) {
         password: props.user.password,
         password_confirmation: props.user.password_confirmation,
         bio: props.restaurant.bio,
-        allows_table_orders: props.restaurant.allows_table_orders,
-        allows_collection: props.restaurant.allows_collection,
-        allows_delivery: props.restaurant.allows_delivery,
-        allows_call_center: props.restaurant.allows_call_center,
+        allows_table_orders: props.restaurant.allows_table_orders === 1 ? true : false,
+        allows_collection: props.restaurant.allows_collection === 1 ? true : false,
+        allows_delivery: props.restaurant.allows_delivery === 1 ? true : false,
+        allows_call_center: props.restaurant.allows_call_center === 1 ? true : false,
         category: props.restaurant.restaurant_category_id,
         logo: null,
         banner: null,
         _method: 'PUT',
     });
+        console.log( data );
 
 
     const [fileUrl, setFileUrl] = useState({
@@ -73,7 +75,7 @@ export default function Edit( props ) {
         tempFileUrl[event.target.id] = null;
     }
 
-    console.log(data);
+
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route('my.restaurant.update', props.restaurant.id), {
@@ -122,6 +124,7 @@ export default function Edit( props ) {
                                 name="allows_table_orders"
                                 value={data.allows_table_orders}
                                 handleChange={onHandleChange}
+                                checked={data.allows_table_orders === true ? "checked" : false}
                             />
                                 <label className="mr-3 cursor-pointer select-none" htmlFor="allows_table_orders">Table Service</label>
 
@@ -129,6 +132,7 @@ export default function Edit( props ) {
                                     name="allows_collection"
                                     value={data.allows_collection}
                                     handleChange={onHandleChange}
+                                    checked={data.allows_collection === true ? "checked" : false}
                                 />
                                 <label className="mr-3 cursor-pointer select-none" htmlFor="allows_collection">Collection</label>
 
@@ -136,6 +140,7 @@ export default function Edit( props ) {
                                 name="allows_delivery"
                                 value={data.allows_delivery}
                                 handleChange={onHandleChange}
+                                checked={data.allows_delivery === true ? "checked" : false}
                             />
                                 <label className="mr-3 cursor-pointer select-none" htmlFor="allows_delivery">Delivery</label>
 
@@ -143,7 +148,7 @@ export default function Edit( props ) {
                                     name="allows_call_center"
                                     value={data.allows_call_center}
                                     handleChange={onHandleChange}
-                                    defaultChecked
+                                    checked={data.allows_call_center === true ? "checked" : false}
                                 />
                                 <label className="cursor-pointer select-none" htmlFor="allows_call_center">Call Center</label>
 
