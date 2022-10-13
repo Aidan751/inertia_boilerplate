@@ -12,8 +12,10 @@ use App\Models\Restaurant;
 use App\Models\OpeningHour;
 use App\Packages\TimeFormat;
 use Illuminate\Http\Request;
+use App\Models\Configuration;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
 
 class OrderController extends Controller
 {
@@ -136,9 +138,8 @@ class OrderController extends Controller
             }
 
             if ($request->order_type == 'delivery') {
-
+                // find address
                 $googleApiKey = config('geocoder.key');
-                dd($googleApiKey);
                 $googleGeocoding = 'https://maps.googleapis.com/maps/api/geocode/json?key=' . $googleApiKey . '&address=' . $request->address;
                 $geocodingRequest = Http::get($googleGeocoding);
                 $decodedResponse = json_decode($geocodingRequest->body(), true);
@@ -155,9 +156,9 @@ class OrderController extends Controller
                     'county'=>array('administrative_area_level_2'),
                     'state'=>array('administrative_area_level_1'),
                     'postcode'=>array('postal_code'),
-                  );
+                );
 
-                    if (!empty($decodedResponse['results'][0]['address_components'])) {
+                if (!empty($decodedResponse['results'][0]['address_components'])) {
                         $ac = $decodedResponse['results'][0]['address_components'];
                         foreach ($parts as $need=>&$types) {
                             foreach ($ac as &$a) {
@@ -179,32 +180,28 @@ class OrderController extends Controller
 
 
                 } elseif ($decodedResponse['status'] == "ZERO_RESULTS") {
-                    return back()->withInput()->with('error', 'Address not found, please check this is a valid address.');
+                    return back()->with('error', 'Address not found, please check this is a valid address.');
                 } else {
-                    return back()->withInput()->with('error', 'GEOCODING ERROR: ' . $decodedResponse['status'] . ' - ' . $decodedResponse['error_message']);
+                    return back()->with('error', 'GEOCODING ERROR: ' . $decodedResponse['status'] . ' - ' . $decodedResponse['error_message']);
                 }
             }
 
-            $logo = $restaurant->getMedia('logos');
+            // get restaurant logo
+            $logo = $restaurant->logo ?? null;
 
-
-            if(!$logo->isEmpty()){
-                $restaurant->setAttribute('logo', $url . $logo[0]->getFullUrl());
-            }
-            else{
-                $restaurant->setAttribute('logo', null);
-            }
-
+            // set restaurant in delivery charge because the order type isn't delivery
             $restaurant->setAttribute('delivery_charge', 0);
 
+            // test
+            $restaurant->company_drivers = 1;
             if ($restaurant->company_drivers == 1 && $request->order_type == 'delivery') {
                 $configurations = Configuration::get()->toArray();
-
                 $google = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' . $userLatitude . ',' . $userLongitude . '&destinations=' . $restaurant->latitude . ',' . $restaurant->longitude . '&key=' . $googleApiKey;
 
                 $res = Http::get($google);
                 $responseBody = json_decode($res->body(), true);
 
+                // todo: check response
                 $distanceInMiles = ceil($responseBody['rows'][0]['elements'][0]['distance']['value'] *  0.00062137);
                 $timeInMinutes = ceil($responseBody['rows'][0]['elements'][0]['duration']['value'] / 60);
 
