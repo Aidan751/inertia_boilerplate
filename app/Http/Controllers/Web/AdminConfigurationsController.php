@@ -7,6 +7,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\Configuration;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class AdminConfigurationsController extends Controller
 {
