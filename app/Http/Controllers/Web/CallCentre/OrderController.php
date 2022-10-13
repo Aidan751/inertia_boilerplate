@@ -198,9 +198,10 @@ class OrderController extends Controller
             if ($restaurant->company_drivers == 1 && $request->order_type == 'delivery') {
                 $configurations = Configuration::get()->toArray();
                 $distance_in_miles = GeocoderPackage::getDistance($userAddress, $restaurant->getFullAddressAttribute());
-                $distanceInMiles = ceil($responseBody['rows'][0]['elements'][0]['distance']['value'] *  0.00062137);
-                $timeInMinutes = ceil($responseBody['rows'][0]['elements'][0]['duration']['value'] / 60);
 
+
+                // todo: get ime in minutes between the address of restaurant and address of destination
+                $delivery_time = GeocoderPackage::getDeliveryTime($restaurant->getFullAddressAttribute(), $userAddress);
                 $fee = (($timeInMinutes * $configurations[1]['price']) + ($distanceInMiles * $configurations[0]['price']));
                 $roundedFee = round($fee, 2);
                 $restaurant->setAttribute('delivery_charge', $roundedFee);

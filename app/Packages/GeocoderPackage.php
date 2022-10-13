@@ -2,6 +2,8 @@
 
 namespace App\Packages;
 
+use Illuminate\Support\Facades\Http;
+
 class GeocoderPackage
 {
     public static function getDistance($addressFrom, $addressTo, $unit = ''){
@@ -18,7 +20,6 @@ class GeocoderPackage
         if(!empty($outputFrom->error_message)){
             return $outputFrom->error_message;
         }
-
         // Geocoding API request with end address
         $geocodeTo = file_get_contents('https://maps.googleapis.com/maps/api/geocode/json?address='.$formattedAddrTo.'&sensor=false&key='.$apiKey);
         $outputTo = json_decode($geocodeTo);
@@ -27,7 +28,7 @@ class GeocoderPackage
         }
 
         if($outputFrom->status == 'ZERO_RESULTS' || $outputTo->status == 'ZERO_RESULTS'){
-            return 'No results found';
+            return back()->with('error', 'No location found for the entered address.');
         }
         // Get latitude and longitude from the geodata
         $latitudeFrom    = $outputFrom->results[0]->geometry->location->lat;
@@ -52,4 +53,19 @@ class GeocoderPackage
             return round($miles, 2).' miles';
         }
     }
+
+    // get the time between two addresses
+    public static function getDeliveryTime($origin_address, $destination_address) {
+        $origin_address = str_replace(' ', '+', $origin_address);
+        $destination_address = str_replace(' ', '+', $destination_address);
+        // dd($origin_address, $destination_address);
+        $googleApiKey = config('geocoder.key');
+        $geocodeTime = file_get_contents('https://maps.googleapis.com/maps/api/distancematrix/json?destinations=' . $destination_address . '&origins=' . $origin_address . '&units=imperial&key='.$googleApiKey);
+        $outputTime = json_decode($geocodeTime);
+        return $outputTime->rows[0]->elements[0]->duration->text;
+        if(!empty($outputTime->error_message)){
+            return $outputTime->error_message;
+        }
+    }
+
 }
