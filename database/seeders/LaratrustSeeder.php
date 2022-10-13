@@ -2,10 +2,11 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Support\Facades\Schema;
+use App\Models\Configuration;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Schema;
 
 class LaratrustSeeder extends Seeder
 {
@@ -71,6 +72,11 @@ class LaratrustSeeder extends Seeder
                     'role_id' => $role->id,
                 ]);
                 $user->attachRole($role);
+                if($user->role_id == 1){
+                    $configuration = Configuration::create([
+                        "user_id" => $user->id,
+                    ]);
+                }
             }
 
         }

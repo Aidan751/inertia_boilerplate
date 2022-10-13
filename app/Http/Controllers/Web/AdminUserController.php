@@ -92,11 +92,11 @@ class AdminUserController extends Controller
         // Assign user to a role using the laratrust package
         $user->attachRole($role);
 
-        if($user->role_id == 1){
-            $configuration = Configuration::create([
-                "user_id" => $user->id,
-            ]);
-        }
+        // if($user->role_id == 1){
+        //     $configuration = Configuration::create([
+        //         "user_id" => $user->id,
+        //     ]);
+        // }
 
         // Redirect back to the index page with a success message
         return redirect()->route('admin-user.index')->with('success', 'Admin User created successfully');

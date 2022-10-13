@@ -450,7 +450,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin-configurations/edit/{user}', [AdminConfigurationsController::class, 'edit'])->name('admin-configurations.edit');
 
     // update delivery costs
-    Route::put('/admin-configurations/update/{configuration}', [AdminConfigurationsController::class, 'update'])->name('admin-configurations.update');
+    Route::put('/admin-configurations/update', [AdminConfigurationsController::class, 'update'])->name('admin-configurations.update');
 
     // get all orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');

@@ -101,10 +101,13 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $role = \App\Models\Role::where("name","restaurant_admin")->first();
-        $callCentreRole = \App\Models\Role::where("name","call_centre_admin")->first();
+        $call_centre_role = \App\Models\Role::where("name","call_centre_admin")->first();
+        $admin_user_role = \App\Models\Role::where("name","admin")->first();
 
-        $callCentreUser->attachRole($callCentreRole);
+        $callCentreUser->attachRole($call_centre_role);
         $user->attachRole($role);
+
+
 
         MenuCategory::factory(50)->create([
             "restaurant_id" => $restaurant->id,

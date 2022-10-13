@@ -38,8 +38,9 @@ class AdminConfigurationsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Configuration $configuration)
+    public function update(Request $request)
     {
+        $configuration = Configuration::where('user_id', Auth::user()->id)->first();
         // Validate the request
         $request->validate([
             'mile' => 'required',
@@ -52,11 +53,9 @@ class AdminConfigurationsController extends Controller
             'minute' => $request->minute,
         ]);
 
-        // get user
-        $user = User::where('id', $configuration->user_id)->first();
 
         // Redirect back to the index page with a success message
-        return redirect()->route('admin-configurations.edit', ['user' => $user->id])->with('success', 'Configuration updated successfully');
+        return redirect()->route('admin-configurations.edit', ['user' => Auth::user()->id])->with('success', 'Configuration updated successfully');
     }
 
 }

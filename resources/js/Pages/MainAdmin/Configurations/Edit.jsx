@@ -5,11 +5,12 @@ import { useForm } from '@inertiajs/inertia-react';
 import ValidationSuccess from "@/components/ValidationSuccess";
 
 function Edit(props) {
+    console.log(props);
   const [categories, setCategories] = useState([1, 3]);
 
   const { data, setData, put, processing, errors } = useForm({
-        mile: props.configuration.mile ?? '',
-        minute: props.configuration.minute ?? '',
+        mile: props.configuration === null ? '' : props.configuration.mile,
+        minute: props.configuration === null ? '' : props.configuration.minute,
   })
 
 
@@ -19,7 +20,7 @@ function Edit(props) {
 
   const submit = (e) => {
       e.preventDefault();
-      put(route('admin-configurations.update', { id: props.configuration.id }));
+      put(route('admin-configurations.update'));
   };
 
 

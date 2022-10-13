@@ -34,8 +34,8 @@ export default function Edit( props ) {
 
 
     const [fileUrl, setFileUrl] = useState({
-        logo: props.restaurant.logo.img_url,
-        banner: props.restaurant.banner.img_url,
+        logo: props.restaurant.logo ? props.restaurant.logo.img_url : null,
+        banner: props.restaurant.banner ? props.restaurant.banner.img_url : null,
     });
 
 
