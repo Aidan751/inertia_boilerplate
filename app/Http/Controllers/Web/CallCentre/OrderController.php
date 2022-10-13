@@ -113,24 +113,24 @@ class OrderController extends Controller
 
             if (count($todaysHours) > 0) {
                 // Business is open today but may have multiple opening / closing times
-                $businessClosed = true;
+                $businessClosed = false;
                 // Iterate through each of the opening hours to see if we find a match
                 foreach ($todaysHours as $hours) {
-                    dd($hours);
                     // If current time is after opening time and current time is before closing time
-                    if ( ($selectedTime >= strtotime($hours->from)) && ($selectedTime < strtotime($hours->to)) ) {
+                    if ( ($selectedTime >= date_format(new DateTime($hours->from),  'H:i:s')) && ($selectedTime < date_format(new DateTime($hours->to),  'H:i:s')) ) {
                         // Business is open
-                        $businessOpen = true;
-                        $openingHoursMessage = "Open till " . date('H:i', strtotime($hours->to));
+                        $businessClosed = false;
+                        $openingHoursMessage = "Open till " . date_format(new DateTime($hours->to),  'H:i');
+                    } else {
+                        $businessClosed = true;
                     }
-                }
-
-                // If business is closed, check to see if it's already been open for that day
-                if ($businessClosed == true) {
-                    if ($selectedTime < strtotime($hours->from)) {
-                        $openingHoursMessage = "Opens at " . date('H:i', strtotime($hours->from));
-                    } else if ($selectedTime > strtotime($hours->to)) {
-                        $openingHoursMessage = "Closed at " . date('H:i', strtotime($hours->to));
+                    if($businessClosed) {
+                        // If business is closed, check to see if it's already been open for that day
+                        if ($selectedTime < date_format(new DateTime($hours->from),  'H:i:s')) {
+                            $openingHoursMessage = "Opens at " . date_format(new DateTime($hours->from),  'H:i');
+                        } else if ($selectedTime > date_format(new DateTime($hours->to),  'H:i:s')) {
+                            $openingHoursMessage = "Closed at " . date_format(new DateTime($hours->to),  'H:i');
+                        }
                     }
                 }
             }
@@ -138,6 +138,7 @@ class OrderController extends Controller
             if ($request->order_type == 'delivery') {
 
                 $googleApiKey = config('geocoder.key');
+                dd($googleApiKey);
                 $googleGeocoding = 'https://maps.googleapis.com/maps/api/geocode/json?key=' . $googleApiKey . '&address=' . $request->address;
                 $geocodingRequest = Http::get($googleGeocoding);
                 $decodedResponse = json_decode($geocodingRequest->body(), true);
