@@ -18,6 +18,29 @@ class Restaurant extends Model
 
     protected $table = 'restaurants';
 
+    protected $fillable = [
+        'name',
+        'description',
+        'address',
+        'phone',
+        'email',
+        'website',
+        'facebook',
+        'instagram',
+        'twitter',
+        'youtube',
+        'logo',
+        'banner',
+        'group_deal',
+        'opening_hours',
+        'user_id',
+        'category_id',
+        'city_id',
+        'country_id',
+        'state_id',
+        'status',
+    ];
+
     public function scopeIsWithinMaxDistance($query, $latitude, $longitude, $radius) {
 
         $haversine = "(3959 * acos(cos(radians(" . $latitude . "))

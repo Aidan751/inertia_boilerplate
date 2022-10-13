@@ -8,7 +8,6 @@ import Checkbox from "@/components/Checkbox";
 import MidoneUpload from "@/Components/MidoneUpload";
 
 export default function Edit( props ) {
-    console.log( props );
     const { data, setData, post, processing, errors, reset } = useForm({
         name: props.restaurant.name,
         address_line_1: props.restaurant.address_line_1,
@@ -74,6 +73,7 @@ export default function Edit( props ) {
         tempFileUrl[event.target.id] = null;
     }
 
+    console.log(data);
     const handleSubmit = (e) => {
         e.preventDefault();
         post(route('my.restaurant.update', props.restaurant.id), {

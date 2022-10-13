@@ -62,21 +62,20 @@ class ConfigurationController extends Controller
             'name' => ['required', 'string', 'max:191'],
             'category' => ['required', 'int', 'min: 0'],
             'address_line_1' => ['required', 'string', 'max:191'],
+            'address_line_2' => ['nullable', 'string', 'max:191'],
             'town' => ['required', 'string', 'max:191'],
             'county' => ['required', 'string', 'max:191'],
             'postcode' => ['required', 'string', 'max:191'],
-            'password' => ['nullable', 'confirmed', 'min:6'],
         ]);
         // Find the model for this ID
         $restaurant = Restaurant::find($id);
-
         $restaurantAddress = $request->address_line_1 . ' ' . $request->address_line_2 . ', ' . $request->town . ', ' . $request->county . ', ' . $request->postcode;
 
         $addressResponse = Geocoder::getCoordinatesForAddress($restaurantAddress);
 
         if ($addressResponse['formatted_address'] != 'result_not_found') {
-           $restaurant->latitude = $addressResponse['lat'];
-           $restaurant->longitude = $addressResponse['lng'];
+            $restaurant->latitude = $addressResponse['lat'];
+            $restaurant->longitude = $addressResponse['lng'];
         } // Error
 
 
@@ -142,25 +141,28 @@ class ConfigurationController extends Controller
                 $message->to($request->email);
                 $message->subject($subject);
             });
-
         }
 
-        $restaurant->update([
-            'name' => $request->name,
-            'restaurant_category_id' => $request->category,
-            'address_line_1' => $request->address_line_1,
-            'address_line_2' => $request->address_line_2,
-            'bio' => $request->bio,
-            'application_status' => "approved",
-            'allows_table_orders' => $request->allows_table_orders,
-            'allows_collection' => $request->allows_collection,
-            'allows_delivery' => $request->allows_delivery,
-            'allows_call_center' => $request->allows_call_center,
-            'town' => $request->town,
-            'county' => $request->county,
-            'postcode' => $request->postcode,
-            'contact_number' => $request->contact_number,
-        ]);
+        // Update the model
+        $restaurant->name = is_null($request->name) ? $restaurant->name : $request->name;
+        $restaurant->restaurant_category_id = is_null($request->category) ? $restaurant->category_id : $request->category;
+        $restaurant->address_line_1 = is_null($request->address_line_1) ? $restaurant->address_line_1 : $request->address_line_1;
+        $restaurant->address_line_2 = is_null($request->address_line_2) ? $restaurant->address_line_2 : $request->address_line_2;
+        $restaurant->town = is_null($request->town) ? $restaurant->town : $request->town;
+        $restaurant->county = is_null($request->county) ? $restaurant->county : $request->county;
+        $restaurant->postcode = is_null($request->postcode) ? $restaurant->postcode : $request->postcode;
+        $restaurant->contact_number = is_null($request->contact_number) ? $restaurant->contact_number : $request->contact_number;
+        $restaurant->front_facing_number = is_null($request->front_facing_number) ? $restaurant->front_facing_number : $request->front_facing_number;
+        $restaurant->bio = is_null($request->bio) ? $restaurant->bio : $request->bio;
+        $restaurant->minimum_order_value = is_null($request->minimum_order_value) ? $restaurant->minimum_order_value : $request->minimum_order_value;
+        $restaurant->delivery_charge = is_null($request->delivery_charge) ? $restaurant->delivery_charge : $request->delivery_charge;
+        $restaurant->average_delivery_time = is_null($request->average_delivery_time) ? $restaurant->average_delivery_time : $request->average_delivery_time;
+        $restaurant->company_drivers = is_null($request->company_drivers) ? $restaurant->company_drivers : $request->company_drivers;
+        $restaurant->allows_table_orders = is_null($request->allows_table_orders) ? $restaurant->allows_table_orders : $request->allows_table_orders;
+        $restaurant->allows_collection = is_null($request->allows_collection) ? $restaurant->allows_collection : $request->allows_collection;
+        $restaurant->allows_delivery = is_null($request->allows_delivery) ? $restaurant->allows_delivery : $request->allows_delivery;
+        $restaurant->allows_call_center = is_null($request->allows_call_center) ? $restaurant->allows_call_center : $request->allows_call_center;
+
 
              // update the logo
              if ($request->hasFile('logo')) {
@@ -176,7 +178,8 @@ class ConfigurationController extends Controller
                 ]);
             }
 
-
+            // save the restaurant
+            $restaurant->save();
         return Redirect::route('my.restaurant.edit')->with('success', 'Restaurant updated successfully.');
 
     }
