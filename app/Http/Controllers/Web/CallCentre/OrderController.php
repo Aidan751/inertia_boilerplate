@@ -13,6 +13,7 @@ use App\Models\OpeningHour;
 use App\Packages\TimeFormat;
 use Illuminate\Http\Request;
 use App\Models\Configuration;
+use App\Packages\GeocoderPackage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -94,7 +95,7 @@ class OrderController extends Controller
             }
 
             $openingHoursMessage = "";
-
+            $selectedTime = "";
             // check if restaurant delivery hours are within the time requested
             if ($request->when_radio == 'asap') {
                 // if selected asap, check if restaurant is open
@@ -173,7 +174,7 @@ class OrderController extends Controller
 
                     $userLatitude = $decodedResponse['results'][0]['geometry']['location']['lat'];
                     $userLongitude = $decodedResponse['results'][0]['geometry']['location']['lng'];
-
+                    $userAddress = $decodedResponse['results'][0]['formatted_address'];
                     $restaurant->setAttribute('address', $request->address);
                     $restaurant->setAttribute('userLatitude', $userLatitude);
                     $restaurant->setAttribute('userLongitude', $userLongitude);
@@ -196,12 +197,7 @@ class OrderController extends Controller
             $restaurant->company_drivers = 1;
             if ($restaurant->company_drivers == 1 && $request->order_type == 'delivery') {
                 $configurations = Configuration::get()->toArray();
-                $google = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' . $userLatitude . ',' . $userLongitude . '&destinations=' . $restaurant->latitude . ',' . $restaurant->longitude . '&key=' . $googleApiKey;
-
-                $res = Http::get($google);
-                $responseBody = json_decode($res->body(), true);
-
-                // todo: check response
+                $distance_in_miles = GeocoderPackage::getDistance($userAddress, $restaurant->getFullAddressAttribute());
                 $distanceInMiles = ceil($responseBody['rows'][0]['elements'][0]['distance']['value'] *  0.00062137);
                 $timeInMinutes = ceil($responseBody['rows'][0]['elements'][0]['duration']['value'] / 60);
 

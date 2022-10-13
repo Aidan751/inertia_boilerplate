@@ -3,7 +3,7 @@ import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from '@inertiajs/inertia-react'
 import Label from "@/Components/Label";
 import Input from "@/Components/Input";
-import { set } from "lodash";
+import ValidationErrors from "@/Components/ValidationErrors";
 
 function Search(props) {
   const { data, setData, post, processing, errors } = useForm({
@@ -32,6 +32,7 @@ function Search(props) {
       <div className="intro-y flex items-center mt-3">
         <p className="text-gray-600">Fill out the details below for results</p>
       </div>
+      <ValidationErrors errors={errors} />
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="intro-y col-span-12 lg:col-span-6">
           {/* BEGIN: Form Layout */}
