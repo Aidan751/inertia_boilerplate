@@ -5,6 +5,7 @@ import Label from "@/Components/Label";
 import Input from "@/Components/Input";
 import ValidationErrors from "@/Components/ValidationErrors";
 import ValidationSuccess from "@/Components/ValidationSuccess";
+import Error from "@/Components/Error";
 
 function Search(props) {
 
@@ -35,7 +36,13 @@ function Search(props) {
       <div className="intro-y flex items-center mt-3">
         <p className="text-gray-600">Fill out the details below for results</p>
       </div>
-      <ValidationErrors errors={errors} />
+
+
+        {/* Show error componnent */}
+        {props.message && <Error
+            status={props.status}
+            message={props.message}
+        />}
 
           {/* Show Success Validation Component */}
           {
@@ -222,7 +229,7 @@ function Search(props) {
                 {/* End: Customer details */}
 
             <div className="text-right mt-5">
-              <Button type="submit" className="w-30">
+              <Button type="submit" className="w-30" processing={processing}>
                 Go
               </Button>
             </div>

@@ -129,11 +129,11 @@ class Restaurant extends Model
 
 
 // get restaurant full address
-public function getFullAddressAttribute() {
-    return $this->address_line_1 . ', ' . $this->town . ', ' . $this->postcode;
-}
 // public function getFullAddressAttribute() {
-//     // todo: change before testing
-//     return '26 Wilson Street, Larkhall, South Lanarkshire, ML9 2QF';
+//     return $this->address_line_1 . ', ' . $this->town . ', ' . $this->postcode;
 // }
+public function getFullAddressAttribute() {
+    // todo: change before testing
+    return '26 Wilson Street, Larkhall, South Lanarkshire, ML9 2QF';
+}
 }

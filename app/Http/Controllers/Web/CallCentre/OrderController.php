@@ -191,9 +191,9 @@ class OrderController extends Controller
 
 
                 } elseif ($decodedResponse['status'] == "ZERO_RESULTS") {
-                    return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('error', 'Address not found, please check this is a valid address.');
+                    return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('message', 'Address not found, please check this is a valid address.');
                 } else {
-                    return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('error', 'GEOCODING ERROR: ' . $decodedResponse['status'] . ' - ' . $decodedResponse['error_message']);
+                    return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('message', 'GEOCODING ERROR: ' . $decodedResponse['status'] . ' - ' . $decodedResponse['error_message']);
                 }
             }
 
@@ -208,6 +208,7 @@ class OrderController extends Controller
             if ($restaurant->company_drivers == 1 && $request->order_type == 'delivery') {
                 $configurations = Configuration::get()->toArray();
                 $distance_in_miles = GeocoderPackage::getDistance($userAddress, $restaurant->getFullAddressAttribute());
+
 
                 if($distance_in_miles === 'Zero results') {
                     return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('error', 'Address not found, please check this is a valid address.');
@@ -225,8 +226,8 @@ class OrderController extends Controller
                 $restaurant->setAttribute('delivery_charge', $rounded_fee);
                 $restaurant->setAttribute('time_in_minutes', $time_in_minutes);
                 $restaurant->setAttribute('distance_in_miles', $distance_in_miles);
-                dd($restaurant);
             }
+
 
         //     $categoryItems = array();
         //     foreach($restaurant->menuCategories as $category) {

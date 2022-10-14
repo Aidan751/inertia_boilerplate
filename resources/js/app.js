@@ -15,4 +15,17 @@ createInertiaApp({
     },
 });
 
-InertiaProgress.init({ color: 'rgb(183, 38, 126)' });
+InertiaProgress.init({
+    // The delay after which the progress bar will
+    // appear during navigation, in milliseconds.
+    delay: 250,
+
+    // The color of the progress bar.
+    color: 'rgb(183, 38, 126)',
+
+    // Whether to include the default NProgress styles.
+    includeCSS: true,
+
+    // Whether the NProgress spinner will be shown.
+    showSpinner: true,
+});
