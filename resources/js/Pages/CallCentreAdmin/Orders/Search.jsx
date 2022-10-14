@@ -36,14 +36,8 @@ function Search(props) {
       <div className="intro-y flex items-center mt-3">
         <p className="text-gray-600">Fill out the details below for results</p>
       </div>
-
-
-        {/* Show error componnent */}
-        {props.message && <Error
-            status={props.status}
-            message={props.message}
-        />}
-
+          {/* show error component */}
+          <ValidationErrors errors={errors} />
           {/* Show Success Validation Component */}
           {
                         props.success &&

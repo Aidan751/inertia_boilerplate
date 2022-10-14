@@ -86,8 +86,8 @@ class OrderController extends Controller
         $restaurant = Restaurant::with('menuCategories', 'menuItems', 'openingHours')->where('contact_number', $request->contact_number)->first();
 
         if(is_null($restaurant)) {
-            return Redirect::route('call-centre.orders.search', Auth::user()->id)->with([
-                'message' => 'The page expired, please try again.',
+            return redirect()->back()->withErrors([
+                'message' => 'Restaurant not found',
             ]);
         }
         // get opening hours
@@ -97,11 +97,11 @@ class OrderController extends Controller
         if (!is_null($restaurant)) {
             // check if restaurant order type is in line with what is requested, if not, return error
             if ($request->order_type == 'delivery' && $restaurant->allows_delivery == 0) {
-                return Redirect::route('call-centre.orders.search')->with('error', 'This business does not offer a delivery service.');
+                return redirect()->back()->withErrors(['error', 'This business does not offer a delivery service.']);
             } else if ($request->order_type == 'collection' && $restaurant->allows_collection == 0)  {
-                return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('error', 'This business does not offer a collection service.');
+                return redirect()->back()->withErrors(['error', 'This business does not offer a collection service.']);
             } else if ($request->order_type == 'table' && $restaurant->allows_table_orders == 0)  {
-                return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('error', 'This business does not offer table service.');
+                return redirect()->back()->withErrors(['error', 'This business does not offer table service.']);
             }
 
             $openingHoursMessage = "";
@@ -191,9 +191,9 @@ class OrderController extends Controller
 
 
                 } elseif ($decodedResponse['status'] == "ZERO_RESULTS") {
-                    return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('message', 'Address not found, please check this is a valid address.');
+                    return redirect()->back()->withErrors(['message', 'Address not found, please check this is a valid address.']);
                 } else {
-                    return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('message', 'GEOCODING ERROR: ' . $decodedResponse['status'] . ' - ' . $decodedResponse['error_message']);
+                    return redirect()->back()->withErrors(['message', 'GEOCODING ERROR: ' . $decodedResponse['status'] . ' - ' . $decodedResponse['error_message']]);
                 }
             }
 
@@ -207,18 +207,14 @@ class OrderController extends Controller
             $restaurant->company_drivers = 1;
             if ($restaurant->company_drivers == 1 && $request->order_type == 'delivery') {
                 $configurations = Configuration::get()->toArray();
+
                 $distance_in_miles = GeocoderPackage::getDistance($userAddress, $restaurant->getFullAddressAttribute());
 
 
-                if($distance_in_miles === 'Zero results') {
-                    return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('error', 'Address not found, please check this is a valid address.');
-                }
-
                 $raw_distance = (int)str_replace(' miles', '', $distance_in_miles);
                 $delivery_time = GeocoderPackage::getDeliveryTime($restaurant->getFullAddressAttribute(), $userAddress);
-
                 if($delivery_time === 'Zero results') {
-                    return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('error', 'Address not found, please check this is a valid address.');
+                    return redirect()->back()->withErrors(['message', 'Delivery time could not be calculated.']);
                 }
                 $time_in_minutes = floor($delivery_time->value / 60);
                 $fee = (($time_in_minutes * (int)$configurations[0]['minute']) + ($raw_distance * (int)$configurations[0]['mile']));
