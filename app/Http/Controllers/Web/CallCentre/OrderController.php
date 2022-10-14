@@ -105,14 +105,14 @@ class OrderController extends Controller
             }
 
             $openingHoursMessage = "";
-            $selectedTime = "";
+            $selected_time = "";
             // check if restaurant delivery hours are within the time requested
             if ($request->when_radio == 'asap') {
                 // if selected asap, check if restaurant is open
                 $milliseconds =  date_format(new DateTime('+60 minutes'),  'H:i:s');
             } else {
                 // if selected time, check if restaurant is open at the time selected
-                $selectedTime = date_format(new DateTime($request->selected_time),  'H:i:s');
+                $selected_time = date_format(new DateTime($request->selected_time),  'H:i:s');
             }
 
             // Check restaurant is open now
@@ -130,7 +130,7 @@ class OrderController extends Controller
                 // Iterate through each of the opening hours to see if we find a match
                 foreach ($todaysHours as $hours) {
                     // If current time is after opening time and current time is before closing time
-                    if ( ($selectedTime >= date_format(new DateTime($hours->from),  'H:i:s')) && ($selectedTime < date_format(new DateTime($hours->to),  'H:i:s')) ) {
+                    if ( ($selected_time >= date_format(new DateTime($hours->from),  'H:i:s')) && ($selected_time < date_format(new DateTime($hours->to),  'H:i:s')) ) {
                         // Business is open
                         $businessClosed = false;
                         $openingHoursMessage = "Open till " . date_format(new DateTime($hours->to),  'H:i');
@@ -139,9 +139,9 @@ class OrderController extends Controller
                     }
                     if($businessClosed) {
                         // If business is closed, check to see if it's already been open for that day
-                        if ($selectedTime < date_format(new DateTime($hours->from),  'H:i:s')) {
+                        if ($selected_time < date_format(new DateTime($hours->from),  'H:i:s')) {
                             $openingHoursMessage = "Opens at " . date_format(new DateTime($hours->from),  'H:i');
-                        } else if ($selectedTime > date_format(new DateTime($hours->to),  'H:i:s')) {
+                        } else if ($selected_time > date_format(new DateTime($hours->to),  'H:i:s')) {
                             $openingHoursMessage = "Closed at " . date_format(new DateTime($hours->to),  'H:i');
                         }
                     }
@@ -224,55 +224,37 @@ class OrderController extends Controller
                 $restaurant->setAttribute('distance_in_miles', $distance_in_miles);
             }
 
+            $category_items = array();
+            foreach($restaurant->menuCategories as $category) {
+                // For each menu category lookup all items assosiated with it
+                $menu_items = $restaurant->menuItems->where('menu_category_id', $category->id);
 
-        //     $categoryItems = array();
-        //     foreach($restaurant->menuCategories as $category) {
-        //         // For each menu category lookup all items assosiated with it
-        //         $results = $restaurant->menuItems->where('menu_category_id', $category->id);
+                foreach ($menu_items as $item) {
+                    $item_image = $item->image ?? null;
+                }
 
-        //         foreach ($results as $result) {
-        //             $itemImage = $result->getMedia('items');
-        //             $url =  '';//config('app.url');
-        //             if(!$itemImage->isEmpty()){
-        //                 $result->setAttribute('image', $url . $itemImage[0]->getFullUrl());
-        //             }
-        //             else{
-        //                 $result->setAttribute('image', null);
-        //             }
-        //         }
+                $array = array($category->title, $menu_items);
+                array_push($category_items, $array);
+            }
 
-        //         $array = array($category->title, $results);
-        //         array_push($categoryItems, $array);
-        //     }
+            $restaurant->setAttribute('menu', $category_items);
+            $restaurant->setAttribute('opening_hours_message', $openingHoursMessage);
+            $restaurant->setAttribute('chosen_order_type', $request->order_type);
+            $restaurant->setAttribute('customer_name', $request->customer_name);
+            $restaurant->setAttribute('customer_contact_number', $request->customer_contact_number);
+            $restaurant->setAttribute('time_slot', date_format(new DateTime($selected_time),  'H:i:s')) ?? null;
 
-        //     $restaurant->setAttribute('menu', $categoryItems);
-        //     $restaurant->setAttribute('opening_hours_message', $openingHoursMessage);
-        //     $restaurant->setAttribute('chosen_order_type', $request->order_type);
-        //     $restaurant->setAttribute('customer_name', $request->customer_name);
-        //     $restaurant->setAttribute('customer_contact_number', $formattedContactNumber);
-        //     $restaurant->setAttribute('time_slot', date('H:i:s', $selectedTime));
-
-        //     session()->put('restaurant', $restaurant);
+            session()->put('restaurant', $restaurant);
 
 
-        //     return Inertia::render('CallCentreAdmin/Orders/Details', [
-        //         'restaurant' => $restaurant,
-        //         'order_type' => $request->order_type,
-        //         'customer_name' => $request->customer_name,
-        //         'customer_contact_number' => $formattedContactNumber,
-        //         'time_slot' => date('H:i:s', $selectedTime),
-        //         'opening_hours_message' => $openingHoursMessage,
-        //         'chosen_order_type' => $request->order_type,
-        //         'delivery_charge' => $restaurant->delivery_charge,
-        //         'time_in_minutes' => $restaurant->time_in_minutes,
-        //         'distance_in_miles' => $restaurant->distance_in_miles,
-        //     ]);
-        // } else {
-        //     return redirect()->back()->withInput()->with('error', 'Business not found, please check the businesses number is correct.');
-        // }
+            return Inertia::render('CallCentreAdmin/Orders/Details', [
+                'restaurant' => $restaurant,
+            ]);
+        } else {
+            return redirect()->back()->withErrors(['error', 'Business not found, please check the businesses number is correct.']);
+        }
 
-    }}
-
+    }
 
         public function sendPush(Request $request, $id) {
 

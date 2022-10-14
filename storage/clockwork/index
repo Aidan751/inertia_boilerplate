@@ -1457,3 +1457,11 @@
 1665712476-9238-843593213,1665712476.665,GET,/call-centre/orders/search/7,"App\Http\Controllers\Web\CallCentre\OrderController@search",200,599.21598434448,request
 1665712765-5995-308447772,1665712765.1534,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",302,1934.0188503265,request
 1665712767-4089-2142454193,1665712767.1407,GET,/call-centre/orders/search/7,"App\Http\Controllers\Web\CallCentre\OrderController@search",200,563.49802017212,request
+1665712985-7124-370380352,1665712985.2456,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,789.93487358093,request
+1665713275-1678-483497645,1665713274.7236,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,2103.0900478363,request
+1665713469-9518-1017914669,1665713469.4808,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,2418.741941452,request
+1665713559-9620-325129338,1665713559.5992,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,2616.6241168976,request
+1665713597-6172-229311350,1665713597.08,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,2181.2498569489,request
+1665713670-4034-790989317,1665713670.1206,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,1725.1169681549,request
+1665713766-5710-1078506758,1665713765.8501,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",500,2710.2959156036,request
+1665713935-6375-110436844,1665713935.154,POST,/call-centre/orders/details,"App\Http\Controllers\Web\CallCentre\OrderController@details",200,2157.3901176453,request
