@@ -79,6 +79,7 @@ class OrderController extends Controller
             "role" => "required|exists:roles,name",
         ]);
 
+
         session()->forget('cart');
         session()->forget('restaurant');
 
