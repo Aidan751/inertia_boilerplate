@@ -6,10 +6,12 @@ import Input from "@/Components/Input";
 import ValidationErrors from "@/Components/ValidationErrors";
 
 function Search(props) {
+
   const { data, setData, post, processing, errors } = useForm({
     role: 'call_centre_admin',
   })
 
+  console.log(props);
   const submit = (e) => {
       e.preventDefault();
 

@@ -17,6 +17,7 @@ use App\Packages\GeocoderPackage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Redirect;
 
 class OrderController extends Controller
 {
@@ -61,7 +62,10 @@ class OrderController extends Controller
         // create order
         public function search(Request $request, $id)
         {
-            return Inertia::render('CallCentreAdmin/Orders/Search');
+            $user = User::find($id);
+            return Inertia::render('CallCentreAdmin/Orders/Search', [
+                'user' => $user,
+            ]);
         }
 
         // get order details
@@ -80,6 +84,11 @@ class OrderController extends Controller
 
         $restaurant = Restaurant::with('menuCategories', 'menuItems', 'openingHours')->where('contact_number', $request->contact_number)->first();
 
+        if(is_null($restaurant)) {
+            return Redirect::route('call-centre.orders.search', Auth::user()->id)->with([
+                'message' => 'The page expired, please try again.',
+            ]);
+        }
         // get opening hours
         $openingHours = OpeningHour::where('restaurant_id', $restaurant->id)->get();
 
@@ -87,11 +96,11 @@ class OrderController extends Controller
         if (!is_null($restaurant)) {
             // check if restaurant order type is in line with what is requested, if not, return error
             if ($request->order_type == 'delivery' && $restaurant->allows_delivery == 0) {
-                return back()->with('error', 'This business does not offer a delivery service.');
+                return Redirect::route('call-centre.orders.search')->with('error', 'This business does not offer a delivery service.');
             } else if ($request->order_type == 'collection' && $restaurant->allows_collection == 0)  {
-                return back()->with('error', 'This business does not offer a collection service.');
+                return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('error', 'This business does not offer a collection service.');
             } else if ($request->order_type == 'table' && $restaurant->allows_table_orders == 0)  {
-                return back()->with('error', 'This business does not offer table service.');
+                return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('error', 'This business does not offer table service.');
             }
 
             $openingHoursMessage = "";
@@ -145,8 +154,8 @@ class OrderController extends Controller
                 $geocodingRequest = Http::get($googleGeocoding);
                 $decodedResponse = json_decode($geocodingRequest->body(), true);
 
-                $userLatitude = 0;
-                $userLongitude = 0;
+                $user_latitude = 0;
+                $user_longitude = 0;
                 $address = $request->address;
 
                 if ($decodedResponse['status'] == 'OK') {
@@ -172,18 +181,18 @@ class OrderController extends Controller
                         }
                     }
 
-                    $userLatitude = $decodedResponse['results'][0]['geometry']['location']['lat'];
-                    $userLongitude = $decodedResponse['results'][0]['geometry']['location']['lng'];
+                    $user_latitude = $decodedResponse['results'][0]['geometry']['location']['lat'];
+                    $user_longitude = $decodedResponse['results'][0]['geometry']['location']['lng'];
                     $userAddress = $decodedResponse['results'][0]['formatted_address'];
-                    $restaurant->setAttribute('address', $request->address);
-                    $restaurant->setAttribute('userLatitude', $userLatitude);
-                    $restaurant->setAttribute('userLongitude', $userLongitude);
+                    $restaurant->setAttribute('delivery_address', $request->address);
+                    $restaurant->setAttribute('user_latitude', $user_latitude);
+                    $restaurant->setAttribute('user_longitude', $user_longitude);
 
 
                 } elseif ($decodedResponse['status'] == "ZERO_RESULTS") {
-                    return back()->with('error', 'Address not found, please check this is a valid address.');
+                    return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('error', 'Address not found, please check this is a valid address.');
                 } else {
-                    return back()->with('error', 'GEOCODING ERROR: ' . $decodedResponse['status'] . ' - ' . $decodedResponse['error_message']);
+                    return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('error', 'GEOCODING ERROR: ' . $decodedResponse['status'] . ' - ' . $decodedResponse['error_message']);
                 }
             }
 
@@ -199,14 +208,23 @@ class OrderController extends Controller
                 $configurations = Configuration::get()->toArray();
                 $distance_in_miles = GeocoderPackage::getDistance($userAddress, $restaurant->getFullAddressAttribute());
 
+                if($distance_in_miles === 'Zero results') {
+                    return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('error', 'Address not found, please check this is a valid address.');
+                }
 
-                // todo: get ime in minutes between the address of restaurant and address of destination
+                $raw_distance = (int)str_replace(' miles', '', $distance_in_miles);
                 $delivery_time = GeocoderPackage::getDeliveryTime($restaurant->getFullAddressAttribute(), $userAddress);
-                $fee = (($timeInMinutes * $configurations[1]['price']) + ($distanceInMiles * $configurations[0]['price']));
-                $roundedFee = round($fee, 2);
-                $restaurant->setAttribute('delivery_charge', $roundedFee);
-                $restaurant->setAttribute('time_in_minutes', $timeInMinutes);
-                $restaurant->setAttribute('distance_in_miles', $distanceInMiles);
+
+                if($delivery_time === 'Zero results') {
+                    return Redirect::route('call-centre.orders.search', Auth::user()->id)->with('error', 'Address not found, please check this is a valid address.');
+                }
+                $time_in_minutes = floor($delivery_time->value / 60);
+                $fee = (($time_in_minutes * (int)$configurations[0]['minute']) + ($raw_distance * (int)$configurations[0]['mile']));
+                $rounded_fee = round($fee, 2);
+                $restaurant->setAttribute('delivery_charge', $rounded_fee);
+                $restaurant->setAttribute('time_in_minutes', $time_in_minutes);
+                $restaurant->setAttribute('distance_in_miles', $distance_in_miles);
+                dd($restaurant);
             }
 
         //     $categoryItems = array();
