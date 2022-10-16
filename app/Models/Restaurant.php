@@ -7,6 +7,7 @@ use App\Models\Order;
 use App\Models\Banner;
 use App\Models\GroupDeal;
 use App\Models\OpeningHour;
+use App\Models\MenuCategory;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -16,7 +17,6 @@ class Restaurant extends Model
 {
     use  HasFactory;
 
-    protected $table = 'restaurants';
 
     protected $fillable = [
         'name',
@@ -88,7 +88,7 @@ class Restaurant extends Model
     }
 
     public function menuCategories() {
-        return $this->hasMany(MenuCategory::class, 'restaurant_id', 'id')->select(['restaurant_id', 'id', 'title'])->has('items')->orderBy('title', 'ASC');
+        return $this->hasMany(MenuCategory::class, 'restaurant_id', 'id');
     }
 
     public function tableNumbers() {

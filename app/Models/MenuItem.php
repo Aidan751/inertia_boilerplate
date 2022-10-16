@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Size;
 use App\Models\MenuImage;
+use App\Models\MenuCategory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -12,17 +13,24 @@ class MenuItem extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
-    protected $table = 'menu_items';
+    protected $fillable = [
+        'title',
+        'description',
+        'price',
+        'menu_category_id',
+        'restaurant_id',
+        'size_id',
+        'menu_image',
+    ];
 
     protected $casts = [
         'extras' => 'array',
         'sizes' => 'array',
     ];
 
-    public function category()
+    public function menuCategory()
     {
-        return $this->hasOne(MenuCategory::class, 'id', 'menu_category_id');
+        return $this->belongsTo(MenuCategory::class, 'menu_category_id', 'id');
     }
 
     public function registerMediaCollections()

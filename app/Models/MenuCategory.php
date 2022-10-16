@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\MenuItem;
+use App\Models\Restaurant;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class MenuCategory extends Model
 {
@@ -14,11 +16,13 @@ class MenuCategory extends Model
         'restaurant_id',
     ];
 
-    protected $guarded = [];
-    protected $table = 'menu_categories';
-
-    public function items()
+    public function restaurant()
     {
-        return $this->hasMany(MenuItem::class)->orderBy('title');
+        return $this->belongsTo(Restaurant::class);
+    }
+
+    public function menuItems()
+    {
+        return $this->hasMany(MenuItem::class,"menu_category_id","id");
     }
 }

@@ -6,6 +6,7 @@ use App\Models\Day;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
+use App\Models\GroupDeal;
 use App\Models\OrderItem;
 use Nette\Utils\DateTime;
 use App\Models\Restaurant;
@@ -194,18 +195,23 @@ class OrderController extends Controller
             }
 
             $category_items = array();
+            $menu_items = array();
             foreach($restaurant->menuCategories as $category) {
                 // For each menu category lookup all items assosiated with it
                 $menu_items = $restaurant->menuItems->where('menu_category_id', $category->id);
 
                 foreach ($menu_items as $item) {
                     $item_image = $item->image ?? null;
+                    $array2 = array($menu_items, $item);
                 }
 
-                $array = array($category->title, $menu_items);
+                $array = array($category->title, $array2);
                 array_push($category_items, $array);
             }
 
+           $group_deals = GroupDeal::where('restaurant_id', $restaurant->id)->get();
+
+            $restaurant->setAttribute('group_deals', $group_deals);
             $restaurant->setAttribute('menu', $category_items);
             $restaurant->setAttribute('opening_hours_message', $openingHoursMessage);
             $restaurant->setAttribute('chosen_order_type', $request->order_type);
