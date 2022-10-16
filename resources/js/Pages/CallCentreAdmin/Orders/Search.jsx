@@ -9,7 +9,7 @@ import Error from "@/Components/Error";
 
 function Search(props) {
 
-  const { data, setData, post, processing, errors } = useForm({
+  const { data, setData, get, processing, errors } = useForm({
     role: 'call_centre_admin',
   })
 
@@ -17,7 +17,7 @@ function Search(props) {
   const submit = (e) => {
       e.preventDefault();
 
-      post(route('call-centre.orders.details'));
+      get(route('call-centre.orders.index'));
   };
 
   return (

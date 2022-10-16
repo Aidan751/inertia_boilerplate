@@ -27,37 +27,6 @@ class OrderController extends Controller
         *
         * @return \Illuminate\Http\Response
         */
-        public function index(Request $request, $id)
-        {
-            $user = User::find($id);
-               // Get all users, paginate through them using the "perPage" parameter. Search through the users, if the "search" parameter is present.
-            $search = $request->get('search', '');
-            $status = $request->get('status', '');
-            $from = $request->get('from', '');
-            $to = $request->get('to', '');
-
-
-            // todo: query whether it was meant to be search by contact number rather than email
-
-              $orders = Order::where('user_id', Auth::user()->id)->where('order_method', 'call')->where(function ($q) use ($search) {
-                 $q->where('customer_name', 'LIKE', '%' . $search . '%')->orWhere('customer_contact_number', 'LIKE', '%' . $search . '%');
-              })
-              ->orderBy('pickup_date', 'desc')
-              ->paginate($request->perPage ?? 10);
-
-
-
-          // Return an inertia view with the users
-          return Inertia::render('CallCentreAdmin/Orders/Index', [
-              'user' => $user,
-              'orders' => $orders,
-              "perPage" => $request->perPage ?? 10,
-              "search" => $request->search ?? null,
-              "from" => $request->from ?? null,
-              "to" => $request->to ?? null,
-              "status" => $request->status ?? null,
-          ]);
-        }
 
         // create order
         public function search(Request $request, $id)
@@ -69,7 +38,7 @@ class OrderController extends Controller
         }
 
         // get order details
-        public function details(Request $request)
+        public function index(Request $request)
         {
         // Validate the data
          $request->validate([
@@ -247,7 +216,7 @@ class OrderController extends Controller
             session()->put('restaurant', $restaurant);
 
 
-            return Inertia::render('CallCentreAdmin/Orders/Details', [
+            return Inertia::render('CallCentreAdmin/Orders/Index', [
                 'restaurant' => $restaurant,
             ]);
         } else {

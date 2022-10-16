@@ -1,38 +1,43 @@
 
 import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link } from '@inertiajs/inertia-react';
-import { Search,CheckSquare, ChevronRight ,ChevronsRight, ChevronsLeft, XCircle,Trash2,ChevronLeft, Eye} from "lucide-react";
+import { Search,CheckSquare, ChevronRight ,ChevronsRight, ChevronsLeft, XCircle,Trash2,ChevronLeft, Eye, Edit} from "lucide-react";
 import { useForm } from '@inertiajs/inertia-react'
 import { useState } from "react";
 import { Modal, ModalBody } from "@/base-components";
 import { Inertia } from "@inertiajs/inertia";
+import { TomSelect, ClassicEditor, Lucide, Tippy, Alert, TabPanel } from "@/base-components";
 import ValidationSuccess from "@/Components/ValidationSuccess";
 import Button from "@/Components/Button";
 
 
 export default function Index(props){
-    console.log('hello');
+    console.log(props);
     const { data, setData, get, processing, errors } = useForm({
-        perPage: props.perPage,
-        search: props.search,
-        status: props.status,
-        to: props.to,
-        from: props.from,
-      })
 
-    const from = props.orders.from;
+    })
 
-    const to = props.orders.to;
-
-    const total = props.orders.total;
-
-    const first_page_url = props.orders.first_page_url;
-
-    const last_page_url = props.orders.last_page_url;
-
-    const links = props.orders.links;
-
-    const [orders, setOrders] = useState(props.orders.data);
+    const [group_deals, set_group_deals] = useState([])
+    const [menu, set_menu] = useState([
+        [{
+            title: 'Starter',
+        },
+        [{
+            title: 'snails',
+            description: 'snails',
+            dietary_requirements: 'n/a',
+            price: 10,
+        }]
+    ]
+    ]);
+    const[new_items, set_new_items] = useState([
+        {
+            id: 1,
+            name: 'item 1',
+            price: 100,
+            quantity: 1,
+        }
+    ]);
 
     /**
      * Handle search form submission
@@ -98,230 +103,223 @@ export default function Index(props){
             <Authenticated
                 auth={props.auth}
                 errors={props.errors}
-                activeGroup={17}
-                activeItem={1}
+                activeGroup={16}
             >
 
                 {/* Define Page Title */}
-                <Head title="View Orders" />
+                <Head title="Order Details" />
 
 
-                {/* Page Content */}
-                <main className="col-span-12">
+                <div className="col-span-12">
+        <h2 className="intro-y text-lg font-medium mt-10 mb-4">
+          Order Details
+        </h2>
+        {/* start:intro */}
+        <div className="grid grid-rows-3 grid-cols-3 gap-4">
+          <div className="md:col-span-2 col-span-3 sm:row-span-1">
+            <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center">
+              {/* start:intro */}
+              <p className="sm:text-start sm:col-span-3 mb-2 text-start col-span-5 px-1 order-1">
+                {props.restaurant.time_slot ?? "ASAP"}{" "}
+                <span className="d-inline-block mr-2 ml-2">{">"}</span>{" "}
+                {props.restaurant.delivery_address}
+              </p>
+              <p className="col-span-3 mb-2 row-span-1 px-1 order-3">
+                {props.restaurant.chosen_order_type.toUpperCase()}
+              </p>
+              <button
+                className="btn sm:col-span-1 col-span-5 row-span-1 order-2"
+                href="#"
+              >
+                Return to search
+              </button>
 
-                    {/* Page Header */}
-                    <h2 className="mt-10 text-lg font-medium intro-y">View Orders</h2>
+              {/* end:intro */}
+            </div>
 
-                    {/* Show Success Validation Component */}
-                    {
-                        props.success &&
-                        <ValidationSuccess message={props.success} />
-                    }
-
-                    <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-12 intro-y">
-                        <div className="flex flex-col sm:flex-row items-center">
-                            <p className="text-sm mr-auto mt-10 mb-6">Filter By Date</p>
-                        </div>
+            {/* start: restaurant box */}
+            <div>
+              <div className="md:col-span-2 col-span-3 sm:row-span-1 row-span-2">
+                <div className="box flex flex-wrap">
+                  <div className="p-5 flex-1">
+                    <div className="h-56 2xl:w-72 2xl:h-56 image-fit rounded-md overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
+                      <img
+                        alt="Midone - HTML Admin Template"
+                        className="rounded-md w-full"
+                        src={props.restaurant.banner}
+                      />
                     </div>
-                    <div onSubmit={submitDateFilterForm} className="intro-y col-span-12 flex items-center justify-between flex-wrap mt-0">
-                    {/* Start: filter by date */}
-                        <div className="flex-2 mb-3">
-                                <input
-                                    type="date"
-                                    className="px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                    name="from"
-                                    value={data.from}
-                                    onChange={handleFromChange}
-                                    style={{width: "35vw", height: "2.5rem"}}
-                                />
-                        </div>
-                        <div className="mx-5 mb-3">
-                            to
-                        </div>
-                        <div className="flex-2 mb-3">
-                                <input
-                                    type="date"
-                                    className="px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                    name="to"
-                                    value={data.to}
-                                    onChange={handleToChange}
-                                    style={{width: "35vw", height: "2.5rem"}}
-                                />
-                    </div>
-                    </div>
+                  </div>
+                  <div className="p-5 flex-1 flex items-start justify-center flex-col">
+                    <h2 className="font-medium text-lg">
+                      {props.restaurant.name}
+                    </h2>
+                    <p className="mt-5 mb-2">
+                      {props.restaurant.opening_hours_message}
+                    </p>
+                    <p className="mb-2">
+                      Delivery £{props.restaurant.delivery_charge}
+                    </p>
+                    <p>
+                      Delivery estimate{" "}
+                      {props.restaurant.average_delivery_time - 10} -{" "}
+                      {props.restaurant.average_delivery_time} Minutes
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
 
-                    {/* filter orders by status 'pending', 'confirmed', 'driver-en-route', 'order-en-route', 'completed', 'cancelled' */}
-
-                    <div className="col-span-12 sm:col-span-12 md:col-span-12 lg:col-span-12 xl:col-span-12 intro-y">
-                        <div className="flex flex-col sm:flex-row items-center">
-                            <p className="text-sm mr-auto mt-6 mb-6">Filter By Status</p>
-                        </div>
+            {/* end: restaurant box */}
+            {/* start: groupdeal box */}
+            <div
+              className="mt-5 pt-5 pb-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2"
+              style={{
+                borderTop: "1px dashed grey",
+                borderBottom: "1px dashed grey"
+              }}
+            >
+              <h2 className="font-medium text-lg pb-5">Deals</h2>
+              {group_deals.length == 0 && (
+                <button className="btn">Choose a group deal</button>
+              )}
+              {group_deals &&
+                group_deals.map((deal, key) => (
+                  <div className="box flex flex-wrap mb-4">
+                    <div className="p-5 flex-1">
+                      <div className="h-56 2xl:w-72 2xl:h-56 image-fit rounded-md overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
+                        <img
+                          alt="Midone - HTML Admin Template"
+                          className="rounded-md w-full"
+                          src="https://source.unsplash.com/random/900×700/?fruit"
+                        />
+                      </div>
                     </div>
-                    <div className="w-full sm:w-auto mt-0 sm:mt-0 sm:ml-auto md:ml-0"  style={{width: "35vw", height: "2.3rem"}}>
-                        <select
-                            className="px-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                            onChange={handleStatusFilter}
-                            value={data.status}
-                            style={{width: "35vw", height: "2.3rem"}}
-                        >
-                            <option value="">All</option>
-                            <option value="pending">Pending</option>
-                            <option value="confirmed">Confirmed</option>
-                            <option value="driver-en-route">Driver En Route</option>
-                            <option value="order-en-route">Order En Route</option>
-                            <option value="completed">Completed</option>
-                            <option value="cancelled">Cancelled</option>
-                        </select>
+                    <div className="p-5 flex-1 flex items-start justify-center flex-col">
+                      <h2 className="font-medium text-lg">{deal.title}</h2>
+                      <p className="mt-5 mb-2">{deal.description}</p>
+                      <p className="mb-2">
+                        Allergens: {deal.allergies ?? "N/A"}
+                      </p>
+                      <p className="mb-2">Price: £ {deal.group_deal_price}</p>
+                      <button type="button" className="btn">
+                        Add
+                      </button>
                     </div>
-                    {/*  */}
-                    <div className="grid grid-cols-12 gap-6 mt-5">
-                        <div className="flex flex-wrap items-center col-span-12 mt-5 intro-y sm:flex-nowrap">
-
-                            {/* Pagination Information */}
-                            <div className="hidden mx-auto md:block text-slate-500">
-                                Showing {from} to {to} of {total} entries
+                  </div>
+                ))}
+              {/* end: groupdeal box */}
+              {/* start: menu box */}
+              {menu &&
+                menu.map((menu_item, key) => (
+                  <div
+                    className="mt-5 pt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2"
+                    style={{ borderTop: "1px dashed grey" }}
+                  >
+                    {console.log(menu_item)}
+                    <h2 className="pb-5 font-medium text-lg">{menu_item[0].title}</h2>
+                    {menu_item[1].length === 0 && (
+                      <button className="btn">Choose a menu item</button>
+                    )}
+                    {menu_item[1] &&
+                      menu_item[1].map((item, key) => (
+                        <div className="box flex flex-wrap mb-4">
+                          <div className="p-5 flex-1">
+                            <div className="h-56 2xl:w-72 2xl:h-56 image-fit rounded-md overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
+                              <img
+                                alt="Midone - HTML Admin Template"
+                                className="rounded-md w-full"
+                                src="https://source.unsplash.com/random/900×700/?fruit"
+                              />
                             </div>
-
-                            {/* start: Search Form */}
-                            <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
-                                <div className="w-56 relative text-slate-500">
-                                    <div style={{width: '30vw', height: '2.5rem'}} className="flex justify-start">
-                                        <input
-                                        type="text"
-                                        className="search__input text-sm text-gray-700 bitem rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                        placeholder="Search..."
-                                        value={data.search}
-                                        onChange={e => setData('search', e.target.value)}
-                                        style={{width: '30vw', height: '2.5rem'}}
-                                        />
-                                    <Button type="submit" className="search__button ml-3 flex items-center justify-center text-gray-700">
-                                        Search
-                                    </Button>
-                                    </div>
-                                </div>
-                            </form>
-                            {/* end: Search Form */}
+                          </div>
+                          <div className="p-5 flex-1 flex items-start justify-center flex-col">
+                            <h2 className="font-medium text-lg">
+                              {item.title}
+                            </h2>
+                            <p className="mt-5 mb-2">{item.description}</p>
+                            <p className="mb-2">
+                              Allergens: {item.dietary_requirements ?? "N/A"}
+                            </p>
+                            <p className="mb-4">Price: £ {item.price}</p>
+                            <button type="button" className="btn">
+                              Add
+                            </button>
+                          </div>
                         </div>
-                        {/* BEGIN: Data List */}
-                        <div className="col-span-12 overflow-auto intro-y lg:overflow-visible">
-                        <table className="table -mt-2 table-report">
-                            <thead>
-                            <tr>
-                                <th className="text-left whitespace-nowrap">CUSTOMER NAME</th>
-                                <th className="text-left whitespace-nowrap">DATE/TIME</th>
-                                <th className="text-left whitespace-nowrap">PRICE</th>
-                                <th className="text-center whitespace-nowrap">METHOD</th>
-                                <th className="text-left whitespace-nowrap">STATUS</th>
-                                <th className="text-center whitespace-nowrap">ORDER ID</th>
-                                <th className="text-center whitespace-nowrap">ACTIONS</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            { orders.map((order, key) => (
-
-                                <tr key={key} className="intro-x">
-
-                                    {/* Customer Name */}
-                                    <td className="text-left">
-                                            {order.customer_name}
-                                    </td>
-
-                                    {/* Date/Time */}
-                                    <td className="text-left">{order.pickup_date} - {order.time_slot}</td>
-
-                                    {/* Price */}
-                                    <td className="text-left">{order.price}</td>
-
-                                    {/* Method */}
-                                    <td className="text-center">{order.order_method}</td>
-
-                                    {/* Status */}
-                                    <td className="text-left">{order.status}</td>
-
-                                    {/* Order ID */}
-                                    <td className="text-center">{order.id}</td>
-
-                                    {/* Actions */}
-                                    <td className="w-56 table-report__action">
-                                        {/* start: View Orders Link */}
-                                            <Link href={route("restaurant.orders.show", order.id)} className="flex items-center justify-center mr-3">
-                                               <Eye className="w-4 h-4 mr-1" />{" "}
-                                                View
-                                            </Link>
-                                        {/* end: View Orders Link */}
-                                    </td>
-                                </tr>
-                            ))}
-                            </tbody>
-                        </table>
-                        </div>
-                        {/* END: Data List */}
-                        {/* BEGIN: Pagination */}
-                        <div className="flex flex-wrap items-center col-span-12 intro-y sm:flex-row sm:flex-nowrap">
-                        <nav className="w-full sm:w-auto sm:mr-auto">
-                            <ul className="pagination">
-                                <li className="page-item">
-                                    <Link className="page-link" href={first_page_url}>
-                                        <ChevronsLeft className="w-4 h-4" />
-                                    </Link>
-                                </li>
-                                {
-                                links &&
-                                links.map(link => {
-                                        return (
-                                            <>
-                                                {
-                                                    link.label == "&laquo; Previous" &&
-                                                        <li key={link.label} className="page-item">
-                                                            <Link className="page-link" href={link.url}>
-                                                                <ChevronLeft className="w-4 h-4" />
-                                                            </Link>
-                                                        </li>
-                                                }
-                                                {
-                                                    link.label == "Next &raquo;" &&
-                                                        <li key={link.label} className="page-item">
-                                                            <Link className="page-link" href={link.url}>
-                                                                <ChevronRight className="w-4 h-4" />
-                                                            </Link>
-                                                        </li>
-                                                }
-                                                {
-                                                    link.label != "&laquo; Previous" && link.label != "Next &raquo;" &&
-                                                        <li key={link.label} className={ link.active == true ? "page-item active" : "page-item"
-                                                    }>
-                                                            <Link
-                                                                className="page-link"
-                                                                href={link.url}>
-                                                                {link.label}
-                                                            </Link>
-                                                        </li>
-                                                }
-                                            </>
-                                        )
-                                            })
-                                        }
-
-
-
-
-                                <li className="page-item">
-                                    <Link className="page-link" href={last_page_url}>
-                                        <ChevronsRight className="w-4 h-4" />
-                                    </Link>
-                                </li>
-                            </ul>
-                        </nav>
-                        <select className="w-20 mt-3 form-select box sm:mt-0" onChange={paginate} value={data.perPage}>
-                            <option value={10}>10</option>
-                            <option value={25}>25</option>
-                            <option value={35}>35</option>
-                            <option value={50}>50</option>
-                        </select>
-                        </div>
-                        {/* END: Pagination */}
+                      ))}
+                  </div>
+                ))}
+              {/* end: menu box */}
+            </div>
+          </div>
+          {/* start: Basket */}
+          <div className="sm:col-span-1 sm:row-span-3 col-span-3">
+            <h2 className="pl-5 font-medium text-lg bg-slate-300 border rounded py-3">
+              Basket ({new_items.length})
+            </h2>
+            <TabPanel>
+              <div className="box p-2 mt-5">
+                {new_items.map((item, key) => (
+                  <div>
+                    <a className="flex items-center p-3 cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
+                      <div className="max-w-[50%] truncate mr-1">
+                        {item.title}
+                      </div>
+                      <div className="text-slate-500">x 1</div>
+                      <Edit className="w-4 h-4 text-slate-500 ml-2" />
+                      <div className="ml-auto font-medium">
+                        £ {item.price * item.quantity}
+                      </div>
+                    </a>
+                    <div className="flex items-center p-3 cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
+                      selected
                     </div>
-                </main>
+                  </div>
+                ))}
+              </div>
+              <div className="box flex p-5 mt-5">
+                <input
+                  type="text"
+                  className="form-control py-3 px-4 w-full bg-slate-100 border-slate-200/60 pr-10"
+                  placeholder="Use coupon code..."
+                />
+                <button className="btn btn-primary ml-2">Apply</button>
+              </div>
+              <div className="box p-5 mt-5">
+                <div className="flex">
+                  <div className="mr-auto">Subtotal</div>
+                  <div className="font-medium">$250</div>
+                </div>
+                <div className="flex mt-4">
+                  <div className="mr-auto">Discount</div>
+                  <div className="font-medium text-danger">-$20</div>
+                </div>
+                <div className="flex mt-4">
+                  <div className="mr-auto">Tax</div>
+                  <div className="font-medium">15%</div>
+                </div>
+                <div className="flex mt-4 pt-4 border-t border-slate-200/60 dark:border-darkmode-400">
+                  <div className="mr-auto font-medium text-base">
+                    Total Charge
+                  </div>
+                  <div className="font-medium text-base">$220</div>
+                </div>
+              </div>
+              <div className="flex mt-5">
+                <button className="btn w-32 border-slate-300 dark:border-darkmode-400 text-slate-500">
+                  Clear Items
+                </button>
+                <button className="btn btn-primary w-32 shadow-md ml-auto">
+                  Charge
+                </button>
+              </div>
+            </TabPanel>
+          </div>
+          {/* end: basket */}
+        </div>
+      </div>
+
             </Authenticated>
         </>
     )

@@ -106,7 +106,7 @@ export default function SideBar(props){
 
     // Links for user to manage order history
     const orderHistoryLinks = [
-        {title: "Order History", href: route("call-centre.orders.index", {id: user.id})},
+        {title: "Order History", href: route("call-centre.orders.history", {id: user.id})},
     ];
 
 

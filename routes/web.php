@@ -25,6 +25,7 @@ use App\Http\Controllers\Web\Restaurant\OpeningHourController;
 use App\Http\Controllers\Web\Restaurant\MenuCategoryController;
 use App\Http\Controllers\Web\AdminRestaurantCategoriesController;
 use App\Http\Controllers\Web\CallCentre\OrderController as CallCentreOrderController;
+use App\Http\Controllers\Web\CallCentre\OrderHistoryController as CallCentreOrderHistoryController;
 use App\Http\Controllers\Web\Restaurant\OrderController as RestaurantOrderController;
 use App\Http\Controllers\Web\Restaurant\AdminUserController as RestaurantAdminUserController;
 use App\Http\Controllers\Web\Restaurant\ConfigurationController as RestaurantConfigurationController;
@@ -396,7 +397,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/call-centre/orders/search/{id}', [CallCentreOrderController::class, 'search'])->name('call-centre.orders.search');
 
     // details of an order
-    Route::post('/call-centre/orders/details', [CallCentreOrderController::class, 'details'])->name('call-centre.orders.details');
+    Route::get('/call-centre/orders/index', [CallCentreOrderController::class, 'index'])->name('call-centre.orders.index');
+
+    // list order history
+    Route::get('/call-centre/orders/history/{id}', [CallCentreOrderHistoryController::class, 'index'])->name('call-centre.orders.history');
 
     // store an order
     Route::post('/call-centre/orders/store', [CallCentreOrderController::class, 'store'])->name('call-centre.orders.store');
