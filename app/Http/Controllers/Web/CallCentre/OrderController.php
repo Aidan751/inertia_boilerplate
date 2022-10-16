@@ -194,20 +194,12 @@ class OrderController extends Controller
                 $restaurant->setAttribute('distance_in_miles', $distance_in_miles);
             }
 
-            $category_items = array();
-            $menu_items = array();
-            foreach($restaurant->menuCategories as $category) {
-                // For each menu category lookup all items assosiated with it
-                $menu_items = $restaurant->menuItems->where('menu_category_id', $category->id);
+            $category_items = $restaurant->menuCategories;
+            foreach ($category_items as $category_item) {
+                $category_item->menuItems;
 
-                foreach ($menu_items as $item) {
-                    $item_image = $item->image ?? null;
-                    $array2 = array($menu_items, $item);
-                }
-
-                $array = array($category->title, $array2);
-                array_push($category_items, $array);
             }
+
 
            $group_deals = GroupDeal::where('restaurant_id', $restaurant->id)->get();
 
