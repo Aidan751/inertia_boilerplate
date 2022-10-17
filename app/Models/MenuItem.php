@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Size;
 use App\Models\MenuImage;
 use App\Models\MenuCategory;
+use App\Models\GroupDealSingleItem;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -28,9 +29,14 @@ class MenuItem extends Model
         'sizes' => 'array',
     ];
 
-    public function menuCategory()
+    public function category()
     {
         return $this->belongsTo(MenuCategory::class, 'menu_category_id', 'id');
+    }
+
+    public function groupDealSingleItem()
+    {
+        return $this->hasOne(GroupDealSingleItem::class);
     }
 
     public function registerMediaCollections()

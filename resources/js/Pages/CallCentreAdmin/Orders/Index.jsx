@@ -183,9 +183,9 @@ export default function Index(props){
                             Allergens: {deal.allergies ?? "N/A"}
                           </p>
                           <p className="mb-2">Price: £ {deal.group_deal_price}</p>
-                          <button type="button" className="btn">
+                          <Link className="btn btn-primary" href={route('call-centre.orders.add.deal', {id: deal.id})}>
                             Add
-                          </button>
+                          </Link>
                         </div>
                       </div>
                     ))}
@@ -228,9 +228,9 @@ export default function Index(props){
                                   <p className="mb-4">
                                     Price: £ {menu_item.price}
                                   </p>
-                                  <button type="button" className="btn">
+                                  <Link className="btn btn-primary" href={route('call-centre.orders.add.item', {id: menu_item.id})}>
                                     Add
-                                  </button>
+                                  </Link>
                                 </div>
                               </div>
                             ))}

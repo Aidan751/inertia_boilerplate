@@ -14,6 +14,7 @@ use App\Models\OpeningHour;
 use App\Packages\TimeFormat;
 use Illuminate\Http\Request;
 use App\Models\Configuration;
+use App\Models\GroupDealItem;
 use App\Packages\GeocoderPackage;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -36,6 +37,28 @@ class OrderController extends Controller
             return Inertia::render('CallCentreAdmin/Orders/Search', [
                 'user' => $user,
             ]);
+        }
+
+        // add group deal to order
+        public function addDeal(Request $request, $id)
+        {
+            $group_deal = GroupDeal::find($id);
+            $group_deal->load('groupDealItems.groupDealSingleItems.menuItem');
+
+
+            // render add view with the group deal items
+            return Inertia::render('CallCentreAdmin/Orders/AddDeal', [
+                'groupDeal' => $group_deal,
+            ]);
+
+        }
+
+
+
+        // add menu Items
+        public function addMenuItem(Request $request, $id)
+        {
+
         }
 
         // get order details
