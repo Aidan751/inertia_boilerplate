@@ -44,11 +44,10 @@ class OrderController extends Controller
         {
             $group_deal = GroupDeal::find($id);
             $group_deal->load('groupDealItems.groupDealSingleItems.menuItem');
-
-
             // render add view with the group deal items
             return Inertia::render('CallCentreAdmin/Orders/AddDeal', [
                 'groupDeal' => $group_deal,
+                'restaurant' => $request->restaurant,
             ]);
 
         }

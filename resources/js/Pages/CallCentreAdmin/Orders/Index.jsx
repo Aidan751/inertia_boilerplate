@@ -183,7 +183,7 @@ export default function Index(props){
                             Allergens: {deal.allergies ?? "N/A"}
                           </p>
                           <p className="mb-2">Price: £ {deal.group_deal_price}</p>
-                          <Link className="btn btn-primary" href={route('call-centre.orders.add.deal', {id: deal.id})}>
+                          <Link className="btn btn-primary" method="post" href={route('call-centre.orders.add.deal', {id: deal.id})} data={{restaurant: props.restaurant}} preserveState="true">
                             Add
                           </Link>
                         </div>

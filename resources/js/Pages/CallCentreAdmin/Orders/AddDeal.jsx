@@ -1,6 +1,8 @@
 import Button from "@/components/Button";
 import Authenticated from "@/Layouts/Authenticated";
-import { useForm } from '@inertiajs/inertia-react'
+import { useForm } from '@inertiajs/inertia-react';
+import { Head, Link } from '@inertiajs/inertia-react';
+import { ShoppingCart } from "lucide-react";
 import Label from "@/Components/Label";
 import Input from "@/Components/Input";
 import ValidationErrors from "@/Components/ValidationErrors";
@@ -29,209 +31,90 @@ function Search(props) {
             activeItem={1}
         >
 
-    <div className="col-span-12">
-      <div className="intro-y flex items-center mt-8">
-        <h2 className="text-lg font-medium mr-auto">Order Details</h2>
-      </div>
-      <div className="intro-y flex items-center mt-3">
-        <p className="text-gray-600">Fill out the details below for results</p>
-      </div>
-          {/* show error component */}
-          <ValidationErrors errors={errors} />
-          {/* Show Success Validation Component */}
-          {
-                        props.success &&
-                        <ValidationSuccess message={props.success} />
-        }
-      <div className="grid grid-cols-12 gap-6 mt-5">
-        <div className="intro-y col-span-12 lg:col-span-6">
-          {/* BEGIN: Form Layout */}
+<form className="col-span-12 w-full" onSubmit={submit}>
+          <h2 className="intro-y text-lg font-medium mt-10 mb-4">
+            Order Details
+          </h2>
+          {/* start:intro */}
+          <div className="w-full">
+            <div className="md:col-span-2 col-span-3 sm:row-span-1">
+              <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center">
+                {/* start:intro */}
+                <p className="sm:text-start sm:col-span-3 mb-2 text-start col-span-5 px-1 order-1">
+                  {props.restaurant.time_slot ?? "ASAP"}{" "}
+                  <span className="d-inline-block mr-2 ml-2">{">"}</span>{" "}
+                  {props.restaurant.delivery_address}
+                </p>
+                <p className="col-span-3 mb-2 row-span-1 px-1 order-3">
+                  {props.restaurant.chosen_order_type.toUpperCase()}
+                </p>
+                <button
+                  className="btn sm:col-span-1 col-span-5 row-span-1 order-2"
+                  href="#"
+                >
+                  Return
+                </button>
 
-          <form className="intro-y box p-5" onSubmit={submit} method="post">
-            {/* Start: Restaurant number */}
-            <div className="mt-3">
-             <Label
-                value="Restaurant number"
-                forInput="contact_number"
-                />
-                <Input
-                    className="w-full"
-                    id="contact_number"
-                    name="contact_number"
-                    type="text"
-                    value={data.contact_number}
-                    setData={setData}
-                    error={errors.contact_number}
-                />
-                {errors.contact_number && (
-                    <div className="text-theme-6 mt-2">{errors.contact_number}</div>
-                )}
-            </div>
-            {/* End: Restaurant number */}
-            {/* Start: To where? */}
-            <div className="mt-3">
-                <Label
-                    value="To where?"
-                    forInput="address"
-                />
-                <Input
-                    className="w-full"
-                    id="address"
-                    name="address"
-                    type="text"
-                    value={data.address}
-                    setData={setData}
-                    error={errors.address}
-                />
-                {errors.address && (
-                    <div className="text-theme-6 mt-2">{errors.address}</div>
-                )}
-            </div>
-            {/* End: To where? */}
-            {/* Start: When? */}
-            <div className="mt-10 mb-5">
-                <Label
-                    value="When?"
-                />
-                <div className="mt-2">
+                {/* end:intro */}
+              </div>
 
-                <input
-                    id="asap"
-                    name="when_radio"
-                    type="radio"
-                    value='asap'
-                    className="mr-2"
-                    onChange={(e) => setData(e.target.name, e.target.value)}
-                    error={errors.asap}
-                />
-                <span className="d-inline-block mr-2">
-                    As soon as possible
-                </span>
-                <input
-                    name="when_radio"
-                    type="radio"
-                    value='time'
-                    onChange={(e) => setData(e.target.name, e.target.value)}
-                    error={errors.time}
-                />
-                <span className="d-inline-block ml-2 mr-2">
-                    Pick up time
-                </span>
-                {data.when_radio === 'time' && (
-                <>
-                    <input
-                    type="time"
-                    id="selected_time"
-                    name="selected_time"
-                    value={data.selected_time}
-                    className="ml-2 border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm "
-                    min="00:00"
-                    max="23:59"
-                    onChange={(e) => setData(e.target.name, e.target.value)}
-                    />
-                </>
-                )}
+              {props.groupDeal.group_deal_items &&
+                props.groupDeal.group_deal_items.map((item, key) => (
+                  <div className="w-full">
+                    <h2 className="font-medium text-lg mb-5 mt-5">
+                      {item.title}
+                    </h2>
 
-                </div>
-
-            </div>
-            {/* End: When? */}
-            {/* Start: What type of order? */}
-            <div className="mt-5">
-                <Label
-                    value="What type of order?"
-                />
-                <div className="mt-2">
-
-                <input
-                    name="order_type"
-                    type="radio"
-                    value='delivery'
-                    className="mr-2"
-                    onChange={(e) => setData(e.target.name, e.target.value)}
-                    error={errors.delivery}
-                />
-                <span className="d-inline-block mr-2">
-                    Delivery
-                </span>
-                <input
-                    name="order_type"
-                    type="radio"
-                    value='collection'
-                    onChange={(e) => setData(e.target.name, e.target.value)}
-                    error={errors.collection}
-                />
-                <span className="d-inline-block ml-2 mr-2">
-                    Collection
-                </span>
-                <input
-                    type="radio"
-                    name="order_type"
-                    value='table_order'
-                    onChange={(e) => setData(e.target.name, e.target.value)}
-                    error={errors.table_order}
-                />
-                <span className="d-inline-block ml-2 mr-2">
-                    Table Order
-                </span>
-                </div>
-
-            </div>
-            {/* End: What type of order? */}
-            {/* Start: Customer details */}
-            <h2 className="mt-10 text-lg font-medium">Customer Details</h2>
-                {/* Start: Customer name */}
-                <div className="mt-3">
-                    <Label
-                        value="Customer name"
-                        forInput="customer_name"
-                    />
-                    <Input
-                        className="w-full"
-                        id="customer_name"
-                        name="customer_name"
-                        type="text"
-                        value={data.customer_name}
-                        setData={setData}
-                        error={errors.customer_name}
-                    />
-                    {errors.customer_name && (
-                        <div className="text-theme-6 mt-2">{errors.customer_name}</div>
+                    {item.group_deal_single_items.map(
+                      (single_item, single_item_key) => (
+                        <div className="box flex flex-wrap mb-4">
+                          <div className="p-5 flex-1">
+                            <div className="h-56 2xl:w-72 2xl:h-56 image-fit rounded-md overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
+                              <img
+                                alt="Single menu item image"
+                                className="rounded-md w-full"
+                                src={single_item.menu_item.image}
+                              />
+                            </div>
+                          </div>
+                          <div className="p-5 flex-1 flex items-start justify-center flex-col">
+                            <h2 className="font-medium text-lg">
+                              {single_item.menu_item.title}
+                            </h2>
+                            <p className="mt-5 mb-2">
+                              {single_item.menu_item.description}
+                            </p>
+                            <p className="mb-2">
+                              Allergens:{" "}
+                              {single_item.menu_item.dietary_requirements ??
+                                "N/A"}
+                            </p>
+                            <p className="mb-2">
+                              Price: £ {single_item.menu_item.price}
+                            </p>
+                            <Link className="flex items-center mt-5">
+                              <input
+                                type="radio"
+                                name={item.title}
+                                value={single_item.menu_item.id}
+                                href="#"
+                              />{" "}
+                              <p className="ml-2">Select</p>
+                            </Link>
+                          </div>
+                        </div>
+                      )
                     )}
-                </div>
-                {/* End: Customer name */}
-                {/* Start: Customer phone number */}
-                <div className="mt-3">
-                    <Label
-                        value="Customer phone number"
-                        forInput="customer_contact_number"
-                    />
-                    <Input
-                        className="w-full"
-                        id="customer_contact_number"
-                        name="customer_contact_number"
-                        type="text"
-                        value={data.customer_contact_number}
-                        setData={setData}
-                        error={errors.customer_contact_number}
-                    />
-                    {errors.customer_contact_number && (
-                        <div className="text-theme-6 mt-2">{errors.customer_contact_number}</div>
-                    )}
-                </div>
-                {/* End: Customer phone number */}
-                {/* End: Customer details */}
-
-            <div className="text-right mt-5">
-              <Button type="submit" className="w-30" processing={processing}>
-                Go
+                  </div>
+                ))}
+            </div>
+            <div className="flex justify-center mt-5">
+              <Button type="submit" className="btn btn-primary">
+                <ShoppingCart className="mr-2"/>Add to basket
               </Button>
             </div>
-          </form>
-          {/* END: Form Layout */}
           </div>
-        </div>
-    </div>
+        </form>
     </Authenticated>
     </>
   );
