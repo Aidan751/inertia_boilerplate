@@ -40,9 +40,8 @@ class OrderController extends Controller
         }
 
         // add group deal to order
-        public function addDeal(Request $request)
+        public function addDeal(Request $request, $id)
         {
-            dd($request->all());
             $group_deal = GroupDeal::find($id);
             $group_deal->load('groupDealItems.groupDealSingleItems.menuItem');
             // render add view with the group deal items
