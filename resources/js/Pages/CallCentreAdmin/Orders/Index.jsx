@@ -13,7 +13,7 @@ import Button from "@/Components/Button";
 
 export default function Index(props){
     console.log(props);
-    const { data, setData, get, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
 
     })
 
@@ -87,6 +87,13 @@ export default function Index(props){
     });
 
     let extra_price;
+
+    function handleDealAdd(deal){
+
+        Inertia.post('call-centre.orders.add.deal', {id: deal.id}, {
+            restaurant: props.restaurant,
+        })}
+
 
     return (
       <>
@@ -183,9 +190,9 @@ export default function Index(props){
                             Allergens: {deal.allergies ?? "N/A"}
                           </p>
                           <p className="mb-2">Price: £ {deal.group_deal_price}</p>
-                          <Link className="btn btn-primary" method="post" href={route('call-centre.orders.add.deal', {id: deal.id})} data={{restaurant: props.restaurant}} preserveState="true">
+                          <button className="btn btn-primary" onClick={() => handleDealAdd(deal)}>
                             Add
-                          </Link>
+                          </button>
                         </div>
                       </div>
                     ))}
