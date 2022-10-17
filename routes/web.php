@@ -391,8 +391,11 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/call-centre/orders/{id}', [CallCentreOrderController::class, 'index'])->name('call-centre.orders.index');
 
     // add an order
-    Route::post('/call-centre/orders/add-deal/{id}', [CallCentreOrderController::class, 'addDeal'])->name('call-centre.orders.add.deal');
-    Route::post('/call-centre/orders/add-menu-item/{id}', [CallCentreOrderController::class, 'addMenuItem'])->name('call-centre.orders.add.item');
+    Route::get('/call-centre/orders/add-deal/{id}', [CallCentreOrderController::class, 'addDeal'])->name('call-centre.orders.add.deal');
+    Route::get('/call-centre/orders/add-menu-item/{id}', [CallCentreOrderController::class, 'addMenuItem'])->name('call-centre.orders.add.item');
+
+    // choose sizes
+    Route::post('/call-centre/orders/choose-sizes/{id}', [CallCentreOrderController::class, 'chooseSizes'])->name('call-centre.orders.choose-sizes');
 
     // search for restaurants and place an order
     Route::get('/call-centre/orders/search/{id}', [CallCentreOrderController::class, 'search'])->name('call-centre.orders.search');

@@ -9,9 +9,10 @@ import ValidationErrors from "@/Components/ValidationErrors";
 import ValidationSuccess from "@/Components/ValidationSuccess";
 import Error from "@/Components/Error";
 
-function Search(props) {
 
-  const { data, setData, get, processing, errors } = useForm({
+function AddDeal(props) {
+
+  const { data, setData, post, processing, errors } = useForm({
     role: 'call_centre_admin',
   })
 
@@ -94,7 +95,7 @@ function Search(props) {
                             <p className="mb-2">
                               Price: £ {single_item.menu_item.price}
                             </p>
-                            <Link className="flex items-center mt-5">
+                            <Link className="flex items-center mt-5" method="get" href={route('call-centre.orders.choose-sizes', {id: single_item.menu_item.id})} data={props.restaurant} preserveState>
                               <input
                                 type="radio"
                                 name={item.title}
@@ -122,4 +123,4 @@ function Search(props) {
   );
 }
 
-export default Search;
+export default AddDeal;
