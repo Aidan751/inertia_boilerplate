@@ -2338,3 +2338,4 @@
 1666135277-0509-2009003513,1666135276.9315,GET,/call-centre/orders/choose-sizes/10,"App\Http\Controllers\Web\CallCentre\OrderController@chooseSizes",200,549.96418952942,request
 1666135279-0998-840681600,1666135278.8998,POST,/call-centre/orders/update-items,"App\Http\Controllers\Web\CallCentre\OrderController@updateItems",200,707.2958946228,request
 1666135282-4317-568762255,1666135282.1101,POST,/call-centre/orders/add-to-basket?role=call_centre_admin,"App\Http\Controllers\Web\CallCentre\OrderController@addToBasket",200,1000.1499652863,request
+1666135485-3699-1730772940,1666135485.0364,GET,/call-centre/orders/add-to-basket?role=call_centre_admin,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,898.58913421631,request

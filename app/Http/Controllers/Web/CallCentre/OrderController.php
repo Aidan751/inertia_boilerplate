@@ -170,10 +170,12 @@ class OrderController extends Controller
             if($request->session()->has('order')){
                 $order = $request->session()->get('order');
                 $restaurant = $request->session()->get('restaurant');
+                $selected_items = session('selected_items');
                 $order->load('items');
                 return Inertia::render('CallCentreAdmin/Orders/Index', [
                     'order' => $order,
                     'restaurant' => $restaurant,
+                    'selected_items' => $selected_items,
                 ]);
             }else{
         // Validate the data
