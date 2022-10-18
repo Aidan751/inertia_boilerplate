@@ -79,13 +79,13 @@ export default function Index(props){
 
     const [subtotal, setSubtotal] = useState();
 
-    var extras_total;
+    var extra_total;
     var size_total;
     var total_price;
 
     if(props.selected_items){
         let new_item_arr = props.selected_items.forEach((item) => {
-          extras_total = item.menu_item.extra && item.menu_item.extra.reduce((a, b) => a.additional_charge + b.additional_charge);
+          extra_total = item.menu_item.extra && item.menu_item.extra.reduce((a, b) => a.additional_charge + b.additional_charge);
         });
 
         let new_item_arr2 = props.selected_items.forEach((item) => {
@@ -332,7 +332,8 @@ export default function Index(props){
                           Total Charge
                         </div>
                         <div className="font-medium text-base">
-                          {(size_total) + (extra_total) + (props.restaurant.delivery_charge) + (props.restaurant.service_charge ?? 0) + (total_price)}
+
+                          {(size_total || 0) + (extra_total || 0) + (props.restaurant.delivery_charge || 0) + (props.restaurant.service_charge || 0) + (total_price || 0) ?? 0}
                         </div>
                       </div>
                     </div>
