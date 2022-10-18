@@ -13,6 +13,7 @@ use Nette\Utils\DateTime;
 use App\Models\Restaurant;
 use App\Models\OpeningHour;
 use Illuminate\Support\Str;
+use App\Models\MenuCategory;
 use App\Packages\TimeFormat;
 use Illuminate\Http\Request;
 use App\Models\Configuration;
@@ -103,12 +104,14 @@ class OrderController extends Controller
             $group_deal = session('group_deal');
             $restaurant = session('restaurant');
             $menu_item = $request->menu_item;
+            $group_deal_single_item = GroupDealSingleItem::where('menu_item_id', $menu_item)->first();
             $size = $request->size;
             $extra = $request->extra;
 
             $selected_items = session('selected_items') ?? array();
 
             $selected_items[] = array(
+                'group_deal_single_item' => $group_deal_single_item,
                 'menu_item' => $menu_item,
                 'size' => $size,
                 'extra' => $extra,
