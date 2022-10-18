@@ -64,10 +64,15 @@ export default function chooseDeal(props) {
     }
   ]);
 
+  const handleChange = (event) => {
+    console.log(event.target.value);
+    setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+  };
+
   const submit = (e) => {
     e.preventDefault();
 
-    get(route('call-centre.orders.index'));
+    post(route('call-centre.orders.update.deal.items'), {size: data.size, extra: data.extra});
 };
 
 
@@ -80,7 +85,7 @@ export default function chooseDeal(props) {
           </h2>
           {/* start:intro */}
           <div className="w-full">
-            <div className="md:col-span-2 col-span-3 sm:row-span-1">
+            <form className="md:col-span-2 col-span-3 sm:row-span-1" onSubmit={submit}>
               <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center">
                 {/* start:intro */}
                 <p className="sm:text-start sm:col-span-3 mb-2 text-start col-span-5 px-1 order-1">
@@ -119,7 +124,7 @@ export default function chooseDeal(props) {
                 {menu_item.sizes &&
                   menu_item.sizes.map((size, key) => (
                     <div className="flex items-center mt-5">
-                      <input type="radio" name="size" value={data.size} />{" "}
+                      <input type="radio" name="size" value={size.id}  onChange={(e) => setData(e.target.name, e.target.value)}/>{" "}
                       <p className="ml-2">{size.size}</p>
                       {size.additional_charge !== 0 && (
                         <p className="ml-3">+ £{size.additional_charge}</p>
@@ -134,7 +139,7 @@ export default function chooseDeal(props) {
                 {menu_item.extras &&
                   menu_item.extras.map((extra, key) => (
                     <div className="flex items-center mt-5">
-                      <input type="radio" name="extra" value={data.extra} />{" "}
+                      <input type="radio" name="extra" value={extra.id} onChange={handleChange}/>{" "}
                       <p className="ml-2">{extra.name}</p>
                       {extra.additional_charge !== 0 && (
                         <p className="ml-3">+ £{extra.additional_charge}</p>
@@ -147,12 +152,12 @@ export default function chooseDeal(props) {
 
               {/* start: save selections button */}
               <div className="flex justify-start mt-10">
-                <Link className="btn btn-primary" method="post" href={route('call-centre.orders.save-selections')} data={data}>
+                <button className="btn btn-primary" type="submit">
                   Save selections
-                </Link>
+                </button>
               </div>
               {/* end: save selections button */}
-            </div>
+            </form>
           </div>
         </div>
       </Authenticated>

@@ -101,22 +101,38 @@ class OrderController extends Controller
 
         }
 
-        public function saveSizesAndExtras(Request $request)
+        public function updateItems(Request $request)
         {
-            $group_deal = session('group_deal');
+
+            $group_deal = session('group_deal')->load('groupDealItems.groupDealSingleItems.menuItem');
             $restaurant = session('restaurant');
             $group_deal_single_item = session('group_deal_single_item');
-            $menu_item = MenuItem::find($group_deal_single_item->menu_item_id);
-            $size = $request->size;
-            $extra = $request->extra;
+            $menu_item = MenuItem::where('id', $group_deal_single_item->menu_item_id)->first();
+            $new_selected_size = array();
+            $new_selected_extra = array();
+
+            // loop through sizes and add those sizes to the new selected size array
+            foreach($menu_item->sizes as $size){
+                if($size['id'] == $request->size){
+                    array_push($new_selected_size, $size);
+                }
+            }
+
+            // loop through extras and add those extras to the new selected extra array
+            foreach($menu_item->extras as $extra){
+                if($extra['id'] == $request->extra){
+                        array_push($new_selected_extra, $extra);
+                }
+            }
 
             $selected_items = session('selected_items') ?? array();
 
             $selected_items[] = array(
                 'menu_item' => $menu_item,
-                'size' => $size,
-                'extra' => $extra,
+                'size' => $new_selected_size,
+                'extra' => $new_selected_extra,
             );
+
 
             session(['selected_items' => $selected_items]);
 

@@ -392,6 +392,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // add an order
     Route::get('/call-centre/orders/add-deal/{id}', [CallCentreOrderController::class, 'addDeal'])->name('call-centre.orders.add.deal');
+
+    // update a list of selected items sizes as well as chosen extras
+    Route::post('/call-centre/orders/update-items', [CallCentreOrderController::class, 'updateItems'])->name('call-centre.orders.update.deal.items');
+
     Route::get('/call-centre/orders/add-menu-item/{id}', [CallCentreOrderController::class, 'addMenuItem'])->name('call-centre.orders.add.item');
 
     // choose sizes
