@@ -20,6 +20,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 class OrderController extends Controller
 {
@@ -44,10 +45,11 @@ class OrderController extends Controller
         {
             $group_deal = GroupDeal::find($id);
             $group_deal->load('groupDealItems.groupDealSingleItems.menuItem');
+            $restaurant = session('restaurant');
             // render add view with the group deal items
             return Inertia::render('CallCentreAdmin/Orders/AddDeal', [
                 'groupDeal' => $group_deal,
-                'restaurant' => $request->restaurant,
+                'restaurant' => $restaurant,
             ]);
 
         }
