@@ -7,6 +7,7 @@ use App\Models\Day;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
+use App\Models\MenuItem;
 use App\Models\GroupDeal;
 use App\Models\OrderItem;
 use Nette\Utils\DateTime;
@@ -67,6 +68,7 @@ class OrderController extends Controller
 
             $group_deal_single_item = GroupDealSingleItem::where('menu_item_id', $id)->first();
             $group_deal_single_item->load('menuItem');
+            session(['group_deal_single_item' => $group_deal_single_item]);s
             $restaurant = session('restaurant');
             $group_deal = session('group_deal');
             return Inertia::render('CallCentreAdmin/Orders/ChooseDeal', [
@@ -103,8 +105,8 @@ class OrderController extends Controller
         {
             $group_deal = session('group_deal');
             $restaurant = session('restaurant');
-            $menu_item = $request->menu_item;
-            $group_deal_single_item = GroupDealSingleItem::where('menu_item_id', $menu_item)->first();
+            $group_deal_single_item = session('group_deal_single_item');
+            $menu_item = MenuItem::find($group_deal_single_item->menu_item_id);
             $size = $request->size;
             $extra = $request->extra;
 
