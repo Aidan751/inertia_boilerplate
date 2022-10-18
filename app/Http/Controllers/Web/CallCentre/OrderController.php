@@ -101,7 +101,27 @@ class OrderController extends Controller
         public function saveSizesAndExtras(Request $request)
         {
             $group_deal = session('group_deal');
-            dd($request->all());
+            $restaurant = session('restaurant');
+            $menu_item = $request->menu_item;
+            $size = $request->size;
+            $extra = $request->extra;
+
+            $selected_items = session('selected_items') ?? array();
+
+            $selected_items[] = array(
+                'menu_item' => $menu_item,
+                'size' => $size,
+                'extra' => $extra,
+            );
+
+            session(['selected_items' => $selected_items]);
+
+
+            return Inertia::render('CallCentreAdmin/Orders/AddDeal', [
+                'groupDeal' => $group_deal->load('groupDealItems.groupDealSingleItems.menuItem'),
+                'restaurant' => $restaurant,
+                'selected_items' => $selected_items,
+            ]);
         }
 
         // add menu Items

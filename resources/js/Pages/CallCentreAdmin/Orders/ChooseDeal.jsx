@@ -8,15 +8,16 @@ import { useState } from "react";
 
 
 export default function chooseDeal(props) {
+    const menu_item = props.group_deal_single_item.menu_item;
 
   const { data, setData, post, processing, errors } = useForm({
     role: 'call_centre_admin',
     extra: "",
-    size: ""
+    size: "",
+    menu_item: menu_item,
   })
 
   console.log(props);
-  const menu_item = props.group_deal_single_item.menu_item;
 
 
 
