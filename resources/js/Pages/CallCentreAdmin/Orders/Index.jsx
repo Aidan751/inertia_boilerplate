@@ -93,7 +93,7 @@ export default function Index(props){
         });
 
         let new_item_arr3 = props.selected_items.forEach((item) => {
-            total_price = item.menu_item.price && item.menu_item.price + extras_total + size_total;
+            total_price = item.menu_item.price && item.menu_item.price + extra_total + size_total;
         });
 
     }
@@ -257,7 +257,7 @@ export default function Index(props){
               {/* start: Basket */}
               <div className="sm:col-span-1 sm:row-span-3 col-span-3">
                 <h2 className="p-5 font-medium text-lg border rounded py-3">
-                  Basket ({new_items.length})
+                  Basket ({props.selected_items ? props.selected_items.length : 0})
                 </h2>
                 <TabPanel>
                   <div className="box p-5 mt-5">
@@ -271,12 +271,12 @@ export default function Index(props){
                           <Edit className="w-4 h-4 text-slate-500 ml-2" />
                           <div className="ml-auto font-medium text-lg">
                             £{" "}
-                            {item.menu_item.quantity * (item.menu_item.price + (item.menu_item.size[0].additional_charge || 0)) +
+                            {item.menu_item.quantity * (item.menu_item.price + (item.menu_item.size ? item.menu_item.size[0].additional_charge : 0)) +
                               (item.menu_item.extra && item.menu_item.extra.map((extra) => extra.price).reduce((a, b) => a + b, 0) || 0)}
                           </div>
                         </a>
                         <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
-                          - {item.menu_item.size[0].size || "N/A"}
+                          - {item.menu_item.size ? item.menu_item.size[0].size : "N/A"}
                         </div>
 
                         {item.menu_item.extra && item.menu_item.extra.map((extra, key) => (
@@ -305,7 +305,6 @@ export default function Index(props){
                             name="notes"
                             placeholder="Notes here"
                             value={item.menu_item.notes || ""}
-                            onChange={handleChange}
                           />
                         </div>
                       </div>
