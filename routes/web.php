@@ -397,6 +397,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // choose sizes
     Route::get('/call-centre/orders/choose-sizes/{id}', [CallCentreOrderController::class, 'chooseSizes'])->name('call-centre.orders.choose-sizes');
 
+    // save size and extra selections
+    Route::post('/call-centre/orders/save-size-and-extras', [CallCentreOrderController::class, 'saveSizesAndExtras'])->name('call-centre.orders.save-selections');
+
     // search for restaurants and place an order
     Route::get('/call-centre/orders/search/{id}', [CallCentreOrderController::class, 'search'])->name('call-centre.orders.search');
 

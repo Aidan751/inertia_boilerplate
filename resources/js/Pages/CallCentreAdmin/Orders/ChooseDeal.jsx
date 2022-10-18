@@ -1,40 +1,79 @@
 import Button from "@/components/Button";
 import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from '@inertiajs/inertia-react';
-import { Head, Link } from '@inertiajs/inertia-react';
-import { ShoppingCart } from "lucide-react";
+import { Link } from '@inertiajs/inertia-react';
 import Label from "@/Components/Label";
 import Input from "@/Components/Input";
-import ValidationErrors from "@/Components/ValidationErrors";
-import ValidationSuccess from "@/Components/ValidationSuccess";
-import Error from "@/Components/Error";
+import { useState } from "react";
 
 
 export default function chooseDeal(props) {
 
   const { data, setData, post, processing, errors } = useForm({
     role: 'call_centre_admin',
+    extra: "",
+    size: ""
   })
 
-
-
   console.log(props);
-  const submit = (e) => {
-      e.preventDefault();
+  const menu_item = props.group_deal_single_item.menu_item;
 
-      get(route('call-centre.orders.index'));
-  };
+
+
+  const [new_items, set_new_items] = useState([
+    {
+      id: 1,
+      title: "burger",
+      price: 100,
+      size: { detail: "Large", price: 14.56 },
+      extras: [
+        [
+          {
+            title: "mushroom",
+            price: 14.2
+          },
+          {
+            title: "cheese",
+            price: 0
+          }
+        ]
+      ],
+      quantity: 1,
+      notes: "allergies include nuts"
+    },
+    {
+      id: 1,
+      title: "burger",
+      price: 100,
+      size: { detail: "Large", price: 14.56 },
+      extras: [
+        [
+          {
+            title: "mushroom",
+            price: 14.2
+          },
+          {
+            title: "cheese",
+            price: 15.7
+          }
+        ]
+      ],
+      quantity: 1,
+      notes: "allergies include nuts"
+    }
+  ]);
+
+  const submit = (e) => {
+    e.preventDefault();
+
+    get(route('call-centre.orders.index'));
+};
+
 
   return (
     <>
-        <Authenticated
-            auth={props.auth}
-            errors={props.errors}
-            activeGroup={16}
-            activeItem={1}
-        >
-
-<form className="col-span-12 w-full" onSubmit={submit}>
+      <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
+        <div className="col-span-12 w-full">
           <h2 className="intro-y text-lg font-medium mt-10 mb-4">
             Order Details
           </h2>
@@ -51,73 +90,71 @@ export default function chooseDeal(props) {
                 <p className="col-span-3 mb-2 row-span-1 px-1 order-3">
                   {props.restaurant.chosen_order_type.toUpperCase()}
                 </p>
-                <Link
-                    className="btn sm:col-span-1 col-span-5 row-span-1 order-2"
-                 href={route('call-centre.orders.index')}>
-
-                    Return
-                  </Link>
+                <button
+                  className="btn sm:col-span-1 col-span-5 row-span-1 order-2"
+                  href="#"
+                >
+                  Return
+                </button>
 
                 {/* end:intro */}
               </div>
+              {/* start: item description */}
+              <div className="py-5">
+                <h2 className="font-medium text-lg mb-5">{menu_item.title}</h2>
+                <p className="mb-2 max-w-md">{menu_item.description}</p>
+                <p className="max-w-md">
+                  <span className="font-medium">Allergies:</span>{" "}
+                  {menu_item.dietary_requirements}
+                </p>
+              </div>
+              {/* end: item description */}
+              {/* start: choose sizes and extras */}
+              <div className="w-full">
+                <h2 className="font-medium text-md mb-5 mt-5">
+                  Choose your size
+                </h2>
 
-              {props.groupDeal.group_deal_items &&
-                props.groupDeal.group_deal_items.map((item, key) => (
-                  <div className="w-full">
-                    <h2 className="font-medium text-lg mb-5 mt-5">
-                      {item.title}
-                    </h2>
+                {menu_item.sizes &&
+                  menu_item.sizes[0].map((size, key) => (
+                    <div className="flex items-center mt-5">
+                      <input type="radio" name="size" value={data.size} />{" "}
+                      <p className="ml-2">{size.title}</p>
+                      {size.price !== 0 && (
+                        <p className="ml-3">+ £{size.price}</p>
+                      )}
+                    </div>
+                  ))}
 
-                    {item.group_deal_single_items.map(
-                      (single_item, single_item_key) => (
-                        <div className="box flex flex-wrap mb-4">
-                          <div className="p-5 flex-1">
-                            <div className="h-56 2xl:w-72 2xl:h-56 image-fit rounded-md overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
-                              <img
-                                alt="Single menu item image"
-                                className="rounded-md w-full"
-                                src={single_item.menu_item.image}
-                              />
-                            </div>
-                          </div>
-                          <div className="p-5 flex-1 flex items-start justify-center flex-col">
-                            <h2 className="font-medium text-lg">
-                              {single_item.menu_item.title}
-                            </h2>
-                            <p className="mt-5 mb-2">
-                              {single_item.menu_item.description}
-                            </p>
-                            <p className="mb-2">
-                              Allergens:{" "}
-                              {single_item.menu_item.dietary_requirements ??
-                                "N/A"}
-                            </p>
-                            <p className="mb-2">
-                              Price: £ {single_item.menu_item.price}
-                            </p>
-                            <Link className="flex items-center mt-5" method="get" href={route('call-centre.orders.choose-sizes', {id: single_item.menu_item.id})}>
-                              <input
-                                type="radio"
-                                name={item.title}
-                                value={single_item.menu_item.id}
-                              />{" "}
-                              <p className="ml-2">Select</p>
-                            </Link>
-                          </div>
-                        </div>
-                      )
-                    )}
-                  </div>
-                ))}
-            </div>
-            <div className="flex justify-center mt-5">
-              <Button type="submit" className="btn btn-primary">
-                <ShoppingCart className="mr-2"/>Add to basket
-              </Button>
+                <h2 className="font-medium text-md mb-5 mt-8">
+                  Choose your sides
+                </h2>
+
+                {menu_item.extras &&
+                  menu_item.extras[0].map((extra, key) => (
+                    <div className="flex items-center mt-5">
+                      <input type="radio" name="extra" value={data.extra} />{" "}
+                      <p className="ml-2">{extra.title}</p>
+                      {extra.price !== 0 && (
+                        <p className="ml-3">+ £{extra.price}</p>
+                      )}
+                    </div>
+                  ))}
+              </div>
+
+              {/* end: choose sizes and extras */}
+
+              {/* start: save selections button */}
+              <div className="flex justify-start mt-10">
+                <Link className="btn btn-primary" method="post" href={route('call-centre.orders.save-selections')} data={data}>
+                  Save selections
+                </Link>
+              </div>
+              {/* end: save selections button */}
             </div>
           </div>
-        </form>
-    </Authenticated>
+        </div>
+      </Authenticated>
     </>
   );
 }

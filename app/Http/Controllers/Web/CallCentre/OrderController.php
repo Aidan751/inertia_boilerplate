@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\CallCentre;
 
+use Carbon\Carbon;
 use App\Models\Day;
 use App\Models\User;
 use Inertia\Inertia;
@@ -11,6 +12,7 @@ use App\Models\OrderItem;
 use Nette\Utils\DateTime;
 use App\Models\Restaurant;
 use App\Models\OpeningHour;
+use Illuminate\Support\Str;
 use App\Packages\TimeFormat;
 use Illuminate\Http\Request;
 use App\Models\Configuration;
@@ -46,6 +48,7 @@ class OrderController extends Controller
         {
             $order = new Order();
             $group_deal = GroupDeal::find($id);
+            session(['group_deal' => $group_deal]);
             session(['order' => $order]);
             $group_deal->load('groupDealItems.groupDealSingleItems.menuItem');
             $restaurant = session('restaurant');
@@ -64,13 +67,42 @@ class OrderController extends Controller
             $group_deal_single_item = GroupDealSingleItem::where('menu_item_id', $id)->first();
             $group_deal_single_item->load('menuItem');
             $restaurant = session('restaurant');
+            $group_deal = session('group_deal');
             return Inertia::render('CallCentreAdmin/Orders/ChooseDeal', [
                 'group_deal_single_item' => $group_deal_single_item,
                 'restaurant' => $restaurant,
+                'group_deal' => $group_deal,
             ]);
         }
 
 
+        // save sizes and extras
+        public function saveOrder(Request $request)
+        {
+            $group_deal = session('group_deal');
+            $restaurant = session('restaurant');
+            $order = session('order');
+
+            $order->restaurant_id = $restaurant->id;
+            $order->call_center_id = Auth::user()->id;
+            $order->order_reference = Str::random(10);
+            $order->driver_paid = 0;
+            $order->pickup_date =  date_format(new DateTime(Carbon::now()->toDateTimeString()), 'd-m-Y');
+            $order->time_slot = $restaurant->time_slot;
+            $order->order_method = $restaurant->order_method;
+            $order->price = $group_deal->price;
+
+            dd($order);
+
+          dd($group_deal, $order, $restaurant);
+
+        }
+
+        public function saveSizesAndExtras(Request $request)
+        {
+            $group_deal = session('group_deal');
+            dd($request->all());
+        }
 
         // add menu Items
         public function addMenuItem(Request $request)
