@@ -51,12 +51,12 @@ function AddDeal(props) {
                 <p className="col-span-3 mb-2 row-span-1 px-1 order-3">
                   {props.restaurant.chosen_order_type.toUpperCase()}
                 </p>
-                <button
-                  className="btn sm:col-span-1 col-span-5 row-span-1 order-2"
-                  href="#"
-                >
-                  Return
-                </button>
+                <Link
+                    className="btn sm:col-span-1 col-span-5 row-span-1 order-2"
+                 href={route('call-centre.orders.index')}>
+
+                    Return
+                  </Link>
 
                 {/* end:intro */}
               </div>

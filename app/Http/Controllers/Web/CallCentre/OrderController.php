@@ -43,6 +43,8 @@ class OrderController extends Controller
         // add group deal to order
         public function addDeal(Request $request, $id)
         {
+            $order = new Order();
+            session(['order' => $order]);
             $group_deal = GroupDeal::find($id);
             $group_deal->load('groupDealItems.groupDealSingleItems.menuItem');
             $restaurant = session('restaurant');
@@ -65,6 +67,15 @@ class OrderController extends Controller
         // get order details
         public function index(Request $request)
         {
+            if($request->session()->has('order')){
+                $order = $request->session()->get('order');
+                $restaurant = $request->session()->get('restaurant');
+                $order->load('items');
+                return Inertia::render('CallCentreAdmin/Orders/Index', [
+                    'order' => $order,
+                    'restaurant' => $restaurant,
+                ]);
+            }else{
         // Validate the data
          $request->validate([
             'customer_name' => ['required', 'string', 'max:191'],
@@ -244,7 +255,7 @@ class OrderController extends Controller
         } else {
             return redirect()->back()->withErrors(['error', 'Business not found, please check the businesses number is correct.']);
         }
-
+    }
     }
 
         public function sendPush(Request $request, $id) {
