@@ -68,7 +68,7 @@ class OrderController extends Controller
 
             $group_deal_single_item = GroupDealSingleItem::where('menu_item_id', $id)->first();
             $group_deal_single_item->load('menuItem');
-            session(['group_deal_single_item' => $group_deal_single_item]);s
+            session(['group_deal_single_item' => $group_deal_single_item]);
             $restaurant = session('restaurant');
             $group_deal = session('group_deal');
             return Inertia::render('CallCentreAdmin/Orders/ChooseDeal', [
@@ -113,7 +113,6 @@ class OrderController extends Controller
             $selected_items = session('selected_items') ?? array();
 
             $selected_items[] = array(
-                'group_deal_single_item' => $group_deal_single_item,
                 'menu_item' => $menu_item,
                 'size' => $size,
                 'extra' => $extra,

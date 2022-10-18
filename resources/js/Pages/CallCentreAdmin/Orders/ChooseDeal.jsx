@@ -91,12 +91,12 @@ export default function chooseDeal(props) {
                 <p className="col-span-3 mb-2 row-span-1 px-1 order-3">
                   {props.restaurant.chosen_order_type.toUpperCase()}
                 </p>
-                <button
+                <Link
                   className="btn sm:col-span-1 col-span-5 row-span-1 order-2"
-                  href="#"
+                  href={route('call-centre.orders.add.deal', {id: props.group_deal.id})}
                 >
                   Return
-                </button>
+                </Link>
 
                 {/* end:intro */}
               </div>
@@ -117,12 +117,12 @@ export default function chooseDeal(props) {
                 </h2>
 
                 {menu_item.sizes &&
-                  menu_item.sizes[0].map((size, key) => (
+                  menu_item.sizes.map((size, key) => (
                     <div className="flex items-center mt-5">
                       <input type="radio" name="size" value={data.size} />{" "}
-                      <p className="ml-2">{size.title}</p>
-                      {size.price !== 0 && (
-                        <p className="ml-3">+ £{size.price}</p>
+                      <p className="ml-2">{size.size}</p>
+                      {size.additional_charge !== 0 && (
+                        <p className="ml-3">+ £{size.additional_charge}</p>
                       )}
                     </div>
                   ))}
@@ -132,12 +132,12 @@ export default function chooseDeal(props) {
                 </h2>
 
                 {menu_item.extras &&
-                  menu_item.extras[0].map((extra, key) => (
+                  menu_item.extras.map((extra, key) => (
                     <div className="flex items-center mt-5">
                       <input type="radio" name="extra" value={data.extra} />{" "}
-                      <p className="ml-2">{extra.title}</p>
-                      {extra.price !== 0 && (
-                        <p className="ml-3">+ £{extra.price}</p>
+                      <p className="ml-2">{extra.name}</p>
+                      {extra.additional_charge !== 0 && (
+                        <p className="ml-3">+ £{extra.additional_charge}</p>
                       )}
                     </div>
                   ))}
