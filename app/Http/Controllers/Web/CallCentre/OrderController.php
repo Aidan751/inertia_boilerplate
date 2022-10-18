@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use App\Models\Configuration;
 use App\Models\GroupDealItem;
 use App\Packages\GeocoderPackage;
+use App\Models\GroupDealSingleItem;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
@@ -44,8 +45,8 @@ class OrderController extends Controller
         public function addDeal(Request $request, $id)
         {
             $order = new Order();
-            session(['order' => $order]);
             $group_deal = GroupDeal::find($id);
+            session(['order' => $order]);
             $group_deal->load('groupDealItems.groupDealSingleItems.menuItem');
             $restaurant = session('restaurant');
             // render add view with the group deal items
@@ -54,6 +55,19 @@ class OrderController extends Controller
                 'restaurant' => $restaurant,
             ]);
 
+        }
+
+        // choose size and extras for the group deal
+        public function chooseSizes(Request $request, $id)
+        {
+
+            $group_deal_single_item = GroupDealSingleItem::where('menu_item_id', $id)->first();
+            $group_deal_single_item->load('menuItem');
+            $restaurant = session('restaurant');
+            return Inertia::render('CallCentreAdmin/Orders/ChooseDeal', [
+                'group_deal_single_item' => $group_deal_single_item,
+                'restaurant' => $restaurant,
+            ]);
         }
 
 

@@ -1918,3 +1918,10 @@
 1666099509-3535-1408307747,1666099509.2225,GET,/call-centre/orders/index,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,491.25218391418,request
 1666099551-8009-564472109,1666099551.6515,GET,/call-centre/orders/add-deal/1,"App\Http\Controllers\Web\CallCentre\OrderController@addDeal",200,523.69594573975,request
 1666099554-4991-904920574,1666099554.3013,GET,/call-centre/orders/index,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,518.49985122681,request
+1666099707-8653-1345928051,1666099707.6728,GET,/call-centre/orders/add-deal/1,"App\Http\Controllers\Web\CallCentre\OrderController@addDeal",200,653.94902229309,request
+1666099913-7169-1834971051,1666099913.2998,GET,/call-centre/orders/add-deal/1,"App\Http\Controllers\Web\CallCentre\OrderController@addDeal",200,1087.0649814606,request
+1666099918-2524-546056314,1666099917.9239,GET,/dist/zoom-vanilla.min.js.map,,404,742.13099479675,request
+1666099920-9763-544018182,1666099920.8165,GET,/call-centre/orders/index,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,529.72006797791,request
+1666099924-9337-1388558187,1666099924.7909,GET,/call-centre/orders/add-deal/1,"App\Http\Controllers\Web\CallCentre\OrderController@addDeal",200,518.83101463318,request
+1666099928-8301-464049511,1666099928.6946,GET,/call-centre/orders/choose-sizes/5,"App\Http\Controllers\Web\CallCentre\OrderController@chooseSizes",500,785.87102890015,request
+1666100016-1546-2072680513,1666100015.9932,GET,/call-centre/orders/choose-sizes/10,"App\Http\Controllers\Web\CallCentre\OrderController@chooseSizes",500,6481.4219474792,request

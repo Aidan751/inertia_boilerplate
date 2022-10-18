@@ -95,12 +95,11 @@ function AddDeal(props) {
                             <p className="mb-2">
                               Price: £ {single_item.menu_item.price}
                             </p>
-                            <Link className="flex items-center mt-5" method="get" href={route('call-centre.orders.choose-sizes', {id: single_item.menu_item.id})} data={props.restaurant} preserveState>
+                            <Link className="flex items-center mt-5" method="get" href={route('call-centre.orders.choose-sizes', {id: single_item.menu_item.id})}>
                               <input
                                 type="radio"
                                 name={item.title}
                                 value={single_item.menu_item.id}
-                                href="#"
                               />{" "}
                               <p className="ml-2">Select</p>
                             </Link>
