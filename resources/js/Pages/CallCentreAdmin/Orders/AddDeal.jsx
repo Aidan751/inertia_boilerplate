@@ -22,7 +22,7 @@ function AddDeal(props) {
   const submit = (e) => {
       e.preventDefault();
 
-      get(route('call-centre.orders.index'));
+      post(route('call-centre.orders.add-to-basket', data));
   };
 
   return (
@@ -35,13 +35,13 @@ function AddDeal(props) {
         >
 
 <form className="col-span-12 w-full" onSubmit={submit}>
-          <h2 className="intro-y text-lg font-medium mt-10 mb-4">
+          <h2 className="intro-y text-lg font-medium mt-5 p-5">
             Order Details
           </h2>
           {/* start:intro */}
           <div className="w-full">
             <div className="md:col-span-2 col-span-3 sm:row-span-1">
-              <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center">
+              <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center p-5">
                 {/* start:intro */}
                 <p className="sm:text-start sm:col-span-3 mb-2 text-start col-span-5 px-1 order-1">
                   {props.restaurant.time_slot ?? "ASAP"}{" "}
@@ -61,10 +61,24 @@ function AddDeal(props) {
                 {/* end:intro */}
               </div>
 
+            {/* start: group deal description */}
+
+                    <div className="p-5">
+                        <h2 className="font-medium text-lg mb-5">{props.groupDeal.title}</h2>
+                        <p className="mb-2 max-w-md">{props.groupDeal.description}</p>
+                        <p className="max-w-md">
+                        <span className="font-medium">Allergies:</span>{" "}
+                        {props.groupDeal.dietary_requirements || "None"}
+                        </p>
+                    </div>
+
+
+
+              {/* end: group deal description */}
               {props.groupDeal.group_deal_items &&
                 props.groupDeal.group_deal_items.map((item, key) => (
-                  <div className="w-full">
-                    <h2 className="font-medium text-lg mb-5 mt-5">
+                  <div className="w-full p-5">
+                    <h2 className="font-medium text-lg mb-5">
                       {item.title}
                     </h2>
 

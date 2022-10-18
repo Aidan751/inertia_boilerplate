@@ -112,16 +112,19 @@ class OrderController extends Controller
             $new_selected_extra = array();
 
             // loop through sizes and add those sizes to the new selected size array
+            if($menu_item->sizes){
             foreach($menu_item->sizes as $size){
                 if($size['id'] == $request->size){
                     array_push($new_selected_size, $size);
                 }
             }
-
-            // loop through extras and add those extras to the new selected extra array
-            foreach($menu_item->extras as $extra){
-                if($extra['id'] == $request->extra){
+        }
+            if($menu_item->extras){
+                // loop through extras and add those extras to the new selected extra array
+                foreach($menu_item->extras as $extra){
+                    if($extra['id'] == $request->extra){
                         array_push($new_selected_extra, $extra);
+                    }
                 }
             }
 
@@ -144,10 +147,21 @@ class OrderController extends Controller
             ]);
         }
 
-        // add menu Items
-        public function addMenuItem(Request $request)
+        // add selected items to basket
+        public function addToBasket(Request $request)
         {
+            $group_deal = session('group_deal');
+            $restaurant = session('restaurant');
+            $order = session('order');
+            $selected_items = session('selected_items');
 
+
+            return Inertia::render('CallCentreAdmin/Orders/Index', [
+                'order' => $order,
+                'restaurant' => $restaurant,
+                'group_deal' => $group_deal,
+                'selected_items' => $selected_items,
+            ]);
         }
 
         // get order details

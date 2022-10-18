@@ -83,9 +83,20 @@ export default function Index(props){
     var size_total;
     var total_price;
 
-    let new_item_arr = new_items.forEach((item) => {
-      extras_total = item.extras[0].reduce((a, b) => a.price + b.price);
-    });
+    if(props.selected_items){
+        let new_item_arr = props.selected_items.forEach((item) => {
+          extras_total = item.menu_item.extra && item.menu_item.extra.reduce((a, b) => a.additional_charge + b.additional_charge);
+        });
+
+        let new_item_arr2 = props.selected_items.forEach((item) => {
+            size_total = item.menu_item.size && item.menu_item.size.reduce((a, b) => a.additional_charge + b.additional_charge);
+        });
+
+        let new_item_arr3 = props.selected_items.forEach((item) => {
+            total_price = item.menu_item.price && item.menu_item.price + extras_total + size_total;
+        });
+
+    }
 
     let extra_price;
 
@@ -250,29 +261,27 @@ export default function Index(props){
                 </h2>
                 <TabPanel>
                   <div className="box p-5 mt-5">
-                    {new_items.map((item, key) => (
+                    {props.selected_items && props.selected_items.map((item, key) => (
                       <div className="mb-5">
                         <a className="flex mb-5 items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
                           <div className="max-w-[50%] font-medium text-lg truncate mr-1">
-                            {item.title}
+                            {item.menu_item.title}
                           </div>
-                          <div className="text-slate-500">x {item.quantity}</div>
+                          <div className="text-slate-500">x {item.menu_item.quantity || 1}</div>
                           <Edit className="w-4 h-4 text-slate-500 ml-2" />
                           <div className="ml-auto font-medium text-lg">
                             £{" "}
-                            {item.quantity * (item.price + item.size.price) +
-                              (extra_price = item.extras[0].reduce((a, b) => {
-                                return a.price + b.price;
-                              }))}
+                            {item.menu_item.quantity * (item.menu_item.price + (item.menu_item.size[0].additional_charge || 0)) +
+                              (item.menu_item.extra && item.menu_item.extra.map((extra) => extra.price).reduce((a, b) => a + b, 0) || 0)}
                           </div>
                         </a>
                         <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
-                          - {item.size.detail}
+                          - {item.menu_item.size[0].size || "N/A"}
                         </div>
 
-                        {item.extras[0].map((extra, key) => (
+                        {item.menu_item.extra && item.menu_item.extra.map((extra, key) => (
                           <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
-                            - {extra.title}
+                            - {extra.name}
                           </div>
                         ))}
 
@@ -295,8 +304,8 @@ export default function Index(props){
                             type="text"
                             name="notes"
                             placeholder="Notes here"
-                            value={item.notes}
-                            // onChange={}
+                            value={item.menu_item.notes || ""}
+                            onChange={handleChange}
                           />
                         </div>
                       </div>
@@ -323,15 +332,7 @@ export default function Index(props){
                           Total Charge
                         </div>
                         <div className="font-medium text-base">
-                          {(size_total = new_items.reduce(
-                            (a, b) => a.size.price + b.size.price
-                          )) +
-                            extras_total +
-                            (total_price = new_items.reduce((a, b) => {
-                              return a.price + b.price;
-                            })) +
-                            (props.restaurant.service_charge ?? 0) +
-                            props.restaurant.delivery_charge}
+                          {(size_total) + (extra_total) + (props.restaurant.delivery_charge) + (props.restaurant.service_charge ?? 0) + (total_price)}
                         </div>
                       </div>
                     </div>

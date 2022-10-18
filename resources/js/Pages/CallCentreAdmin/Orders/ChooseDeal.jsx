@@ -80,13 +80,13 @@ export default function chooseDeal(props) {
     <>
       <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
         <div className="col-span-12 w-full">
-          <h2 className="intro-y text-lg font-medium mt-10 mb-4">
+          <h2 className="intro-y text-lg font-medium mt-5 p-5">
             Order Details
           </h2>
           {/* start:intro */}
           <div className="w-full">
             <form className="md:col-span-2 col-span-3 sm:row-span-1" onSubmit={submit}>
-              <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center">
+              <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center p-5">
                 {/* start:intro */}
                 <p className="sm:text-start sm:col-span-3 mb-2 text-start col-span-5 px-1 order-1">
                   {props.restaurant.time_slot ?? "ASAP"}{" "}
@@ -106,7 +106,7 @@ export default function chooseDeal(props) {
                 {/* end:intro */}
               </div>
               {/* start: item description */}
-              <div className="py-5">
+              <div className="p-5">
                 <h2 className="font-medium text-lg mb-5">{menu_item.title}</h2>
                 <p className="mb-2 max-w-md">{menu_item.description}</p>
                 <p className="max-w-md">
@@ -116,19 +116,26 @@ export default function chooseDeal(props) {
               </div>
               {/* end: item description */}
               {/* start: choose sizes and extras */}
-              <div className="w-full">
-                <h2 className="font-medium text-md mb-5 mt-5">
+              <div className="w-full p-5">
+                <h2 className="font-medium text-md mb-5">
                   Choose your size
                 </h2>
 
-                {menu_item.sizes &&
+                {menu_item.sizes !== null &&
                   menu_item.sizes.map((size, key) => (
+                    <div>
+                    {
+                        size.size &&
+                        (
                     <div className="flex items-center mt-5">
                       <input type="radio" name="size" value={size.id}  onChange={(e) => setData(e.target.name, e.target.value)}/>{" "}
                       <p className="ml-2">{size.size}</p>
                       {size.additional_charge !== 0 && (
-                        <p className="ml-3">+ £{size.additional_charge}</p>
+                        <p className="ml-3">+ £{size.additional_charge || 0}</p>
                       )}
+                    </div>
+                        )
+                    }
                     </div>
                   ))}
 
@@ -138,12 +145,21 @@ export default function chooseDeal(props) {
 
                 {menu_item.extras &&
                   menu_item.extras.map((extra, key) => (
-                    <div className="flex items-center mt-5">
-                      <input type="radio" name="extra" value={extra.id} onChange={handleChange}/>{" "}
-                      <p className="ml-2">{extra.name}</p>
-                      {extra.additional_charge !== 0 && (
-                        <p className="ml-3">+ £{extra.additional_charge}</p>
-                      )}
+                    <div>
+                    {
+                        extra.name &&
+                        (
+                            <div className="flex items-center mt-5">
+                            <input type="radio" name="extra" value={extra.id} onChange={handleChange}/>{" "}
+                            <p className="ml-2">{extra.name}</p>
+                            {extra.additional_charge !== 0 && (
+                                <p className="ml-3">+ £{extra.additional_charge || 0}</p>
+                            )}
+                            </div>
+
+                        )
+
+                    }
                     </div>
                   ))}
               </div>
@@ -151,10 +167,10 @@ export default function chooseDeal(props) {
               {/* end: choose sizes and extras */}
 
               {/* start: save selections button */}
-              <div className="flex justify-start mt-10">
-                <button className="btn btn-primary" type="submit">
+              <div className="flex justify-start mt-10 p-5">
+                <Button className="btn btn-primary" type="submit">
                   Save selections
-                </button>
+                </Button>
               </div>
               {/* end: save selections button */}
             </form>

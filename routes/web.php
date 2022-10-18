@@ -404,6 +404,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // save size and extra selections
     Route::post('/call-centre/orders/save-size-and-extras', [CallCentreOrderController::class, 'saveSizesAndExtras'])->name('call-centre.orders.save-selections');
 
+    // add selected items to basket
+    Route::post('/call-centre/orders/add-to-basket', [CallCentreOrderController::class, 'addToBasket'])->name('call-centre.orders.add-to-basket');
+
     // search for restaurants and place an order
     Route::get('/call-centre/orders/search/{id}', [CallCentreOrderController::class, 'search'])->name('call-centre.orders.search');
 
