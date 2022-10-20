@@ -33,12 +33,13 @@ class ExtraController extends Controller
             $from = $request->get('from', '');
             $to = $request->get('to', '');
 
+
             // get the Extras
             $extras = Extra::where('restaurant_id', Auth::user()->restaurant_id)
             ->where(function ($query) use ($search) {
                 $query->where('name', 'like', '%' . $search . '%')
                     ->orWhere('description', 'like', '%' . $search . '%');
-            })->latest()->paginate(10 ?? $perPage);
+            })->latest()->paginate($perPage ?? 10);
 
         // return the view with the list of Extras
         return Inertia::render('RestaurantAdmin/Extras/Index', [
