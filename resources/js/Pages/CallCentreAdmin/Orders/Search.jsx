@@ -215,9 +215,6 @@ function Search(props) {
                         setData={setData}
                         error={errors.customer_contact_number}
                     />
-                    {errors.customer_contact_number && (
-                        <div className="text-theme-6 mt-2">{errors.customer_contact_number}</div>
-                    )}
                 </div>
                 {/* End: Customer phone number */}
                 {/* End: Customer details */}

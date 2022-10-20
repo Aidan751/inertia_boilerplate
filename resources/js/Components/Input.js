@@ -9,7 +9,8 @@ export default function Input({
     placeholder,
     required,
     isFocused,
-    setData
+    setData,
+    error
 }) {
     const input = useRef();
 
@@ -35,6 +36,7 @@ export default function Input({
                 required={required}
                 onChange={(e) => setData(e.target.name, e.target.value)}
             />
+            {error && <div className="text-theme-6 mt-2">{error}</div>}
         </div>
     );
 }

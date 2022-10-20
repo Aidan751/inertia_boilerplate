@@ -29,7 +29,7 @@ export default function MidoneUpload(props) {
 
                                 <div className="w-24 h-24 relative image-fit mb-5 mr-5 cursor-pointer zoom-in">
                                     {/* Image */}
-                                    <img className="rounded-md" alt="Temp" src={props.preview} />
+                                    <img className="rounded-md" alt="Temp" src={props.preview} data-action="zoom" />
                                     {/* Delete Button */}
                                     <button type="button" onClick={props.reset} name={props.name} title="Remove this image?" className="tooltip w-5 h-5 flex items-center justify-center absolute rounded-full text-white bg-danger text-red-900 right-0 top-0 -mr-2 -mt-2">
                                         <X className="w-4 h-4" id={props.name} />
