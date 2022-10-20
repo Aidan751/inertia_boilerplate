@@ -64,12 +64,15 @@ function AddDeal(props) {
             {/* start: group deal description */}
 
                     <div className="p-5">
-                        <h2 className="font-medium text-lg mb-5">{props.groupDeal.title}</h2>
-                        <p className="mb-2 max-w-md">{props.groupDeal.description}</p>
-                        <p className="max-w-md">
-                        <span className="font-medium">Allergies:</span>{" "}
-                        {props.groupDeal.dietary_requirements || "None"}
-                        </p>
+                    <div className="block font-medium text-base">
+                            {props.groupDeal.title}
+                          </div>
+                          <div className="text-slate-600 dark:text-slate-500 mt-2">
+                            {props.groupDeal.description}
+                          </div>
+                          <div className="text-slate-600 dark:text-slate-500 mt-2">
+                            Allergens: {props.groupDeal.dietary_requirements ?? "N/A"}
+                          </div>
                     </div>
 
 
@@ -84,32 +87,37 @@ function AddDeal(props) {
 
                     {item.group_deal_single_items.map(
                       (single_item, single_item_key) => (
-                        <div className="box flex flex-wrap mb-4">
-                          <div className="p-5 flex-1">
-                            <div className="h-56 2xl:w-72 2xl:h-56 image-fit rounded-md overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
-                              <img
-                                alt="Single menu item image"
-                                className="rounded-md w-full"
-                                src={single_item.menu_item.image}
-                              />
+
+                        <div className="flex items-center justify-between flex-wrap mt-8 mb-8 sm:pl-10">
+                        <div className="w-72 flex-none">
+                          <div className="box rounded-md relative zoom-in">
+                            <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
+                              <div className="absolute top-0 left-0 w-full h-full image-fit">
+                                <img
+                                  alt="Midone Tailwind HTML Admin Template"
+                                  className="rounded-md"
+                                  src={single_item.menu_item.image}
+                                />
+                              </div>
                             </div>
                           </div>
-                          <div className="p-5 flex-1 flex items-start justify-center flex-col">
-                            <h2 className="font-medium text-lg">
-                              {single_item.menu_item.title}
-                            </h2>
-                            <p className="mt-5 mb-2">
-                              {single_item.menu_item.description}
-                            </p>
-                            <p className="mb-2">
-                              Allergens:{" "}
+                        </div>
+                        <div className="p-5 flex-1">
+                          <div className="block font-medium text-base">
+                          {single_item.menu_item.title}
+                          </div>
+                          <div className="text-slate-600 dark:text-slate-500 mt-2">
+                          {single_item.menu_item.description}
+                          </div>
+                          <div className="text-slate-600 dark:text-slate-500 mt-2">
+                          Allergens:{" "}
                               {single_item.menu_item.dietary_requirements ??
                                 "N/A"}
-                            </p>
-                            <p className="mb-2">
-                              Price: £ {single_item.menu_item.price}
-                            </p>
-                            <Link className="flex items-center mt-5" method="get" href={route('call-centre.orders.choose-sizes', {id: single_item.menu_item.id})}>
+                          </div>
+                          <div className="text-slate-600 dark:text-slate-500 mt-2">
+                          Price: £ {single_item.menu_item.price}
+                          </div>
+                          <Link className="flex items-center mt-5" method="get" href={route('call-centre.orders.choose-sizes', {id: single_item.menu_item.id})}>
                               <input
                                 type="radio"
                                 name={item.title}
@@ -117,8 +125,8 @@ function AddDeal(props) {
                               />{" "}
                               <p className="ml-2">Select</p>
                             </Link>
-                          </div>
                         </div>
+                      </div>
                       )
                     )}
                   </div>
