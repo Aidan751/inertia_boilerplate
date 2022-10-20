@@ -37,7 +37,7 @@ class GroupDealController extends Controller
         ->where(function ($query) use ($search) {
             $query->where('title', 'like', '%' . $search . '%')
                 ->orWhere('description', 'like', '%' . $search . '%');
-        })->latest()->paginate(10 ?? $perPage);
+        })->latest()->paginate($perPage ?? 10);
 
         return Inertia::render('RestaurantAdmin/GroupDeals/Index', [
             'groupDeals' => $groupDeals,
@@ -86,7 +86,7 @@ class GroupDealController extends Controller
             'group_deal_price' => $request->group_deal_price,
             'restaurant_id' => Auth::user()->restaurant_id,
         ]);
-       
+
         foreach ($request->groupDealItems as $key => $groupDealItem) {
 
             $groupDealItem = $groupDeal->groupDealItems()->create([
@@ -99,7 +99,7 @@ class GroupDealController extends Controller
                     "group_deal_id" => $groupDeal->id,
                 ]);
             }
-           
+
         }
 
         // redirect to the Group Deal page
@@ -115,7 +115,7 @@ class GroupDealController extends Controller
      */
 
     public function edit(Request $request, GroupDeal $groupDeal)
-    {   
+    {
         // Load the Group Deal and its related items
         $groupDeal->load('groupDealItems.groupDealSingleItems.menuItem');
 
@@ -156,7 +156,7 @@ class GroupDealController extends Controller
         ]);
 
         foreach($groupDeal->groupDealItems as $groupDealItem) {
-            
+
             $groupDealItem->deleteGroupDealSingleItems();
 
             $groupDealItem->delete();
@@ -174,7 +174,7 @@ class GroupDealController extends Controller
                     "group_deal_id" => $groupDeal->id,
                 ]);
             }
-           
+
         }
 
         // redirect to the Group Deal page

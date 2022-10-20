@@ -182,10 +182,10 @@ export default function Index(props){
                         </div>
                         {/* END: Data List */}
                         {/* BEGIN: Pagination */}
-                        <div className="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap groupDeals-center">
+                          <div className="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
                         <nav className="w-full sm:w-auto sm:mr-auto">
                             <ul className="pagination">
-                                <li className="page-groupDeal">
+                                <li className="page-item">
                                     <Link className="page-link" href={first_page_url}>
                                         <ChevronsLeft className="w-4 h-4" />
                                     </Link>
@@ -197,7 +197,7 @@ export default function Index(props){
                                             <>
                                                 {
                                                     link.label == "&laquo; Previous" &&
-                                                        <li key={link.label} className="page-groupDeal">
+                                                        <li key={link.label} className="page-item">
                                                             <Link className="page-link" href={link.url}>
                                                                 <ChevronLeft className="w-4 h-4" />
                                                             </Link>
@@ -205,7 +205,7 @@ export default function Index(props){
                                                 }
                                                 {
                                                     link.label == "Next &raquo;" &&
-                                                        <li key={link.label} className="page-groupDeal">
+                                                        <li key={link.label} className="page-item">
                                                             <Link className="page-link" href={link.url}>
                                                                 <ChevronRight className="w-4 h-4" />
                                                             </Link>
@@ -213,7 +213,7 @@ export default function Index(props){
                                                 }
                                                 {
                                                     link.label != "&laquo; Previous" && link.label != "Next &raquo;" &&
-                                                        <li key={link.label} className={ link.active == true ? "page-groupDeal active" : "page-groupDeal"
+                                                        <li key={link.label} className={ link.active == true ? "page-item active" : "page-item"
                                                     }>
                                                             <Link
                                                                 className="page-link"
@@ -230,7 +230,7 @@ export default function Index(props){
 
 
 
-                                <li className="page-groupDeal">
+                                <li className="page-item">
                                     <Link className="page-link" href={last_page_url}>
                                         <ChevronsRight className="w-4 h-4" />
                                     </Link>
