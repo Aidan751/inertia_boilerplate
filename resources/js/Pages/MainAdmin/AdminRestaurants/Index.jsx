@@ -93,8 +93,8 @@ export default function Index(props) {
 
                         {/* Pagination Information */}
                         <div className="hidden md:block mx-auto text-gray-600">Showing {form} to {to} of {total} entries</div>
-         {/* Search Form */}
-         <div className="w-56 text-slate-500 absolute right-0 top-0">
+                        {/* Search Form */}
+                        <div className="w-56 text-slate-500 absolute right-0 top-0">
                             <form className="flex justify-end w-full sm:w-auto sm:mt-0 sm:ml-auto md:ml-0" onSubmit={submitSearch}>
                                         <input
                                         type="text"
