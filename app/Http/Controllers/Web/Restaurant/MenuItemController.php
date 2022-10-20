@@ -159,16 +159,6 @@ class MenuItemController extends Controller
         ]);
 
         // update menu item
-        // $menuItem->update([
-        //     'title' => $request->title,
-        //     'description' => $request->description,
-        //     'price' => $request->price,
-        //     'menu_category_id' => $request->menu_category_id,
-        //     'sizes' => $request->sizes,
-        //     'extras' => $request->extras,
-        //     'dietary_requirements' => $request->dietary_requirements,
-        //     'image' => is_null($request->image) ? $menuItem->image : ImagePackage::save($request->image, 'menu_items'),
-        // ]);
         $menuItem->title = is_null($request->title) ? $menuItem->title : $request->title;
         $menuItem->description = is_null($request->description) ? $menuItem->description : $request->description;
         $menuItem->price = is_null($request->price) ? $menuItem->price : $request->price;
