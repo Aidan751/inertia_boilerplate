@@ -86,9 +86,9 @@ export default function Index(props){
                         <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
                           <div className="absolute top-0 left-0 w-full h-full image-fit">
                             <img
-                              alt="Restaurant banner"
+                              alt="Restaurant logo"
                               className="rounded-md"
-                              src={props.restaurant.banner}
+                              src={props.restaurant.logo.img_url}
                               data-action="zoom"
                             />
                           </div>
@@ -117,7 +117,7 @@ export default function Index(props){
                 {/* end: restaurant box */}
                 {/* start: groupdeal box */}
                 <div className="mt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-t border-b">
-                  <h2 className="font-medium text-lg sm:pl-10">Deals</h2>
+                  <h2 className="font-medium text-lg mt-5 mb-5">Deals</h2>
 
                   {props.restaurant.group_deals &&
                     props.restaurant.group_deals.map((deal, key) => (
@@ -177,9 +177,9 @@ export default function Index(props){
                                     <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
                                       <div className="absolute top-0 left-0 w-full h-full image-fit">
                                         <img
-                                          alt="Midone Tailwind HTML Admin Template"
+                                          alt={menu_item.title}
                                           className="rounded-md"
-                                          src="https://source.unsplash.com/random/?fruit"
+                                          src={menu_item.image}
                                           data-action="zoom"
                                         />
                                       </div>

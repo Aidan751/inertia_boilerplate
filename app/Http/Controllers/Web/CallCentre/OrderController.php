@@ -196,7 +196,7 @@ class OrderController extends Controller
         session()->forget('group_deal_single_item');
         session()->forget('selected_items');
 
-        $restaurant = Restaurant::with('menuCategories', 'menuItems', 'openingHours')->where('contact_number', $request->contact_number)->first();
+        $restaurant = Restaurant::with('menuCategories', 'menuItems', 'openingHours', 'logo', 'banner')->where('contact_number', $request->contact_number)->first();
 
         if(is_null($restaurant)) {
             return redirect()->back()->withErrors([

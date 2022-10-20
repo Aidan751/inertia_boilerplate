@@ -87,7 +87,7 @@ class ExtraController extends Controller
         $extra = Extra::create([
             'name' => $request->name,
             'description' => $request->description,
-            'additional_charge' => $request->additional_charge,
+            'additional_charge' => $request->additional_charge ?? 0,
             'restaurant_id' => Auth::user()->restaurant_id,
         ]);
 
