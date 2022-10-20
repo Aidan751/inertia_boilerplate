@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Size;
+use App\Models\Extra;
 use App\Models\MenuImage;
 use App\Models\MenuCategory;
 use App\Models\GroupDealSingleItem;
@@ -25,7 +26,6 @@ class MenuItem extends Model
     ];
 
     protected $casts = [
-        'extras' => 'array',
         'sizes' => 'array',
     ];
 
@@ -43,5 +43,10 @@ class MenuItem extends Model
     {
         $this->addMediaCollection('items')
             ->singleFile();
+    }
+
+    public function extras()
+    {
+        return $this->hasMany(Extra::class, 'menu_item_id', 'id');
     }
 }
