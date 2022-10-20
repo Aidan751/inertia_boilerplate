@@ -44,7 +44,7 @@ class MenuItemController extends Controller
                 $q->where('menu_category_id', $filter);
             })
             ->latest()
-            ->paginate(10 ?? $perPage);
+            ->paginate($perPage ?? 10);
 
 
 
