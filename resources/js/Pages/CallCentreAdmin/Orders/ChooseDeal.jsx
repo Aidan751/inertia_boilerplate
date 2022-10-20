@@ -64,7 +64,7 @@ export default function chooseDeal(props) {
     }
   ]);
 
-  const handleChange = (event) => {
+  const onHandleChange = (event) => {
     console.log(event.target.value);
     setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
   };
@@ -151,7 +151,7 @@ export default function chooseDeal(props) {
                         (
                             <div className="flex items-center mt-5">
                             <div className="form-check mt-2">
-                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name="extra" value={extra.id} />
+                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name="extra" value={extra.id} onChange={onHandleChange}/>
                                 <label className="form-check-label flex" htmlFor="checkbox-switch-1"><p>{extra.name}</p>  {extra.additional_charge !== 0 && (
                                 <p className="ml-3">+ £{extra.additional_charge || 0}</p>
                             )}</label>

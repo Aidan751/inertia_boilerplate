@@ -54,11 +54,11 @@ export default function Index(props){
       <>
         <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
           <div className="col-span-12">
-            <h2 className="intro-y text-lg font-medium p-10">Order Details</h2>
+            <h2 className="intro-y text-lg font-medium mt-5 mb-5">Order Details</h2>
             {/* start:intro */}
             <div className="grid grid-rows-3 grid-cols-3 gap-4">
               <div className="md:col-span-2 col-span-3 sm:row-span-1">
-                <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center p-10">
+                <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center sm:p-10">
                   {/* start:intro */}
                   <p className="sm:text-start sm:col-span-3 mb-2 text-start col-span-5 px-1 order-1">
                     {props.restaurant.time_slot ?? "ASAP"}{" "}
@@ -117,7 +117,7 @@ export default function Index(props){
                 {/* end: restaurant box */}
                 {/* start: groupdeal box */}
                 <div className="mt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-t border-b">
-                  <h2 className="font-medium text-lg pl-10 pt-10">Deals</h2>
+                  <h2 className="font-medium text-lg sm:pl-10">Deals</h2>
 
                   {props.restaurant.group_deals &&
                     props.restaurant.group_deals.map((deal, key) => (
@@ -166,7 +166,7 @@ export default function Index(props){
                       (item, key) =>
                         item.menu_items.length > 0 && (
                           <div className="sm:p-10 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-b border-t">
-                            <h2 className="font-medium text-lg mb-5">
+                            <h2 className="font-medium text-lg mb-5 mt-5">
                               {item.title}
                             </h2>
 
@@ -241,7 +241,7 @@ export default function Index(props){
                             </div>
                           </a>
                           <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
-                            - {item.size ? item.size[0].size : "N/A"}
+                            - {item.size[0] ? item.size[0].size : "N/A"}
                           </div>
 
                           {item.extra &&
@@ -297,7 +297,7 @@ export default function Index(props){
                           Total Charge
                         </div>
                         <div className="font-medium text-base">
-                          {total_price +
+                          £{total_price +
                             (props.restaurant.delivery_charge || 0) +
                             (props.restaurant.service_charge || 0)}
                         </div>
