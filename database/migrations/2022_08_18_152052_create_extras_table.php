@@ -21,7 +21,6 @@ class CreateExtrasTable extends Migration
             $table->unsignedInteger('restaurant_id');
             $table->timestamps();
             $table->foreign('restaurant_id')->references('id')->constrained()->on('restaurants')->onDelete('cascade');
-            $table->integer('menu_item_id')->unsigned()->nullable();
         });
     }
 

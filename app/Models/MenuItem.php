@@ -26,6 +26,7 @@ class MenuItem extends Model
     ];
 
     protected $casts = [
+        'extras' => 'array',
         'sizes' => 'array',
     ];
 
