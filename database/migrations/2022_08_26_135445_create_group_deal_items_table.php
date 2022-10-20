@@ -16,7 +16,7 @@ class CreateGroupDealItemsTable extends Migration
         Schema::create('group_deal_items', function (Blueprint $table) {
             $table->id();
             $table->string('title')->nullable();
-            $table->foreignId('group_deal_id')->references('id')->on('group_deals');
+            $table->foreignId('group_deal_id')->references('id')->on('group_deals')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

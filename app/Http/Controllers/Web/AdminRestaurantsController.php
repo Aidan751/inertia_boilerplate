@@ -88,8 +88,8 @@ class AdminRestaurantsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request){
-         // Validate the data
-         $request->validate([
+        // Validate the data
+        $request->validate([
             'name' => ['required', 'string', 'max:191'],
             'category' => ['required', 'int', 'min: 0'],
             'address_line_1' => ['required', 'string', 'max:191'],
@@ -152,22 +152,27 @@ class AdminRestaurantsController extends Controller
             $restaurant->company_drivers = 0;
         }
 
-        if ($request->table_service == "1") {
+        if ($request->allows_table_orders == "1") {
             $restaurant->allows_table_orders = 1;
         } else {
             $restaurant->allows_table_orders = 0;
         }
 
-        if ($request->collection_service == "1") {
+        if ($request->allows_collection == "1") {
             $restaurant->allows_collection = 1;
         } else {
             $restaurant->allows_collection = 0;
         }
 
-        if ($request->delivery_service == "1") {
+        if ($request->allows_delivery == "1") {
             $restaurant->allows_delivery = 1;
         } else {
             $restaurant->allows_delivery = 0;
+        }
+        if ($request->allows_call_center == "1") {
+            $restaurant->allows_call_center = 1;
+        } else {
+            $restaurant->allows_call_center = 0;
         }
 
         if (!is_null($request->bio)) {
@@ -178,7 +183,7 @@ class AdminRestaurantsController extends Controller
         // Save to the database
         $restaurant->save();
 
-         //    save the logo
+        //    save the logo
          if ($request->hasFile('logo')) {
             $restaurant->logo()->create([
                 "img_url" => ImagePackage::save($request->logo, 'logos'),
