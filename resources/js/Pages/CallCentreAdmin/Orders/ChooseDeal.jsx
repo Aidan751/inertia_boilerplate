@@ -150,11 +150,12 @@ export default function chooseDeal(props) {
                         extra.name &&
                         (
                             <div className="flex items-center mt-5">
-                            <input type="radio" name="extra" value={extra.id} onChange={handleChange}/>{" "}
-                            <p className="ml-2">{extra.name}</p>
-                            {extra.additional_charge !== 0 && (
+                            <div className="form-check mt-2">
+                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name="extra" value={extra.id} />
+                                <label className="form-check-label flex" htmlFor="checkbox-switch-1"><p>{extra.name}</p>  {extra.additional_charge !== 0 && (
                                 <p className="ml-3">+ £{extra.additional_charge || 0}</p>
-                            )}
+                            )}</label>
+                            </div>
                             </div>
 
                         )

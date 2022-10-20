@@ -90,13 +90,14 @@ function AddDeal(props) {
 
                         <div className="flex items-center justify-between flex-wrap mt-8 mb-8 sm:pl-10">
                         <div className="w-72 flex-none">
-                          <div className="box rounded-md relative zoom-in">
+                          <div className="box rounded-md relative">
                             <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
                               <div className="absolute top-0 left-0 w-full h-full image-fit">
                                 <img
                                   alt="Midone Tailwind HTML Admin Template"
                                   className="rounded-md"
                                   src={single_item.menu_item.image}
+                                  data-action="zoom"
                                 />
                               </div>
                             </div>

@@ -89,6 +89,7 @@ export default function Index(props){
                               alt="Midone Tailwind HTML Admin Template"
                               className="rounded-md"
                               src={props.restaurant.banner}
+                              data-action="zoom"
                             />
                           </div>
                         </div>
@@ -129,6 +130,7 @@ export default function Index(props){
                                   alt="Midone Tailwind HTML Admin Template"
                                   className="rounded-md"
                                   src="https://source.unsplash.com/random/?fruit"
+                                  data-action="zoom"
                                 />
                               </div>
                             </div>
@@ -171,13 +173,14 @@ export default function Index(props){
                             {item.menu_items.map((menu_item, key) => (
                               <div className="flex items-center justify-between flex-wrap mt-8 mb-8">
                                 <div className="w-72 flex-none">
-                                  <div className="box rounded-md relative zoom-in">
+                                  <div className="box rounded-md relative hover:zoom-in">
                                     <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
                                       <div className="absolute top-0 left-0 w-full h-full image-fit">
                                         <img
                                           alt="Midone Tailwind HTML Admin Template"
                                           className="rounded-md"
                                           src="https://source.unsplash.com/random/?fruit"
+                                          data-action="zoom"
                                         />
                                       </div>
                                     </div>
