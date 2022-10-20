@@ -164,7 +164,22 @@ class ExtraController extends Controller
 
     public function destroy(Extra $extra)
     {
+        // delete the extra with the specified id from the menu item that has it
+        $menu_items = MenuItem::where('restaurant_id', Auth::user()->restaurant_id)->get();
+        foreach ($menu_items as $menu_item) {
+            foreach ($menu_item->extras as $key => $menu_item_extra) {
+                if ($menu_item_extra['id'] == $extra->id) {
+// todo: try and get extras to delete from menu item extras as well as from admin panel
+                    array_splice($menu_item->extras,$menu_item->extras[$key], 1);
+                }
+            }
+        }
+
+
         $extra->delete();
+
+        dd($menu_items);
+
         return redirect()->route('restaurant.extras.index')->with('success', 'Extra deleted successfully');
     }
 
