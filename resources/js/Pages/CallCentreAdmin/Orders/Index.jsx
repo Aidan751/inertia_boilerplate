@@ -86,7 +86,7 @@ export default function Index(props){
                         <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
                           <div className="absolute top-0 left-0 w-full h-full image-fit">
                             <img
-                              alt="Midone Tailwind HTML Admin Template"
+                              alt="Restaurant banner"
                               className="rounded-md"
                               src={props.restaurant.banner}
                               data-action="zoom"
