@@ -2364,3 +2364,15 @@
 1666306242-6788-205323348,1666306242.4641,GET,/restaurant/extras?perPage=10&search=,"App\Http\Controllers\Web\Restaurant\ExtraController@index",200,490.5309677124,request
 1666306246-1472-1345039082,1666306245.9329,GET,/dist/zoom-vanilla.min.js.map,,404,391.20697975159,request
 1666306251-0426-298727057,1666306250.8956,GET,/restaurant/extras?perPage=25&search=,"App\Http\Controllers\Web\Restaurant\ExtraController@index",200,539.64304924011,request
+1666306290-9534-908919475,1666306290.7674,GET,/restaurant/menu/categories,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@index",200,657.26113319397,request
+1666306294-5770-1979722171,1666306294.4621,GET,/restaurant/menu/categories?preserveScroll=true&perPage=25&search=,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@index",200,494.50206756592,request
+1666306323-5727-1554945257,1666306323.256,GET,/restaurant/menu/categories?preserveScroll=true&perPage=25&search=,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@index",200,749.9840259552,request
+1666306327-4218-1218111871,1666306327.2288,GET,/dist/zoom-vanilla.min.js.map,,404,362.23387718201,request
+1666306332-9040-1593948125,1666306332.749,GET,/restaurant/menu/categories?preserveScroll=true&perPage=10&search=,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@index",200,588.17911148071,request
+1666306336-7752-719290370,1666306336.6025,GET,/restaurant/menu/categories?page=2,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@index",200,654.77395057678,request
+1666306343-0868-309028427,1666306342.8864,GET,/restaurant/menu/categories?page=4,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@index",200,685.85896492004,request
+1666306347-0586-954778934,1666306346.8634,GET,/restaurant/menu/categories?page=2,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@index",200,750.56910514832,request
+1666306354-1160-360560443,1666306353.9621,GET,/restaurant/menu/categories?preserveScroll=true&perPage=50&search=,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@index",200,621.68788909912,request
+1666306363-7877-2073351655,1666306363.677,GET,/restaurant/menu/categories?preserveScroll=true&perPage=10&search=,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@index",200,600.21996498108,request
+1666306368-2360-1394280530,1666306368.083,GET,/restaurant/menu/categories?perPage=10&search=ca,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@index",200,500.97918510437,request
+1666306372-6699-159513298,1666306372.5182,GET,/restaurant/menu/categories?perPage=10&search=,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@index",200,606.7898273468,request

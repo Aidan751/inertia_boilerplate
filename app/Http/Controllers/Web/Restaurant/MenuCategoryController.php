@@ -32,7 +32,7 @@ class MenuCategoryController extends Controller
                           $q->where('title', 'LIKE', '%' . $search . '%');
                       })
                       ->latest()
-                      ->paginate(10 ?? $perPage);
+                      ->paginate($perPage ?? 10);
 
         return Inertia::render('RestaurantAdmin/Categories/Index', [
             'categories' => $categories,
