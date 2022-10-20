@@ -115,6 +115,7 @@ class OrderController extends Controller
             if($menu_item->sizes){
             foreach($menu_item->sizes as $size){
                 if($size['id'] == $request->size){
+                    $size['additional_charge'] = floatval($size['additional_charge']);
                     array_push($new_selected_size, $size);
                 }
             }
@@ -123,6 +124,7 @@ class OrderController extends Controller
                 // loop through extras and add those extras to the new selected extra array
                 foreach($menu_item->extras as $extra){
                     if($extra['id'] == $request->extra){
+                        $extra['additional_charge'] = floatval($extra['additional_charge']);
                         array_push($new_selected_extra, $extra);
                     }
                 }
@@ -189,6 +191,10 @@ class OrderController extends Controller
 
         session()->forget('cart');
         session()->forget('restaurant');
+        session()->forget('order');
+        session()->forget('group_deal');
+        session()->forget('group_deal_single_item');
+        session()->forget('selected_items');
 
         $restaurant = Restaurant::with('menuCategories', 'menuItems', 'openingHours')->where('contact_number', $request->contact_number)->first();
 

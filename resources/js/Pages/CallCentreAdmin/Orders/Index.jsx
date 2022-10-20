@@ -18,101 +18,47 @@ export default function Index(props){
     })
 
 
-    const [group_deals, set_group_deals] = useState([]);
-    const [menu, set_menu] = useState([
-      [
-        {
-          title: "Starter"
-        },
-        [
-          {
-            title: "snails",
-            description: "snails",
-            dietary_requirements: "n/a",
-            price: 10
-          }
-        ]
-      ]
-    ]);
-    const [new_items, set_new_items] = useState([
-      {
-        id: 1,
-        title: "burger",
-        price: 100,
-        size: { detail: "Large", price: 14.56 },
-        extras: [
-          [
-            {
-              title: "mushroom",
-              price: 14.2
-            },
-            {
-              title: "cheese",
-              price: 0
-            }
-          ]
-        ],
-        quantity: 1,
-        notes: "allergies include nuts"
-      },
-      {
-        id: 1,
-        title: "burger",
-        price: 100,
-        size: { detail: "Large", price: 14.56 },
-        extras: [
-          [
-            {
-              title: "mushroom",
-              price: 14.2
-            },
-            {
-              title: "cheese",
-              price: 15.7
-            }
-          ]
-        ],
-        quantity: 1,
-        notes: "allergies include nuts"
+    var extra_total = 0;
+    var size_total = 0;
+    var total_price = 0;
+
+    if (props.selected_items) {
+      props.selected_items && props.selected_items.forEach((item) => {
+        let i = 0;
+        while (i < item.extra.length) {
+          extra_total += item.extra[i].additional_charge;
+          i++;
+        }
+      });
+
+      props.selected_items && props.selected_items.forEach((item) => {
+        let i = 0;
+        while (i < item.size.length) {
+          size_total += item.size[i].additional_charge;
+          i++;
+        }
+      });
+
+      var i = 0;
+      while (i < props.selected_items.length) {
+        total_price += parseFloat(props.selected_items[i].menu_item.price);
+        i++;
       }
-    ]);
-
-    const [subtotal, setSubtotal] = useState();
-
-    var extra_total;
-    var size_total;
-    var total_price;
-
-    if(props.selected_items){
-        let new_item_arr = props.selected_items.forEach((item) => {
-          extra_total = item.menu_item.extra && item.menu_item.extra.reduce((a, b) => a.additional_charge + b.additional_charge);
-        });
-
-        let new_item_arr2 = props.selected_items.forEach((item) => {
-            size_total = item.menu_item.size && item.menu_item.size.reduce((a, b) => a.additional_charge + b.additional_charge);
-        });
-
-        let new_item_arr3 = props.selected_items.forEach((item) => {
-            total_price = item.menu_item.price && item.menu_item.price + extra_total + size_total;
-        });
-
     }
 
+
+
     let extra_price;
-
-
 
     return (
       <>
         <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
           <div className="col-span-12">
-            <h2 className="intro-y text-lg font-medium mt-10 mb-4">
-              Order Details
-            </h2>
+            <h2 className="intro-y text-lg font-medium p-10">Order Details</h2>
             {/* start:intro */}
             <div className="grid grid-rows-3 grid-cols-3 gap-4">
               <div className="md:col-span-2 col-span-3 sm:row-span-1">
-                <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center">
+                <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center p-10">
                   {/* start:intro */}
                   <p className="sm:text-start sm:col-span-3 mb-2 text-start col-span-5 px-1 order-1">
                     {props.restaurant.time_slot ?? "ASAP"}{" "}
@@ -134,32 +80,34 @@ export default function Index(props){
 
                 {/* start: restaurant box */}
                 <div>
-                  <div className="md:col-span-2 col-span-3 sm:row-span-1 row-span-2">
-                    <div className="box flex flex-wrap">
-                      <div className="p-5 flex-1">
-                        <div className="h-56 2xl:w-72 2xl:h-56 image-fit rounded-md overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
-                          <img
-                            alt="Midone - HTML Admin Template"
-                            className="rounded-md w-full"
-                            src={props.restaurant.banner}
-                          />
+                  <div className="flex items-center justify-between sm:p-10 flex-wrap">
+                    <div className="w-72 flex-none">
+                      <div className="box rounded-md relative zoom-in">
+                        <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
+                          <div className="absolute top-0 left-0 w-full h-full image-fit">
+                            <img
+                              alt="Midone Tailwind HTML Admin Template"
+                              className="rounded-md"
+                              src={props.restaurant.banner}
+                            />
+                          </div>
                         </div>
                       </div>
-                      <div className="p-5 flex-1 flex items-start justify-center flex-col">
-                        <h2 className="font-medium text-lg">
-                          {props.restaurant.name}
-                        </h2>
-                        <p className="mt-5 mb-2">
-                          {props.restaurant.opening_hours_message}
-                        </p>
-                        <p className="mb-2">
-                          Delivery £{props.restaurant.delivery_charge}
-                        </p>
-                        <p>
-                          Delivery estimate{" "}
-                          {props.restaurant.average_delivery_time - 10} -{" "}
-                          {props.restaurant.average_delivery_time} Minutes
-                        </p>
+                    </div>
+                    <div className="p-10 flex-1">
+                      <div className="block font-medium text-base">
+                        {props.restaurant.name}
+                      </div>
+                      <div className="text-slate-600 dark:text-slate-500 mt-2">
+                        {props.restaurant.opening_hours_message}
+                      </div>
+                      <div className="text-slate-600 dark:text-slate-500 mt-2">
+                        Delivery £{props.restaurant.delivery_charge}
+                      </div>
+                      <div className="text-slate-600 dark:text-slate-500 mt-2">
+                        Delivery estimate{" "}
+                        {props.restaurant.average_delivery_time - 10} -{" "}
+                        {props.restaurant.average_delivery_time} Minutes
                       </div>
                     </div>
                   </div>
@@ -167,39 +115,45 @@ export default function Index(props){
 
                 {/* end: restaurant box */}
                 {/* start: groupdeal box */}
-                <div
-                  className="mt-5 pt-5 pb-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2"
-                  style={{
-                    borderTop: "1px dashed grey",
-                    borderBottom: "1px dashed grey"
-                  }}
-                >
-                  <h2 className="font-medium text-lg pb-5">Deals</h2>
-                  {props.restaurant.group_deals.length == 0 && (
-                    <button className="btn">Choose a group deal</button>
-                  )}
+                <div className="mt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-t border-b">
+                  <h2 className="font-medium text-lg pl-10 pt-10">Deals</h2>
+
                   {props.restaurant.group_deals &&
                     props.restaurant.group_deals.map((deal, key) => (
-                      <div className="box flex flex-wrap mb-4">
-                        <div className="p-5 flex-1">
-                          <div className="h-56 2xl:w-72 2xl:h-56 image-fit rounded-md overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
-                            <img
-                              alt="Midone - HTML Admin Template"
-                              className="rounded-md w-full"
-                              src="https://source.unsplash.com/random/900×700/?fruit"
-                            />
+                      <div className="flex items-center justify-between flex-wrap mt-8 mb-8 sm:pl-10">
+                        <div className="w-72 flex-none">
+                          <div className="box rounded-md relative zoom-in">
+                            <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
+                              <div className="absolute top-0 left-0 w-full h-full image-fit">
+                                <img
+                                  alt="Midone Tailwind HTML Admin Template"
+                                  className="rounded-md"
+                                  src="https://source.unsplash.com/random/?fruit"
+                                />
+                              </div>
+                            </div>
                           </div>
                         </div>
-                        <div className="p-5 flex-1 flex items-start justify-center flex-col">
-                          <h2 className="font-medium text-lg">{deal.title}</h2>
-                          <p className="mt-5 mb-2">{deal.description}</p>
-                          <p className="mb-2">
-                            Allergens: {deal.allergies ?? "N/A"}
-                          </p>
-                          <p className="mb-2">Price: £ {deal.group_deal_price}</p>
-                          <Link className="btn btn-primary" method="get" href={route('call-centre.orders.add.deal', {id: deal.id})}>
-                                    Add
-                         </Link>
+                        <div className="p-5 flex-1">
+                          <div className="block font-medium text-base">
+                            {deal.title}
+                          </div>
+                          <div className="text-slate-600 dark:text-slate-500 mt-2">
+                            {deal.description}
+                          </div>
+                          <div className="text-slate-600 dark:text-slate-500 mt-2">
+                            Allergens: {deal.dietary_requirements ?? "N/A"}
+                          </div>
+                          <div className="text-slate-600 dark:text-slate-500 mt-2">
+                            Price: £ {deal.group_deal_price}
+                          </div>
+                          <Link
+                            className="btn btn-primary mt-5 w-24"
+                            method="get"
+                            href={route('call-centre.orders.add.deal', {id: deal.id})}
+                          >
+                            Add
+                          </Link>
                         </div>
                       </div>
                     ))}
@@ -209,40 +163,46 @@ export default function Index(props){
                     props.restaurant.menu.map(
                       (item, key) =>
                         item.menu_items.length > 0 && (
-                          <div
-                            className="mt-5 pt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2"
-                            style={{ borderTop: "1px dashed grey" }}
-                          >
-                            <h2 className="pb-5 font-medium text-lg">
+                          <div className="sm:p-10 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-b border-t">
+                            <h2 className="font-medium text-lg mb-5">
                               {item.title}
                             </h2>
 
                             {item.menu_items.map((menu_item, key) => (
-                              <div className="box flex flex-wrap mb-4">
-                                <div className="p-5 flex-1">
-                                  <div className="h-56 2xl:w-72 2xl:h-56 image-fit rounded-md overflow-hidden before:block before:absolute before:w-full before:h-full before:top-0 before:left-0 before:z-10 before:bg-gradient-to-t before:from-black before:to-black/10">
-                                    <img
-                                      alt="Midone - HTML Admin Template"
-                                      className="rounded-md w-full"
-                                      src="https://source.unsplash.com/random/900×700/?fruit"
-                                    />
+                              <div className="flex items-center justify-between flex-wrap mt-8 mb-8">
+                                <div className="w-72 flex-none">
+                                  <div className="box rounded-md relative zoom-in">
+                                    <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
+                                      <div className="absolute top-0 left-0 w-full h-full image-fit">
+                                        <img
+                                          alt="Midone Tailwind HTML Admin Template"
+                                          className="rounded-md"
+                                          src="https://source.unsplash.com/random/?fruit"
+                                        />
+                                      </div>
+                                    </div>
                                   </div>
                                 </div>
-                                <div className="p-5 flex-1 flex items-start justify-center flex-col">
-                                  <h2 className="font-medium text-lg">
-                                    {menu_item.title}
-                                  </h2>
-                                  <p className="mt-5 mb-2">
-                                    {menu_item.description}
-                                  </p>
-                                  <p className="mb-2">
+                                <div className="p-5 flex-1">
+                                  <div className="block font-medium text-base">
+                                    {item.menu_items[0].title}
+                                  </div>
+                                  <div className="text-slate-600 dark:text-slate-500 mt-2">
+                                    {item.menu_items[0].description}
+                                  </div>
+                                  <div className="text-slate-600 dark:text-slate-500 mt-2">
                                     Allergens:{" "}
-                                    {menu_item.dietary_requirements ?? "N/A"}
-                                  </p>
-                                  <p className="mb-4">
-                                    Price: £ {menu_item.price}
-                                  </p>
-                                  <Link className="btn btn-primary" href={route('call-centre.orders.add.item', {id: menu_item.id})}>
+                                    {item.menu_items[0].dietary_requirements ??
+                                      "N/A"}
+                                  </div>
+                                  <div className="text-slate-600 dark:text-slate-500 mt-2">
+                                    Price: £ {item.menu_items[0].price}
+                                  </div>
+                                  <Link
+                                    className="btn btn-primary mt-5 w-24"
+                                    method="get"
+                                     href={route('call-centre.orders.add.deal', {id: item.menu_items[0].id})}
+                                  >
                                     Add
                                   </Link>
                                 </div>
@@ -257,67 +217,70 @@ export default function Index(props){
               {/* start: Basket */}
               <div className="sm:col-span-1 sm:row-span-3 col-span-3">
                 <h2 className="p-5 font-medium text-lg border rounded py-3">
-                  Basket ({props.selected_items ? props.selected_items.length : 0})
+                  Basket ({props.selected_items ? props.selected_items.length : 0}
+                  )
                 </h2>
                 <TabPanel>
                   <div className="box p-5 mt-5">
-                    {props.selected_items && props.selected_items.map((item, key) => (
-                      <div className="mb-5">
-                        <a className="flex mb-5 items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
-                          <div className="max-w-[50%] font-medium text-lg truncate mr-1">
-                            {item.menu_item.title}
-                          </div>
-                          <div className="text-slate-500">x {item.menu_item.quantity || 1}</div>
-                          <Edit className="w-4 h-4 text-slate-500 ml-2" />
-                          <div className="ml-auto font-medium text-lg">
-                            £{" "}
-                            {item.menu_item.quantity * (item.menu_item.price + (item.menu_item.size ? item.menu_item.size[0].additional_charge : 0)) +
-                              (item.menu_item.extra && item.menu_item.extra.map((extra) => extra.price).reduce((a, b) => a + b, 0) || 0)}
-                          </div>
-                        </a>
-                        <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
-                          - {item.menu_item.size ? item.menu_item.size[0].size : "N/A"}
-                        </div>
-
-                        {item.menu_item.extra && item.menu_item.extra.map((extra, key) => (
+                    {props.selected_items &&
+                      props.selected_items.map((item, key) => (
+                        <div className="mb-5">
+                          <a className="flex mb-5 items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
+                            <div className="max-w-[50%] font-medium text-lg truncate mr-1">
+                              {item.menu_item.title}
+                            </div>
+                            <div className="text-slate-500">
+                              x {(item.quantity = 1)}
+                            </div>
+                            <Edit className="w-4 h-4 text-slate-500 ml-2" />
+                            <div className="ml-auto font-medium text-lg">
+                              £ {parseFloat(item.menu_item.price) * item.quantity}
+                            </div>
+                          </a>
                           <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
-                            - {extra.name}
+                            - {item.size ? item.size[0].size : "N/A"}
                           </div>
-                        ))}
 
-                        <div className="flex justify-between mt-3 items-center w-full">
-                          <p className="flex-1">Qty:</p>
-                          <select className="rounded">
-                            <option value="1" selected>
-                              1
-                            </option>
-                            <option value="2">2</option>
-                            <option value="3">3</option>
-                            <option value="4">4</option>
-                            <option value="5">5</option>
-                          </select>
+                          {item.extra &&
+                            item.extra.map((extra, key) => (
+                              <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
+                                - {extra.name}
+                              </div>
+                            ))}
+
+                          <div className="flex justify-between mt-3 items-center w-full">
+                            <p className="flex-1">Qty:</p>
+                            <select className="rounded">
+                              <option value="1" selected>
+                                1
+                              </option>
+                              <option value="2">2</option>
+                              <option value="3">3</option>
+                              <option value="4">4</option>
+                              <option value="5">5</option>
+                            </select>
+                          </div>
+                          <div className="mt-3">
+                            <textarea
+                              className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                              id="bio"
+                              type="text"
+                              name="notes"
+                              placeholder="Notes here"
+                              value={item.menu_item.notes || ""}
+                            />
+                          </div>
                         </div>
-                        <div className="mt-3">
-                          <textarea
-                            className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                            id="bio"
-                            type="text"
-                            name="notes"
-                            placeholder="Notes here"
-                            value={item.menu_item.notes || ""}
-                          />
-                        </div>
-                      </div>
-                    ))}
+                      ))}
                     <div className="box p-5 mt-5">
                       <div className="flex">
                         <div className="mr-auto">Subtotal</div>
-                        <div className="font-medium"> sub total here</div>
+                        <div className="font-medium">{total_price}</div>
                       </div>
                       <div className="flex mt-4">
                         <div className="mr-auto">Delivery</div>
                         <div className="font-medium text-danger">
-                          {props.restaurant.delivery_charge}
+                          {props.restaurant.delivery_charge ?? 0}
                         </div>
                       </div>
                       <div className="flex mt-4">
@@ -331,8 +294,9 @@ export default function Index(props){
                           Total Charge
                         </div>
                         <div className="font-medium text-base">
-
-                          {(size_total || 0) + (extra_total || 0) + (props.restaurant.delivery_charge || 0) + (props.restaurant.service_charge || 0) + (total_price || 0) ?? 0}
+                          {total_price +
+                            (props.restaurant.delivery_charge || 0) +
+                            (props.restaurant.service_charge || 0)}
                         </div>
                       </div>
                     </div>
