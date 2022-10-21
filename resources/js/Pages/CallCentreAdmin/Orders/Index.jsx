@@ -248,11 +248,11 @@ export default function Index(props){
                             <div className="ml-auto font-medium text-lg">
                               £{" "}
                               {parseFloat(item.menu_item.price) * item.quantity +
-                                item.extra.reduce(
+                                item.extra && item.extra.reduce(
                                   (a, b) =>
                                     a.additional_charge + b.additional_charge
                                 ) +
-                                item.size[0].additional_charge}
+                                item.size && item.size[0].additional_charge}
                             </div>
                           </a>
                           <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
