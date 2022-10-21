@@ -10,7 +10,7 @@ import ValidationErrors from "@/Components/ValidationErrors";
 function Edit(props) {
 
     const groupDeal = props.groupDeal;
-    
+
     const existingMenuItems = props.existingMenuItems;
 
     const { data, setData, put, processing, errors } = useForm({
@@ -24,7 +24,7 @@ function Edit(props) {
     });
 
     const [groupDealItems, setGroupDealItems] = useState(groupDeal.group_deal_items);
-  
+
     const [groupDealSingleItems, setGroupDealSingleItems] = useState(null);
 
     useEffect(() => {
@@ -37,28 +37,28 @@ function Edit(props) {
           let singleItems = [];
 
           groupDealItem.group_deal_single_items.forEach(menuItem => {
-          
+
             singleItems.push({
               "id": menuItem.menu_item.id,
               "title": menuItem.menu_item.title,
             })
-          
-          }) 
-          
+
+          })
+
           menuItems.push(singleItems);
-        
+
         })
-        
+
         setGroupDealSingleItems(menuItems);
         setData("group_deal_single_items",menuItems);
       }, []);
 
     const addGroupDealItem = () => {
-  
+
       let newMenuItems = [...groupDealSingleItems, []];
-  
+
       setGroupDealSingleItems(newMenuItems);
-  
+
       setGroupDealItems([
         ...groupDealItems,
         {
@@ -66,7 +66,7 @@ function Edit(props) {
           title: "",
         },
       ]);
-      
+
     };
 
     /**
@@ -75,52 +75,52 @@ function Edit(props) {
      const onHandleChange = (event) => {
       setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
     };
-  
+
     const addMenuItem = (event) => {
-  
+
       const index = parseInt(event.target.id);
-  
+
       existingMenuItems.forEach((item) => {
-  
+
         if (item.id == event.target.value) {
-  
+
           let newMenuItems = [...groupDealSingleItems];
-  
+
           newMenuItems[index].push({
             id: item.id,
             title: item.title,
             join_id: index + 1,
           });
-  
+
           setGroupDealSingleItems(newMenuItems);
           setData("group_deal_single_items",newMenuItems);
         }
       });
     };
-  
+
     const handleMenuItemRemoveClick = (index,group_deal_key) => {
-  
+
     const list = [...groupDealSingleItems];
-  
+
       list[group_deal_key].splice(index, 1);
       setGroupDealSingleItems(list);
       setData("group_deal_single_items",list);
     };
-  
+
     const changeGroupDealTitle = (event,index) => {
-  
-  
+
+
       event.preventDefault();
-  
+
       const value  = event.target.value;
       const newGroupDealItems = [...groupDealItems];
-  
+
       newGroupDealItems[index].title = value;
-  
+
       setGroupDealItems(newGroupDealItems);
-  
+
     }
-  
+
     const submit = (e) => {
       e.preventDefault();
       data.group_deal_items = groupDealItems;
@@ -323,7 +323,7 @@ function Edit(props) {
                   >
                     {
                       groupDealItems &&
-                      groupDealItems.length > 0 ? "Add another" : "Add size option"
+                      groupDealItems.length > 0 ? "Add another" : "Add group deal item"
                     }
                   </Button>
                 </div>

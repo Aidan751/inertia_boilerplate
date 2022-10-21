@@ -3,8 +3,10 @@
 namespace Database\Seeders;
 
 use App\Models\Day;
+use App\Models\Logo;
 use App\Models\Extra;
 use App\Models\Order;
+use App\Models\Banner;
 use App\Models\MenuItem;
 use App\Models\GroupDeal;
 use App\Models\OrderItem;
@@ -57,8 +59,12 @@ class DatabaseSeeder extends Seeder
             'postcode' => 'ML9 2QF',
             'application_status' => 'approved',
             'stripe_status' => 'complete',
-            'logo' => 'https://loremflickr.com/320/240?random=1',
+            'allows_delivery' => 1,
         ]);
+
+        Logo::factory()->create();
+
+        Banner::factory()->create();
 
         OpeningHour::factory()->create([
             'restaurant_id' => $restaurant->id,
@@ -169,16 +175,17 @@ class DatabaseSeeder extends Seeder
             'title' => 'Pizza',
             'description' => 'Tomato sauce, mozzarella, basil',
             'dietary_requirements' => 'Vegetarian',
-            'image' => "https://loremflickr.com/320/240?food&random=5",
+            'image' => "https://loremflickr.com/640/480/food",
             'price' => 5.00,
         ]);
+
         MenuItem::factory()->create([
             'restaurant_id' => $restaurant->id,
             'menu_category_id' => 2,
             'title' => 'Pasta',
             'description' => 'Tomato sauce, mozzarella, basil',
             'dietary_requirements' => 'Vegetarian',
-            'image' => "https://loremflickr.com/320/240?food&random=3",
+            'image' => "https://loremflickr.com/640/480/food",
             'price' => 5.00,
         ]);
 
@@ -188,7 +195,7 @@ class DatabaseSeeder extends Seeder
             'title' => 'Coke',
             'description' => 'Coke',
             'dietary_requirements' => 'none',
-            'image' => "https://loremflickr.com/320/240?food&random=2",
+            'image' => "https://loremflickr.com/640/480/food",
             'price' => 10.00,
         ]);
 
@@ -198,7 +205,7 @@ class DatabaseSeeder extends Seeder
             'title' => 'Ice Cream',
             'description' => 'Ice Cream',
             'dietary_requirements' => 'none',
-            'image' => "https://loremflickr.com/320/240?food&random=1",
+            'image' => "https://loremflickr.com/640/480/food",
             'price' => 15.00,
         ]);
 
@@ -245,6 +252,31 @@ class DatabaseSeeder extends Seeder
             'description' => 'Pizza Deal',
             'group_deal_price' => 10.00,
         ]);
+
+        GroupDeal::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'title' => 'Pasta Deal',
+            'description' => 'Pasta Deal',
+            'group_deal_price' => 10.00,
+        ]);
+
+        GroupDeal::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'title' => 'Drink Deal',
+            'description' => 'Drink Deal',
+            'group_deal_price' => 10.00,
+        ]);
+
+        GroupDeal::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'title' => 'Dessert Deal',
+            'description' => 'Dessert Deal',
+            'group_deal_price' => 10.00,
+        ]);
+
+
+
+
 
         Order::factory(50)->create([
             "restaurant_id" => $restaurant->id,

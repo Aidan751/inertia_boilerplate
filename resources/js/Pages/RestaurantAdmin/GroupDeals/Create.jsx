@@ -329,7 +329,7 @@ function Create(props) {
                     type="button"
                     click={addGroupDealItem}
                   >
-                    {groupDealItems.length > 0 ? "Add another" : "Add size option"}
+                    {groupDealItems.length > 0 ? "Add another" : "Add group deal item"}
                   </Button>
                 </div>
                 {/* End: Button to add another group deal item */}
