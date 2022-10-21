@@ -18,26 +18,29 @@ export default function Index(props){
     })
 
 
+    const [notes, setNotes] = useState();
     var extra_total = 0;
     var size_total = 0;
     var total_price = 0;
 
     if (props.selected_items) {
-      props.selected_items && props.selected_items.forEach((item) => {
-        let i = 0;
-        while (i < item.extra.length) {
-          extra_total += item.extra[i].additional_charge;
-          i++;
-        }
-      });
+      props.selected_items &&
+        props.selected_items.forEach((item) => {
+          let i = 0;
+          while (i < item.extra.length) {
+            extra_total += item.extra[i].additional_charge;
+            i++;
+          }
+        });
 
-      props.selected_items && props.selected_items.forEach((item) => {
-        let i = 0;
-        while (i < item.size.length) {
-          size_total += item.size[i].additional_charge;
-          i++;
-        }
-      });
+      props.selected_items &&
+        props.selected_items.forEach((item) => {
+          let i = 0;
+          while (i < item.size.length) {
+            size_total += item.size[i].additional_charge;
+            i++;
+          }
+        });
 
       var i = 0;
       while (i < props.selected_items.length) {
@@ -46,15 +49,21 @@ export default function Index(props){
       }
     }
 
-
-
     let extra_price;
+
+    // to input elements and record their values in state
+    const handleNotesInputChange = (e) => {
+      const { name, value } = e.target;
+      setNotes(value);
+      };
 
     return (
       <>
         <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
           <div className="col-span-12">
-            <h2 className="intro-y text-lg font-medium mt-5 mb-5">Order Details</h2>
+            <h2 className="intro-y text-lg font-medium mt-5 mb-5">
+              Order Details
+            </h2>
             {/* start:intro */}
             <div className="grid grid-rows-3 grid-cols-3 gap-4">
               <div className="md:col-span-2 col-span-3 sm:row-span-1">
@@ -237,11 +246,17 @@ export default function Index(props){
                             </div>
                             <Edit className="w-4 h-4 text-slate-500 ml-2" />
                             <div className="ml-auto font-medium text-lg">
-                              £ {parseFloat(item.menu_item.price) * item.quantity}
+                              £{" "}
+                              {parseFloat(item.menu_item.price) * item.quantity +
+                                item.extra.reduce(
+                                  (a, b) =>
+                                    a.additional_charge + b.additional_charge
+                                ) +
+                                item.size[0].additional_charge}
                             </div>
                           </a>
                           <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
-                            - {item.size[0] ? item.size[0].size : "N/A"}
+                            - {item.size[0].size}
                           </div>
 
                           {item.extra &&
@@ -270,7 +285,10 @@ export default function Index(props){
                               type="text"
                               name="notes"
                               placeholder="Notes here"
-                              value={item.menu_item.notes || ""}
+                              value={notes}
+                              onChange={(e) =>
+                                handleNotesInputChange(e)
+                              }
                             />
                           </div>
                         </div>
@@ -297,9 +315,12 @@ export default function Index(props){
                           Total Charge
                         </div>
                         <div className="font-medium text-base">
-                          £{total_price +
+                          £
+                          {total_price +
                             (props.restaurant.delivery_charge || 0) +
-                            (props.restaurant.service_charge || 0)}
+                            (props.restaurant.service_charge || 0) +
+                            extra_total +
+                            size_total}
                         </div>
                       </div>
                     </div>
