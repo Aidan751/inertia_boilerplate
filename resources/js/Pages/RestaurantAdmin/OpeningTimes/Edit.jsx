@@ -12,57 +12,7 @@ export default function Edit(props) {
   const { data, setData, put, processing, errors } = useForm({
   });
 
-  const[openHours, setOpenHours] = useState([
-    {
-        day: "Monday",
-        times: [{
-            from: "",
-            to: ""
-    }]
-    },
-    {
-        day: "Tuesday",
-        times: [{
-            from: "",
-            to: ""
-    }]
-    },
-    {
-        day: "Wednesday",
-        times: [{
-            from: "",
-            to: ""
-    }]
-    },
-    {
-        day: "Thursday",
-        times: [{
-            from: "",
-            to: ""
-    }]
-    },
-    {
-        day: "Friday",
-        times: [{
-            from: "",
-            to: ""
-    }]
-    },
-    {
-        day: "Saturday",
-        times: [{
-            from: "",
-            to: ""
-    }]
-    },
-    {
-        day: "Sunday",
-        times: [{
-            from: "",
-            to: ""
-    }]
-    }
-  ]);
+
 
 const handleFromChange = (e, index) => {
     const { name, value } = e.target;
@@ -94,37 +44,111 @@ const removeOpeningTime = (e, index, timeIndex) => {
     setOpenHours(list);
 };
 
+const[openHours, setOpenHours] = useState([
+    {
+        day: "Monday",
+        times: [
+            {
+                from: "10:00",
+                to: "20:00"
+            }
+        ]
+    },
+    {
+        day: "Tuesday",
+        times: [
+            {
+                from: "10:00",
+                to: "20:00"
+            }
+        ]
+    },
+    {
+        day: "Wednesday",
+        times: [
+            {
+                from: "10:00",
+                to: "20:00"
+            }
+        ]
+    },
+    {
+        day: "Thursday",
+        times: [
+            {
+                from: "10:00",
+                to: "20:00"
+            }
+        ]
+    },
+    {
+        day: "Friday",
+        times: [
+            {
+                from: "10:00",
+                to: "20:00"
+            }
+        ]
+    },
+    {
+        day: "Saturday",
+        times: [
+            {
+                from: "10:00",
+                to: "20:00"
+            }
+        ]
+    },
+    {
+        day: "Sunday",
+        times: [
+            {
+                from: "10:00",
+                to: "20:00"
+            }
+        ]
+    }
 
-    const[collectionTimes, setCollectionTimes] = useState({
+]);
+
+
+
+const[collectionTimes, setCollectionTimes] = useState({
     mondayCollectionTimes: [{
-        from: "",
-        to: "",
+        from: props.collection_times_monday[0].from || "",
+        to: props.collection_times_tuesday[0].to || "",
     }],
+
     tuesdayCollectionTimes: [{
-        from: "",
-        to: "",
+        from: props.collection_times_tuesday[0].from || "",
+        to: props.collection_times_tuesday[0].to || "",
     }],
+
     wednesdayCollectionTimes: [{
-        from: "",
-        to: "",
+        from: props.collection_times_wednesday[0].from || "",
+        to: props.collection_times_wednesday[0].to || "",
     }],
     thursdayCollectionTimes: [{
-        from: "",
-        to: "",
+        from: props.collection_times_thursday[0].from || "",
+        to: props.collection_times_thursday[0].to || "",
     }],
     fridayCollectionTimes: [{
-        from: "",
-        to: "",
+        from: props.collection_times_friday[0].from || "",
+        to: props.collection_times_friday[0].to || "",
     }],
     saturdayCollectionTimes: [{
-        from: "",
-        to: "",
+        from: props.collection_times_saturday[0].from || "",
+        to: props.collection_times_saturday[0].to || "",
     }],
     sundayCollectionTimes: [{
-        from: "",
-        to: "",
-    }],
+        from: props.collection_times_sunday[0].from || "",
+        to: props.collection_times_sunday[0].to || "",
+    }]
+
 });
+
+
+
 
   const submit = (e) => {
     e.preventDefault();
