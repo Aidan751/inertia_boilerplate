@@ -17,8 +17,6 @@ export default function Edit(props) {
 const handleFromChange = (e, index) => {
     const { name, value } = e.target;
     const list = [...openHours];
-    console.log(list);
-    return false;
     list[index].times[0].from = value;
     setOpenHours(list);
 };
@@ -113,43 +111,6 @@ const[openHours, setOpenHours] = useState([
 
 
 
-const[collectionTimes, setCollectionTimes] = useState({
-    mondayCollectionTimes: [{
-        from: props.collection_times_monday[0].from || "",
-        to: props.collection_times_tuesday[0].to || "",
-    }],
-
-    tuesdayCollectionTimes: [{
-        from: props.collection_times_tuesday[0].from || "",
-        to: props.collection_times_tuesday[0].to || "",
-    }],
-
-    wednesdayCollectionTimes: [{
-        from: props.collection_times_wednesday[0].from || "",
-        to: props.collection_times_wednesday[0].to || "",
-    }],
-    thursdayCollectionTimes: [{
-        from: props.collection_times_thursday[0].from || "",
-        to: props.collection_times_thursday[0].to || "",
-    }],
-    fridayCollectionTimes: [{
-        from: props.collection_times_friday[0].from || "",
-        to: props.collection_times_friday[0].to || "",
-    }],
-    saturdayCollectionTimes: [{
-        from: props.collection_times_saturday[0].from || "",
-        to: props.collection_times_saturday[0].to || "",
-    }],
-    sundayCollectionTimes: [{
-        from: props.collection_times_sunday[0].from || "",
-        to: props.collection_times_sunday[0].to || "",
-    }]
-
-});
-
-
-
-
   const submit = (e) => {
     e.preventDefault();
     put(
@@ -160,110 +121,113 @@ const[collectionTimes, setCollectionTimes] = useState({
   return (
     <>
       <Authenticated auth={props.auth} errors={props.errors} activeGroup={12}>
-      <div className="col-span-12">
-         <Title
+        <div className="col-span-12">
+          {/* <Title
             title="Update
                     Opening and Collection Times "
             subtitle="Fill in the details below for your opening and collection times. You can select multiple time periods per day (i.e. if you're open for lunch and close before the evening). The opening times will be displayed on your mini profile on the app, and also combine to be your delivery time availability. "
-            />
-          <div className="grid grid-cols-12 gap-6 mt-5">
-            <div className="intro-y col-span-12 lg:col-span-6">
+            /> */}
+          <div className="grid grid-cols-12 mt-5">
+            <div className="intro-y col-span-12">
               {/* BEGIN: Form Layout */}
-
-              <form className="intro-y box p-5" onSubmit={submit} method="post">
+              <form
+                className="intro-y box sm:p-5 p-2"
+                onSubmit={submit}
+                method="post"
+              >
                 {/* start: opening times */}
-                <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
+                <div className="intro-y col-span-12 overflow-auto">
                   <div className="intro-y box p-5">
-                    <div className="flex flex-col sm:flex-row items-center">
-                      <h2 className="font-medium text-base mr-auto mt-5 mb-3">
+                    <div className="flex items-center">
+                      <h2 className="font-medium text-base mr-auto mt-5 mb-5">
                         Opening Times
                       </h2>
                     </div>
-                    {
-                        openHours.map((day, index) => {
-                           return(
-
-                     <table className="table table-report p-2 mt-2">
-                    <thead>
-                        <tr>
-                            <th className="border-b-2 whitespace-no-wrap">{day.day}</th>
-                        </tr>
-                    </thead>
-                        <tbody>
-                      <tr className="intro-x custom-tr">
-
-                        {day.times.map((method, i) => {
+                    <div className="grid grid-cols-12 sm:gap-6 gap-2">
+                      {openHours.map((day, index) => {
                         return (
-                        <td key={i} className="custom-td-1">
-                            <div className="custom-input-1">
-                            From  <input
-                                type="time"
-                                name={method.from}
-                                value={method.from}
-                                onChange={(e, i) => handleFromChange(e, i)}
-                                min="00:00"
-                                max="23:59"
-                                className="text-sm border-gray-300 focus:border-indigo-300 leading-tight text-gray-700 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                            />
-                            </div>
-                            <p className="dash">-</p>
-                            <div className="custom-input-2">
-                            To  <input
-                                type="time"
-                                name={method.to}
-                                value={method.to}
-                                onChange={(e, i) => handleToChange(e, i)}
-                                min="00:00"
-                                max="23:59"
-                                className="text-sm border-gray-300 focus:border-indigo-300 leading-tight text-gray-700 rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                />
-                            </div>
+                          <>
+                            <h2 className="col-span-12 text-md font-medium mt-5">
+                              {day.day}
+                            </h2>
 
-                        </td>
+                            {day.times &&
+                              day.times.map((time, key) => (
+                                <>
+                                  <div className="sm:col-span-4 col-span-12 row-span-1 flex sm:flex-nowrap flex-wrap items-center">
+                                    <label className="mr-2 sm:mb-0 mb-2">
+                                      From
+                                    </label>
+
+                                    <input
+                                      type="time"
+                                      name="from"
+                                      value={day.times[key].from}
+                                      id={key}
+                                      onChange={(e) =>
+                                        handleFromChange(e, index)
+                                      }
+                                      min="00:00"
+                                      max="23:59"
+                                      className="form-control border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                    />
+                                  </div>
+
+                                  <div className="sm:col-span-1 col-span-12 flex items-center justify-center">
+                                    <div className="sm:mt-0 mt-5">-</div>
+                                  </div>
+                                  <div className="sm:flex-nowrap flex-wrap sm:no-wrap sm:col-span-4 col-span-12 flex items-center">
+                                    <label className="mr-2 sm:mb-0 mb-2">
+                                      To
+                                    </label>
+
+                                    <input
+                                      type="time"
+                                      name="to"
+                                      value={day.times[key].to}
+                                      onChange={(e) => handleToChange(e, index)}
+                                      min="00:00"
+                                      max="23:59"
+                                      className="form-control border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
+                                    />
+                                  </div>
+                                </>
+                              ))}
+
+                            <div className="sm:col-span-3 col-span-12 flex items-center gap-3 sm:mt-0 sm:mb-0 mb-3 mt-3 items-end">
+                              <Button
+                                className="btn btn-primary text-white"
+                                type="button"
+                                click={(e) => {
+                                  addOpeningTime(e, index);
+                                }}
+                              >
+                                Add another
+                              </Button>
+
+                              <button
+                                className="btn btn-danger-soft text-sm border-none"
+                                type="button"
+                                onClick={(e) => {
+                                  removeOpeningTime(e, index);
+                                }}
+                              >
+                                Remove
+                              </button>
+                            </div>
+                          </>
                         );
-                        })}
-                        <td className="custom-td-2">
-                        {/* start: button to add another opening time for monday */}
-                        <Button
-                          className="button bg-theme-1 text-white mr-3"
-                          type="button"
-                          click={() => {
-                            addOpeningTime(day);
-                          }}
-                        >
-                          Add another
-                        </Button>
-                        {/* end: button to add another opening time for Monday */}
-                        {/* start: button to remove opening time for Monday */}
-                        { openHours.length > 1 && (
-                        <button
-                                  className="btn btn-danger-soft h-7 text-sm border-none"
-                                  type="button"
-                                  onClick={() => {
-                                    removeOpeningTime(day);
-                                  }}
-                                >
-                                  <X className="w-4 h-4 mr-1" />
-                                  Remove
-                            </button>
-                        )}
-                        {/* end: button to remove opening time for monday */}
-
-                        </td>
-                      </tr>
-                        </tbody>
-                    </table>
-                        )})
-                    }
-
+                      })}
                     </div>
-                <div className="text-right mt-5">
-                  <Button type="submit" className="w-30">
-                    Save
-                  </Button>
+                  </div>
                 </div>
+                <div className="flex justify-end mt-5">
+                  <button type="submit" className="btn btn-primary">
+                    Save
+                  </button>
                 </div>
               </form>
+
               {/* END: Form Layout */}
             </div>
           </div>
