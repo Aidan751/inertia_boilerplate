@@ -56,11 +56,9 @@ export default function Index(props){
     // to input elements and record their values in state
     const handleNotesInputChange = (e, index) => {
         const { name, value } = e.target;
-        const list = [...notes];
-        console.log(list[index]);
-        return false;
-        list[index].note = value;
-        setNotes(list);
+        const list = [...selectedItems];
+        list[index].menu_item.notes = value;
+        setSelectedItems(list);
       };
 
     //   select quantity of a menu item
@@ -302,7 +300,7 @@ export default function Index(props){
                               type="text"
                               name="notes"
                               placeholder="Notes here"
-                              value={notes[key]}
+                              value={item.notes}
                               onChange={(e) =>
                                 handleNotesInputChange(e, key)
                               }

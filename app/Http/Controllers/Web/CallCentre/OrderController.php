@@ -110,7 +110,8 @@ class OrderController extends Controller
             $menu_item = MenuItem::where('id', $group_deal_single_item->menu_item_id)->first();
             $new_selected_size = array();
             $new_selected_extra = array();
-
+            $notes = "";
+            $menu_item->setAttribute('notes', $notes);
             // loop through sizes and add those sizes to the new selected size array
             if($menu_item->sizes){
             foreach($menu_item->sizes as $size){
