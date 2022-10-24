@@ -1530,3 +1530,12 @@
 1666640560-5574-1322033528,1666640560.4225,POST,/call-centre/orders/update-items,"App\Http\Controllers\Web\CallCentre\OrderController@updateItems",200,393.78213882446,request
 1666640563-2442-2023682067,1666640563.117,POST,/call-centre/orders/add-to-basket?role=call_centre_admin,"App\Http\Controllers\Web\CallCentre\OrderController@addToBasket",200,410.23898124695,request
 1666640711-5382-780974067,1666640711.097,GET,/call-centre/orders/add-to-basket?role=call_centre_admin,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,1161.6020202637,request
+1666641092-1642-30177949,1666641091.5007,GET,/dist/zoom-vanilla.min.js.map,,404,1297.2009181976,request
+1666641484-9609-1845932817,1666641484.1391,GET,/,"App\Http\Controllers\Web\HomeController@index",200,1453.1450271606,request
+1666641492-6748-349674722,1666641492.5604,GET,/call-centre/orders/search/3,"App\Http\Controllers\Web\CallCentre\OrderController@search",200,367.54989624023,request
+1666641505-0996-2030802360,1666641504.9413,GET,/call-centre/orders/index?role=call_centre_admin&contact_number=%2B447368360039&address=10%20abbotsford%20avenue%20larkhall&when_radio=asap&order_type=delivery&customer_name=customer%20name&customer_contact_number=%2B447368360039,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,413.28096389771,request
+1666641508-4818-144619973,1666641508.3564,GET,/call-centre/orders/add-deal/1,"App\Http\Controllers\Web\CallCentre\OrderController@addDeal",200,441.24102592468,request
+1666641512-2351-1061238411,1666641512.083,GET,/call-centre/orders/choose-sizes/1,"App\Http\Controllers\Web\CallCentre\OrderController@chooseSizes",200,382.16114044189,request
+1666641516-5208-613107035,1666641516.3964,POST,/call-centre/orders/update-items,"App\Http\Controllers\Web\CallCentre\OrderController@updateItems",200,449.97096061707,request
+1666641519-3838-1344946289,1666641519.236,POST,/call-centre/orders/add-to-basket?role=call_centre_admin,"App\Http\Controllers\Web\CallCentre\OrderController@addToBasket",200,488.16990852356,request
+1666641539-2443-1149916907,1666641538.897,GET,/dist/zoom-vanilla.min.js.map,,404,835.51216125488,request
