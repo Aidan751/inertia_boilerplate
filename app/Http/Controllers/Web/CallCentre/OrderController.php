@@ -111,7 +111,9 @@ class OrderController extends Controller
             $new_selected_size = array();
             $new_selected_extra = array();
             $notes = "";
+            $quantity = 1;
             $menu_item->setAttribute('notes', $notes);
+            $menu_item->setAttribute('quantity', $quantity);
             // loop through sizes and add those sizes to the new selected size array
             if($menu_item->sizes){
             foreach($menu_item->sizes as $size){

@@ -46,7 +46,7 @@ export default function Index(props){
 
       var i = 0;
       while (i < props.selected_items.length) {
-        total_price += parseFloat(props.selected_items[i].menu_item.price);
+        total_price += (parseFloat(props.selected_items[i].menu_item.price) * props.selected_items[i].menu_item.quantity);
         i++;
       }
     }
@@ -64,9 +64,9 @@ export default function Index(props){
     //   select quantity of a menu item
     const onQuantityChange = (e, index) => {
         const { name, value } = e.target;
-        const list = [...props.selected_items];
-        list[index] = value;
-        props.setSelectedItems(list);
+        const list = [...selectedItems];
+        list[index].menu_item.quantity = value;
+        setSelectedItems(list);
         };
 
 
@@ -255,13 +255,12 @@ export default function Index(props){
                               {item.menu_item.title}
                             </div>
                             <div className="text-slate-500">
-                              x {(item.quantity = 1)}
+                              x {item.menu_item.quantity || 1}
                             </div>
                             <Edit className="w-4 h-4 text-slate-500 ml-2" />
                             <div className="ml-auto font-medium text-lg">
                               £{" "}
-                              {console.log(item.extra)}
-                              {parseFloat(item.menu_item.price) * item.quantity +
+                              {parseFloat(item.menu_item.price) * item.menu_item.quantity +
                                 (item.extra.length > 0 && item.extra.reduce(
                                   (a, b) =>
                                     a.additional_charge + b.additional_charge
@@ -282,7 +281,7 @@ export default function Index(props){
 
                           <div className="flex justify-between mt-3 items-center w-full">
                             <p className="flex-1">Qty:</p>
-                            <select className="rounded" onChange={onQuantityChange}>
+                            <select className="rounded" onChange={(e) => onQuantityChange(e, key)}>
                               <option value="1" selected>
                                 1
                               </option>
