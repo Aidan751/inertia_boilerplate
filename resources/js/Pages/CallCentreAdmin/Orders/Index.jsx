@@ -18,7 +18,7 @@ export default function Index(props){
     })
 
 
-    const [selectedItems, setSelectedItems] = useState(props.selected_items);
+    const [selectedItems, setSelectedItems] = useState(props.selected_items || []);
 
   var extra_total = 0;
   var size_total = 0;

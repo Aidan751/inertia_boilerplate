@@ -1539,3 +1539,16 @@
 1666641516-5208-613107035,1666641516.3964,POST,/call-centre/orders/update-items,"App\Http\Controllers\Web\CallCentre\OrderController@updateItems",200,449.97096061707,request
 1666641519-3838-1344946289,1666641519.236,POST,/call-centre/orders/add-to-basket?role=call_centre_admin,"App\Http\Controllers\Web\CallCentre\OrderController@addToBasket",200,488.16990852356,request
 1666641539-2443-1149916907,1666641538.897,GET,/dist/zoom-vanilla.min.js.map,,404,835.51216125488,request
+1666649804-5982-483234361,1666649797.3981,GET,/,"App\Http\Controllers\Web\HomeController@index",302,14302.160024643,request
+1666649812-0484-595257979,1666649811.754,GET,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@create",200,2857.3989868164,request
+1666649826-9303-335722980,1666649826.7504,POST,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@store",302,2988.9302253723,request
+1666649830-0862-686926287,1666649829.7793,GET,/,"App\Http\Controllers\Web\HomeController@index",200,1341.0630226135,request
+1666649835-0911-943196255,1666649834.9154,GET,/call-centre/orders/search/3,"App\Http\Controllers\Web\CallCentre\OrderController@search",200,474.25389289856,request
+1666649846-7056-911006672,1666649846.5109,GET,/call-centre/orders/index?role=call_centre_admin&contact_number=%2B447368360039&address=10%20abbotsford%20avenue%20larkhall&when_radio=asap&order_type=delivery&customer_name=customer%20name&customer_contact_number=%2B447368360039,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,3870.3880310059,request
+1666649862-0485-1196149014,1666649861.733,GET,/dist/zoom-vanilla.min.js.map,,404,971.85087203979,request
+1666649921-2576-433718278,1666649921.0855,GET,/call-centre/orders/index?role=call_centre_admin&contact_number=%2B447368360039&address=10%20abbotsford%20avenue%20larkhall&when_radio=asap&order_type=delivery&customer_name=customer%20name&customer_contact_number=%2B447368360039,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,1347.1751213074,request
+1666649925-7617-274179141,1666649925.5517,GET,/dist/zoom-vanilla.min.js.map,,404,426.16987228394,request
+1666649953-0432-1188921533,1666649952.8397,GET,/call-centre/orders/add-deal/1,"App\Http\Controllers\Web\CallCentre\OrderController@addDeal",200,530.66897392273,request
+1666649955-5836-1119411939,1666649955.3783,GET,/call-centre/orders/choose-sizes/1,"App\Http\Controllers\Web\CallCentre\OrderController@chooseSizes",200,501.36494636536,request
+1666649961-2864-208102389,1666649960.9844,POST,/call-centre/orders/update-items,"App\Http\Controllers\Web\CallCentre\OrderController@updateItems",200,660.38703918457,request
+1666649963-9696-2008989678,1666649963.6482,POST,/call-centre/orders/add-to-basket?role=call_centre_admin,"App\Http\Controllers\Web\CallCentre\OrderController@addToBasket",200,590.71493148804,request
