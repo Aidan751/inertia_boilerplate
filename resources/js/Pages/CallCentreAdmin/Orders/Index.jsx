@@ -281,7 +281,7 @@ export default function Index(props){
             {/* start: Basket */}
             <div className="sm:col-span-1 sm:row-span-3 col-span-3">
               <h2 className="p-5 font-medium text-lg border rounded py-3">
-                Basket ({props.selected_items ? props.selected_items.length : 0}
+                Basket ({selectedItems ? selectedItems.length : 0}
                 )
               </h2>
               <TabPanel>
