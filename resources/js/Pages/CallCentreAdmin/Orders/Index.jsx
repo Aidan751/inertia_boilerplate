@@ -18,7 +18,9 @@ export default function Index(props){
     })
 
 
-    const [notes, setNotes] = useState();
+    const [selectedItems, setSelectedItems] = useState(props.selected_items);
+
+
     var extra_total = 0;
     var size_total = 0;
     var total_price = 0;
@@ -52,10 +54,23 @@ export default function Index(props){
     let extra_price;
 
     // to input elements and record their values in state
-    const handleNotesInputChange = (e) => {
-      const { name, value } = e.target;
-      setNotes(value);
+    const handleNotesInputChange = (e, index) => {
+        const { name, value } = e.target;
+        const list = [...notes];
+        console.log(list[index]);
+        return false;
+        list[index].note = value;
+        setNotes(list);
       };
+
+    //   select quantity of a menu item
+    const onQuantityChange = (e, index) => {
+        const { name, value } = e.target;
+        const list = [...props.selected_items];
+        list[index] = value;
+        props.setSelectedItems(list);
+        };
+
 
     return (
       <>
@@ -269,7 +284,7 @@ export default function Index(props){
 
                           <div className="flex justify-between mt-3 items-center w-full">
                             <p className="flex-1">Qty:</p>
-                            <select className="rounded">
+                            <select className="rounded" onChange={onQuantityChange}>
                               <option value="1" selected>
                                 1
                               </option>
@@ -280,15 +295,16 @@ export default function Index(props){
                             </select>
                           </div>
                           <div className="mt-3">
+
                             <textarea
                               className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                               id="bio"
                               type="text"
                               name="notes"
                               placeholder="Notes here"
-                              value={notes}
+                              value={notes[key]}
                               onChange={(e) =>
-                                handleNotesInputChange(e)
+                                handleNotesInputChange(e, key)
                               }
                             />
                           </div>
