@@ -11,122 +11,140 @@ import Title from "@/Components/Title";
 export default function Edit(props) {
   const { data, setData, put, processing, errors } = useForm({
   });
+console.log(props);
 
 
-
-const handleFromChange = (e, index) => {
+const handleFromChange = (e, index, key) => {
     const { name, value } = e.target;
     const list = [...openHours];
-    list[index].times[0].from = value;
+    list[index][0].times[key].from = value;
     setOpenHours(list);
-};
+  };
 
-const handleToChange = (e, index) => {
+  const handleToChange = (e, index, key) => {
     const { name, value } = e.target;
     const list = [...openHours];
-    list[index].times[0].to = value;
+    list[index][0].times[key].to = value;
     setOpenHours(list);
-};
+  };
 
-const addOpeningTime = (e, index) => {
+  const addOpeningTime = (e, index) => {
     e.preventDefault();
     const list = [...openHours];
-    list[index].times.push({from: "", to: ""});
-    setOpenHours(list);
-};
+    list[index][0].times.push({ from: "", to: "" });
 
-const removeOpeningTime = (e, index, timeIndex) => {
+    setOpenHours(list);
+  };
+
+  const removeOpeningTime = (e, index) => {
     e.preventDefault();
     const list = [...openHours];
-    list[index].times.splice(timeIndex, 1);
+    list[index][0].times.pop();
     setOpenHours(list);
-};
+  };
 
-const[openHours, setOpenHours] = useState([
+  const [mondayOpenHours, setMondayOpenHours] = useState([
     {
-        day: "Monday",
-        times: [
-            {
-                from: "10:00",
-                to: "20:00"
-            }
-        ]
-    },
-    {
-        day: "Tuesday",
-        times: [
-            {
-                from: "10:00",
-                to: "20:00"
-            }
-        ]
-    },
-    {
-        day: "Wednesday",
-        times: [
-            {
-                from: "10:00",
-                to: "20:00"
-            }
-        ]
-    },
-    {
-        day: "Thursday",
-        times: [
-            {
-                from: "10:00",
-                to: "20:00"
-            }
-        ]
-    },
-    {
-        day: "Friday",
-        times: [
-            {
-                from: "10:00",
-                to: "20:00"
-            }
-        ]
-    },
-    {
-        day: "Saturday",
-        times: [
-            {
-                from: "10:00",
-                to: "20:00"
-            }
-        ]
-    },
-    {
-        day: "Sunday",
-        times: [
-            {
-                from: "10:00",
-                to: "20:00"
-            }
-        ]
+      times: [
+        {
+          from: props.opening_hours_monday[0].from,
+          to: props.opening_hours_monday[0].to
+        }
+      ]
     }
+  ]);
 
-]);
+  const [tuesdayOpenHours, setTuesdayOpenHours] = useState([
+    {
+      times: [
+        {
+          from: props.opening_hours_tuesday[0].from,
+          to: props.opening_hours_tuesday[0].to
+        }
+      ]
+    }
+  ]);
 
+  const [wednesdayOpenHours, setWednesdayOpenHours] = useState([
+    {
+      times: [
+        {
+          from: props.opening_hours_wednesday[0].from,
+          to: props.opening_hours_wednesday[0].to
+        }
+      ]
+    }
+  ]);
 
+  const [thursdayOpenHours, setThursdayOpenHours] = useState([
+    {
+      times: [
+        {
+          from: props.opening_hours_thursday[0].from,
+          to: props.opening_hours_thursday[0].to
+        }
+      ]
+    }
+  ]);
+
+  const [fridayOpenHours, setFridayOpenHours] = useState([
+    {
+      times: [
+        {
+          from: props.opening_hours_friday[0].from,
+          to: props.opening_hours_friday[0].to
+        }
+      ]
+    }
+  ]);
+
+  const [saturdayOpenHours, setSaturdayOpenHours] = useState([
+    {
+      times: [
+        {
+          from: props.opening_hours_saturday[0].from,
+          to: props.opening_hours_saturday[0].to
+        }
+      ]
+    }
+  ]);
+
+  const [sundayOpenHours, setSundayOpenHours] = useState([
+    {
+      times: [
+        {
+          from: props.opening_hours_sunday[0].from,
+          to: props.opening_hours_sunday[0].to
+        }
+      ]
+    }
+  ]);
+
+  const [openHours, setOpenHours] = useState([
+    mondayOpenHours,
+    tuesdayOpenHours,
+    wednesdayOpenHours,
+    thursdayOpenHours,
+    fridayOpenHours,
+    saturdayOpenHours,
+    sundayOpenHours
+  ]);
 
   const submit = (e) => {
     e.preventDefault();
-    put(
-      route("restaurant.operating-hours.update")
-    );
+    put(route("restaurant.operating-hours.update"));
   };
 
+  console.log(openHours);
   return (
     <>
       <Authenticated auth={props.auth} errors={props.errors} activeGroup={12}>
         <div className="col-span-12">
           {/* <Title
-            title="Update
-                    Opening and Collection Times "
-            subtitle="Fill in the details below for your opening and collection times. You can select multiple time periods per day (i.e. if you're open for lunch and close before the evening). The opening times will be displayed on your mini profile on the app, and also combine to be your delivery time availability. "
-            /> */}
+          title="Update
+                  Opening and Collection Times "
+          subtitle="Fill in the details below for your opening and collection times. You can select multiple time periods per day (i.e. if you're open for lunch and close before the evening). The opening times will be displayed on your mini profile on the app, and also combine to be your delivery time availability. "
+          /> */}
           <div className="grid grid-cols-12 mt-5">
             <div className="intro-y col-span-12">
               {/* BEGIN: Form Layout */}
@@ -148,24 +166,34 @@ const[openHours, setOpenHours] = useState([
                         return (
                           <>
                             <h2 className="col-span-12 text-md font-medium mt-5">
-                              {day.day}
+                              {index === 0
+                                ? "Monday"
+                                : index === 1
+                                ? "Tuesday"
+                                : index === 2
+                                ? "Wednesday"
+                                : index === 3
+                                ? "Thursday"
+                                : index === 4
+                                ? "Friday"
+                                : index === 5
+                                ? "Saturday"
+                                : "Sunday"}
                             </h2>
-
-                            {day.times &&
-                              day.times.map((time, key) => (
+                            {day[0].times &&
+                              day[0].times.map((time, key) => (
                                 <>
                                   <div className="sm:col-span-4 col-span-12 row-span-1 flex sm:flex-nowrap flex-wrap items-center">
                                     <label className="mr-2 sm:mb-0 mb-2">
                                       From
                                     </label>
-
                                     <input
                                       type="time"
                                       name="from"
-                                      value={day.times[key].from}
+                                      value={time.from}
                                       id={key}
                                       onChange={(e) =>
-                                        handleFromChange(e, index)
+                                        handleFromChange(e, index, key)
                                       }
                                       min="00:00"
                                       max="23:59"
@@ -184,8 +212,10 @@ const[openHours, setOpenHours] = useState([
                                     <input
                                       type="time"
                                       name="to"
-                                      value={day.times[key].to}
-                                      onChange={(e) => handleToChange(e, index)}
+                                      value={time.to}
+                                      onChange={(e) =>
+                                        handleToChange(e, index, key)
+                                      }
                                       min="00:00"
                                       max="23:59"
                                       className="form-control border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 rounded-md shadow-sm"
@@ -205,15 +235,15 @@ const[openHours, setOpenHours] = useState([
                                 Add another
                               </Button>
 
-                              <button
+                              <Button
                                 className="btn btn-danger-soft text-sm border-none"
                                 type="button"
-                                onClick={(e) => {
+                                click={(e) => {
                                   removeOpeningTime(e, index);
                                 }}
                               >
                                 Remove
-                              </button>
+                              </Button>
                             </div>
                           </>
                         );

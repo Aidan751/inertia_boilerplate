@@ -1745,3 +1745,9 @@
 1666729377-5089-1256340373,1666729377.0884,GET,/,"App\Http\Controllers\Web\HomeController@index",200,1523.0300426483,request
 1666729382-8545-155920827,1666729382.6892,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,604.68792915344,request
 1666729441-2606-1633188523,1666729440.6808,GET,/dist/zoom-vanilla.min.js.map,,404,1964.9930000305,request
+1666729646-6557-1861204108,1666729645.7343,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,3540.2050018311,request
+1666729655-9922-87314334,1666729655.4054,GET,/dist/zoom-vanilla.min.js.map,,404,1334.2390060425,request
+1666729740-7380-1336453765,1666729740.2075,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,1046.0047721863,request
+1666729745-6391-293449219,1666729745.2507,GET,/dist/zoom-vanilla.min.js.map,,404,759.437084198,request
+1666730469-8693-442700813,1666730469.5861,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,636.32917404175,request
+1666730473-7368-418124987,1666730473.5423,GET,/dist/zoom-vanilla.min.js.map,,404,375.5030632019,request
