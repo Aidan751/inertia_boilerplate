@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web\Restaurant;
 use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;
-use App\Mail\myTestMail;
+use App\Mail\Mail;
 use App\Models\Restaurant;
 use App\Models\UserStripe;
 use Illuminate\Http\Request;
@@ -13,7 +13,6 @@ use App\Models\Configuration;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 
 class AdminUserController extends Controller
@@ -116,19 +115,19 @@ class AdminUserController extends Controller
 
         $stripeUser->save();
 
-        //If the notify checkbox was selected, send the new user an email
-        if ($request->get('email_password_to_user')) {
-            $subject = 'Account Details';
-            Mail::send('email.userwelcome', array(
-              'name' => $request->first_name,
-              'password' => $request->password,
-              'email' => $request->email,
-              'subject' => $subject,
-            ), function ($message) use ($request, $subject) {
-                $message->to($request->email);
-                $message->subject($subject);
-            });
-        }
+     //If the notify checkbox was selected, send the new user an email
+     if ($request->get('email_password_to_user')) {
+
+        $details = [
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'password' => $user->password,
+        ];
+
+        \Mail::to($user->email)->send(new Mail($details));
+
+    }
 
         // Redirect back to the index page with a success message
         return redirect()->route('restaurant.users.index')->with('success', 'Admin User created successfully');
@@ -192,30 +191,18 @@ class AdminUserController extends Controller
             'password' => $request->password ? bcrypt($request->password) : $user->password,
         ]);
 
-
-        $message = '<p>Hi ' . $user->first_name . ' ' . $user->last_name . ',</p>
-
-        <p>A new account has been setup for you for the Order It platform, your login details are listed below.</p>
-
-        <ul>
-            <li>Email Address: ' . $user->email . '</li>
-            <li>Password: ' . $user->password . '</li>
-        </ul>
-
-        <p>You can access your account at:</p>
-        <a href="https://orderit.createaclients.co.uk/admin/login">https://orderit.createaclients.co.uk/admin/login</a>';
-
            //If the notify checkbox was selected, send the new user an email
            if ($request->get('email_password_to_user')) {
 
             $details = [
-                'title' => 'Mail from ItSolutionStuff.com',
-                'body' => 'This is for testing email using smtp'
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'password' => $user->password,
             ];
 
-            \Mail::to('aidanclark57@gmail.com')->send(new myTestMail($details));
+            \Mail::to($user->email)->send(new Mail($details));
 
-            dd("Email is Sent.");
         }
 
 
