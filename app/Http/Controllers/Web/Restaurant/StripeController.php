@@ -52,7 +52,9 @@ class StripeController extends Controller
             $stripeAccount = $stripe->accounts->retrieve($account);
             if ($stripeAccount != null && $stripeAccount->charges_enabled == true) {
                 Restaurant::find($id)->update(['stripe_status' => 'complete']);
-                return view('restaurant.stripe.stripe');
+                return Inertia::render('Restaurant/Stripe/Complete', [
+                    'stripeAccount' => $stripeAccount,
+                ]);
             } else {
               return $this->link($request);
             }

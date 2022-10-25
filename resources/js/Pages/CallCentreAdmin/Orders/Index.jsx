@@ -18,7 +18,7 @@ export default function Index(props){
     })
 
 
-    const [selectedItems, setSelectedItems] = useState(props.selected_items || []);
+    const [selectedItems, setSelectedItems] = useState(props.selected_items);
 
   var extra_total = 0;
   var size_total = 0;
@@ -76,6 +76,7 @@ export default function Index(props){
   };
 
   if (selectedItems) {
+    console.log(selectedItems);
     selectedItems &&
       selectedItems.forEach((item) => {
         let i = 0;
@@ -317,7 +318,7 @@ export default function Index(props){
                           </div>
                         </a>
                         <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
-                          -{" "}
+                          {item.size && "-"}
                           {item.size &&
                             item.size.length > 0 &&
                             item.size[0].size}

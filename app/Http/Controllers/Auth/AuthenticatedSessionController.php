@@ -54,6 +54,13 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerateToken();
 
+        session()->forget('cart');
+        session()->forget('restaurant');
+        session()->forget('order');
+        session()->forget('group_deal');
+        session()->forget('group_deal_single_item');
+        session()->forget('selected_items');
+
         return redirect('/');
     }
 }
