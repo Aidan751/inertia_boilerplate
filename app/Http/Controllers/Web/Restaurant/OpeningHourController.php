@@ -140,23 +140,19 @@ class OpeningHourController extends Controller
 
     public function update(Request $request)
     {
-        dd($request->all());
-        $request->validate([
-            'opening_from' => 'required|date_format:H:i',
-            'opening_to' => 'required|date_format:H:i',
-            'collection_from' => 'required|date_format:H:i',
-            'collection_to' => 'required|date_format:H:i',
-        ]);
 
-        $openingHour->update([
-            'from' => $request->opening_from,
-            'to' => $request->opening_to,
-        ]);
+        // dd($request->openHours);
+       foreach ($request->openHours[0] as $day) {
+            foreach ($day as $key => $openHour) {
+                    $restaurant->openingHours()->update([
+                        'restaurant_id' => Auth::user()->restaurant_id,
+                        'day_id' => $key + 1,
+                        'from' => $openHour['from'],
+                        'to' => $openHour['to'],
+                    ]);
+            }
+        }
 
-        $collectionTime->update([
-            'from' => $request->collection_from,
-            'to' => $request->collection_to,
-        ]);
 
         return redirect()->route('restaurant.opening-hours.edit')->with('success', 'Opening times updated successfully');
     }
