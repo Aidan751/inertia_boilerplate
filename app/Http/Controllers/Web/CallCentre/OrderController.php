@@ -52,12 +52,16 @@ class OrderController extends Controller
             $group_deal = GroupDeal::find($id);
             session(['group_deal' => $group_deal]);
             session(['order' => $order]);
+            $selected_items = session('selected_items');
+            session()->put('selected_items', $request->all());
             $group_deal->load('groupDealItems.groupDealSingleItems.menuItem');
             $restaurant = session('restaurant');
+
             // render add view with the group deal items
             return Inertia::render('CallCentreAdmin/Orders/AddDeal', [
                 'groupDeal' => $group_deal,
                 'restaurant' => $restaurant,
+                'selected_items' => $request->all(),
             ]);
 
         }

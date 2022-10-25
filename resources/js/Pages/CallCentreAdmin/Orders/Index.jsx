@@ -213,6 +213,7 @@ export default function Index(props){
                           className="btn btn-primary mt-5 w-24"
                           method="get"
                           href={route('call-centre.orders.add.deal', {id: deal.id})}
+                          data={{ ...selectedItems }}
                         >
                           Add
                         </Link>
