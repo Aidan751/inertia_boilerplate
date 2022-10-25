@@ -29,6 +29,7 @@ use App\Http\Controllers\Web\CallCentre\OrderHistoryController as CallCentreOrde
 use App\Http\Controllers\Web\Restaurant\OrderController as RestaurantOrderController;
 use App\Http\Controllers\Web\Restaurant\AdminUserController as RestaurantAdminUserController;
 use App\Http\Controllers\Web\Restaurant\ConfigurationController as RestaurantConfigurationController;
+use App\Http\Controllers\Web\Restaurant\StripeController as RestaurantStripeController;
 
 /*
 |--------------------------------------------------------------------------

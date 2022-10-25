@@ -30,8 +30,8 @@ export default function Complete(props){
             <Authenticated
                 auth={props.auth}
                 errors={props.errors}
-                activeGroup={10}
-                activeItem={4}
+                activeGroup={9}
+                activeItem={1}
             >
 
                 {/* Define Page Title */}
@@ -39,10 +39,10 @@ export default function Complete(props){
 
 
                 {/* Page Content */}
-                <main className="col-span-12">
+                <main className="col-span-12 p-10">
 
                     {/* Page Header */}
-                    <h2 className="intro-y text-lg font-medium mt-10">Stripe</h2>
+                    <h2 className="intro-y text-lg font-medium mt-10 mb-5">Stripe</h2>
 
                     {/* Show Success Validation Component */}
                     {
@@ -51,14 +51,14 @@ export default function Complete(props){
                     }
 
                     {/*  */}
-                    <div className="grid grid-cols-12 gap-6 mt-5">
+
                     <div class="title">Your Stripe account has been setup and is linked to the platform. Your restaurant listing is now live.</div>
                     <br />
                     <b>Important:</b>
-                    <p>Your Stripe login details are separate to this admin. Please take note of your Stripe login details, these are required to login to Stripe and view all transations.</p>
+                    <p className="mb-5">Your Stripe login details are separate to this admin. Please take note of your Stripe login details, these are required to login to Stripe and view all transations.</p>
                     <b>Payments:</b>
                     <p>All payments are made directly into your Stripe account only. In order to withdraw your payments you will need to login to your Stripe account and withdraw to your bank account.</p>
-                    </div>
+
 
                 </main>
 

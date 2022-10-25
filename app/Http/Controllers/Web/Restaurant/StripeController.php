@@ -1,10 +1,11 @@
 <?php
 namespace App\Http\Controllers\Web\Restaurant;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Inertia\Inertia;
 use App\Models\Restaurant;
+use Illuminate\Http\Request;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -18,23 +19,23 @@ class StripeController extends Controller
         );
 
         $appURL = config('app.url');
-        $restaurant = Auth::user()->restaurant;
+        $restaurant = Restaurant::find(Auth::user()->restaurant_id);
 
+     $restaurant->stripe_status = "complete";
         // $stripeAccount = $stripe->accounts->retrieve($restaurant->stripe_account_id);
-
         if ($restaurant->stripe_status == "incomplete") {
             // Needs to connect with stripe
 
           $link = $stripe->accountLinks->create([
                 'account' => $restaurant->stripe_account_id,
-                'refresh_url' => $appURL . '/admin/restaurant/stripe',
-                'return_url' => $appURL . '/admin/restaurant/stripe/complete',
+                'refresh_url' => $appURL . '/restaurant/stripe',
+                'return_url' => $appURL . '/restaurant/stripe/complete',
                 'type' => 'account_onboarding',
               ]);
 
             return redirect($link->url);
         } else {
-            return redirect('stripe.complete')->with('success', 'Your Stripe account is already connected.');
+            return Inertia::render('RestaurantAdmin/Stripe/Complete');
         }
     }
 
@@ -52,7 +53,7 @@ class StripeController extends Controller
             $stripeAccount = $stripe->accounts->retrieve($account);
             if ($stripeAccount != null && $stripeAccount->charges_enabled == true) {
                 Restaurant::find($id)->update(['stripe_status' => 'complete']);
-                return Inertia::render('Restaurant/Stripe/Complete', [
+                return Inertia::render('RestaurantAdmin/Stripe/Complete', [
                     'stripeAccount' => $stripeAccount,
                 ]);
             } else {
