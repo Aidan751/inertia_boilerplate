@@ -140,6 +140,7 @@ class OpeningHourController extends Controller
 
     public function update(Request $request)
     {
+        dd($request->all());
         $request->validate([
             'opening_from' => 'required|date_format:H:i',
             'opening_to' => 'required|date_format:H:i',

@@ -220,7 +220,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/restaurant/opening-hours/edit/{id}', [OpeningHourController::class, 'edit'])->name('restaurant.opening-hours.edit');
 
     // update an opening hour
-    Route::put('/restaurant/opening-hours/update/{id}', [OpeningHourController::class, 'update'])->name('restaurant.opening-hours.update');
+    Route::put('/restaurant/opening-hours/update', [OpeningHourController::class, 'update'])->name('restaurant.opening-hours.update');
 
 
     // show company profile

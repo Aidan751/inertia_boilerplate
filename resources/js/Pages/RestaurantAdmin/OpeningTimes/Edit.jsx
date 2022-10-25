@@ -131,8 +131,9 @@ const handleFromChange = (e, index, key) => {
   ]);
 
   const submit = (e) => {
-    e.preventDefault();
-    put(route("restaurant.operating-hours.update"));
+      e.preventDefault();
+    data.openHours = openHours;
+    put(route("restaurant.opening-hours.update"));
   };
 
   console.log(openHours);
@@ -151,7 +152,7 @@ const handleFromChange = (e, index, key) => {
               <form
                 className="intro-y box sm:p-5 p-2"
                 onSubmit={submit}
-                method="post"
+                method="put"
               >
                 {/* start: opening times */}
                 <div className="intro-y col-span-12 overflow-auto">
@@ -235,7 +236,7 @@ const handleFromChange = (e, index, key) => {
                                 Add another
                               </Button>
 
-                              <Button
+                              <button
                                 className="btn btn-danger-soft text-sm border-none"
                                 type="button"
                                 click={(e) => {
@@ -243,7 +244,7 @@ const handleFromChange = (e, index, key) => {
                                 }}
                               >
                                 Remove
-                              </Button>
+                              </button>
                             </div>
                           </>
                         );
@@ -252,9 +253,9 @@ const handleFromChange = (e, index, key) => {
                   </div>
                 </div>
                 <div className="flex justify-end mt-5">
-                  <button type="submit" className="btn btn-primary">
+                  <Button type="submit" className="btn btn-primary">
                     Save
-                  </button>
+                  </Button>
                 </div>
               </form>
 
