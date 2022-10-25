@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Web\Restaurant;
 use App\Models\Day;
 use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Restaurant;
 use App\Models\OpeningHour;
 use Illuminate\Http\Request;
 use App\Models\CollectionTime;
@@ -141,17 +142,21 @@ class OpeningHourController extends Controller
     public function update(Request $request)
     {
 
+        $restaurant = Restaurant::where('id', Auth::user()->restaurant_id)->first();
         // dd($request->openHours);
-       foreach ($request->openHours[0] as $day) {
+       foreach ($request->openHours[0] as $index => $day) {
+           dd($day);
             foreach ($day as $key => $openHour) {
                     $restaurant->openingHours()->update([
                         'restaurant_id' => Auth::user()->restaurant_id,
-                        'day_id' => $key + 1,
+                        'day_id' => $index + 1,
                         'from' => $openHour['from'],
                         'to' => $openHour['to'],
                     ]);
             }
         }
+
+        dd($request->openHours[0]);
 
 
         return redirect()->route('restaurant.opening-hours.edit')->with('success', 'Opening times updated successfully');

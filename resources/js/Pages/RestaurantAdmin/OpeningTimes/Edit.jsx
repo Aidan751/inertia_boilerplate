@@ -17,21 +17,21 @@ console.log(props);
 const handleFromChange = (e, index, key) => {
     const { name, value } = e.target;
     const list = [...openHours];
-    list[index][0].times[key].from = value;
+    list[index][0][key].from = value;
     setOpenHours(list);
   };
 
   const handleToChange = (e, index, key) => {
     const { name, value } = e.target;
     const list = [...openHours];
-    list[index][0].times[key].to = value;
+    list[index][0][key].to = value;
     setOpenHours(list);
   };
 
   const addOpeningTime = (e, index) => {
     e.preventDefault();
     const list = [...openHours];
-    list[index][0].times.push({ from: "", to: "" });
+    list[index][0].push({ from: "", to: "" });
 
     setOpenHours(list);
   };
@@ -39,86 +39,72 @@ const handleFromChange = (e, index, key) => {
   const removeOpeningTime = (e, index) => {
     e.preventDefault();
     const list = [...openHours];
-    list[index][0].times.pop();
+    list[index][0].pop();
     setOpenHours(list);
   };
 
   const [mondayOpenHours, setMondayOpenHours] = useState([
-    {
-      times: [
+    [
         {
           from: props.opening_hours_monday[0].from,
           to: props.opening_hours_monday[0].to
         }
       ]
-    }
   ]);
 
-  const [tuesdayOpenHours, setTuesdayOpenHours] = useState([
-    {
-      times: [
+    const [tuesdayOpenHours, setTuesdayOpenHours] = useState([
+    [
         {
-          from: props.opening_hours_tuesday[0].from,
-          to: props.opening_hours_tuesday[0].to
+            from: props.opening_hours_tuesday[0].from,
+            to: props.opening_hours_tuesday[0].to
         }
-      ]
-    }
-  ]);
+        ]
+    ]);
 
-  const [wednesdayOpenHours, setWednesdayOpenHours] = useState([
-    {
-      times: [
+    const [wednesdayOpenHours, setWednesdayOpenHours] = useState([
+    [
         {
-          from: props.opening_hours_wednesday[0].from,
-          to: props.opening_hours_wednesday[0].to
+            from: props.opening_hours_wednesday[0].from,
+            to: props.opening_hours_wednesday[0].to
         }
-      ]
-    }
-  ]);
+        ]
+    ]);
 
-  const [thursdayOpenHours, setThursdayOpenHours] = useState([
-    {
-      times: [
+    const [thursdayOpenHours, setThursdayOpenHours] = useState([
+    [
         {
-          from: props.opening_hours_thursday[0].from,
-          to: props.opening_hours_thursday[0].to
+            from: props.opening_hours_thursday[0].from,
+            to: props.opening_hours_thursday[0].to
         }
-      ]
-    }
-  ]);
+        ]
+    ]);
 
-  const [fridayOpenHours, setFridayOpenHours] = useState([
-    {
-      times: [
+    const [fridayOpenHours, setFridayOpenHours] = useState([
+    [
         {
-          from: props.opening_hours_friday[0].from,
-          to: props.opening_hours_friday[0].to
+            from: props.opening_hours_friday[0].from,
+            to: props.opening_hours_friday[0].to
         }
-      ]
-    }
-  ]);
+        ]
+    ]);
 
-  const [saturdayOpenHours, setSaturdayOpenHours] = useState([
-    {
-      times: [
+    const [saturdayOpenHours, setSaturdayOpenHours] = useState([
+    [
         {
-          from: props.opening_hours_saturday[0].from,
-          to: props.opening_hours_saturday[0].to
+            from: props.opening_hours_saturday[0].from,
+            to: props.opening_hours_saturday[0].to
         }
-      ]
-    }
-  ]);
+        ]
+    ]);
 
-  const [sundayOpenHours, setSundayOpenHours] = useState([
-    {
-      times: [
+    const [sundayOpenHours, setSundayOpenHours] = useState([
+    [
         {
-          from: props.opening_hours_sunday[0].from,
-          to: props.opening_hours_sunday[0].to
+            from: props.opening_hours_sunday[0].from,
+            to: props.opening_hours_sunday[0].to
         }
-      ]
-    }
-  ]);
+        ]
+    ]);
 
   const [openHours, setOpenHours] = useState([
     mondayOpenHours,
@@ -181,8 +167,8 @@ const handleFromChange = (e, index, key) => {
                                 ? "Saturday"
                                 : "Sunday"}
                             </h2>
-                            {day[0].times &&
-                              day[0].times.map((time, key) => (
+                            {day[0] &&
+                              day[0].map((time, key) => (
                                 <>
                                   <div className="sm:col-span-4 col-span-12 row-span-1 flex sm:flex-nowrap flex-wrap items-center">
                                     <label className="mr-2 sm:mb-0 mb-2">

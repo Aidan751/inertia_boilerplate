@@ -1766,3 +1766,15 @@
 1666736157-8371-48649796,1666736157.5633,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",500,741.69111251831,request
 1666736169-6762-767178896,1666736169.3992,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",500,795.10498046875,request
 1666736207-2559-584974618,1666736206.773,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",500,988.27695846558,request
+1666736900-6783-1563272762,1666736900.3801,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",500,910.0558757782,request
+1666736953-5864-41663266,1666736953.3052,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",500,6686.1898899078,request
+1666736970-9401-23869300,1666736970.6587,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",500,829.04291152954,request
+1666737023-6438-1257685981,1666737023.2998,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",500,1009.8638534546,request
+1666737265-2803-1834534204,1666737265.0271,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",500,815.70410728455,request
+1666737354-5989-719150701,1666737354.1827,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",500,886.41905784607,request
+1666737381-7179-1764270337,1666737381.4541,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",500,605.35788536072,request
+1666737401-4999-1521544143,1666737401.2849,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",500,661.77988052368,request
+1666737645-0328-190271400,1666737644.8029,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,1461.8639945984,request
+1666737649-1654-1543556444,1666737648.9611,GET,/dist/zoom-vanilla.min.js.map,,404,716.46690368652,request
+1666737692-0707-468747486,1666737691.8049,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",500,784.70897674561,request
+1666737721-9297-1437475202,1666737721.5888,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",500,789.97206687927,request
