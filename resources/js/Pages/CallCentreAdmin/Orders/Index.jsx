@@ -108,6 +108,28 @@ export default function Index(props){
     }
   }
 
+  const submit = (e) => {
+    e.preventDefault();
+    data.selected_items = selectedItems;
+
+    Inertia.post(route('call-centre.orders.place-order'), {
+      selected_items: data.selected_items,
+      customer: data.customer,
+      restaurant: data.restaurant,
+      delivery_address: data.delivery_address,
+      delivery_time: data.delivery_time,
+      delivery_date: data.delivery_date,
+      payment_method: data.payment_method,
+      order_type: data.order_type,
+      order_status: data.order_status,
+      order_notes: data.order_notes,
+      total_price: total_price,
+      size_total: size_total,
+      extra_total: extra_total,
+      order_total: total_price + size_total + extra_total,
+    });
+  }
+
   return (
     <>
       <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
@@ -281,6 +303,8 @@ export default function Index(props){
             </div>
             {/* start: Basket */}
             <div className="sm:col-span-1 sm:row-span-3 col-span-3">
+            <form onSubmit={submit}>
+
               <h2 className="p-5 font-medium text-lg border rounded py-3">
                 Basket ({selectedItems ? selectedItems.length : 0}
                 )
@@ -393,7 +417,7 @@ export default function Index(props){
                 </div>
 
                 <div className="flex flex-col mt-5">
-                  <button className="btn btn-primary w-full shadow-md ml-auto">
+                  <button className="btn btn-primary w-full shadow-md ml-auto" type="submit">
                     Complete and send payment sms
                   </button>
                   <button className="btn w-full mt-2 border-slate-300 dark:border-darkmode-400 text-slate-500">
@@ -401,6 +425,7 @@ export default function Index(props){
                   </button>
                 </div>
               </TabPanel>
+            </form>
             </div>
             {/* end: basket */}
           </div>

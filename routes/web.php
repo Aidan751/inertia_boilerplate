@@ -415,6 +415,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // add a new order
     Route::post('/call-centre/orders/store', [CallCentreOrderController::class, 'store'])->name('call-centre.orders.store');
 
+    // place order
+    Route::post('/call-centre/orders/place-order', [CallCentreOrderController::class, 'placeOrder'])->name('call-centre.orders.place-order');
+
     // details of an order
     Route::get('/call-centre/orders/index', [CallCentreOrderController::class, 'index'])->name('call-centre.orders.index');
 

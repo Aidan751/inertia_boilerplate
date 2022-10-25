@@ -83,26 +83,202 @@ class OrderController extends Controller
         }
 
 
-        // save sizes and extras
-        public function saveOrder(Request $request)
-        {
-            $group_deal = session('group_deal');
-            $restaurant = session('restaurant');
-            $order = session('order');
+        public function placeOrder(Request $request) {
 
-            $order->restaurant_id = $restaurant->id;
-            $order->call_center_id = Auth::user()->id;
-            $order->order_reference = Str::random(10);
-            $order->driver_paid = 0;
-            $order->pickup_date =  date_format(new DateTime(Carbon::now()->toDateTimeString()), 'd-m-Y');
-            $order->time_slot = $restaurant->time_slot;
-            $order->order_method = $restaurant->order_method;
-            $order->price = $group_deal->price;
+            dd($request->all());
+            $reference = $this->generateRandomString();
 
-            dd($order);
+            while (Order::where('order_reference', $reference)->exists()) {
+                $reference = $this->generateRandomString();
+            }
 
-          dd($group_deal, $order, $restaurant);
+            $restaurant = Restaurant::where('id', session()->get('restaurant')->id)->first();
 
+            if ($restaurant == null) {
+                return response('fail', 404);
+            } else {
+                $stripe = new \Stripe\StripeClient(
+                    config('services.stripe_secret_key')
+                );
+
+                // Amount includes delivery fee
+
+                $total = 0;
+                foreach((array) session('cart') as $id => $details) {
+                    $total += $details['item_price'] * $details['quantity'];
+                }
+
+                $amount = round((doubleval($total) * 100), 2);
+                $percentageTransaction = 15;
+                $deliveryFeeAmount = session('restaurant')->delivery_charge * 100;
+                // Application fee does not include delivery fee
+                $applicationFeeAmount = round((($amount - $deliveryFeeAmount)  / $percentageTransaction), 2);
+
+                if (session('restaurant')->company_drivers == 1) {
+                    // Client gets application fee + delivery charge
+                    $applicationFeeAmount = $applicationFeeAmount + $deliveryFeeAmount;
+                }
+
+                $order = new Order;
+                $order->order_reference = $reference;
+                $order->restaurant_id = session()->get('restaurant')->id;
+
+                $order->pickup_date = date("Y-m-d H:i:s", strtotime(session('restaurant')->time_slot));
+                $order->time_slot = session('restaurant')->time_slot;
+
+                $order->price = doubleval($total);
+                $order->delivery_price = session('restaurant')->delivery_charge;
+                $order->payment_method = "card";
+                $order->order_method = "call";
+                $order->pickup_method = session('restaurant')->chosen_order_type;
+                $order->status = 'pending';
+                $order->payment_status = 'pending';
+
+                $order->customer_name = session('restaurant')->customer_name;
+                $order->customer_contact_number = session('restaurant')->customer_contact_number;
+
+                $order->call_centre_id = Auth::user()->id;
+
+                // if (!is_null($request->table_number)) {
+                //     $order->table_number = $request->table_number;
+                // }
+
+                if (!is_null(session('restaurant')->address_line_1)) {
+                    $order->address_line_1 = session('restaurant')->address_line_1;
+                }
+
+                if (!is_null(session('restaurant')->town)) {
+                    $order->town = session('restaurant')->town;
+                }
+
+                if (!is_null(session('restaurant')->county)) {
+                    $order->county = session('restaurant')->county;
+                }
+
+                if (!is_null(session('restaurant')->postcode)) {
+                    $order->postcode = session('restaurant')->postcode;
+                }
+
+                if (!is_null(session('restaurant')->address)) {
+                    $order->address = session('restaurant')->address;
+                }
+
+                if (!is_null(session('restaurant')->userLatitude)) {
+                    $order->latitude = session('restaurant')->userLatitude;
+                }
+
+                if (!is_null(session('restaurant')->userLongitude)) {
+                    $order->longitude = session('restaurant')->userLongitude;
+                }
+
+                $itemsArray = [];
+
+
+
+                foreach (session('cart') as $item) {
+                    array_push($itemsArray, [
+                        'price_data' => [
+                          'currency' => 'gbp',
+                          'product_data' => [
+                            'name' => $item['title'],
+                          ],
+                          'unit_amount' => $item['item_price'] * 100,
+                        ],
+                        'quantity' => $item['quantity'],
+                    ]);
+                }
+
+                try {
+                    $order->save();
+                    $order->items()->createMany(
+                        session('cart')
+                    );
+
+                    \Stripe\Stripe::setApiKey(config('services.stripe_secret_key'));
+                    $restaurantStripe = session('restaurant')->stripe_account_id;
+                    $appURL = config('app.url');
+
+                    if ($order->pickup_method == 'delivery') {
+                        $session = \Stripe\Checkout\Session::create([
+
+                        'shipping_address_collection' => [
+                            'allowed_countries' => ['GB'],
+                          ],
+                          'shipping_options' => [
+
+                            [
+                              'shipping_rate_data' => [
+                                'type' => 'fixed_amount',
+                                'fixed_amount' => [
+                                  'amount' => session('restaurant')->delivery_charge * 100,
+                                  'currency' => 'gbp',
+                                ],
+                                'display_name' => 'Distance calculated charge',
+                              ]
+                            ],
+                          ],
+                        'line_items' => [
+                            $itemsArray
+                        ],
+                        'mode' => 'payment',
+                        'payment_intent_data' => [
+                          'capture_method' => 'manual',
+                        ],
+                        'success_url' => $appURL .  '/stripe/confirm?ref=' . $order->order_reference,
+                        'cancel_url' => $appURL .  '/stripe/cancel',
+                      ], ['stripe_account' => $restaurantStripe]);
+                    } else {
+                        $session = \Stripe\Checkout\Session::create([
+                            'line_items' => [
+                                $itemsArray
+                            ],
+                            'mode' => 'payment',
+                            'payment_intent_data' => [
+                              'capture_method' => 'manual',
+                            ],
+                            'success_url' => $appURL . '/stripe/confirm?ref=' . $order->order_reference,
+                            'cancel_url' => $appURL . '/stripe/cancel',
+                          ],  ['stripe_account' => $restaurantStripe]);
+                    }
+
+                    $order->payment_intent_id = $session->payment_intent;
+                    $order->save();
+
+                    $sid = config('services.twilio.sid');
+                    $token = config('services.twilio.auth');
+                    $twilio = new Client($sid, $token);
+
+                    // Use the client to do fun stuff like send text messages!
+                    $message = $twilio->messages->create(
+                        // the number you'd like to send the message to
+                        session('restaurant')->customer_contact_number,
+                        [
+                            // A Twilio phone number you purchased at twilio.com/console
+                            'from' => config('services.twilio.phone'),
+                            // the body of the text message you'd like to send
+                            'body' => 'To complete your OrderIt order, please make your payment at the following URL: ' . $session->url,
+                        ]
+                    );
+
+                    event(new OrderAdded($order->restaurant_id));
+
+                    session()->forget('cart');
+                    session()->forget('restaurant');
+                    return redirect()->route('make-order.create')->with('success', 'Order placed and SMS sent.');
+
+                } catch (QueryException $ex) {
+                    $errorCode = $ex->errorInfo[1];
+                    if ($errorCode == 1062) {
+                        return response()->json([
+                        'message' => $ex->errorInfo[2],
+                    ], 400);
+                    } else {
+                        return response()->json([
+                        'message' => $ex,
+                    ], 422);
+                    }
+                }
+            }
         }
 
         public function updateItems(Request $request)
