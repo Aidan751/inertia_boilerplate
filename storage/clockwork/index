@@ -1628,3 +1628,10 @@
 1666703718-8779-83435227,1666703718.5234,GET,/restaurant/users/create,"App\Http\Controllers\Web\Restaurant\AdminUserController@create",200,892.44103431702,request
 1666703745-1939-1151512453,1666703744.963,POST,/restaurant/users/store,"App\Http\Controllers\Web\Restaurant\AdminUserController@store",302,5096.8248844147,request
 1666703750-4149-1326976085,1666703750.1108,GET,/restaurant/users,"App\Http\Controllers\Web\Restaurant\AdminUserController@index",200,716.02201461792,request
+1666704519-9485-1214463564,1666704519.76,GET,/restaurant/users/edit/10,"App\Http\Controllers\Web\Restaurant\AdminUserController@edit",200,967.78392791748,request
+1666704531-8164-379497775,1666704531.6812,PUT,/restaurant/users/update/10,"App\Http\Controllers\Web\Restaurant\AdminUserController@update",500,1542.6042079926,request
+1666704621-1008-1543446362,1666704620.8593,PUT,/restaurant/users/update/10,"App\Http\Controllers\Web\Restaurant\AdminUserController@update",303,5201.4739513397,request
+1666704626-6260-432784446,1666704626.2079,GET,/restaurant/users,"App\Http\Controllers\Web\Restaurant\AdminUserController@index",200,1359.4441413879,request
+1666704837-1190-1436568712,1666704836.8911,GET,/restaurant/users/edit/10,"App\Http\Controllers\Web\Restaurant\AdminUserController@edit",200,1039.2899513245,request
+1666704849-2290-161536168,1666704849.0318,PUT,/restaurant/users/update/10,"App\Http\Controllers\Web\Restaurant\AdminUserController@update",303,2927.9139041901,request
+1666704852-4731-2062927676,1666704852.0937,GET,/restaurant/users,"App\Http\Controllers\Web\Restaurant\AdminUserController@index",200,1074.0308761597,request
