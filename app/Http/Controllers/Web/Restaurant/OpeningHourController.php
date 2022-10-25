@@ -144,19 +144,22 @@ class OpeningHourController extends Controller
 
         $restaurant = Restaurant::where('id', Auth::user()->restaurant_id)->first();
         // dd($request->openHours);
-       foreach ($request->openHours[0] as $index => $day) {
-           dd($day);
+       foreach ($request->openHours as $index => $day) {
             foreach ($day as $key => $openHour) {
-                    $restaurant->openingHours()->update([
-                        'restaurant_id' => Auth::user()->restaurant_id,
-                        'day_id' => $index + 1,
-                        'from' => $openHour['from'],
-                        'to' => $openHour['to'],
-                    ]);
+
+                        OpeningHour::where('restaurant_id', $restaurant->id)->create([
+                            'restaurant_id' => Auth::user()->restaurant_id,
+                            'day_id' => $index + 1,
+                            'from' => $openHour[$key]['from'],
+                            'to' => $openHour[$key]['to'],
+                        ]);
+
+
+
             }
         }
 
-        dd($request->openHours[0]);
+        dd($restaurant->openingHours);
 
 
         return redirect()->route('restaurant.opening-hours.edit')->with('success', 'Opening times updated successfully');
