@@ -1762,3 +1762,6 @@
 1666827354-2898-944821043,1666827353.7553,GET,/admin-user/create,"App\Http\Controllers\Web\AdminUserController@create",200,1362.909078598,request
 1666827358-8716-1795004248,1666827358.5818,POST,/admin-user/store,"App\Http\Controllers\Web\AdminUserController@store",302,3973.8771915436,request
 1666827363-1773-38061758,1666827362.6822,GET,/admin-user,"App\Http\Controllers\Web\AdminUserController@index",200,1575.0060081482,request
+1666827540-9917-232542269,1666827540.5744,GET,/admin-user/edit/1,"App\Http\Controllers\Web\AdminUserController@edit",200,1034.9180698395,request
+1666827554-0678-140053571,1666827553.7862,PUT,/admin-user/update/1,"App\Http\Controllers\Web\AdminUserController@update",303,2988.2800579071,request
+1666827557-4153-2051281960,1666827556.8335,GET,/admin-user,"App\Http\Controllers\Web\AdminUserController@index",200,2335.4210853577,request

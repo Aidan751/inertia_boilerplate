@@ -88,17 +88,20 @@ class AdminCallCentreUserController extends Controller
 
         $user->attachRole('call_centre_admin');
 
+
         //If the notify checkbox was selected, send the new user an email
         if ($request->get('email_password_to_user')) {
 
-            $details = [
+            $subject = "Welcome to Order It " . $user->first_name . " " . $user->last_name;
+            Mail::send('emails.restaurant-user-mail', array(
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'email' => $user->email,
-                'password' => $user->password,
-            ];
-
-            \Mail::to($user->email)->send(new Mail($details));
+                'password' => $request->password,
+            ), function ($message) use ($user, $subject) {
+                $message->to($user->email);
+                $message->subject($subject);
+            });
 
         }
 
@@ -158,17 +161,20 @@ class AdminCallCentreUserController extends Controller
             'password' => $request->password ? bcrypt($request->password) : $user->password,
         ]);
 
+
         //If the notify checkbox was selected, send the new user an email
         if ($request->get('email_password_to_user')) {
 
-            $details = [
+            $subject = "Welcome to Order It " . $user->first_name . " " . $user->last_name;
+            Mail::send('emails.restaurant-user-mail', array(
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'email' => $user->email,
-                'password' => $user->password,
-            ];
-
-            Mail::to($user->email)->send(new Mail($details));
+                'password' => $request->password,
+            ), function ($message) use ($user, $subject) {
+                $message->to($user->email);
+                $message->subject($subject);
+            });
 
         }
 
