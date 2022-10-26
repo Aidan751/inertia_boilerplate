@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Web;
 
 
-use App\Mail\Mail;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;
@@ -98,19 +98,16 @@ class AdminUserController extends Controller
         //If the notify checkbox was selected, send the new user an email
         if ($request->get('email_password_to_user')) {
 
-
-
-            $details = [
+            $subject = "Welcome to Order It " . $user->first_name . " " . $user->last_name;
+            Mail::send('emails.restaurant-user-mail', array(
                 'first_name' => $user->first_name,
                 'last_name' => $user->last_name,
                 'email' => $user->email,
                 'password' => $user->password,
-            ];
-            $mail = new Mail($details);
-
-
-
-            Mail::to($user->email)->send($mail->details);
+            ), function ($message) use ($user, $subject) {
+                $message->to($user->email);
+                $message->subject($subject);
+            });
 
         }
 

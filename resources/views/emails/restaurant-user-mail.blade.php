@@ -10,13 +10,13 @@
 <body>
 
 <div class="p-5">
-    <p>Hi {{ $details['first_name'] }} {{ $details['last_name'] }},</p>
+    <p>Hi {{ $first_name }} {{ $last_name }},</p>
 
     <p>A new account has been setup for you for the Order It platform, your login details are listed below.</p>
 
     <ul>
-        <li>Email Address: {{ $details['email'] }}</li>
-        <li>Password: {{ $details['password'] }}</li>
+        <li>Email Address: {{ $email }}</li>
+        <li>Password: {{ $password }}</li>
     </ul>
 
     <p>You can access your account at:</p>
