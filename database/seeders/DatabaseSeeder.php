@@ -28,7 +28,20 @@ class DatabaseSeeder extends Seeder
         // Call the laratrust seeder to initialize roles and permissions
         $this->call(LaratrustSeeder::class);
         // create 7 days
-        Day::factory()->count(7)->create();
+        $days = [
+            'Monday',
+            'Tuesday',
+            'Wednesday',
+            'Thursday',
+            'Friday',
+            'Saturday',
+            'Sunday',
+        ];
+        foreach($days as $day) {
+            Day::factory()->count(1)->create([
+                'day_of_the_week' => $day,
+            ]);
+        }
         RestaurantCategory::factory()->create([
             'name' => 'Italian',
         ]);

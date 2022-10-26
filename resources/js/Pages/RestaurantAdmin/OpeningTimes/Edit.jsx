@@ -44,66 +44,31 @@ const handleFromChange = (e, index, key) => {
   };
 
   const [mondayOpenHours, setMondayOpenHours] = useState([
-    [
-        {
-          from: props.opening_hours_monday[0].from,
-          to: props.opening_hours_monday[0].to
-        }
-      ]
+    props.opening_hours_monday
   ]);
 
     const [tuesdayOpenHours, setTuesdayOpenHours] = useState([
-    [
-        {
-            from: props.opening_hours_tuesday[0].from,
-            to: props.opening_hours_tuesday[0].to
-        }
-        ]
+      props.opening_hours_tuesday
     ]);
 
     const [wednesdayOpenHours, setWednesdayOpenHours] = useState([
-    [
-        {
-            from: props.opening_hours_wednesday[0].from,
-            to: props.opening_hours_wednesday[0].to
-        }
-        ]
+      props.opening_hours_wednesday
     ]);
 
     const [thursdayOpenHours, setThursdayOpenHours] = useState([
-    [
-        {
-            from: props.opening_hours_thursday[0].from,
-            to: props.opening_hours_thursday[0].to
-        }
-        ]
+      props.opening_hours_thursday
     ]);
 
     const [fridayOpenHours, setFridayOpenHours] = useState([
-    [
-        {
-            from: props.opening_hours_friday[0].from,
-            to: props.opening_hours_friday[0].to
-        }
-        ]
+      props.opening_hours_friday
     ]);
 
     const [saturdayOpenHours, setSaturdayOpenHours] = useState([
-    [
-        {
-            from: props.opening_hours_saturday[0].from,
-            to: props.opening_hours_saturday[0].to
-        }
-        ]
+      props.opening_hours_saturday
     ]);
 
     const [sundayOpenHours, setSundayOpenHours] = useState([
-    [
-        {
-            from: props.opening_hours_sunday[0].from,
-            to: props.opening_hours_sunday[0].to
-        }
-        ]
+      props.opening_hours_sunday
     ]);
 
   const [openHours, setOpenHours] = useState([
@@ -170,7 +135,7 @@ const handleFromChange = (e, index, key) => {
                             {day[0] &&
                               day[0].map((time, key) => (
                                 <>
-                                  <div className="sm:col-span-4 col-span-12 row-span-1 flex sm:flex-nowrap flex-wrap items-center">
+                                  <div className="md:col-span-4 col-span-12 row-span-1 flex sm:flex-nowrap flex-wrap items-center">
                                     <label className="mr-2 sm:mb-0 mb-2">
                                       From
                                     </label>

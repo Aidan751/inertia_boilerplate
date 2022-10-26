@@ -32,43 +32,43 @@ class OpeningHourController extends Controller
         if(OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $monday->id)->exists()) {
             $opening_hours_monday = OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $monday->id)->get();
         } else {
-            $opening_hours_monday = "";
+            $opening_hours_monday = [];
         }
 
         if(OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $tuesday->id)->exists()) {
             $opening_hours_tuesday = OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $tuesday->id)->get();
         } else {
-            $opening_hours_tuesday = "";
+            $opening_hours_tuesday = [];
         }
 
         if(OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $wednesday->id)->exists()) {
             $opening_hours_wednesday = OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $wednesday->id)->get();
         } else {
-            $opening_hours_wednesday = "";
+            $opening_hours_wednesday = [];
         }
 
         if(OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $thursday->id)->exists()) {
             $opening_hours_thursday = OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $thursday->id)->get();
         } else {
-            $opening_hours_thursday = "";
+            $opening_hours_thursday = [];
         }
 
         if(OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $friday->id)->exists()) {
             $opening_hours_friday = OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $friday->id)->get();
         } else {
-            $opening_hours_friday = "";
+            $opening_hours_friday = [];
         }
 
         if(OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $saturday->id)->exists()) {
             $opening_hours_saturday = OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $saturday->id)->get();
         } else {
-            $opening_hours_saturday = "";
+            $opening_hours_saturday = [];
         }
 
         if(OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $sunday->id)->exists()) {
             $opening_hours_sunday = OpeningHour::where('restaurant_id', $restaurant_id)->where('day_id', $sunday->id)->get();
         } else {
-            $opening_hours_sunday = "";
+            $opening_hours_sunday = [];
         }
     }
 
@@ -119,8 +119,6 @@ class OpeningHourController extends Controller
     }
 
 
-
-
         return Inertia::render('RestaurantAdmin/OpeningTimes/Edit', [
             'opening_hours_monday' => $opening_hours_monday ?? "",
             'opening_hours_tuesday' => $opening_hours_tuesday ?? "",
@@ -141,25 +139,29 @@ class OpeningHourController extends Controller
 
     public function update(Request $request)
     {
-
         $restaurant = Restaurant::where('id', Auth::user()->restaurant_id)->first();
         $openHours = OpeningHour::where('restaurant_id', $restaurant->id)->get();
-       foreach ($request->openHours as $index => $day) {
 
-            foreach ($day as $key => $openHour) {
-                foreach ($openHours as $i => $value) {
-                    dd($value);
-                    $openHours[$index]->$i = $value;
-                }
-            }
-
-
-
+        foreach($openHours as $openHour) {
+            $openHour->delete();
         }
 
-        dd($restaurant->openingHours);
+        foreach($request->openHours as $key => $openHoursForDay) {
+            
+            foreach($openHoursForDay as $times){
 
+                foreach($times as $time) {
+                    
+                    $openHour = OpeningHour::create([
+                        'restaurant_id' => $restaurant->id,
+                        'day_id' => $key +1,
+                        'from' => $time['from'],
+                        'to' => $time['to'],
+                    ]);
+                }
+            }
+        }
 
-        return redirect()->route('restaurant.opening-hours.edit')->with('success', 'Opening times updated successfully');
+        return redirect()->back()->with('success', 'Opening times updated successfully');
     }
 }
