@@ -155,12 +155,13 @@ function Edit(props) {
                     </p>
                 )}
               </div>
-            <div className="mt-3 pt-3">
-                <Checkbox
-                    name="email_password_to_user"
-                    checked={data.email_password_to_user}
-                    onChange={onHandleChange}
-                 />
+              <div className="mt-3 pt-3">
+                <input type="checkbox"
+                  className="input border mr-2"
+                  id="input-1"
+                  name="email_password_to_user"
+                  value={data.email_password_to_user}
+                  onChange={onHandleChange} />
                 <span className="text-black-600 ml-2">Email password to new admin user?</span>
             </div>
             <div className="text-right mt-5">

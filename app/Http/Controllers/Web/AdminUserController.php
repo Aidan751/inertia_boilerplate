@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Web;
 
+
+use App\Mail\Mail;
 use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;
@@ -92,11 +94,26 @@ class AdminUserController extends Controller
         // Assign user to a role using the laratrust package
         $user->attachRole($role);
 
-        // if($user->role_id == 1){
-        //     $configuration = Configuration::create([
-        //         "user_id" => $user->id,
-        //     ]);
-        // }
+
+        //If the notify checkbox was selected, send the new user an email
+        if ($request->get('email_password_to_user')) {
+
+
+
+            $details = [
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'password' => $user->password,
+            ];
+            $mail = new Mail($details);
+
+
+
+            Mail::to($user->email)->send($mail->details);
+
+        }
+
 
         // Redirect back to the index page with a success message
         return redirect()->route('admin-user.index')->with('success', 'Admin User created successfully');
@@ -158,6 +175,20 @@ class AdminUserController extends Controller
             'email' => $request->email,
             'password' => $request->password ? bcrypt($request->password) : $user->password,
         ]);
+
+        //If the notify checkbox was selected, send the new user an email
+        if ($request->get('email_password_to_user')) {
+
+            $details = [
+                'first_name' => $user->first_name,
+                'last_name' => $user->last_name,
+                'email' => $user->email,
+                'password' => $user->password,
+            ];
+
+            Mail::to($user->email)->send(new Mail($details));
+
+        }
 
 
         return redirect()->route('admin-user.index')->with('success', 'Admin user updated successfully');

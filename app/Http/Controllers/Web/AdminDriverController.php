@@ -98,6 +98,20 @@ class AdminDriverController extends Controller
          // Save to the database
          $driver->save();
 
+        //If the notify checkbox was selected, send the new user an email
+        if ($request->get('email_password_to_user')) {
+
+        $details = [
+            'first_name' => $user->first_name,
+            'last_name' => $user->last_name,
+            'email' => $user->email,
+            'password' => $user->password,
+        ];
+
+        \Mail::to($user->email)->send(new Mail($details));
+
+    }
+
 
          // Redirect and inform the restaurant
          return redirect()->route('admin-driver.index')->with('success', 'The driver has been created.');
