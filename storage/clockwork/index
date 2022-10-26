@@ -1456,3 +1456,10 @@
 1666795858-4696-1166043141,1666795858.2447,POST,/admin-user/store,"App\Http\Controllers\Web\AdminUserController@store",500,602.0519733429,request
 1666795880-7413-1207097924,1666795880.549,POST,/admin-user/store,"App\Http\Controllers\Web\AdminUserController@store",500,731.59694671631,request
 1666795957-3283-977747521,1666795957.1159,POST,/admin-user/store,"App\Http\Controllers\Web\AdminUserController@store",500,674.6780872345,request
+1666811049-2526-771476127,1666811048.8464,GET,/restaurant/opening-hours/edit/2,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,1172.413110733,request
+1666811053-4035-1919339304,1666811053.1349,GET,/dist/zoom-vanilla.min.js.map,,404,498.10385704041,request
+1666811084-6974-1773098370,1666811084.5206,GET,/,"App\Http\Controllers\Web\HomeController@index",200,532.1798324585,request
+1666811088-9320-1030606204,1666811088.5222,GET,/dist/zoom-vanilla.min.js.map,,404,867.1350479126,request
+1666811094-2349-1190646522,1666811094.0845,GET,/restaurant/opening-hours/edit/2,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,487.23387718201,request
+1666811237-1983-552900920,1666811236.9865,GET,/restaurant/opening-hours/edit/1,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,572.83401489258,request
+1666811240-5745-1681371289,1666811240.3175,GET,/dist/zoom-vanilla.min.js.map,,404,550.20594596863,request
