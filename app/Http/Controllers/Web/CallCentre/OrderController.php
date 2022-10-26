@@ -53,7 +53,7 @@ class OrderController extends Controller
             session(['group_deal' => $group_deal]);
             session(['order' => $order]);
             $selected_items = session('selected_items');
-            session()->put('selected_items', $request->all());
+            session()->put('selected_items', json_decode($request->selected_items));
             $group_deal->load('groupDealItems.groupDealSingleItems.menuItem');
             $restaurant = session('restaurant');
 
@@ -61,7 +61,7 @@ class OrderController extends Controller
             return Inertia::render('CallCentreAdmin/Orders/AddDeal', [
                 'groupDeal' => $group_deal,
                 'restaurant' => $restaurant,
-                'selected_items' => $request->all(),
+                'selected_items' => json_decode($request->selected_items),
             ]);
 
         }
@@ -351,8 +351,10 @@ class OrderController extends Controller
         // get order details
         public function index(Request $request)
         {
+
             if($request->session()->has('order')){
                 $order = $request->session()->get('order');
+
                 $restaurant = $request->session()->get('restaurant');
                 $selected_items = session('selected_items');
                 $order->load('items');

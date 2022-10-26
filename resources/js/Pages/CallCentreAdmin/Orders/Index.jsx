@@ -129,7 +129,14 @@ export default function Index(props){
       order_total: total_price + size_total + extra_total,
     });
   }
-
+  const handleAddDeal = (e,id) => {
+    e.preventDefault();
+    // data.selected_items = selectedItems;
+    console.log(selectedItems); 
+    Inertia.get(route('call-centre.orders.add.deal', {id: id}),{
+      selected_items: JSON.stringify(selectedItems),
+    });
+  }
   return (
     <>
       <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
@@ -231,14 +238,12 @@ export default function Index(props){
                         <div className="text-slate-600 dark:text-slate-500 mt-2">
                           Price: £ {deal.group_deal_price}
                         </div>
-                        <Link
+                        <a
                           className="btn btn-primary mt-5 w-24"
-                          method="get"
-                          href={route('call-centre.orders.add.deal', {id: deal.id})}
-                          data={{ ...selectedItems }}
+                          onClick={(e) => handleAddDeal(e,deal.id)}
                         >
                           Add
-                        </Link>
+                        </a>
                       </div>
                     </div>
                   ))}
