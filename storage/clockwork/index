@@ -1456,3 +1456,4 @@
 1666795858-4696-1166043141,1666795858.2447,POST,/admin-user/store,"App\Http\Controllers\Web\AdminUserController@store",500,602.0519733429,request
 1666795880-7413-1207097924,1666795880.549,POST,/admin-user/store,"App\Http\Controllers\Web\AdminUserController@store",500,731.59694671631,request
 1666795957-3283-977747521,1666795957.1159,POST,/admin-user/store,"App\Http\Controllers\Web\AdminUserController@store",500,674.6780872345,request
+1666797550-8221-1244450756,1666797550.6014,GET,/admin-user/create,"App\Http\Controllers\Web\AdminUserController@create",200,2102.1440029144,request
