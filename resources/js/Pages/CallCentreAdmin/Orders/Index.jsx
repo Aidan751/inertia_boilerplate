@@ -324,20 +324,22 @@ export default function Index(props){
                           <Edit className="w-4 h-4 text-slate-500 ml-2" />
                           <div className="ml-auto font-medium text-lg">
                             £{" "}
-                            {parseFloat(item.menu_item.price) *
-                              item.menu_item.quantity +
+                            {console.log(item.extra && item.extra)}
+                            {(parseFloat(item.menu_item.price) *
+                              parseFloat(item.menu_item.quantity)) +
                               (item.extra
-                                ? item.extra.length > 0 &&
+                                && item.extra.length > 0 ?
                                   item.extra.reduce(
-                                    (a, b) =>
-                                      parseFloat(a.additional_charge) + parseFloat(b.additional_charge)
-                                  )
-                                : 0) *
+                                    (a, b) =>{
+                                        console.log(a, b);
+                                      return a.additional_charge + b.additional_charge;
+                            })
+                                : item.extra.additional_charge) *
                                 item.menu_item.quantity +
                               (item.size
                                 ? item.size.length > 0 &&
-                                  parseFloat(item.size[0].additional_charge) *
-                                    item.menu_item.quantity
+                                 item.size[0].additional_charge *
+                                    parseFloat(item.menu_item.quantity)
                                 : 0)}
                           </div>
                         </a>
