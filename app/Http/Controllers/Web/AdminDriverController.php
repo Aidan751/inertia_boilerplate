@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web;
 
 use App\Models\User;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Order;
 use App\Models\UserDriver;
 use Illuminate\Http\Request;

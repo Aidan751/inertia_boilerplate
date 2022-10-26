@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Web;
 
-use App\Mail\Mail;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;

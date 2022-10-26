@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Web\Restaurant;
 use App\Models\Role;
 use App\Models\User;
 use Inertia\Inertia;
-use App\Mail\Mail;
+use Illuminate\Support\Facades\Mail;
 use App\Models\Restaurant;
 use App\Models\UserStripe;
 use Illuminate\Http\Request;

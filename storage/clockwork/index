@@ -1765,3 +1765,5 @@
 1666827540-9917-232542269,1666827540.5744,GET,/admin-user/edit/1,"App\Http\Controllers\Web\AdminUserController@edit",200,1034.9180698395,request
 1666827554-0678-140053571,1666827553.7862,PUT,/admin-user/update/1,"App\Http\Controllers\Web\AdminUserController@update",303,2988.2800579071,request
 1666827557-4153-2051281960,1666827556.8335,GET,/admin-user,"App\Http\Controllers\Web\AdminUserController@index",200,2335.4210853577,request
+1666827977-6781-226979769,1666827977.3485,GET,/admin-callcentreuser/create,"App\Http\Controllers\Web\AdminCallCentreUserController@create",200,996.57106399536,request
+1666828021-5185-542575260,1666828021.2,POST,/admin-callcentreuser/store,"App\Http\Controllers\Web\AdminCallCentreUserController@store",500,918.3030128479,request
