@@ -330,13 +330,13 @@ export default function Index(props){
                                 ? item.extra.length > 0 &&
                                   item.extra.reduce(
                                     (a, b) =>
-                                      a.additional_charge + b.additional_charge
+                                      parseFloat(a.additional_charge) + parseFloat(b.additional_charge)
                                   )
                                 : 0) *
                                 item.menu_item.quantity +
                               (item.size
                                 ? item.size.length > 0 &&
-                                  item.size[0].additional_charge *
+                                  parseFloat(item.size[0].additional_charge) *
                                     item.menu_item.quantity
                                 : 0)}
                           </div>

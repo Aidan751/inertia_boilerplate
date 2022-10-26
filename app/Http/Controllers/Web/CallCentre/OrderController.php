@@ -85,11 +85,10 @@ class OrderController extends Controller
 
         public function placeOrder(Request $request) {
 
-            dd($request->all());
-            $reference = $this->generateRandomString();
+            $reference = Str::random();
 
             while (Order::where('order_reference', $reference)->exists()) {
-                $reference = $this->generateRandomString();
+                $reference = Str::random();
             }
 
             $restaurant = Restaurant::where('id', session()->get('restaurant')->id)->first();
@@ -103,14 +102,14 @@ class OrderController extends Controller
 
                 // Amount includes delivery fee
 
-                $total = 0;
-                foreach((array) session('cart') as $id => $details) {
-                    $total += $details['item_price'] * $details['quantity'];
-                }
+                $total = $request->total_price;
+
+
 
                 $amount = round((doubleval($total) * 100), 2);
                 $percentageTransaction = 15;
                 $deliveryFeeAmount = session('restaurant')->delivery_charge * 100;
+                dd($deliveryFeeAmount);
                 // Application fee does not include delivery fee
                 $applicationFeeAmount = round((($amount - $deliveryFeeAmount)  / $percentageTransaction), 2);
 
