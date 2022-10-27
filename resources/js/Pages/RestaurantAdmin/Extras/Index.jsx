@@ -104,31 +104,33 @@ export default function Index(props){
 
                     {/*  */}
                     <div className="grid grid-cols-12 gap-6 mt-5">
-                        <div className="intro-y col-span-12 flex justify-between flex-wrap sm:flex-nowrap items-center mt-2">
-
-                             {/* Link to create page */}
-                             <Link href={route("restaurant.extras.create")} className="btn btn-primary shadow-md mr-2" style={{whiteSpace: "nowrap"}}>
+                        <div className="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+           {/* Link to create page */}
+           <Link href={route("restaurant.extras.create")} className="btn btn-primary shadow-md mr-2" style={{whiteSpace: "nowrap"}}>
                                   Add New Extras
-                             </Link>
-
-                             <form className="flex justify-end w-full sm:w-auto sm:mt-0 sm:ml-auto md:ml-0" onSubmit={submitSearch}>
-                            {/* Pagination Information */}
-                            <div className="hidden md:block mx-auto text-slate-500">
+            </Link>
+           {/* Pagination Information */}
+           <div className="hidden md:block mx-auto text-slate-500">
                                 Showing {from} to {to} of {total} entries
                             </div>
-                            <input
-                            type="text"
-                            className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                            placeholder="Search..."
-                            value={data.search}
-                            onChange={e => setData('search', e.target.value)}
-                            />
-                            <Button type="submit" className="ml-3">
-                                Search
-                            </Button>
-
-                        </form>
+          <div className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
+                        {/* start: Search Form */}
+                         <div className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
+                            <form className="w-56 relative flex text-slate-500" onSubmit={submitSearch}>
+                                        <input
+                                        type="text"
+                                        className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                        placeholder="Search..."
+                                        value={data.search}
+                                        onChange={e => setData('search', e.target.value)}
+                                        style={{width: '30vw', height: '2.5rem'}}
+                                        />
+                            </form>
                         </div>
+                            {/* end: Search Form */}
+                    </div>
+            </div>
+
                         {/* BEGIN: Data List */}
                         <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
                         <table className="table table-report -mt-2">

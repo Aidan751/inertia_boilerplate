@@ -153,7 +153,7 @@ export default function Index(props){
                                     <h4 className="intro-y text-sm font-medium mb-5">Filter by menu category</h4>
                                     <div style={{width: '30vw', height: '2.5rem'}}>
                                         <select
-                                            className="search__input text-sm text-gray-700 shadow appearance-none focus:outline-none focus:shadow-outline"
+                                            className="search__input text-sm text-gray-700 bitem rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                             value={data.filter}
                                             onChange={filterBySearch}
                                             style={{width: '30vw', height: '2.5rem'}}

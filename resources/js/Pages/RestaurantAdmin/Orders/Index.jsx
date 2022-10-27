@@ -183,28 +183,26 @@ export default function Index(props){
                             </div>
 
                             {/* start: Search Form */}
-                            <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
-                                <div className="w-56 relative text-slate-500">
-                                    <div style={{width: '30vw', height: '2.5rem'}} className="flex justify-start">
+                            <div className="w-56 text-slate-500 absolute right-0 top-0">
+                            <form className="flex justify-end w-full sm:w-auto sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
                                         <input
                                         type="text"
-                                        className="search__input text-sm text-gray-700 bitem rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                        className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                         placeholder="Search..."
                                         value={data.search}
                                         onChange={e => setData('search', e.target.value)}
                                         style={{width: '30vw', height: '2.5rem'}}
                                         />
-                                    <Button type="submit" className="search__button ml-3 flex items-center justify-center text-gray-700">
-                                        Search
-                                    </Button>
-                                    </div>
-                                </div>
+                                        <Button type="submit" className="ml-3">
+                                            Search
+                                        </Button>
                             </form>
+                        </div>
                             {/* end: Search Form */}
                         </div>
                         {/* BEGIN: Data List */}
                         <div className="col-span-12 overflow-auto intro-y lg:overflow-visible">
-                        <table className="table -mt-2 table-report">
+                        <table className="table mt-3 table-report">
                             <thead>
                             <tr>
                                 <th className="text-left whitespace-nowrap">CUSTOMER NAME</th>
