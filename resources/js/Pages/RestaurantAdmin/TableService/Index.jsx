@@ -59,14 +59,7 @@ export default function Index(props){
                         <h2 className="text-2xl font-semibold text-gray-700 dark:text-gray-200">
                             Manage Tables
                         </h2>
-                        {/* start: add button */}
-                        <Link
-                            href={route("restaurant.tables.create")}
-                            className="inline-flex items-center justify-center px-4 py-2 ml-4 text-sm font-medium leading-5 text-white transition duration-150 ease-in-out bg-indigo-600 border border-transparent rounded-md active:bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:shadow-outline-indigo"
-                        >
-                            Add
-                        </Link>
-                        {/* end: add button */}
+
                     </div>
 
                     {/* Show Success Validation Component */}

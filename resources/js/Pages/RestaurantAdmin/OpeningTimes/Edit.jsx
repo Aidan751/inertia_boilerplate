@@ -190,7 +190,7 @@ const handleFromChange = (e, index, key) => {
                               <button
                                 className="btn btn-danger-soft text-sm border-none"
                                 type="button"
-                                click={(e) => {
+                                onClick={(e) => {
                                   removeOpeningTime(e, index);
                                 }}
                               >

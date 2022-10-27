@@ -13,7 +13,7 @@ export default function Index(props) {
         search: props.search,
     });
 
-    const form = props.restaurants.form;
+    const from = props.restaurants.from;
 
     const to = props.restaurants.to;
 
@@ -31,7 +31,7 @@ export default function Index(props) {
      * Handle search form submission
      * @param {Event} e
     */
-       function handleSearch(e) {
+       function submitSearch(e) {
         e.preventDefault();
 
         get(route('admin-applications.index'), {
@@ -72,31 +72,30 @@ export default function Index(props) {
                 }
 
                 <div className="grid grid-cols-12 gap-6 mt-5">
-                    <div className="intro-y col-span-12 flex flex-wrap sm:flex-no-wrap items-center mt-2">
+                <div className="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+                            {/* Pagination Information */}
+                            <div className="hidden md:block mx-auto text-slate-500">
+                                Showing {from} to {to} of {total} entries
+                            </div>
 
-                        {/* Pagination Information */}
-                        <div className="hidden md:block mx-auto text-gray-600">Showing {form} to {to} of {total} entries</div>
-
-                           {/* start: Search Form */}
-                           <form className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0" onSubmit={handleSearch}>
-                                <div className="w-56 relative text-slate-500">
-                                    <div style={{width: '30vw', height: '2.5rem'}} className="flex justify-start">
+          <div className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
+                        {/* start: Search Form */}
+                         <div className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
+                            <form className="w-56 relative flex text-slate-500" onSubmit={submitSearch}>
                                         <input
                                         type="text"
-                                        className="search__input text-sm text-gray-700 bitem rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                        className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                         placeholder="Search..."
                                         value={data.search}
                                         onChange={e => setData('search', e.target.value)}
                                         style={{width: '30vw', height: '2.5rem'}}
                                         />
-                                    <Button type="submit" className="search__button ml-3 flex items-center justify-center text-gray-700">
-                                        Search
-                                    </Button>
-                                    </div>
-                                </div>
                             </form>
-                            {/* end: Search Form */}
                         </div>
+                            {/* end: Search Form */}
+                    </div>
+            </div>
+
                         {/* Begin: Data List*/}
                         <div className="intro-y col-span-12 overflow-auto lg:overflow-visible mt-4">
                             <table className="table table-report">

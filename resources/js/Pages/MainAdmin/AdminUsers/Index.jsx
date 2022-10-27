@@ -103,10 +103,9 @@ export default function Index(props){
 
                     {/*  */}
                     <div className="grid grid-cols-12 gap-6 mt-5">
-                        <div className="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
-
-                            {/* Link to create page */}
-                            <Link href={route("admin-user.create")} className="btn btn-primary shadow-md mr-2" style={{whiteSpace: "nowrap"}}>
+                    <div className="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+              {/* Link to create page */}
+              <Link href={route("admin-user.create")} className="btn btn-primary shadow-md mr-2" style={{whiteSpace: "nowrap"}}>
                                 Add New User
                             </Link>
 
@@ -114,23 +113,24 @@ export default function Index(props){
                             <div className="hidden md:block mx-auto text-slate-500">
                                 Showing {from} to {to} of {total} entries
                             </div>
-
-                                    {/* Search Form */}
-                                    <div className="w-56 text-slate-500 absolute right-0 top-0">
-                            <form className="flex justify-end w-full sm:w-auto sm:mt-0 sm:ml-auto md:ml-0" onSubmit={submitSearch}>
+          <div className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
+                        {/* start: Search Form */}
+                         <div className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
+                            <form className="w-56 relative flex text-slate-500" onSubmit={submitSearch}>
                                         <input
                                         type="text"
                                         className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                                         placeholder="Search..."
                                         value={data.search}
                                         onChange={e => setData('search', e.target.value)}
+                                        style={{width: '30vw', height: '2.5rem'}}
                                         />
-                                        <Button type="submit" className="ml-3">
-                                            Search
-                                        </Button>
                             </form>
                         </div>
-                        </div>
+                            {/* end: Search Form */}
+                    </div>
+            </div>
+
                         {/* BEGIN: Data List */}
                         <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
                         <table className="table table-report -mt-2">

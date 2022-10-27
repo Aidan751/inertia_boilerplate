@@ -40,7 +40,7 @@ export default function Index(props){
      * Handle search form submission
      * @param {Event} e
     */
-    function handleSearch(e) {
+    function submitSearch(e) {
         e.preventDefault();
         Inertia.get(route('restaurant.offers.index'), data);
     }
@@ -98,24 +98,33 @@ export default function Index(props){
 
                     {/*  */}
                     <div className="grid grid-cols-12 gap-6 mt-5">
-                        <div className="intro-y col-span-12 offers-start sm:flex-nowrap mt-2">
-
-                           {/* Link to create page */}
-                            <Link href={route("restaurant.offers.create", {id: props.auth.user.restaurant_id})} className="btn btn-primary shadow-md mb-5" style={{whiteSpace: "nowrap"}}>
+                    <div className="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
+           {/* Link to create page */}
+           <Link href={route("restaurant.offers.create", {id: props.auth.user.restaurant_id})} className="btn btn-primary shadow-md mb-5" style={{whiteSpace: "nowrap"}}>
                                 Add new offers/news
                             </Link>
                             {/* Pagination Information */}
                             <div className="hidden md:block mx-auto text-slate-500">
                                 Showing {from} to {to} of {total} entries
                             </div>
-
-                            {/* Search Form */}
-                            <OrderItSearch
-                                data={data}
-                                setData={setData}
-                                handleSearch={handleSearch}
-                            />
+          <div className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
+                        {/* start: Search Form */}
+                         <div className="w-full sm:w-auto mt-3 sm:mt-0 sm:ml-auto md:ml-0">
+                            <form className="w-56 relative flex text-slate-500" onSubmit={submitSearch}>
+                                        <input
+                                        type="text"
+                                        className="search__input text-sm text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                        placeholder="Search..."
+                                        value={data.search}
+                                        onChange={e => setData('search', e.target.value)}
+                                        style={{width: '30vw', height: '2.5rem'}}
+                                        />
+                            </form>
                         </div>
+                            {/* end: Search Form */}
+                    </div>
+            </div>
+
                         {/* BEGIN: Data List */}
                         <div className="intro-y col-span-12 overflow-auto lg:overflow-visible">
                         <table className="table table-report -mt-2">
@@ -161,11 +170,11 @@ export default function Index(props){
                         </table>
                         </div>
                         {/* END: Data List */}
-                        {/* BEGIN: Pagination */}
-                        <div className="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap offers-center">
+                         {/* BEGIN: Pagination */}
+                         <div className="intro-y col-span-12 flex flex-wrap sm:flex-row sm:flex-nowrap items-center">
                         <nav className="w-full sm:w-auto sm:mr-auto">
                             <ul className="pagination">
-                                <li className="page-offer">
+                                <li className="page-item">
                                     <Link className="page-link" href={first_page_url}>
                                         <ChevronsLeft className="w-4 h-4" />
                                     </Link>
@@ -177,7 +186,7 @@ export default function Index(props){
                                             <>
                                                 {
                                                     link.label == "&laquo; Previous" &&
-                                                        <li key={link.label} className="page-offer">
+                                                        <li key={link.label} className="page-item">
                                                             <Link className="page-link" href={link.url}>
                                                                 <ChevronLeft className="w-4 h-4" />
                                                             </Link>
@@ -185,7 +194,7 @@ export default function Index(props){
                                                 }
                                                 {
                                                     link.label == "Next &raquo;" &&
-                                                        <li key={link.label} className="page-offer">
+                                                        <li key={link.label} className="page-item">
                                                             <Link className="page-link" href={link.url}>
                                                                 <ChevronRight className="w-4 h-4" />
                                                             </Link>
@@ -193,7 +202,7 @@ export default function Index(props){
                                                 }
                                                 {
                                                     link.label != "&laquo; Previous" && link.label != "Next &raquo;" &&
-                                                        <li key={link.label} className={ link.active == true ? "page-offer active" : "page-offer"
+                                                        <li key={link.label} className={ link.active == true ? "page-item active" : "page-item"
                                                     }>
                                                             <Link
                                                                 className="page-link"
@@ -210,7 +219,7 @@ export default function Index(props){
 
 
 
-                                <li className="page-offer">
+                                <li className="page-item">
                                     <Link className="page-link" href={last_page_url}>
                                         <ChevronsRight className="w-4 h-4" />
                                     </Link>

@@ -193,9 +193,7 @@ export default function Index(props){
                                         onChange={e => setData('search', e.target.value)}
                                         style={{width: '30vw', height: '2.5rem'}}
                                         />
-                                        <Button type="submit" className="ml-3">
-                                            Search
-                                        </Button>
+
                             </form>
                         </div>
                             {/* end: Search Form */}
