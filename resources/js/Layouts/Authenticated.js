@@ -25,7 +25,7 @@ export default function Authenticated({ auth, header, children,activeGroup,secon
                         <TopBar auth={auth} />
 
                         {/* Content */}
-                        <div className="grid grid-cols-12 gap-6">
+                        <div className="grid grid-cols-12 gap-6" class="overflow-auto" scroll-region>
                             <div className="col-span-12 2xl:col-span-12">
                                 <div className="grid grid-cols-12 gap-6">
                                     {children}

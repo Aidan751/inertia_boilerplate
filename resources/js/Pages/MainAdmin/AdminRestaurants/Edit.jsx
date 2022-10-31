@@ -173,11 +173,23 @@ export default function Edit( props ) {
                         {/* End: Business Name */}
                         {/* Start: logo */}
                         <div className="mb-6">
+                            <label
+                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                htmlFor="logo"
+                            >
+                                Logo
+                            </label>
                             <MidoneUpload label="Logo Upload" change={onHandleFileChange} name="logo" preview={fileUrl.logo} reset={resetFileInput} />
                         </div>
                         {/* End: logo */}
                         {/* Start: banner */}
                         <div className="mb-6">
+                            <label
+                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                htmlFor="banner"
+                            >
+                                Banner
+                            </label>
                             <MidoneUpload label="Banner Upload" change={onHandleFileChange} name="banner" preview={fileUrl.banner} reset={resetFileInput} />
                         </div>
                         {/* End: banner */}
