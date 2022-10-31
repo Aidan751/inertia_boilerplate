@@ -58,7 +58,7 @@ export default function Index(props){
     }
 
     const deleteRecord = (e) => {
-
+        e.preventDefault();
         Inertia.delete(route('admin-user.destroy',{id:deleteId}),{
             preserveState: false,
             onSuccess: () => {
