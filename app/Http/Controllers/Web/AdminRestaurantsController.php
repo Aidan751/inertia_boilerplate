@@ -268,17 +268,10 @@ class AdminRestaurantsController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function edit(Restaurant $restaurant){
-        // Find the model for this ID
-        // dd(RestaurantCategory::find(9));
-        $banner = Banner::where('restaurant_id', $restaurant->id)->first();
-        $logo = Logo::where('restaurant_id', $restaurant->id)->first();
-
          $categories = RestaurantCategory::orderBy('name')->get();
          $user = User::where('restaurant_id', $restaurant->id)->first();
 
          $restaurant->setAttribute('categories', $categories);
-         $restaurant->setAttribute('banner', $banner);
-         $restaurant->setAttribute('logo', $logo);
          $restaurant->setAttribute('edit', true);
 
         $url = '';//config('app.url');
@@ -405,21 +398,8 @@ class AdminRestaurantsController extends Controller
             $restaurant->allows_collection = is_null($request->allows_collection) ? $restaurant->allows_collection : $request->allows_collection;
             $restaurant->allows_delivery = is_null($request->allows_delivery) ? $restaurant->allows_delivery : $request->allows_delivery;
             $restaurant->allows_call_center = is_null($request->allows_call_center) ? $restaurant->allows_call_center : $request->allows_call_center;
-
-             // update the logo
-             if ($request->hasFile('logo')) {
-                $restaurant->logo()->update([
-                    "img_url" => ImagePackage::save($request->logo, 'restaurant_logo'),
-                ]);
-            }
-
-            // update the banner
-            if ($request->hasFile('banner')) {
-                $restaurant->banner()->update([
-                    "img_url" => ImagePackage::save($request->banner, 'restaurant_banner'),
-                ]);
-            }
-
+            $restaurant->logo = is_null($request->logo) ? null : ImagePackage::save($request->logo, 'restaurant_logo');
+            $restaurant->banner = is_null($request->banner) ? null : ImagePackage::save($request->banner, 'restaurant_banner');
             $restaurant->save();
 
         return Redirect::route('admin-restaurants.index')->with('success', 'Restaurant updated successfully.');

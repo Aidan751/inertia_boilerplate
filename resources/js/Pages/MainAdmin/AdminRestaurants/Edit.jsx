@@ -7,6 +7,7 @@ import Checkbox from "@/components/Checkbox";
 import MidoneUpload from "@/Components/MidoneUpload";
 
 export default function Edit( props ) {
+    console.log(props);
     const [option, selectedOption] = useState(null);
     const { data, setData, post, processing, errors, reset } = useForm({
         name: props.restaurant.name,
@@ -31,11 +32,10 @@ export default function Edit( props ) {
     });
 
     const [fileUrl, setFileUrl] = useState({
-        logo: props.restaurant.logo.img_url ?? null,
-        banner: props.restaurant.banner.img_url ?? null,
+        logo: props.restaurant.logo ?? null,
+        banner: props.restaurant.banner ?? null,
     });
 
-    console.log(props);
 
     /**
      * Handle the file upload and set the state
