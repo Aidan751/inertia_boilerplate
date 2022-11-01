@@ -97,7 +97,7 @@ export default function Edit( props ) {
             activeGroup={4}
         >
 
-        <div className="col-span-12 overflow-auto">
+        <div className="col-span-12 overflow-auto" scroll-region>
             <div className="flex items-center mt-5 mb-5 intro-y">
                 <h2 className="mr-auto text-lg font-medium">Update Business</h2>
             </div>

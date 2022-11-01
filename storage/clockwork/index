@@ -785,3 +785,15 @@
 1667341198-2618-1952055514,1667341197.9289,PUT,/admin-restaurants/update/2,"App\Http\Controllers\Web\AdminRestaurantsController@update",303,761.61193847656,request
 1667341198-8931-1131757576,1667341198.7257,GET,/admin-restaurants,"App\Http\Controllers\Web\AdminRestaurantsController@index",200,506.44683837891,request
 1667341203-2769-302000977,1667341202.7469,GET,/admin-restaurants/edit/2,"App\Http\Controllers\Web\AdminRestaurantsController@edit",200,1477.5261878967,request
+1667346728-5273-989033141,1667346728.2785,GET,/admin-restaurants/edit/6,"App\Http\Controllers\Web\AdminRestaurantsController@edit",200,690.40012359619,request
+1667346732-4615-98983880,1667346732.2605,GET,/dist/zoom-vanilla.min.js.map,,404,433.99691581726,request
+1667346734-3005-986431159,1667346733.588,GET,/admin-restaurants/edit/0,"App\Http\Controllers\Web\AdminRestaurantsController@edit",404,1637.197971344,request
+1667346741-1152-411713657,1667346740.9848,GET,/admin-restaurants,"App\Http\Controllers\Web\AdminRestaurantsController@index",200,532.13596343994,request
+1667346745-2835-364404919,1667346745.022,DELETE,/admin-restaurants/delete/6,"App\Http\Controllers\Web\AdminRestaurantsController@destroy",303,634.86909866333,request
+1667346745-9703-722787102,1667346745.7291,GET,/admin-restaurants,"App\Http\Controllers\Web\AdminRestaurantsController@index",200,1022.0310688019,request
+1667346750-1765-1178929916,1667346749.9043,DELETE,/admin-restaurants/delete/5,"App\Http\Controllers\Web\AdminRestaurantsController@destroy",303,664.75701332092,request
+1667346750-9553-103456576,1667346750.6816,GET,/admin-restaurants,"App\Http\Controllers\Web\AdminRestaurantsController@index",200,842.46706962585,request
+1667346753-3794-1865862390,1667346753.0663,GET,/admin-restaurants/edit/2,"App\Http\Controllers\Web\AdminRestaurantsController@edit",200,715.69395065308,request
+1667346803-8530-173764415,1667346803.184,GET,/admin-restaurants/edit/2,"App\Http\Controllers\Web\AdminRestaurantsController@edit",200,1159.4998836517,request
+1667346807-8145-2009867540,1667346807.555,GET,/dist/zoom-vanilla.min.js.map,,404,473.15311431885,request
+1667346812-9392-1255244061,1667346812.7867,GET,/admin-restaurants/create,"App\Http\Controllers\Web\AdminRestaurantsController@create",200,581.41279220581,request
