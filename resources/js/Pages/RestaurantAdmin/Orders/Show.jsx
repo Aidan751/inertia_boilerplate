@@ -34,11 +34,11 @@ console.log(props);
                   {props.order.pickup_date} - {props.order.order_reference}
                 </div>
 
-                <div className="mt-3">View Order</div>
+                <div className="mt-3 text-lg">View Order</div>
               </div>
               <div className="flex flex-col lg:flex-row px-5 sm:px-20 pt-10 pb-10 sm:pb-20">
                 <div>
-                  <div className="text-md font-medium text-slate-500 mb-5">
+                  <div className="text-lg font-medium text-slate-500 mb-5">
                     Customer Details
                   </div>
                   <div className="text-md font-medium">Name</div>
@@ -74,7 +74,7 @@ console.log(props);
               </div>
             </div>
             <div className="px-5 sm:px-16 py-10 sm:py-20">
-              <div className="mt-0 mb-5 font-medium text-md pl-5">
+              <div className="mt-0 mb-5 font-medium text-lg pl-5">
                 Order Details
               </div>
 
@@ -109,16 +109,16 @@ console.log(props);
                         </td>
                       </tr>
                     ))}
-                    <tr className="border-y-4 dark:border-darkmode-400 py-5">
-                      <td className="border-b dark:border-darkmode-400">
-                        <div className="font-medium text-primary whitespace-nowrap">
+                    <tr className="border-t-2 border-b-2 border-black-300 dark:border-darkmode-400 py-5">
+                      <td className="dark:border-darkmode-400">
+                        <div className="font-medium text-primary text-lg whitespace-nowrap">
                           Delivery
                         </div>
                       </td>
-                      <td className="text-right border-b dark:border-darkmode-400 w-32">
+                      <td className="text-right dark:border-darkmode-400 w-32">
                         {" "}
                       </td>
-                      <td className="text-right text-primary border-b dark:border-darkmode-400 w-32">
+                      <td className="text-right text-primary text-lg dark:border-darkmode-400 w-32">
                         {props.order.delivery_price}
                       </td>
                     </tr>

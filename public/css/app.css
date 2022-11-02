@@ -20182,6 +20182,9 @@ select {
 .border-t-4 {
   border-top-width: 4px;
 }
+.border-t-2 {
+  border-top-width: 2px;
+}
 .border-dashed {
   border-style: dashed;
 }
