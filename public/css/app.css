@@ -19953,6 +19953,9 @@ select {
 .w-16 {
   width: 4rem;
 }
+.w-32 {
+  width: 8rem;
+}
 .max-w-xl {
   max-width: 36rem;
 }
@@ -20058,6 +20061,9 @@ select {
 .flex-col {
   flex-direction: column;
 }
+.flex-col-reverse {
+  flex-direction: column-reverse;
+}
 .flex-wrap {
   flex-wrap: wrap;
 }
@@ -20099,6 +20105,9 @@ select {
 }
 .overflow-hidden {
   overflow: hidden;
+}
+.overflow-x-auto {
+  overflow-x: auto;
 }
 .overflow-y-auto {
   overflow-y: auto;
@@ -20144,6 +20153,14 @@ select {
   border-top-width: 2px;
   border-bottom-width: 2px;
 }
+.border-x-4 {
+  border-left-width: 4px;
+  border-right-width: 4px;
+}
+.border-y-4 {
+  border-top-width: 4px;
+  border-bottom-width: 4px;
+}
 .border-t {
   border-top-width: 1px;
 }
@@ -20158,6 +20175,12 @@ select {
 }
 .border-b {
   border-bottom-width: 1px;
+}
+.border-b-4 {
+  border-bottom-width: 4px;
+}
+.border-t-4 {
+  border-top-width: 4px;
 }
 .border-dashed {
   border-style: dashed;
@@ -20324,6 +20347,10 @@ select {
   padding-left: 2.5rem;
   padding-right: 2.5rem;
 }
+.py-10 {
+  padding-top: 2.5rem;
+  padding-bottom: 2.5rem;
+}
 .pt-8 {
   padding-top: 2rem;
 }
@@ -20359,6 +20386,12 @@ select {
 }
 .pb-8 {
   padding-bottom: 2rem;
+}
+.pt-10 {
+  padding-top: 2.5rem;
+}
+.pb-10 {
+  padding-bottom: 2.5rem;
 }
 .text-left {
   text-align: left;
@@ -20399,6 +20432,10 @@ select {
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
+}
+.text-xl {
+  font-size: 1.25rem;
+  line-height: 1.75rem;
 }
 .font-medium {
   font-weight: 500;
@@ -21042,12 +21079,31 @@ select {
     padding-right: 2rem;
   }
 
+  .sm\:px-20 {
+    padding-left: 5rem;
+    padding-right: 5rem;
+  }
+
+  .sm\:py-20 {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  .sm\:px-16 {
+    padding-left: 4rem;
+    padding-right: 4rem;
+  }
+
   .sm\:pt-0 {
     padding-top: 0px;
   }
 
   .sm\:pl-10 {
     padding-left: 2.5rem;
+  }
+
+  .sm\:pb-20 {
+    padding-bottom: 5rem;
   }
 
   .sm\:text-left {
@@ -21130,8 +21186,20 @@ select {
     grid-column: span 6 / span 6;
   }
 
+  .lg\:mt-0 {
+    margin-top: 0px;
+  }
+
+  .lg\:ml-auto {
+    margin-left: auto;
+  }
+
   .lg\:w-2\/4 {
     width: 50%;
+  }
+
+  .lg\:flex-row {
+    flex-direction: row;
   }
 
   .lg\:overflow-visible {
@@ -21141,6 +21209,10 @@ select {
   .lg\:px-8 {
     padding-left: 2rem;
     padding-right: 2rem;
+  }
+
+  .lg\:text-right {
+    text-align: right;
   }
 }
 

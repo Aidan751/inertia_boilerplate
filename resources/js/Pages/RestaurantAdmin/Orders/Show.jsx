@@ -25,118 +25,126 @@ console.log(props);
 
                 {/* Page Content */}
                 <main className="col-span-12 px-10">
+          {/* BEGIN: Invoice */}
+          <div className="intro-y box overflow-hidden mt-5">
+            <div className="border-b border-slate-200/60 dark:border-darkmode-400 text-center sm:text-left">
+              <div className="px-5 py-10 sm:px-20 sm:py-20">
+                <div className="text-primary font-semibold text-2xl">
+                  View Order - {props.user.first_name} {props.user.last_name} -{" "}
+                  {props.order.pickup_date} - {props.order.order_reference}
+                </div>
 
-                    {/* Page Header */}
-                    <h2 className="intro-y text-lg font-medium mt-10">View Order - {props.user.first_name} {props.user.last_name} - {props.order.pickup_date} - {props.order.order_reference}</h2>
+                <div className="mt-3">View Order</div>
+              </div>
+              <div className="flex flex-col lg:flex-row px-5 sm:px-20 pt-10 pb-10 sm:pb-20">
+                <div>
+                  <div className="text-md font-medium text-slate-500 mb-5">
+                    Customer Details
+                  </div>
+                  <div className="text-md font-medium">Name</div>
+                  <div className="mt-1">{props.order.customer_name}</div>
+                  <div className="text-md font-medium mt-2">Email Address</div>
+                  <div className="mt-1">{props.customer.email}</div>
+                  {props.order.pickup_method === "delivery" && (
+                    <>
+                      <div className="text-md font-medium mt-2">Address</div>
+                      <div className="mt-1">{props.order.address}</div>
+                    </>
+                  )}
 
-                    {/* BEGIN: Display Customer Details */}
-                    <div className="intro-y box mt-5">
-                        <div className="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
-                            <h2 className="font-medium text-base mr-auto">Customer Details</h2>
+                  <div className="text-md font-medium mt-2">Contact Number</div>
+                  <div className="mt-1">
+                    {props.order.customer_contact_number}
+                  </div>
+                </div>
+
+                <div className="lg:text-right mt-10 lg:mt-0 lg:ml-auto">
+                  <br />
+                  <div className="text-md font-medium mt-5">Type</div>
+                  <div className="mt-1">{props.order.pickup_method}</div>
+                  <div className="text-md font-medium mt-2">Time Slot</div>
+                  <div className="mt-1">{props.order.time_slot}</div>
+                  <div className="text-md font-medium mt-2">
+                    Additional Notes
+                  </div>
+                  <div className="mt-1">
+                    {props.order.additional_notes ?? "N/A"}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="px-5 sm:px-16 py-10 sm:py-20">
+              <div className="mt-0 mb-5 font-medium text-md pl-5">
+                Order Details
+              </div>
+
+              <div className="overflow-x-auto">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th className="border-b-2 dark:border-darkmode-400 whitespace-nowrap">
+                        Item
+                      </th>
+                      <th className="border-b-2 dark:border-darkmode-400 text-right whitespace-nowrap">
+                        Quantity
+                      </th>
+                      <th className="border-b-2 dark:border-darkmode-400 text-right whitespace-nowrap">
+                        Price
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {props.order_items.map((item) => (
+                      <tr>
+                        <td className="border-b dark:border-darkmode-400">
+                          <div className="font-medium whitespace-nowrap">
+                            {item.title}
+                          </div>
+                        </td>
+                        <td className="text-right border-b dark:border-darkmode-400 w-32">
+                          {item.quantity}
+                        </td>
+                        <td className="text-right border-b dark:border-darkmode-400 w-32">
+                          {item.item_price}
+                        </td>
+                      </tr>
+                    ))}
+                    <tr className="border-y-4 dark:border-darkmode-400 py-5">
+                      <td className="border-b dark:border-darkmode-400">
+                        <div className="font-medium text-primary whitespace-nowrap">
+                          Delivery
                         </div>
-                        <div className="p-5">
-                            <div className="grid grid-cols-12 gap-6">
-                                <div className="col-span-6 sm:col-span-6">
-                                <div className="flex flex-col sm:flex-row">
-                                    <label className="sm:w-40 sm:flex-shrink-0 sm:flex-grow-0">Name</label>
-                                    <div className="sm:ml-6">
-                                        <div className="font-medium text-base">{props.order.customer_name}</div>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col sm:flex-row mt-3">
-                                    <label className="sm:w-40 sm:flex-shrink-0 sm:flex-grow-0">Email Address</label>
-                                    <div className="sm:ml-6">
-                                        <div className="font-medium text-base">{props.customer.email}</div>
-                                    </div>
-                                </div>
+                      </td>
+                      <td className="text-right border-b dark:border-darkmode-400 w-32">
+                        {" "}
+                      </td>
+                      <td className="text-right text-primary border-b dark:border-darkmode-400 w-32">
+                        {props.order.delivery_price}
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div className="px-5 sm:px-20 pb-10 sm:pb-20 flex flex-col-reverse sm:flex-row">
+              <div className="text-center sm:text-left mt-10 sm:mt-0">
+                <div className="text-lg text-primary font-medium mt-2">
+                  Total:
+                </div>
+              </div>
 
-                                {props.order.pickup_method === "delivery" && (
-                                <div className="flex flex-col sm:flex-row mt-3">
-                                    <label className="sm:w-40 sm:flex-shrink-0 sm:flex-grow-0">Address</label>
-                                    <div className="sm:ml-6">
-                                        <div className="font-medium text-base">{props.order.address}</div>
-                                        </div>
-                                </div>
-                                )
-                                }
-
-                                <div className="flex flex-col sm:flex-row mt-3">
-                                    <label className="sm:w-40 sm:flex-shrink-0 sm:flex-grow-0">Contact Number</label>
-                                    <div className="sm:ml-6">
-                                        <div className="font-medium text-base">{props.order.customer_contact_number}</div>
-                                </div>
-
-                                </div>
-                                </div>
-                                <div className="col-span-6 sm:col-span-6">
-                                <div className="flex flex-col sm:flex-row">
-                                    <label className="sm:w-40 sm:flex-shrink-0 sm:flex-grow-0">Type</label>
-                                    <div className="sm:ml-6">
-                                        <div className="font-medium text-base">{props.order.pickup_method}</div>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col sm:flex-row mt-3">
-                                    <label className="sm:w-40 sm:flex-shrink-0 sm:flex-grow-0">Time Slot</label>
-                                    <div className="sm:ml-6">
-                                        <div className="font-medium text-base">{props.order.time_slot}</div>
-                                    </div>
-                                </div>
-                                <div className="flex flex-col sm:flex-row mt-3">
-                                    <label className="sm:w-40 sm:flex-shrink-0 sm:flex-grow-0">Additional Notes</label>
-                                    <div className="sm:ml-6">
-                                        <div className="font-medium text-base">{props.order.additional_notes ?? 'N/A'}</div>
-                                    </div>
-                                </div>
-                               </div>
-                            </div>
-                        </div>
-                    </div>
-                    {/* END: Display Customer Details */}
-                    {/* BEGIN: Display Order Details */}
-                    <div className="intro-y box mt-5">
-                        <div className="flex items-center p-5 border-b border-gray-200 dark:border-dark-5">
-                            <h2 className="font-medium text-base mr-auto">Order Details</h2>
-                        </div>
-                        <table className="table table-report mt-2">
-                            <thead>
-                                <tr>
-                                    <th className="whitespace-no-wrap">ITEM</th>
-                                    <th className="whitespace-no-wrap">QUANTITY</th>
-                                    <th className="whitespace-no-wrap">PRICE</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {props.order_items.map((item) => (
-                                    <tr className="intro-x" key={item.id}>
-                                        <td>
-                                            {item.title}
-                                        </td>
-                                        <td>
-                                            {item.quantity}
-                                        </td>
-                                        <td>
-                                            {item.item_price}
-                                        </td>
-                                    </tr>
-                                ))}
-
-                            </tbody>
-                  </table>
-
-                 </div>
-                                {/* display delivery cost */}
-                                {props.order.pickup_method !== "delivery" && (
-                                    <tr className="w-full border-y-2 border-black">
-                                        <td>
-                                            Delivery Cost
-                                        </td>
-                                        <td>
-                                            {props.order.delivery_price || 0.00}
-                                        </td>
-                                </tr>
-                                )
-                                }
-                </main>
+              <div className="text-center flex sm:text-right sm:ml-auto">
+              <div className="text-lg text-primary font-medium mt-2 mr-5">
+                  total quantity here
+                </div>
+                <div className="text-xl text-primary font-medium mt-2">
+                  {props.order.price}
+                </div>
+              </div>
+            </div>
+          </div>
+          {/* END: Invoice */}
+        </main>
 
             </Authenticated>
         </>
