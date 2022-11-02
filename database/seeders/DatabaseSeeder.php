@@ -304,7 +304,7 @@ class DatabaseSeeder extends Seeder
             'address' => $customer->address,
         ]);
 
-        OrderItem::factory(100)->create([
+        OrderItem::factory(1000)->create([
         ]);
 
 
