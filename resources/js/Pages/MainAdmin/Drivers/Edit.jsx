@@ -65,7 +65,7 @@ function Edit(props) {
                 name="first_name"
                 required
                 value={data.first_name}
-                readOnly
+                onChange={onHandleChange}
               />
                {errors.first_name && (
                     <p className="text-xs italic text-red-500">
@@ -85,7 +85,7 @@ function Edit(props) {
                 name="last_name"
                 required
                 value={data.last_name}
-                readOnly
+                onChange={onHandleChange}
               />
                 {errors.last_name && (
                     <p className="text-xs italic text-red-500">

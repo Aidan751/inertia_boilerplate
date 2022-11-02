@@ -183,10 +183,17 @@ class AdminDriverController extends Controller
             // Validate the data
             $request->validate([
                 'iCabbi' => ['nullable', 'string', 'max:191'],
+                'first_name' => ['required', 'string', 'max:191'],
+                'last_name' => ['required', 'string', 'max:191'],
             ]);
 
             // Update the parameters
             $driver->iCabbi = $request->iCabbi;
+            $user = User::where('id', $driver->user_id)->first();
+            $user->first_name = $request->first_name;
+            $user->last_name = $request->last_name;
+
+            $user->save();
             $driver->save();
 
             // Redirect and inform the user
