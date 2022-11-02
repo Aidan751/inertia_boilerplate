@@ -37,7 +37,7 @@ console.log(props);
         // handle from change
         const handleFromChange = (e) => {
             e.preventDefault();
-            Inertia.get(route('admin-driver.trips.index', {id:props.user.id}), {
+            Inertia.get(route('admin-driver.trips.index', {id:props.driver.id}), {
                     from: e.target.value,
                     to: data.to
                 });
@@ -46,7 +46,7 @@ console.log(props);
           // handle to change
           const handleToChange = (e) => {
             e.preventDefault();
-            Inertia.get(route('admin-driver.trips.index', {id:props.user.id}), {
+            Inertia.get(route('admin-driver.trips.index', {id:props.driver.id}), {
                     from: data.from,
                     to: e.target.value
                 });
