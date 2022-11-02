@@ -72,11 +72,7 @@ class LaratrustSeeder extends Seeder
                     'role_id' => $role->id,
                 ]);
                 $user->attachRole($role);
-                if($user->role_id == 1){
-                    $configuration = Configuration::create([
-                        "user_id" => $user->id,
-                    ]);
-                }
+
             }
 
         }

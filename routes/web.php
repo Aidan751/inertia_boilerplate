@@ -470,10 +470,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/admin-driver/trips/{driver}', [AdminDriverTripsController::class, 'index'])->name('admin-driver.trips.index');
 
     // get all delivery costs
-    Route::get('/admin-configurations/{configuration}', [AdminConfigurationsController::class, 'index'])->name('admin-configurations.index');
+    Route::get('/admin-configurations', [AdminConfigurationsController::class, 'index'])->name('admin-configurations.index');
 
     // edit delivery costs
-    Route::get('/admin-configurations/edit/{user}', [AdminConfigurationsController::class, 'edit'])->name('admin-configurations.edit');
+    Route::get('/admin-configurations/edit', [AdminConfigurationsController::class, 'edit'])->name('admin-configurations.edit');
 
     // update delivery costs
     Route::put('/admin-configurations/update', [AdminConfigurationsController::class, 'update'])->name('admin-configurations.update');

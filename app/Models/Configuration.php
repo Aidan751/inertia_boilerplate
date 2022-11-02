@@ -17,9 +17,5 @@ class Configuration extends Model
      */
     public $timestamps = false;
 
-    //configuration belongs to user
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
+
 }

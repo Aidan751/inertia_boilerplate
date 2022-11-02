@@ -15,7 +15,7 @@ class ConfigurationFactory extends Factory
     public function definition()
     {
         return [
-            'user_id' => User::where('role_id', 1)->get()->random()->id,
+
         ];
     }
 }

@@ -17,11 +17,11 @@ class AdminConfigurationsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function edit(Request $request, User $user)
+    public function edit(Request $request)
        {
 
             // get configuration belonging to the user
-            $configuration = Configuration::where('user_id', $user->id)->first();
+            $configuration =  Configuration::first();
            // Load the view
            return Inertia::render('MainAdmin/Configurations/Edit', [
                'configuration' => $configuration,
@@ -41,22 +41,21 @@ class AdminConfigurationsController extends Controller
      */
     public function update(Request $request)
     {
-        $configuration = Configuration::where('user_id', Auth::user()->id)->first();
         // Validate the request
         $request->validate([
             'mile' => 'required',
             'minute' => 'required',
         ]);
 
-        // Update the configuration
-        $configuration->update([
-            'mile' => $request->mile,
-            'minute' => $request->minute,
-        ]);
+        $configuration = Configuration::first();
+
+        $configuration->update(["mile" => $request->mile,
+        "minute" => $request->minute]);
+
 
 
         // Redirect back to the index page with a success message
-        return redirect()->route('admin-configurations.edit', ['user' => Auth::user()->id])->with('success', 'Configuration updated successfully');
+        return redirect()->route('admin-configurations.edit')->with('success', 'Configuration updated successfully');
     }
 
 }

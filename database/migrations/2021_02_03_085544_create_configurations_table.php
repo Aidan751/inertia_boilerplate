@@ -17,7 +17,6 @@ class CreateConfigurationsTable extends Migration
             $table->increments('id');
             $table->decimal('mile', 10, 2)->nullable();
             $table->decimal('minute', 10, 2)->nullable();
-            $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
         });
     }

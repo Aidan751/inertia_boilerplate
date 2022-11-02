@@ -43,7 +43,7 @@ export default function SideBar(props){
 
     // Links for user to access driver cost
     const driverCostLinks = [
-        {title: "Driver Cost", href: route("admin-configurations.edit", {id: user.id})},
+        {title: "Driver Cost", href: route("admin-configurations.edit")},
     ];
 
     // Links for restaurant user to access orders
@@ -96,7 +96,7 @@ export default function SideBar(props){
 
     // Links for user to manage company profile
     const companyProfileLinks = [
-        {title: "Manage Profile", href: route("my.restaurant.edit")},
+        {title: "Manage Profile", href: route("my.restaurant.edit", {id: user.id})},
     ];
 
     // Links for user to manage making orders

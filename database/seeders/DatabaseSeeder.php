@@ -309,8 +309,8 @@ class DatabaseSeeder extends Seeder
 
 
         Configuration::factory()->create([
-            'mile' => 1.00,
-            'minute' => 1.00,
+            'mile' => 0.00,
+            'minute' => 0.00,
         ]);
 
     }

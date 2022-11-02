@@ -175,7 +175,6 @@ class OrderController extends Controller
         $order_items = OrderItem::where('order_id', $order->id)->get();
         $user = User::find($order->user_id);
         $customer = User::where('id', $order->customer_id)->first();
-
         $configuration = Configuration::first();
         // Return an inertia view with the order
         return Inertia::render('RestaurantAdmin/Orders/Show', [
