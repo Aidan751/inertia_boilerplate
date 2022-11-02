@@ -20140,6 +20140,10 @@ select {
 .border-4 {
   border-width: 4px;
 }
+.border-y-2 {
+  border-top-width: 2px;
+  border-bottom-width: 2px;
+}
 .border-t {
   border-top-width: 1px;
 }
@@ -20197,6 +20201,10 @@ select {
 }
 .border-slate-200\/60 {
   border-color: rgb(226 232 240 / 0.6);
+}
+.border-black {
+  --tw-border-opacity: 1;
+  border-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 .bg-white {
   --tw-bg-opacity: 1;

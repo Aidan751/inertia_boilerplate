@@ -43,6 +43,12 @@ console.log(props);
                                         <div className="font-medium text-base">{props.order.customer_name}</div>
                                     </div>
                                 </div>
+                                <div className="flex flex-col sm:flex-row mt-3">
+                                    <label className="sm:w-40 sm:flex-shrink-0 sm:flex-grow-0">Email Address</label>
+                                    <div className="sm:ml-6">
+                                        <div className="font-medium text-base">{props.customer.email}</div>
+                                    </div>
+                                </div>
 
                                 {props.order.pickup_method === "delivery" && (
                                 <div className="flex flex-col sm:flex-row mt-3">
@@ -118,6 +124,18 @@ console.log(props);
                   </table>
 
                  </div>
+                                {/* display delivery cost */}
+                                {props.order.pickup_method !== "delivery" && (
+                                    <tr className="w-full border-y-2 border-black">
+                                        <td>
+                                            Delivery Cost
+                                        </td>
+                                        <td>
+                                            {props.order.delivery_price || 0.00}
+                                        </td>
+                                </tr>
+                                )
+                                }
                 </main>
 
             </Authenticated>

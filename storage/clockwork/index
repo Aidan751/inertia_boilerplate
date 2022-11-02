@@ -805,3 +805,16 @@
 1667361612-7439-1443505131,1667361612.5182,GET,/dist/zoom-vanilla.min.js.map,,404,408.36620330811,request
 1667361617-4725-1317245045,1667361617.326,GET,/restaurant/orders/6,"App\Http\Controllers\Web\Restaurant\OrderController@index",200,421.00191116333,request
 1667361623-1073-101363925,1667361622.954,GET,/restaurant/orders/show/4,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,440.25993347168,request
+1667361847-2772-1548682297,1667361846.9183,GET,/dist/zoom-vanilla.min.js.map,,404,1055.6819438934,request
+1667361988-9022-1061440869,1667361988.2845,GET,/dist/zoom-vanilla.min.js.map,,404,1161.6170406342,request
+1667362059-3761-601591190,1667362059.1788,GET,/restaurant/orders/show/4,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,671.74601554871,request
+1667362096-1798-1638141917,1667362095.9958,GET,/restaurant/orders/show/4,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,516.52407646179,request
+1667362269-6524-1158209936,1667362269.0378,GET,/restaurant/orders/show/4,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,1171.4899539948,request
+1667362295-4006-989951133,1667362294.9748,GET,/dist/zoom-vanilla.min.js.map,,404,938.84801864624,request
+1667362308-2601-874742957,1667362307.7953,GET,/dist/zoom-vanilla.min.js.map,,404,774.07121658325,request
+1667362339-0163-1023284184,1667362338.8407,GET,/restaurant/orders/show/4,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,507.53903388977,request
+1667362610-6924-1754708344,1667362610.406,GET,/restaurant/orders/show/4,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,779.56390380859,request
+1667362621-6775-169803367,1667362621.5111,GET,/restaurant/orders/show/4,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,592.29493141174,request
+1667362655-0090-790883811,1667362654.7619,GET,/restaurant/orders/show/4,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,545.7558631897,request
+1667362713-5089-1327540023,1667362713.2973,GET,/restaurant/orders/show/4,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,770.94101905823,request
+1667362752-4483-1407183347,1667362752.1612,GET,/restaurant/orders/show/4,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,754.78601455688,request
