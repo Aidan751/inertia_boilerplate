@@ -4,9 +4,11 @@ namespace App\Http\Controllers\Web\Restaurant;
 
 use App\Models\User;
 use Inertia\Inertia;
+use Stripe\Customer;
 use App\Models\Order;
 use App\Models\OrderItem;
 use Illuminate\Http\Request;
+use App\Models\Configuration;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
@@ -169,13 +171,19 @@ class OrderController extends Controller
 
     public function show(Request $request, Order $order)
     {
+
         $order_items = OrderItem::where('order_id', $order->id)->get();
         $user = User::find($order->user_id);
+        $customer = User::where('id', $order->customer_id)->first();
+
+        $configuration = Configuration::first();
         // Return an inertia view with the order
         return Inertia::render('RestaurantAdmin/Orders/Show', [
             'user' => $user,
             'order' => $order,
-            'order_items' => $order_items
+            'order_items' => $order_items,
+            'configuration' => $configuration,
+            'customer' => $customer,
         ]);
     }
 }

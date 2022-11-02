@@ -13,7 +13,6 @@ class OrderFactory extends Factory
      */
     public function definition()
     {
-
         return [
             'order_reference' => $this->faker->unique()->randomNumber(8),
             'restaurant_id' => 1,

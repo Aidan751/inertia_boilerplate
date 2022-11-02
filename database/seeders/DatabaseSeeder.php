@@ -12,6 +12,7 @@ use App\Models\GroupDeal;
 use App\Models\OrderItem;
 use App\Models\OpeningHour;
 use App\Models\MenuCategory;
+use App\Models\Configuration;
 use Illuminate\Database\Seeder;
 use App\Models\RestaurantCategory;
 
@@ -136,6 +137,14 @@ class DatabaseSeeder extends Seeder
             "password" => bcrypt("password"),
             "role_id" => 2,
             "restaurant_id" => $restaurant->id,
+        ]);
+
+        $customer = \App\Models\User::factory()->create([
+            "first_name" => "Customer",
+            "last_name" => "Customer",
+            "email" => "customers@app.com",
+            "password" => bcrypt("password"),
+            "role_id" => 3,
         ]);
 
         $callCentreUser = \App\Models\User::factory()->create([
@@ -289,13 +298,20 @@ class DatabaseSeeder extends Seeder
 
 
 
-
-
         Order::factory(50)->create([
             "restaurant_id" => $restaurant->id,
+            "customer_id" => $customer->id,
+            'address' => $customer->address,
         ]);
 
         OrderItem::factory(100)->create([
         ]);
+
+
+        Configuration::factory()->create([
+            'mile' => 1.00,
+            'minute' => 1.00,
+        ]);
+
     }
 }

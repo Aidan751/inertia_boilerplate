@@ -10,7 +10,7 @@ import ValidationSuccess from "@/Components/ValidationSuccess";
 
 
 export default function Show(props){
-
+console.log(props);
     return (
         <>
             <Authenticated
@@ -43,11 +43,23 @@ export default function Show(props){
                                         <div className="font-medium text-base">{props.order.customer_name}</div>
                                     </div>
                                 </div>
+
+                                {props.order.pickup_method === "delivery" && (
+                                <div className="flex flex-col sm:flex-row mt-3">
+                                    <label className="sm:w-40 sm:flex-shrink-0 sm:flex-grow-0">Address</label>
+                                    <div className="sm:ml-6">
+                                        <div className="font-medium text-base">{props.order.address}</div>
+                                        </div>
+                                </div>
+                                )
+                                }
+
                                 <div className="flex flex-col sm:flex-row mt-3">
                                     <label className="sm:w-40 sm:flex-shrink-0 sm:flex-grow-0">Contact Number</label>
                                     <div className="sm:ml-6">
                                         <div className="font-medium text-base">{props.order.customer_contact_number}</div>
                                 </div>
+
                                 </div>
                                 </div>
                                 <div className="col-span-6 sm:col-span-6">
