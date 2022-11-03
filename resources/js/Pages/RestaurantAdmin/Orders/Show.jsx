@@ -7,11 +7,12 @@ import { useState } from "react";
 import { Modal, ModalBody } from "@/base-components";
 import { Inertia } from "@inertiajs/inertia";
 import ValidationSuccess from "@/Components/ValidationSuccess";
+import Button from "@/Components/Button";
 
 
 export default function Show(props){
 console.log(props);
-// useForm
+
 const { data, setData, put, processing, errors } = useForm({
 });
 
@@ -33,6 +34,10 @@ const handleDecline = (event) => {
     put(route('admin.orders.update', props.order.id));
 }
 
+const sendPush = (event) => {
+    event.preventDefault();
+    put(route('admin.orders.sendPush', props.order.id));
+}
 
     return (
         <>
@@ -60,6 +65,11 @@ const handleDecline = (event) => {
                 </div>
 
                 <div className="mt-3">View Order</div>
+                 {/* Show Success Validation Component */}
+                 {
+                        props.success &&
+                        <ValidationSuccess message={props.success} />
+                    }
               </div>
               <div className="flex flex-col lg:flex-row px-5 sm:px-20 pt-10 pb-10 sm:pb-20">
                 <div>
@@ -136,7 +146,7 @@ const handleDecline = (event) => {
                     ))}
                     {props.order.pickup_method === "delivery" && (
                     <tr>
-                      <td className="border-b border-x-4 dark:border-darkmode-400">
+                      <td className="dark:border-darkmode-400">
                         <div className="font-medium text-primary whitespace-nowrap">
                           Delivery
                         </div>
@@ -151,17 +161,17 @@ const handleDecline = (event) => {
                     )}
                     <tr>
                       <td className="border-b dark:border-darkmode-400">
-                        <div className="font-medium whitespace-nowrap">
+                        <div className="font-medium whitespace-nowrap text-primary">
                           Total:
                         </div>
                       </td>
-                      <td className="text-right border-b dark:border-darkmode-400 w-32">
+                      <td className="text-right border-b dark:border-darkmode-400 w-32 text-primary">
                         {props.order_items.reduce(
                           (prev, curr, index, array) => prev + curr.quantity,
                           0
                         )}
                       </td>
-                      <td className="text-right border-b dark:border-darkmode-400 w-32">
+                      <td className="text-right border-b dark:border-darkmode-400 w-32 text-primary">
                         {props.order.price}
                       </td>
                     </tr>
@@ -186,9 +196,9 @@ const handleDecline = (event) => {
 
                   />
                 </div>
-                <button className="btn btn-primary w-64 flex-1 py-3" type="submit" name="accept">
+                <Button className="btn btn-primary w-64 flex-1 py-3" type="submit" name="accept">
                   Accept and Complete
-                </button>
+                </Button>
               </div>
                 </form>
               {/* End: driver collection time and accept button */}
@@ -216,11 +226,11 @@ const handleDecline = (event) => {
               </div>
               {/* End: message to customer */}
               {/* Start: send push notification */}
-              <div className="flex justify-end mt-8">
-                <button className="btn btn-primary">
+              <form className="flex justify-end mt-8" onSubmit={sendPush}>
+                <Button className="btn btn-primary" type="submit">
                   Send push notification
-                </button>
-              </div>
+                </Button>
+              </form>
               {/* End: send push notification */}
             </div>
           </div>

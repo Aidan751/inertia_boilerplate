@@ -874,3 +874,10 @@
 1667467070-9835-303333412,1667467070.8079,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,459.0220451355,request
 1667467124-8195-1340005541,1667467124.5795,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,572.07489013672,request
 1667467357-0754-503373650,1667467356.6946,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,712.4080657959,request
+1667468266-2678-1169145011,1667468265.9699,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,641.34407043457,request
+1667468372-3759-1382683906,1667468372.0894,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,599.68900680542,request
+1667468394-1195-2086894740,1667468393.5713,GET,/dist/zoom-vanilla.min.js.map,,404,1289.302110672,request
+1667468524-6593-2046201102,1667468519.9151,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,5347.9640483856,request
+1667468528-6611-702167292,1667468528.4296,GET,/dist/zoom-vanilla.min.js.map,,404,506.47687911987,request
+1667468650-4007-179645057,1667468650.0442,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,925.10390281677,request
+1667468654-5599-33378385,1667468654.3683,GET,/dist/zoom-vanilla.min.js.map,,404,375.00405311584,request
