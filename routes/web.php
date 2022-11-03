@@ -293,7 +293,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::put('/restaurant/orders/{id}/update', [RestaurantOrderController::class, 'update'])->name('restaurant.orders.status.update');
 
     // send push to customer
-    Route::post('/restaurant/order/{id}/push', [OrderController::class, 'sendPush'])->name('admin.orders.sendPush');
+    Route::post('/restaurant/order/{id}/push', [RestaurantOrderController::class, 'sendPush'])->name('restaurant.sendPush');
 
 
     // delete an order

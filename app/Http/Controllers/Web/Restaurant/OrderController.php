@@ -116,17 +116,17 @@ class OrderController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd($request->all());
         $stripe = new \Stripe\StripeClient(
             config('services.stripe_secret_key')
         );
 
         // Attempt to find the order
         $order = Order::with('restaurant', 'driver', 'customer')
-            ->where('restaurant_id', Auth::user()->restaurant_id)
-            ->where('id', $id)
-            ->first();
+        ->where('restaurant_id', Auth::user()->restaurant_id)
+        ->where('id', $id)
+        ->first();
 
+        dd($request->all(), $order);
             if ($order == null) {
                 return redirect()->back()->with('fail',
                 'Order not found!');
