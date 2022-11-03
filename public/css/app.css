@@ -19836,6 +19836,12 @@ select {
 .mb-0 {
   margin-bottom: 0px;
 }
+.ml-10 {
+  margin-left: 2.5rem;
+}
+.ml-8 {
+  margin-left: 2rem;
+}
 .block {
   display: block;
 }
@@ -20377,6 +20383,18 @@ select {
 }
 .pb-10 {
   padding-bottom: 2.5rem;
+}
+.pt-0 {
+  padding-top: 0px;
+}
+.pb-5 {
+  padding-bottom: 1.25rem;
+}
+.pb-0 {
+  padding-bottom: 0px;
+}
+.pb-20 {
+  padding-bottom: 5rem;
 }
 .text-left {
   text-align: left;
@@ -21075,6 +21093,11 @@ select {
     padding-right: 4rem;
   }
 
+  .sm\:py-10 {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
+
   .sm\:pt-0 {
     padding-top: 0px;
   }
@@ -21085,6 +21108,14 @@ select {
 
   .sm\:pb-20 {
     padding-bottom: 5rem;
+  }
+
+  .sm\:pb-0 {
+    padding-bottom: 0px;
+  }
+
+  .sm\:pb-10 {
+    padding-bottom: 2.5rem;
   }
 
   .sm\:text-left {

@@ -13,7 +13,7 @@ import Button from "@/Components/Button";
 export default function Show(props){
 console.log(props);
 
-const { data, setData, put, processing, errors } = useForm({
+const { data, setData, put, post, processing, errors } = useForm({
 });
 
 
@@ -36,7 +36,7 @@ const handleDecline = (event) => {
 
 const sendPush = (event) => {
     event.preventDefault();
-    put(route('restaurant.sendPush', props.order.id));
+    post(route('restaurant.sendPush', props.order.id));
 }
 
     return (
@@ -64,14 +64,25 @@ const sendPush = (event) => {
                   {props.order.pickup_date} - {props.order.order_reference}
                 </div>
 
-                <div className="mt-3">View Order</div>
+                <div className="mt-10 flex justify-start items-center">
+                <h3 className="text-lg font-medium">
+                    View Order
+                </h3>
+                {/* Print order */}
+                <Button
+                    className="btn btn-primary ml-8"
+                    onClick={() => window.print()}
+                >
+                    Print
+                </Button>
+                </div>
                  {/* Show Success Validation Component */}
                  {
                         props.success &&
                         <ValidationSuccess message={props.success} />
                     }
               </div>
-              <div className="flex flex-col lg:flex-row px-5 sm:px-20 pt-10 pb-10 sm:pb-20">
+              <div className="flex flex-col lg:flex-row px-5 sm:px-20 pt-0 pb-20 sm:pb-10">
                 <div>
                   <div className="text-md font-medium text-slate-500 mb-5">
                     Customer Details
@@ -108,7 +119,7 @@ const sendPush = (event) => {
                 </div>
               </div>
             </div>
-            <div className="px-5 sm:px-16 py-10 sm:py-20">
+            <div className="px-5 sm:px-16 py-10 sm:py-10">
               <div className="mt-0 mb-5 font-medium text-md pl-5">
                 Order Details
               </div>
