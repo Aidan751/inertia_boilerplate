@@ -59,10 +59,10 @@ class OrderController extends Controller
 
         public function sendPush(Request $request, $id) {
 
-            dd($request->all());
+            // dd($request->all());
             // Validate the data
             $request->validate([
-                'order_push' => ['required', 'string', 'max:1024'],
+                'message_to_customer' => ['required', 'string', 'max:1024'],
             ]);
 
 
@@ -72,8 +72,8 @@ class OrderController extends Controller
             ->first();
 
 
-            if ($order->customer_id != null && !is_null($request->order_push)){
-                app('App\Services\PushNotification')->sendPush(config('app.name'), $request->order_push, [$order->customer_id], 'orders', $order->id);
+            if ($order->customer_id != null && !is_null($request->message_to_customer)){
+                app('App\Services\PushNotification')->sendPush(config('app.name'), $request->message_to_customer, [$order->customer_id], 'orders', $order->id);
             }
 
             return redirect()->back()->with('success',
@@ -142,12 +142,12 @@ class OrderController extends Controller
 
                     if ($capture->status == "succeeded") {
                         $order->status = 'confirmed';
-                        app('App\Services\PushNotification')->sendPush(config('app.name'), "Your order from $name has been accepted and payment has been taken", [$order->customer_id], 'orders', $order->id);
+                        app('app\Services\PushNotification')->sendPush(config('app.name'), "Your order from $name has been accepted and payment has been taken", [$order->customer_id], 'orders', $order->id);
                     } else {
                         $order->updated_at = Carbon::now();
                         // Save to the database
                         $order->save();
-                        app('App\Services\PushNotification')->sendPush(config('app.name'), "Your order from $name has a problem. Payment was unable to be taken.", [$order->customer_id], 'orders', $order->id);
+                        app('app\Services\PushNotification')->sendPush(config('app.name'), "Your order from $name has a problem. Payment was unable to be taken.", [$order->customer_id], 'orders', $order->id);
                         return redirect()->back()->with(
                             'fail',
                             'Payment failed to be captured!'
@@ -156,7 +156,7 @@ class OrderController extends Controller
                 } elseif ($request->status == "declined") {
                     $order->status = 'cancelled';
                     $cancel = $stripe->paymentIntents->cancel($order->payment_intent_id, [], ['stripe_account' => $restaurantStripe]);
-                    app('App\Services\PushNotification')->sendPush(config('app.name'), "Your order from $name has been cancelled. You have not been charged.", [$order->customer_id], 'orders', $order->id);
+                    app('app\Services\PushNotification')->sendPush(config('app.name'), "Your order from $name has been declined", [$order->customer_id], 'orders', $order->id);
                 }
 
                 $order->updated_at = Carbon::now();

@@ -1,36 +1,18 @@
 <?php
 
 namespace App\Services;
-
-use App\Models\Notification;
 use App\Models\UserToken;
 
-use function PHPSTORM_META\elementType;
 
 class PushNotification
 {
-    public function sendPush($title, $body, $users, $entityType, $id)
+    public function sendPush($title, $body, $tokens)
     {
-
-        foreach($users as $user){
-            $notification = new Notification;
-            $notification->title = $title;
-            $notification->body = $body;
-            $notification->user_id = $user;
-            $notification->entity_type = $entityType;
-            $notification->push_id = $id;
-            $notification->save();
-        }
-
-
-        $tokens = UserToken::whereIn('user_id', $users)->pluck('token')->toArray();
-
         if (count($tokens) > 0) {
             $url = "https://fcm.googleapis.com/fcm/send";
             $serverKey = config('services.fcm');
             $notification = array('title' => $title, 'body' => $body, 'sound' => 'default', 'badge' => '1');
-            $data = array('entity_type' => $entityType, "id" => $id);
-            $arrayToSend = array('registration_ids' => $tokens, 'notification' => $notification, 'data' => $data, 'priority' => 'high');
+            $arrayToSend = array('registration_ids' => $tokens, 'notification' => $notification, 'priority' => 'high');
             $json = json_encode($arrayToSend);
             $headers = array();
             $headers[] = 'Content-Type: application/json';

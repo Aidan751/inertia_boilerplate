@@ -63,6 +63,11 @@ const sendPush = (event) => {
                   View Order - {props.user.first_name} {props.user.last_name} -{" "}
                   {props.order.pickup_date} - {props.order.order_reference}
                 </div>
+                 {/* Show Success Validation Component */}
+                 {
+                        props.success &&
+                        <ValidationSuccess message={props.success} className="mt-3" />
+                    }
 
                 <div className="mt-10 flex justify-center sm:justify-start items-center">
                 <h3 className="text-lg font-medium">
@@ -76,11 +81,6 @@ const sendPush = (event) => {
                     Print
                 </Button>
                 </div>
-                 {/* Show Success Validation Component */}
-                 {
-                        props.success &&
-                        <ValidationSuccess message={props.success} />
-                    }
               </div>
               <div className="flex flex-col lg:flex-row px-5 sm:px-20 pt-10 pb-10 sm:pt-0">
                 <div>
@@ -176,13 +176,13 @@ const sendPush = (event) => {
                           Total:
                         </div>
                       </td>
-                      <td className="text-right border-b dark:border-darkmode-400 w-32 text-primary">
+                      <td className="text-center border-b dark:border-darkmode-400 w-32 text-primary">
                         {props.order_items.reduce(
                           (prev, curr, index, array) => prev + curr.quantity,
                           0
                         )}
                       </td>
-                      <td className="text-center border-b dark:border-darkmode-400 w-32 text-primary">
+                      <td className="text-right border-b dark:border-darkmode-400 w-32 text-primary">
                         {props.order.price}
                       </td>
                     </tr>
