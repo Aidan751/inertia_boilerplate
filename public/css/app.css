@@ -19836,6 +19836,9 @@ select {
 .mb-0 {
   margin-bottom: 0px;
 }
+.mr-20 {
+  margin-right: 5rem;
+}
 .block {
   display: block;
 }
@@ -20395,6 +20398,9 @@ select {
 }
 .pb-10 {
   padding-bottom: 2.5rem;
+}
+.pb-20 {
+  padding-bottom: 5rem;
 }
 .text-left {
   text-align: left;
@@ -21011,6 +21017,10 @@ select {
     width: 10rem;
   }
 
+  .sm\:w-full {
+    width: 100%;
+  }
+
   .sm\:max-w-md {
     max-width: 28rem;
   }
@@ -21109,8 +21119,16 @@ select {
     padding-bottom: 5rem;
   }
 
+  .sm\:pb-10 {
+    padding-bottom: 2.5rem;
+  }
+
   .sm\:text-left {
     text-align: left;
+  }
+
+  .sm\:text-center {
+    text-align: center;
   }
 
   .sm\:text-right {
