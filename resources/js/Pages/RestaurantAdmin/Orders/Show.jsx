@@ -145,11 +145,11 @@ console.log(props);
               </div>
 
               {/* Start: driver collection time and accept button */}
-              <div className="flex flex-wrap gap-6 justify-between items-end p-10 sm:p-10">
+              <div className="flex flex-wrap gap-8 justify-between items-end p-10 sm:p-10">
                 <div className="w-64 flex-1">
                   <h3 className="mb-3">Enter driver collection time*</h3>
                   <input
-                    className="w-full"
+                    className="form-control border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-2 focus:ring-opacity-50 rounded-md shadow-sm"
                     type="time"
                     min="00:00"
                     max="23:00"

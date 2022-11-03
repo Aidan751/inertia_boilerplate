@@ -19836,9 +19836,6 @@ select {
 .mb-0 {
   margin-bottom: 0px;
 }
-.mr-20 {
-  margin-right: 5rem;
-}
 .block {
   display: block;
 }
@@ -19959,6 +19956,9 @@ select {
 .w-32 {
   width: 8rem;
 }
+.w-64 {
+  width: 16rem;
+}
 .max-w-xl {
   max-width: 36rem;
 }
@@ -20064,9 +20064,6 @@ select {
 .flex-col {
   flex-direction: column;
 }
-.flex-col-reverse {
-  flex-direction: column-reverse;
-}
 .flex-wrap {
   flex-wrap: wrap;
 }
@@ -20102,6 +20099,9 @@ select {
 }
 .gap-3 {
   gap: 0.75rem;
+}
+.gap-8 {
+  gap: 2rem;
 }
 .overflow-auto {
   overflow: auto;
@@ -20152,17 +20152,9 @@ select {
 .border-4 {
   border-width: 4px;
 }
-.border-y-2 {
-  border-top-width: 2px;
-  border-bottom-width: 2px;
-}
 .border-x-4 {
   border-left-width: 4px;
   border-right-width: 4px;
-}
-.border-y-4 {
-  border-top-width: 4px;
-  border-bottom-width: 4px;
 }
 .border-t {
   border-top-width: 1px;
@@ -20178,15 +20170,6 @@ select {
 }
 .border-b {
   border-bottom-width: 1px;
-}
-.border-b-4 {
-  border-bottom-width: 4px;
-}
-.border-t-4 {
-  border-top-width: 4px;
-}
-.border-t-2 {
-  border-top-width: 2px;
 }
 .border-dashed {
   border-style: dashed;
@@ -20230,10 +20213,6 @@ select {
 }
 .border-slate-200\/60 {
   border-color: rgb(226 232 240 / 0.6);
-}
-.border-black {
-  --tw-border-opacity: 1;
-  border-color: rgb(0 0 0 / var(--tw-border-opacity));
 }
 .bg-white {
   --tw-bg-opacity: 1;
@@ -20399,9 +20378,6 @@ select {
 .pb-10 {
   padding-bottom: 2.5rem;
 }
-.pb-20 {
-  padding-bottom: 5rem;
-}
 .text-left {
   text-align: left;
 }
@@ -20441,10 +20417,6 @@ select {
 .text-2xl {
   font-size: 1.5rem;
   line-height: 2rem;
-}
-.text-xl {
-  font-size: 1.25rem;
-  line-height: 1.75rem;
 }
 .font-medium {
   font-weight: 500;
@@ -21017,10 +20989,6 @@ select {
     width: 10rem;
   }
 
-  .sm\:w-full {
-    width: 100%;
-  }
-
   .sm\:max-w-md {
     max-width: 28rem;
   }
@@ -21119,16 +21087,8 @@ select {
     padding-bottom: 5rem;
   }
 
-  .sm\:pb-10 {
-    padding-bottom: 2.5rem;
-  }
-
   .sm\:text-left {
     text-align: left;
-  }
-
-  .sm\:text-center {
-    text-align: center;
   }
 
   .sm\:text-right {
