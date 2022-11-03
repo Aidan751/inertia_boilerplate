@@ -1,17 +1,20 @@
 
 import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link } from '@inertiajs/inertia-react';
-import { Search,CheckSquare, ChevronRight ,ChevronsRight, ChevronsLeft, XCircle,Trash2,ChevronLeft} from "lucide-react";
 import { useForm } from '@inertiajs/inertia-react'
-import { useState } from "react";
-import { Modal, ModalBody } from "@/base-components";
-import { Inertia } from "@inertiajs/inertia";
 import ValidationSuccess from "@/Components/ValidationSuccess";
 import Button from "@/Components/Button";
+import {Elements} from '@stripe/react-stripe-js';
+import {loadStripe} from '@stripe/stripe-js';
 
 
 export default function Show(props){
 console.log(props);
+const stripePromise = loadStripe('pk_test_51LXNmvLaeslmuKuIp2k7vFbIy2AFuPPn4QAsA3CMn5HuoyGBbOI4gnMCQ3cqdPmTuQA51QuMCm0C5Lea16X61pgx0059gY8vuD');
+const options = {
+    // passing the client secret obtained from the server
+    clientSecret: '{{CLIENT_SECRET}}',
+  };
 
 const { data, setData, put, post, processing, errors } = useForm({
 });

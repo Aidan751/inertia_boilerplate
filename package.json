@@ -45,6 +45,8 @@
         "@popperjs/core": "^2.7.0",
         "@react-google-maps/api": "^2.11.8",
         "@splidejs/react-splide": "^0.7.7",
+        "@stripe/react-stripe-js": "^1.14.2",
+        "@stripe/stripe-js": "^1.42.1",
         "chart.js": "^3.7.1",
         "chartjs-adapter-moment": "^1.0.0",
         "classnames": "^2.3.1",
