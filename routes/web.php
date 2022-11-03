@@ -160,7 +160,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // TODO: stripe routes
     Route::get('/restaurant/stripe', [RestaurantStripeController::class, 'link'])->name('restaurant.stripe.link');
     Route::get('/restaurant/stripe/complete', [RestaurantStripeController::class, 'complete'])->name('restaurant.stripe.complete');
-    Route::post('/restaurant/order/{id}/push', [OrderController::class, 'sendPush'])->name('restaurant.order.push');
 
     // list menu categories
     Route::get('/restaurant/menu-categories', [MenuCategoryController::class, 'index'])->name('restaurant.categories.index');
@@ -253,6 +252,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // delete order items
     Route::delete('/admin/orders/items/{order}/delete', [OrderItemController::class, 'destroy'])->name('admin.orders.items.destroy');
 
+
     // list restaurant users
     Route::get('/restaurant/users/', [RestaurantAdminUserController::class, 'index'])->name('restaurant.users.index');
 
@@ -288,6 +288,13 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // update an order
     Route::put('/restaurant/orders/update/{order}', [RestaurantOrderController::class, 'update'])->name('restaurant.orders.update');
+
+    // update a restaurant orders status
+    Route::put('/restaurant/orders/{id}/update', [RestaurantOrderController::class, 'update'])->name('restaurant.orders.status.update');
+
+    // send push to customer
+    Route::post('/restaurant/order/{id}/push', [OrderController::class, 'sendPush'])->name('admin.orders.sendPush');
+
 
     // delete an order
     Route::delete('/restaurant/orders/delete/{order}', [RestaurantOrderController::class, 'destroy'])->name('restaurant.orders.destroy');

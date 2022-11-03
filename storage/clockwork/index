@@ -881,3 +881,5 @@
 1667468528-6611-702167292,1667468528.4296,GET,/dist/zoom-vanilla.min.js.map,,404,506.47687911987,request
 1667468650-4007-179645057,1667468650.0442,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,925.10390281677,request
 1667468654-5599-33378385,1667468654.3683,GET,/dist/zoom-vanilla.min.js.map,,404,375.00405311584,request
+1667468929-3135-1462390543,1667468928.9608,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,955.91807365417,request
+1667468933-1740-816381708,1667468932.9816,GET,/dist/zoom-vanilla.min.js.map,,404,355.97801208496,request

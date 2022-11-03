@@ -25,13 +25,13 @@ const onHandleChange = (event) => {
 const handleApprove = (event) => {
     event.preventDefault();
     data.status = 'approved';
-    put(route('admin.orders.update', props.order.id));
+    put(route('admin.orders.status.update', props.order.id));
 }
 
 const handleDecline = (event) => {
     event.preventDefault();
     data.status = 'declined';
-    put(route('admin.orders.update', props.order.id));
+    put(route('admin.orders.status.update', props.order.id));
 }
 
 const sendPush = (event) => {
