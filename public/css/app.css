@@ -21118,6 +21118,10 @@ select {
     padding-bottom: 2.5rem;
   }
 
+  .sm\:pt-10 {
+    padding-top: 2.5rem;
+  }
+
   .sm\:text-left {
     text-align: left;
   }

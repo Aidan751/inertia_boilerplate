@@ -58,13 +58,13 @@ const sendPush = (event) => {
           {/* BEGIN: Invoice */}
           <div className="intro-y box overflow-hidden mt-5">
             <div className="border-b border-slate-200/60 dark:border-darkmode-400 text-center sm:text-left">
-              <div className="px-5 py-10 sm:px-20 sm:py-20">
+              <div className="px-5 pt-10 pb-5 sm:px-20 sm:py-20">
                 <div className="text-primary font-semibold text-2xl">
                   View Order - {props.user.first_name} {props.user.last_name} -{" "}
                   {props.order.pickup_date} - {props.order.order_reference}
                 </div>
 
-                <div className="mt-10 flex justify-start items-center">
+                <div className="mt-10 flex justify-center sm:justify-start items-center">
                 <h3 className="text-lg font-medium">
                     View Order
                 </h3>
@@ -82,7 +82,7 @@ const sendPush = (event) => {
                         <ValidationSuccess message={props.success} />
                     }
               </div>
-              <div className="flex flex-col lg:flex-row px-5 sm:px-20 pt-0 pb-20 sm:pb-10">
+              <div className="flex flex-col lg:flex-row px-5 sm:px-20 pt-10 pb-10 sm:pt-0">
                 <div>
                   <div className="text-md font-medium text-slate-500 mb-5">
                     Customer Details

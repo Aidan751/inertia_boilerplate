@@ -910,3 +910,7 @@
 1667470971-4899-2050393757,1667470971.2178,GET,/dist/zoom-vanilla.min.js.map,,404,516.4258480072,request
 1667471033-3167-811696862,1667471033.0333,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,866.68086051941,request
 1667471037-6891-1088697595,1667471037.2353,GET,/dist/zoom-vanilla.min.js.map,,404,830.53588867188,request
+1667471357-9186-729438609,1667471357.4882,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,915.20190238953,request
+1667471362-5779-2090783761,1667471362.2303,GET,/dist/zoom-vanilla.min.js.map,,404,913.78617286682,request
+1667471534-7430-1791126006,1667471534.4287,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,712.57281303406,request
+1667471538-5142-1269403829,1667471538.271,GET,/dist/zoom-vanilla.min.js.map,,404,443.61901283264,request
