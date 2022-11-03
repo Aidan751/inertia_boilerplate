@@ -59,6 +59,7 @@ class OrderController extends Controller
 
         public function sendPush(Request $request, $id) {
 
+            dd($request->all());
             // Validate the data
             $request->validate([
                 'order_push' => ['required', 'string', 'max:1024'],
@@ -115,6 +116,7 @@ class OrderController extends Controller
 
     public function update(Request $request, $id)
     {
+        dd($request->all());
         $stripe = new \Stripe\StripeClient(
             config('services.stripe_secret_key')
         );
@@ -133,7 +135,7 @@ class OrderController extends Controller
                 $restaurantStripe = $order->restaurant->stripe_account_id;
 
                 // Update the parameters
-                if ($request->accept == "accept") {
+                if ($request->status == "approved") {
                     $capture = $stripe->paymentIntents->capture($order->payment_intent_id,[], [
                             'stripe_account' => $restaurantStripe,
                     ]);
@@ -151,7 +153,7 @@ class OrderController extends Controller
                             'Payment failed to be captured!'
                         );
                     }
-                } elseif ($request->decline == "decline") {
+                } elseif ($request->status == "declined") {
                     $order->status = 'cancelled';
                     $cancel = $stripe->paymentIntents->cancel($order->payment_intent_id, [], ['stripe_account' => $restaurantStripe]);
                     app('App\Services\PushNotification')->sendPush(config('app.name'), "Your order from $name has been cancelled. You have not been charged.", [$order->customer_id], 'orders', $order->id);
