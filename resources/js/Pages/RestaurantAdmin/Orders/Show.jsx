@@ -190,6 +190,7 @@ const sendPush = (event) => {
                   <input
                     className="form-control border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-2 focus:ring-opacity-50 rounded-md shadow-sm"
                     type="time"
+                    name="driver_collection_time"
                     min="00:00"
                     max="23:00"
                     onChange={(e) => {onHandleChange(e)}}
