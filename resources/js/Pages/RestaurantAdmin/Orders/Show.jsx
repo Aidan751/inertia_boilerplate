@@ -131,7 +131,7 @@ const sendPush = (event) => {
                       <th className="border-b-2 dark:border-darkmode-400 whitespace-nowrap">
                         Item
                       </th>
-                      <th className="border-b-2 dark:border-darkmode-400 text-right whitespace-nowrap">
+                      <th className="border-b-2 dark:border-darkmode-400 text-center whitespace-nowrap">
                         Quantity
                       </th>
                       <th className="border-b-2 dark:border-darkmode-400 text-right whitespace-nowrap">
@@ -147,7 +147,7 @@ const sendPush = (event) => {
                             {item.title}
                           </div>
                         </td>
-                        <td className="text-right border-b dark:border-darkmode-400 w-32">
+                        <td className="text-center border-b dark:border-darkmode-400 w-32">
                           {item.quantity}
                         </td>
                         <td className="text-right border-b dark:border-darkmode-400 w-32">
@@ -182,7 +182,7 @@ const sendPush = (event) => {
                           0
                         )}
                       </td>
-                      <td className="text-right border-b dark:border-darkmode-400 w-32 text-primary">
+                      <td className="text-center border-b dark:border-darkmode-400 w-32 text-primary">
                         {props.order.price}
                       </td>
                     </tr>
