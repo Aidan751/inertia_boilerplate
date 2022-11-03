@@ -15,8 +15,22 @@ console.log(props);
 const { data, setData, put, processing, errors } = useForm({
 });
 
+
+
 const onHandleChange = (event) => {
     setData(event.target.name, event.target.value);
+}
+
+const handleApprove = (event) => {
+    event.preventDefault();
+    data.status = 'approved';
+    put(route('admin.orders.update', props.order.id));
+}
+
+const handleDecline = (event) => {
+    event.preventDefault();
+    data.status = 'declined';
+    put(route('admin.orders.update', props.order.id));
 }
 
 
@@ -157,6 +171,9 @@ const onHandleChange = (event) => {
 
               {/* Start: driver collection time and accept button */}
               {props.order.pickup_method === "delivery" && (
+                <div>
+                <form onSubmit={handleApprove}>
+
               <div className="flex flex-wrap gap-8 justify-between items-end p-10 sm:p-10">
                 <div className="w-64 flex-1">
                   <h3 className="mb-3">Enter driver collection time*</h3>
@@ -169,17 +186,21 @@ const onHandleChange = (event) => {
 
                   />
                 </div>
-                <button className="btn btn-primary w-64 flex-1 py-3">
+                <button className="btn btn-primary w-64 flex-1 py-3" type="submit" name="accept">
                   Accept and Complete
                 </button>
               </div>
-                )}
+                </form>
               {/* End: driver collection time and accept button */}
               {/* Start: decline button */}
+              <form onSubmit={handleDecline}>
               <div className="flex justify-center">
-                <button className="btn btn-secondary">Decline</button>
+                <button className="btn btn-secondary" type="submit" name="decline">Decline</button>
               </div>
               {/* End: decline button */}
+                </form>
+              </div>
+                )}
               {/* Start: message to customer */}
               <div className="mt-3">
                 <label>Message to customer</label>
