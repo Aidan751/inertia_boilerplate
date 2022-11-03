@@ -116,6 +116,7 @@ class OrderController extends Controller
 
     public function update(Request $request, $id)
     {
+        dd($request->all());
         // Validate the data
         $request->validate([
             'status' => ['required', 'string', 'max:255'],
