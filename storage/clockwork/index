@@ -429,3 +429,4 @@
 1667488371-9093-1091255318,1667488371.6939,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,608.02507400513,request
 1667488478-7289-1656782803,1667488478.1838,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,1450.3681659698,request
 1667488867-5020-1509083332,1667488867.0477,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,1042.4811840057,request
+1667488903-3607-30604825,1667488902.8746,GET,/dist/zoom-vanilla.min.js.map,,404,1450.1509666443,request

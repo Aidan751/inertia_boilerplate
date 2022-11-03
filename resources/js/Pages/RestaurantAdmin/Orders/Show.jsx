@@ -9,11 +9,8 @@ import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
 
 export default function Show(props){
 console.log(props);
-const stripePromise = loadStripe('pk_test_51LXNmvLaeslmuKuIp2k7vFbIy2AFuPPn4QAsA3CMn5HuoyGBbOI4gnMCQ3cqdPmTuQA51QuMCm0C5Lea16X61pgx0059gY8vuD');
-const options = {
-    // passing the client secret obtained from the server
-    clientSecret: '{{CLIENT_SECRET}}',
-  };
+const stripe = useStripe();
+const elements = useElements();
 
 const { data, setData, put, post, processing, errors } = useForm({
 });
