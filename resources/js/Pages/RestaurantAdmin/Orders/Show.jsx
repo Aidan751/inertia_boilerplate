@@ -71,7 +71,7 @@ const sendPush = (event) => {
                 {/* Print order */}
                 <Button
                     className="btn btn-primary ml-8"
-                    onClick={() => window.print()}
+                    click={() => window.print()}
                 >
                     Print
                 </Button>
