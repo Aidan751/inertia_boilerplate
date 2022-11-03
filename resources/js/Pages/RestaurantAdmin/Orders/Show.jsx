@@ -11,6 +11,15 @@ import ValidationSuccess from "@/Components/ValidationSuccess";
 
 export default function Show(props){
 console.log(props);
+// useForm
+const { data, setData, put, processing, errors } = useForm({
+});
+
+const onHandleChange = (event) => {
+    setData(event.target.name, event.target.value);
+}
+
+
     return (
         <>
             <Authenticated
@@ -111,6 +120,7 @@ console.log(props);
                         </td>
                       </tr>
                     ))}
+                    {props.order.pickup_method === "delivery" && (
                     <tr>
                       <td className="border-b border-x-4 dark:border-darkmode-400">
                         <div className="font-medium text-primary whitespace-nowrap">
@@ -124,6 +134,7 @@ console.log(props);
                         {props.order.delivery_price}
                       </td>
                     </tr>
+                    )}
                     <tr>
                       <td className="border-b dark:border-darkmode-400">
                         <div className="font-medium whitespace-nowrap">
@@ -145,6 +156,7 @@ console.log(props);
               </div>
 
               {/* Start: driver collection time and accept button */}
+              {props.order.pickup_method === "delivery" && (
               <div className="flex flex-wrap gap-8 justify-between items-end p-10 sm:p-10">
                 <div className="w-64 flex-1">
                   <h3 className="mb-3">Enter driver collection time*</h3>
@@ -153,12 +165,15 @@ console.log(props);
                     type="time"
                     min="00:00"
                     max="23:00"
+                    onChange={(e) => {onHandleChange(e)}}
+
                   />
                 </div>
                 <button className="btn btn-primary w-64 flex-1 py-3">
                   Accept and Complete
                 </button>
               </div>
+                )}
               {/* End: driver collection time and accept button */}
               {/* Start: decline button */}
               <div className="flex justify-center">
@@ -174,6 +189,7 @@ console.log(props);
                     id="message_to_customer"
                     type="text"
                     name="message_to_customer"
+                    onChange={(e) => {onHandleChange(e)}}
                   />
                 </div>
               </div>

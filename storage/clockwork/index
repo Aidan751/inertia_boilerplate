@@ -873,3 +873,4 @@
 1667466961-5229-1514056674,1667466961.1298,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,1030.6179523468,request
 1667467070-9835-303333412,1667467070.8079,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,459.0220451355,request
 1667467124-8195-1340005541,1667467124.5795,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,572.07489013672,request
+1667467357-0754-503373650,1667467356.6946,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,712.4080657959,request
