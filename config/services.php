@@ -16,6 +16,7 @@ return [
 
 
     'stripe_secret_key' => env('STRIPE_SECRET', ''),
+    'stripe_test_secret_key' => env('STRIPE_TEST_SECRET', ''),
     'api_key' => env('STRIPE_KEY', ''),
 
     'fcm' => env('FCM_SERVER_KEY'),

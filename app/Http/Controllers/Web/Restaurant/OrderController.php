@@ -116,8 +116,14 @@ class OrderController extends Controller
 
     public function update(Request $request, $id)
     {
+        // Validate the data
+        $request->validate([
+            'status' => ['required', 'string', 'max:255'],
+            'driver_collection_time' => ['nullable'],
+        ]);
+
         $stripe = new \Stripe\StripeClient(
-            config('services.stripe_secret_key')
+            config('services.stripe_test_secret_key')
         );
 
         // Attempt to find the order
@@ -126,7 +132,6 @@ class OrderController extends Controller
         ->where('id', $id)
         ->first();
 
-        dd($request->all(), $order);
             if ($order == null) {
                 return redirect()->back()->with('fail',
                 'Order not found!');
@@ -137,9 +142,10 @@ class OrderController extends Controller
                 // Update the parameters
                 if ($request->status == "approved") {
                     $capture = $stripe->paymentIntents->capture($order->payment_intent_id,[], [
-                            'stripe_account' => $restaurantStripe,
+                        'stripe_account' => $restaurantStripe,
                     ]);
 
+                    dd($capture);
                     if ($capture->status == "succeeded") {
                         $order->status = 'confirmed';
                         app('app\Services\PushNotification')->sendPush(config('app.name'), "Your order from $name has been accepted and payment has been taken", [$order->customer_id], 'orders', $order->id);

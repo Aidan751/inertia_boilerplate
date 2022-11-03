@@ -414,3 +414,12 @@
 1667484499-8328-528392664,1667484499.6454,GET,/dist/zoom-vanilla.min.js.map,,404,371.61993980408,request
 1667484507-3243-1665317447,1667484507.0569,POST,/restaurant/order/3/push,"App\Http\Controllers\Web\Restaurant\OrderController@sendPush",302,841.18294715881,request
 1667484508-1478-1165019037,1667484507.9155,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,591.21084213257,request
+1667484862-9262-1039125643,1667484862.706,PUT,/restaurant/orders/3/update,"App\Http\Controllers\Web\Restaurant\OrderController@update",500,876.99508666992,request
+1667484864-3980-365182270,1667484864.1095,GET,/_ignition/health-check,"Facade\Ignition\Http\Controllers\HealthCheckController",200,4130.7542324066,request
+1667484889-9207-1624777808,1667484889.4369,POST,/restaurant/order/3/push,"App\Http\Controllers\Web\Restaurant\OrderController@sendPush",302,2127.7430057526,request
+1667484891-8005-542186599,1667484891.629,GET,/restaurant/orders/show/3,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,465.11292457581,request
+1667484929-0045-1231792487,1667484928.7441,PUT,/restaurant/orders/3/update,"App\Http\Controllers\Web\Restaurant\OrderController@update",500,2605.9129238129,request
+1667484968-7976-1737682433,1667484968.6201,PUT,/restaurant/orders/3/update,"App\Http\Controllers\Web\Restaurant\OrderController@update",500,829.51807975769,request
+1667485740-5215-1931657238,1667485739.9915,PUT,/restaurant/orders/3/update,"App\Http\Controllers\Web\Restaurant\OrderController@update",500,1367.6669597626,request
+1667485773-4473-1115648302,1667485773.202,PUT,/restaurant/orders/3/update,"App\Http\Controllers\Web\Restaurant\OrderController@update",500,1181.7519664764,request
+1667485929-1028-2041177343,1667485928.8775,PUT,/restaurant/orders/3/update,"App\Http\Controllers\Web\Restaurant\OrderController@update",500,946.7339515686,request
