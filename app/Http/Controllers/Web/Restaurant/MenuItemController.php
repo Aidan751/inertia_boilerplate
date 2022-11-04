@@ -171,14 +171,11 @@ class MenuItemController extends Controller
      */
     public function update(Request $request, MenuItem $menuItem)
     {
-        dd($request->all());
         // validate
         $request->validate([
             'title' => 'required',
             'description' => 'required',
             'price' => 'required',
-            'extras' => 'nullable|array',
-            'sizes' => 'nullable|array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'menu_category_id' => 'required|integer',
             'sizes' => 'nullable|array',
@@ -191,11 +188,38 @@ class MenuItemController extends Controller
         $menuItem->description = is_null($request->description) ? $menuItem->description : $request->description;
         $menuItem->price = is_null($request->price) ? $menuItem->price : $request->price;
         $menuItem->menu_category_id = is_null($request->menu_category_id) ? $menuItem->menu_category_id : $request->menu_category_id;
-        $menuItem->sizes = is_null($request->sizes) ? $menuItem->sizes : $request->sizes;
-        $menuItem->extras = is_null($request->extras) ? $menuItem->extras : $request->extras;
         $menuItem->dietary_requirements = is_null($request->dietary_requirements) ? $menuItem->dietary_requirements : $request->dietary_requirements;
         $menuItem->image = is_null($request->image) ? $menuItem->image : ImagePackage::save($request->image, 'menu_items');
         $menuItem->save();
+
+        // detach all extras
+        $menuItem->extras()->detach();
+
+        // attach new extras
+        $extras = $request->get('extras', []);
+
+        foreach ($extras as $extra) {
+            $existingExtra = Extra::find($extra['id']);
+
+            $menuItem->extras()->attach($existingExtra);
+        }
+
+        // detach all sizes
+        $menuItem->sizes()->detach();
+
+        // attach new sizes
+        $sizes = $request->get('sizes', []);
+
+        foreach ($sizes as $size) {
+            $newSize = Size::create([
+                'name' => $size['name'],
+                'additional_charge' => $size['additional_charge'],
+                'restaurant_id' => Auth::user()->restaurant_id,
+            ]);
+
+            $menuItem->sizes()->attach($newSize);
+        }
+
 
 
         // Redirect and inform the user
