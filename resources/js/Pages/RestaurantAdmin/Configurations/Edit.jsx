@@ -369,6 +369,84 @@ export default function Edit( props ) {
                             )}
                         </div>
                     {/* End: Business Bio */}
+                    {/* Start: Average Delivery Timeframe for customers*/}
+                        <div className="mb-6">
+                            <label
+                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                htmlFor="delivery_timeframe"
+                            >
+                                Average Delivery Timeframe for customers
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="delivery_timeframe"
+                                type="text"
+                                name="delivery_timeframe"
+                                value={data.delivery_timeframe}
+                                placeholder="Delivery Timeframe"
+                                onChange={(e) =>
+                                    setData("delivery_timeframe", e.target.value)
+                                }
+                            />
+                            {errors.delivery_timeframe && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.delivery_timeframe}
+                                </p>
+                            )}
+                        </div>
+                    {/* End: Average Delivery Timeframe for customers*/}
+                    {/* Start: Minimum order value */}
+                        <div className="mb-6">
+                            <label
+                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                htmlFor="minimum_order_value"
+                            >
+                                Minimum order value
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="minimum_order_value"
+                                type="text"
+                                name="minimum_order_value"
+                                value={data.minimum_order_value}
+                                placeholder="Minimum Order Value"
+                                onChange={(e) =>
+                                    setData("minimum_order_value", e.target.value)
+                                }
+                            />
+                            {errors.minimum_order_value && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.minimum_order_value}
+                                </p>
+                            )}
+                        </div>
+                    {/* End: Minimum order value */}
+                    {/* Start: Service charge */}
+                        <div className="mb-6">
+                            <label
+                                className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
+                                htmlFor="service_charge"
+                            >
+                                Service charge
+                            </label>
+                            <input
+                                className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                                id="service_charge"
+                                type="text"
+                                name="service_charge"
+                                value={data.service_charge}
+                                placeholder="Service Charge"
+                                onChange={(e) =>
+                                    setData("service_charge", e.target.value)
+                                }
+                            />
+                            {errors.service_charge && (
+                                <p className="text-xs italic text-red-500">
+                                    {errors.service_charge}
+                                </p>
+                            )}
+                        </div>
+                    {/* End: Service charge */}
 
 
 
