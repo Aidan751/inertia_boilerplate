@@ -64,6 +64,9 @@ class ConfigurationController extends Controller
             'address_line_1' => ['required', 'string', 'max:191'],
             'address_line_2' => ['nullable', 'string', 'max:191'],
             'town' => ['required', 'string', 'max:191'],
+            'minimum_order_value' => ['required', 'int', 'min: 0'],
+            'service_charge' => ['required', 'int', 'min: 0'],
+            'average_delivery_time' => ['required', 'string', 'min: 0'],
             'county' => ['required', 'string', 'max:191'],
             'postcode' => ['required', 'string', 'max:191'],
         ]);

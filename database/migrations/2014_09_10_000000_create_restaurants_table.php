@@ -30,6 +30,7 @@ class CreateRestaurantsTable extends Migration
             $table->string('contact_number')->nullable();
             $table->string('front_facing_number')->nullable();
             $table->longText('bio')->nullable();
+            $table->decimal('service_charge', 10, 2)->default(0);
             $table->decimal('minimum_order_value', 10, 2)->default(0);
             $table->decimal('delivery_charge', 10, 2)->nullable();
             $table->string('average_delivery_time')->nullable();

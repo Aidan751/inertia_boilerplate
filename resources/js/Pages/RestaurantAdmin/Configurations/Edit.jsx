@@ -21,6 +21,9 @@ export default function Edit( props ) {
         password: props.user.password,
         password_confirmation: props.user.password_confirmation,
         bio: props.restaurant.bio,
+        service_charge: props.restaurant.service_charge,
+        minimum_order_value: props.restaurant.minimum_order_value,
+        average_deliver_time: props.restaurant.average_deliver_time,
         allows_table_orders: props.restaurant.allows_table_orders === 1 ? true : false,
         allows_collection: props.restaurant.allows_collection === 1 ? true : false,
         allows_delivery: props.restaurant.allows_delivery === 1 ? true : false,
@@ -373,24 +376,24 @@ export default function Edit( props ) {
                         <div className="mb-6">
                             <label
                                 className="block mb-2 text-sm text-gray-600 dark:text-gray-400"
-                                htmlFor="delivery_timeframe"
+                                htmlFor="average_deliver_time"
                             >
                                 Average Delivery Timeframe for customers
                             </label>
                             <input
                                 className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
-                                id="delivery_timeframe"
+                                id="average_deliver_time"
                                 type="text"
-                                name="delivery_timeframe"
-                                value={data.delivery_timeframe}
+                                name="average_deliver_time"
+                                value={data.average_deliver_time}
                                 placeholder="Delivery Timeframe"
                                 onChange={(e) =>
-                                    setData("delivery_timeframe", e.target.value)
+                                    setData("average_deliver_time", e.target.value)
                                 }
                             />
-                            {errors.delivery_timeframe && (
+                            {errors.average_deliver_time && (
                                 <p className="text-xs italic text-red-500">
-                                    {errors.delivery_timeframe}
+                                    {errors.average_deliver_time}
                                 </p>
                             )}
                         </div>
