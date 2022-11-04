@@ -171,6 +171,7 @@ class MenuItemController extends Controller
      */
     public function update(Request $request, MenuItem $menuItem)
     {
+        dd($request->all());
         // validate
         $request->validate([
             'title' => 'required',
