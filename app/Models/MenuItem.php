@@ -50,4 +50,9 @@ class MenuItem extends Model
     {
         return $this->belongsToMany(Extra::class);
     }
+
+    public function sizes()
+    {
+        return $this->belongsToMany(Size::class);
+    }
 }

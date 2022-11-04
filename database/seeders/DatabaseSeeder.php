@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Day;
 use App\Models\Logo;
+use App\Models\Size;
 use App\Models\Extra;
 use App\Models\Order;
 use App\Models\Banner;
@@ -266,6 +267,42 @@ class DatabaseSeeder extends Seeder
             'additional_charge' => 1.00,
         ]);
 
+        Size::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Small',
+            'description' => 'Small',
+            'additional_charge' => 1.00,
+        ]);
+
+        Size::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Medium',
+            'description' => 'Medium',
+            'additional_charge' => 2.00,
+        ]);
+
+        Size::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Large',
+            'description' => 'Large',
+            'additional_charge' => 3.00,
+        ]);
+
+        Size::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Extra Large',
+            'description' => 'Extra Large',
+            'additional_charge' => 4.00,
+        ]);
+
+        Size::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Family',
+            'description' => 'Family',
+            'additional_charge' => 5.00,
+        ]);
+
+
 
 
         GroupDeal::factory()->create([
@@ -319,6 +356,16 @@ class DatabaseSeeder extends Seeder
                 $extras->random(rand(1, 5))->pluck('id', 'name', 'description', 'additional_charge', 'restaurant_id')->toArray()
             );
         });
+
+        $sizes = Size::all();
+
+        MenuItem::all()->each(function ($menuItem) use ($sizes) {
+            $menuItem->sizes()->attach(
+                $sizes->random(rand(1, 5))->pluck('id', 'name', 'description', 'additional_charge', 'restaurant_id')->toArray()
+            );
+        });
+
+
 
     }
 }
