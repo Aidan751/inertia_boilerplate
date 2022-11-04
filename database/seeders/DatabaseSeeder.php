@@ -313,5 +313,12 @@ class DatabaseSeeder extends Seeder
             'minute' => 0.00,
         ]);
 
+        $extras = Extra::all();
+        MenuItem::all()->each(function ($menuItem) use ($extras) {
+            $menuItem->extras()->attach(
+                $extras->random(rand(1, 5))->pluck('id', 'name', 'description', 'additional_charge', 'restaurant_id')->toArray()
+            );
+        });
+
     }
 }

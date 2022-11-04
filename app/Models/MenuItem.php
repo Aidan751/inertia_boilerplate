@@ -48,6 +48,6 @@ class MenuItem extends Model
 
     public function extras()
     {
-        return $this->hasMany(Extra::class, 'menu_item_id', 'id');
+        return $this->belongsToMany(Extra::class);
     }
 }

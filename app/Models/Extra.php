@@ -20,9 +20,10 @@ class Extra extends Model
         'restaurant_id',
     ];
 
-    public function menuItem()
+
+    public function menuItems()
     {
-        return $this->belongsTo(MenuItem::class);
+        return $this->hasMany(MenuItem::class);
     }
 
     public function restaurant()

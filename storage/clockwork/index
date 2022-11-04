@@ -464,3 +464,9 @@
 1667555006-1073-1835670296,1667555005.8381,PUT,/restaurant/group-deals/update/5,"App\Http\Controllers\Web\Restaurant\GroupDealController@update",303,728.27792167664,request
 1667555006-8717-1908627905,1667555006.5824,GET,/restaurant/group-deals,"App\Http\Controllers\Web\Restaurant\GroupDealController@index",200,618.16906929016,request
 1667555009-2565-1934335086,1667555009.0253,GET,/restaurant/group-deals/edit/5,"App\Http\Controllers\Web\Restaurant\GroupDealController@edit",200,730.99184036255,request
+1667556032-2309-812641206,1667556031.6962,PUT,/restaurant/group-deals/update/5,"App\Http\Controllers\Web\Restaurant\GroupDealController@update",303,1328.4428119659,request
+1667556033-4083-1679781926,1667556033.0536,GET,/restaurant/group-deals,"App\Http\Controllers\Web\Restaurant\GroupDealController@index",200,731.82106018066,request
+1667556036-8121-990380162,1667556036.6307,GET,/restaurant/group-deals/edit/5,"App\Http\Controllers\Web\Restaurant\GroupDealController@edit",200,658.19597244263,request
+1667556162-3898-472471283,1667556161.9103,PUT,/restaurant/group-deals/update/5,"App\Http\Controllers\Web\Restaurant\GroupDealController@update",303,1139.5709514618,request
+1667556163-3875-1548286704,1667556163.1814,GET,/restaurant/group-deals,"App\Http\Controllers\Web\Restaurant\GroupDealController@index",200,622.76911735535,request
+1667556166-8950-2051746696,1667556166.7458,GET,/restaurant/group-deals/edit/5,"App\Http\Controllers\Web\Restaurant\GroupDealController@edit",200,593.04189682007,request
