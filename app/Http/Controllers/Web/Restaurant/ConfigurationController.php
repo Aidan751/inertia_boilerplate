@@ -56,7 +56,6 @@ class ConfigurationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id){
-
         // Validate the data
          $request->validate([
             'name' => ['required', 'string', 'max:191'],
@@ -64,9 +63,9 @@ class ConfigurationController extends Controller
             'address_line_1' => ['required', 'string', 'max:191'],
             'address_line_2' => ['nullable', 'string', 'max:191'],
             'town' => ['required', 'string', 'max:191'],
-            'minimum_order_value' => ['required', 'int', 'min: 0'],
-            'service_charge' => ['required', 'int', 'min: 0'],
-            'average_delivery_time' => ['required', 'string', 'min: 0'],
+            'minimum_order_value' => ['required'],
+            'service_charge' => ['required'],
+            'average_delivery_time' => ['required', 'string'],
             'county' => ['required', 'string', 'max:191'],
             'postcode' => ['required', 'string', 'max:191'],
         ]);
@@ -160,6 +159,7 @@ class ConfigurationController extends Controller
         $restaurant->minimum_order_value = is_null($request->minimum_order_value) ? $restaurant->minimum_order_value : $request->minimum_order_value;
         $restaurant->delivery_charge = is_null($request->delivery_charge) ? $restaurant->delivery_charge : $request->delivery_charge;
         $restaurant->average_delivery_time = is_null($request->average_delivery_time) ? $restaurant->average_delivery_time : $request->average_delivery_time;
+        $restaurant->service_charge = is_null($request->service_charge) ? $restaurant->service_charge : $request->service_charge;
         $restaurant->company_drivers = is_null($request->company_drivers) ? $restaurant->company_drivers : $request->company_drivers;
         $restaurant->allows_table_orders = is_null($request->allows_table_orders) ? $restaurant->allows_table_orders : $request->allows_table_orders;
         $restaurant->allows_collection = is_null($request->allows_collection) ? $restaurant->allows_collection : $request->allows_collection;
