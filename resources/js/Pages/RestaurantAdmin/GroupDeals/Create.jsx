@@ -7,6 +7,7 @@ import Title from "@/Components/Title";
 import Input from "@/Components/Input";
 
 function Create(props) {
+    console.log(props);
   const { data, setData, post, processing, errors } = useForm({
     restaurant_id: "",
     title: "",
@@ -27,9 +28,17 @@ function Create(props) {
       existingMenuItems: props.existingMenuItems,
       title: "",
     },
+    {
+      id: 2,
+      existingMenuItems: props.existingMenuItems,
+      title: "",
+    },
   ]);
 
   const [menuItems, setMenuItems] = useState([
+    [
+
+    ],
     [
 
     ]

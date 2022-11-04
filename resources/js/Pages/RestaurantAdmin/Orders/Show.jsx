@@ -9,8 +9,8 @@ import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
 
 export default function Show(props){
 console.log(props);
-const stripe = useStripe();
-const elements = useElements();
+  const stripe = useStripe();
+  const elements = useElements();
 
 const { data, setData, put, post, processing, errors } = useForm({
 });
