@@ -5,7 +5,7 @@ import { useForm } from "@inertiajs/inertia-react";
 import MidoneUpload from "@/Components/MidoneUpload";
 import { X } from "lucide-react";
 
-function Create(props) {
+function Edit(props) {
 console.log(props);
   const { data, setData, post, processing, errors } = useForm({
     menu_category_id: props.menuItem.menu_category_id,
@@ -439,4 +439,4 @@ console.log(props);
   );
 }
 
-export default Create;
+export default Edit;

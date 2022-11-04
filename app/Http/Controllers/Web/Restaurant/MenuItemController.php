@@ -152,12 +152,13 @@ class MenuItemController extends Controller
         // get sizes for this menu item
         $existingSizes = $menuItem->sizes()->get();
 
+        $menuItem->sizes = $existingSizes;
+        $menuItem->extras = $existingExtras;
+
         // Load the view
         return Inertia::render('RestaurantAdmin/Products/Edit', [
             'menuItem' => $menuItem,
             'categories' => $categories,
-            'existingExtras' => $existingExtras,
-            'existingSizes' => $existingSizes,
         ]);
     }
 

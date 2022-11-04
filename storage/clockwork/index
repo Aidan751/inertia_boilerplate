@@ -522,3 +522,7 @@
 1667572664-1763-578904352,1667572664.0165,GET,/restaurant/extras,"App\Http\Controllers\Web\Restaurant\ExtraController@index",200,427.02102661133,request
 1667572844-0124-1221894300,1667572843.7697,GET,/restaurant/menu/items,"App\Http\Controllers\Web\Restaurant\MenuItemController@index",200,547.23596572876,request
 1667572925-9177-459728590,1667572925.6431,GET,/restaurant/menu/items/edit/5,"App\Http\Controllers\Web\Restaurant\MenuItemController@edit",200,612.1997833252,request
+1667573081-7540-260232753,1667573081.2955,GET,/restaurant/menu/items/edit/5,"App\Http\Controllers\Web\Restaurant\MenuItemController@edit",200,1338.2241725922,request
+1667573089-7632-1690963608,1667573089.4126,GET,/restaurant/menu/items/edit/5,"App\Http\Controllers\Web\Restaurant\MenuItemController@edit",200,931.06508255005,request
+1667573150-5868-780648671,1667573150.1887,GET,/restaurant/menu/items/edit/5,"App\Http\Controllers\Web\Restaurant\MenuItemController@edit",200,754.25791740417,request
+1667573159-4707-1786933464,1667573159.1398,GET,/dist/zoom-vanilla.min.js.map,,404,786.51189804077,request
