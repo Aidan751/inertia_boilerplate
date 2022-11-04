@@ -16,7 +16,7 @@ console.log(props);
     image: null,
     extra: null,
     categories: props.categories,
-    existingExtras: props.menuItem.extras,
+    existingExtras: props.existingExtras,
     _method: 'PUT',
   });
 
@@ -33,7 +33,7 @@ console.log(props);
       ...sizes,
       {
         id: sizes.length + 1,
-        size: "",
+        name: "",
         additional_charge: "",
       },
     ]);
@@ -283,7 +283,7 @@ console.log(props);
                         <input
                           className="w-full px-3 py-2 pl-3 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
                           type="text"
-                          name="size"
+                          name="name"
                           value={size.name}
                           onChange={(e) => handleSizeInputChange(e, i)}
                         />

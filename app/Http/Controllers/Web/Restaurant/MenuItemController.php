@@ -147,18 +147,20 @@ class MenuItemController extends Controller
         $categories = MenuCategory::where('restaurant_id', Auth::user()->restaurant_id)->orderBy('title')->get();
 
         // get extras for this menu item
-        $existingExtras = $menuItem->extras()->get();
+        $extras = $menuItem->extras()->get();
+        $existingExtras = Extra::where('restaurant_id', Auth::user()->restaurant_id)->get();
 
         // get sizes for this menu item
         $existingSizes = $menuItem->sizes()->get();
 
         $menuItem->sizes = $existingSizes;
-        $menuItem->extras = $existingExtras;
+        $menuItem->extras = $extras;
 
         // Load the view
         return Inertia::render('RestaurantAdmin/Products/Edit', [
             'menuItem' => $menuItem,
             'categories' => $categories,
+            'existingExtras' => $existingExtras,
         ]);
     }
 
