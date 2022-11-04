@@ -97,9 +97,18 @@ class MenuItemController extends Controller
             'sizes' => 'nullable|array',
             'additional_charge' => 'nullable|numeric',
         ]);
-
+        $menuItem = new MenuItem;
+        // create new menu item
+        $menuItem->title = $request->title;
+        $menuItem->description = $request->description;
+        $menuItem->price = $request->price;
+        $menuItem->menu_category_id = $request->menu_category_id;
+        $menuItem->dietary_requirements = $request->dietary_requirements;
+        $menuItem->restaurant_id = Auth::user()->restaurant_id;
+        $menuItem->image = ImagePackage::save($request->image, 'menu_items');
+        $menuItem->save();
         $sizes = $request->get('sizes', []);
-        $sizeArray = [];
+
         foreach ($sizes as $size) {
             $newSize = Size::create([
                 'name' => $size['size'],
@@ -107,25 +116,18 @@ class MenuItemController extends Controller
                 'restaurant_id' => Auth::user()->restaurant_id,
             ]);
 
-            array_push($sizeArray, $newSize);
+            $menuItem->sizes()->attach($newSize);
+
         }
         $extras = $request->get('extras', []);
 
-dd($sizeArray);
+        foreach ($extras as $extra) {
+            $existingExtra = Extra::find($extra['id']);
 
-        // create new menu item
-        $menuItem = new MenuItem;
-        $menuItem->title = $request->title;
-        $menuItem->description = $request->description;
-        $menuItem->price = $request->price;
-        $menuItem->menu_category_id = $request->menu_category_id;
-        $menuItem->extras()->attach($extras->pluck('id', 'name', 'description', 'additional_charge', 'restaurant_id'));
-        $menuItem->sizes()->attach($sizes->pluck('id', 'name', 'description', 'additional_charge', 'restaurant_id'));
-        $menuItem->dietary_requirements = $request->dietary_requirements;
-        $menuItem->restaurant_id = Auth::user()->restaurant_id;
-        $menuItem->image = ImagePackage::save($request->image, 'menu_items');
-        dd($menuItem);
-        $menuItem->save();
+            $menuItem->extras()->attach($existingExtra);
+
+        }
+
 
         // Redirect and inform the user
         return redirect()->route('restaurant.menu.items.index')->with('success', 'Item created.');
