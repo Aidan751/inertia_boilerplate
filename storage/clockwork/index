@@ -520,3 +520,5 @@
 1667572659-2112-276620956,1667572659.0032,GET,/restaurant/extras,"App\Http\Controllers\Web\Restaurant\ExtraController@index",200,482.64312744141,request
 1667572663-7174-648824273,1667572663.58,DELETE,/restaurant/extras/delete/2,"App\Http\Controllers\Web\Restaurant\ExtraController@destroy",303,373.19207191467,request
 1667572664-1763-578904352,1667572664.0165,GET,/restaurant/extras,"App\Http\Controllers\Web\Restaurant\ExtraController@index",200,427.02102661133,request
+1667572844-0124-1221894300,1667572843.7697,GET,/restaurant/menu/items,"App\Http\Controllers\Web\Restaurant\MenuItemController@index",200,547.23596572876,request
+1667572925-9177-459728590,1667572925.6431,GET,/restaurant/menu/items/edit/5,"App\Http\Controllers\Web\Restaurant\MenuItemController@edit",200,612.1997833252,request
