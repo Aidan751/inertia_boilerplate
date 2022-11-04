@@ -17,7 +17,6 @@ class CreateSizesTable extends Migration
             $table->id();
             $table->string('name');
             $table->float('additional_charge');
-            $table->text('description');
             $table->integer('restaurant_id');
             $table->timestamps();
         });

@@ -83,6 +83,9 @@ class MenuItemController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
+
+
         // validate
         $request->validate([
             'title' => 'required',
@@ -95,17 +98,33 @@ class MenuItemController extends Controller
             'additional_charge' => 'nullable|numeric',
         ]);
 
+        $sizes = $request->get('sizes', []);
+        $sizeArray = [];
+        foreach ($sizes as $size) {
+            $newSize = Size::create([
+                'name' => $size['size'],
+                'additional_charge' => $size['additional_charge'],
+                'restaurant_id' => Auth::user()->restaurant_id,
+            ]);
+
+            array_push($sizeArray, $newSize);
+        }
+        $extras = $request->get('extras', []);
+
+dd($sizeArray);
+
         // create new menu item
         $menuItem = new MenuItem;
         $menuItem->title = $request->title;
         $menuItem->description = $request->description;
         $menuItem->price = $request->price;
         $menuItem->menu_category_id = $request->menu_category_id;
-        $menuItem->extras = $request->extras;
-        $menuItem->sizes = $request->sizes;
+        $menuItem->extras()->attach($extras->pluck('id', 'name', 'description', 'additional_charge', 'restaurant_id'));
+        $menuItem->sizes()->attach($sizes->pluck('id', 'name', 'description', 'additional_charge', 'restaurant_id'));
         $menuItem->dietary_requirements = $request->dietary_requirements;
         $menuItem->restaurant_id = Auth::user()->restaurant_id;
         $menuItem->image = ImagePackage::save($request->image, 'menu_items');
+        dd($menuItem);
         $menuItem->save();
 
         // Redirect and inform the user
@@ -157,6 +176,7 @@ class MenuItemController extends Controller
             'sizes' => 'nullable|array',
             'additional_charge' => 'nullable|numeric',
         ]);
+
 
         // update menu item
         $menuItem->title = is_null($request->title) ? $menuItem->title : $request->title;
