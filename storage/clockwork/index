@@ -610,3 +610,16 @@
 1667576803-9196-987313766,1667576803.3031,PUT,/my/restaurant/update/1,"App\Http\Controllers\Web\Restaurant\ConfigurationController@update",303,1441.3108825684,request
 1667576805-0797-494138339,1667576804.8138,GET,/my/restaurant/edit,"App\Http\Controllers\Web\Restaurant\ConfigurationController@edit",200,706.43401145935,request
 1667576808-6084-1551157818,1667576808.4527,GET,/my/restaurant/edit?id=6,"App\Http\Controllers\Web\Restaurant\ConfigurationController@edit",200,564.42403793335,request
+1667576953-9381-600823390,1667576953.7343,GET,/restaurant/tables,"App\Http\Controllers\Web\Restaurant\TableController@index",200,691.6651725769,request
+1667576958-0797-1901524912,1667576957.9139,GET,/restaurant/tables/create,"App\Http\Controllers\Web\Restaurant\TableController@create",200,579.66709136963,request
+1667576965-8180-1226757051,1667576965.6474,POST,/restaurant/tables/store,"App\Http\Controllers\Web\Restaurant\TableController@store",302,523.4808921814,request
+1667576966-4862-1109102107,1667576966.2192,GET,/restaurant/tables,"App\Http\Controllers\Web\Restaurant\TableController@index",200,745.82099914551,request
+1667576970-2231-1241590602,1667576970.0874,GET,/restaurant/tables/edit/1,"App\Http\Controllers\Web\Restaurant\TableController@edit",200,598.50096702576,request
+1667576980-5981-274359114,1667576980.3806,PUT,/restaurant/tables/update/1,"App\Http\Controllers\Web\Restaurant\TableController@update",303,623.31509590149,request
+1667576981-3094-2085981639,1667576981.0297,GET,/restaurant/tables,"App\Http\Controllers\Web\Restaurant\TableController@index",200,685.9450340271,request
+1667577001-4864-1734412894,1667577001.3246,GET,/restaurant/tables/create,"App\Http\Controllers\Web\Restaurant\TableController@create",200,589.40601348877,request
+1667577011-9839-58616841,1667577011.7376,POST,/restaurant/tables/store,"App\Http\Controllers\Web\Restaurant\TableController@store",302,696.31385803223,request
+1667577012-8442-176830744,1667577012.513,GET,/restaurant/tables,"App\Http\Controllers\Web\Restaurant\TableController@index",200,778.76400947571,request
+1667577016-1518-1039987087,1667577015.967,GET,/restaurant/tables/edit/1,"App\Http\Controllers\Web\Restaurant\TableController@edit",200,578.96494865417,request
+1667577024-5312-264541478,1667577024.3788,PUT,/restaurant/tables/update/1,"App\Http\Controllers\Web\Restaurant\TableController@update",303,492.41995811462,request
+1667577025-2200-1467474493,1667577024.9509,GET,/restaurant/tables,"App\Http\Controllers\Web\Restaurant\TableController@index",200,724.27487373352,request
