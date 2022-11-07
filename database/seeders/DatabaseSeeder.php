@@ -345,20 +345,20 @@ class DatabaseSeeder extends Seeder
             'minute' => 0.00,
         ]);
 
-        // $extras = Extra::all();
-        // MenuItem::all()->each(function ($menuItem) use ($extras) {
-        //     $menuItem->extras()->attach(
-        //         $extras->random(rand(1, 5))->pluck('id', 'name', 'description', 'additional_charge', 'restaurant_id')->toArray()
-        //     );
-        // });
+        $extras = Extra::all();
+        MenuItem::all()->each(function ($menuItem) use ($extras) {
+            $menuItem->extras()->attach(
+                $extras->random(rand(1, 5))->pluck('id', 'name', 'description', 'additional_charge', 'restaurant_id')->toArray()
+            );
+        });
 
-        // $menu_items = MenuItem::all();
+        $sizes = Size::all();
 
-        // MenuCategory::all()->each(function ($menuCategory) use ($menu_items) {
-        //     $menuCategory->menuItems()->attach(
-        //         $menu_items->random(rand(1, 4))->pluck('id', 'title', 'description', 'dietary_requirements', 'price')->toArray()
-        //     );
-        // });
+        MenuItem::all()->each(function ($menuItem) use ($sizes) {
+            $menuItem->sizes()->attach(
+                $sizes->random(rand(1, 5))->pluck('id', 'name', 'additional_charge', 'restaurant_id')->toArray()
+            );
+        });
 
 
 

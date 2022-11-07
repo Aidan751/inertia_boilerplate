@@ -529,12 +529,12 @@ class OrderController extends Controller
             $group_deals = GroupDeal::where('restaurant_id', $restaurant->id)->get();
             $menu_categories = MenuCategory::where('restaurant_id', $restaurant->id)->get();
             foreach ($menu_categories as $menu_category) {
-                $menu_category->menu_items = MenuItem::where('menu_category_id', $menu_category->id)->get();
+                $menu_category->menu_items = MenuItem::where('menu_category_id', $menu_category->id)->with('extras', 'sizes')->get();
             }
 
             $restaurant->setAttribute('group_deals', $group_deals);
             $restaurant->setAttribute('menu', $menu_categories);
-            dd($restaurant);
+
             $restaurant->setAttribute('opening_hours_message', $openingHoursMessage);
             $restaurant->setAttribute('chosen_order_type', $request->order_type);
             $restaurant->setAttribute('customer_name', $request->customer_name);
