@@ -55,4 +55,9 @@ class MenuItem extends Model
     {
         return $this->belongsToMany(Size::class);
     }
+
+    public function menuCategory()
+    {
+        return $this->hasOne(MenuCategory::class);
+    }
 }

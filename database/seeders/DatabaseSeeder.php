@@ -352,13 +352,13 @@ class DatabaseSeeder extends Seeder
         //     );
         // });
 
-        // $sizes = Size::all();
+        $menu_items = MenuItem::all();
 
-        // MenuItem::all()->each(function ($menuItem) use ($sizes) {
-        //     $menuItem->sizes()->attach(
-        //         $sizes->random(rand(1, 5))->pluck('id', 'name', 'additional_charge', 'restaurant_id')->toArray()
-        //     );
-        // });
+        MenuCategory::all()->each(function ($menuCategory) use ($menu_items) {
+            $menuCategory->menuItems()->attach(
+                $menu_items->random(rand(1, 4))->pluck('id', 'title', 'description', 'dietary_requirements', 'price')->toArray()
+            );
+        });
 
 
 
