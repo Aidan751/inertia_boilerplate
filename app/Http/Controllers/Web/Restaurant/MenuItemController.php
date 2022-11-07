@@ -144,7 +144,7 @@ class MenuItemController extends Controller
     public function edit(MenuItem $menuItem)
     {
         // get menu categories for this restaurant
-        $categories = MenuCategory::where('restaurant_id', Auth::user()->restaurant_id)->orderBy('title')->get();
+        $categories = MenuCategory::where('restaurant_id', Auth::user()->restaurant_id)->orderBy('title')->with('menuItems')->get();
 
         // get extras for this menu item
         $extras = $menuItem->extras()->get();
@@ -153,6 +153,8 @@ class MenuItemController extends Controller
         // get sizes for this menu item
         $existingSizes = $menuItem->sizes()->get();
 
+        // get selected menu category
+        dd($categories->load('menuItems.extras'));
         $menuItem->sizes = $existingSizes;
         $menuItem->extras = $extras;
 
