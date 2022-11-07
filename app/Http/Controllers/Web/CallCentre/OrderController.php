@@ -534,7 +534,6 @@ class OrderController extends Controller
 
             $restaurant->setAttribute('group_deals', $group_deals);
             $restaurant->setAttribute('menu', $menu_categories);
-
             $restaurant->setAttribute('opening_hours_message', $openingHoursMessage);
             $restaurant->setAttribute('chosen_order_type', $request->order_type);
             $restaurant->setAttribute('customer_name', $request->customer_name);
