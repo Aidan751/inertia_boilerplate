@@ -356,8 +356,8 @@ class OrderController extends Controller
 
             if($request->session()->has('order')){
                 $order = $request->session()->get('order');
-                $restaurant = $request->session()->get('restaurant');
 
+                $restaurant = $request->session()->get('restaurant');
                 $selected_items = session('selected_items');
                 $order->load('items');
                 return Inertia::render('CallCentreAdmin/Orders/Index', [
@@ -523,18 +523,18 @@ class OrderController extends Controller
                 $restaurant->setAttribute('distance_in_miles', $distance_in_miles);
             }
 
-            $category_items = $restaurant->menuCategories;
-            foreach ($category_items as $category_item) {
-                $category_item->menuItems;
 
-            }
 
 
             $group_deals = GroupDeal::where('restaurant_id', $restaurant->id)->get();
-            $menu_items = MenuItem::where('restaurant_id', $restaurant->id)->with('sizes', 'extras')->get();
-            $restaurant->setAttribute('menu_items', $menu_items);
+            $menu_categories = MenuCategory::where('restaurant_id', $restaurant->id)->get();
+            foreach ($menu_categories as $menu_category) {
+                $menu_category->menu_items = MenuItem::where('menu_category_id', $menu_category->id)->get();
+            }
+
             $restaurant->setAttribute('group_deals', $group_deals);
-            $restaurant->setAttribute('menu', $category_items);
+            $restaurant->setAttribute('menu', $menu_categories);
+            dd($restaurant);
             $restaurant->setAttribute('opening_hours_message', $openingHoursMessage);
             $restaurant->setAttribute('chosen_order_type', $request->order_type);
             $restaurant->setAttribute('customer_name', $request->customer_name);
