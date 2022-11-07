@@ -356,8 +356,8 @@ class OrderController extends Controller
 
             if($request->session()->has('order')){
                 $order = $request->session()->get('order');
-
                 $restaurant = $request->session()->get('restaurant');
+
                 $selected_items = session('selected_items');
                 $order->load('items');
                 return Inertia::render('CallCentreAdmin/Orders/Index', [
@@ -530,8 +530,9 @@ class OrderController extends Controller
             }
 
 
-           $group_deals = GroupDeal::where('restaurant_id', $restaurant->id)->get();
-
+            $group_deals = GroupDeal::where('restaurant_id', $restaurant->id)->get();
+            $menu_items = MenuItem::where('restaurant_id', $restaurant->id)->with('sizes', 'extras')->get();
+            $restaurant->setAttribute('menu_items', $menu_items);
             $restaurant->setAttribute('group_deals', $group_deals);
             $restaurant->setAttribute('menu', $category_items);
             $restaurant->setAttribute('opening_hours_message', $openingHoursMessage);
