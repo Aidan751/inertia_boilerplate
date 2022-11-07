@@ -83,7 +83,6 @@ class MenuItemController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
 
 
         // validate
@@ -93,7 +92,6 @@ class MenuItemController extends Controller
             'price' => 'required',
             'extras' => 'nullable|array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'menu_category_id' => 'required|integer',
             'sizes' => 'nullable|array',
             'additional_charge' => 'nullable|numeric',
         ]);
@@ -127,6 +125,13 @@ class MenuItemController extends Controller
             $menuItem->extras()->attach($existingExtra);
 
         }
+
+        // find the menu category
+        $menu_category = MenuCategory::find($request->menu_category_id);
+
+
+        // attach the menu item to the menu category
+        $menu_category->menuItems()->attach($menuItem);
 
 
         // Redirect and inform the user
@@ -206,6 +211,8 @@ class MenuItemController extends Controller
 
             $menuItem->extras()->attach($existingExtra);
         }
+
+        $menu_category->menuItems()->detach($menuItem->id);
 
         // find the menu category
         $menu_category = MenuCategory::find($request->menu_category_id);
