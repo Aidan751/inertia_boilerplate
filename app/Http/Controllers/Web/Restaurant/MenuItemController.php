@@ -83,6 +83,7 @@ class MenuItemController extends Controller
      */
     public function store(Request $request)
     {
+        // dd($request->all());
 
 
         // validate
@@ -92,6 +93,7 @@ class MenuItemController extends Controller
             'price' => 'required',
             'extras' => 'nullable|array',
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'menu_category_id' => 'required|integer',
             'sizes' => 'nullable|array',
             'additional_charge' => 'nullable|numeric',
         ]);
@@ -126,13 +128,6 @@ class MenuItemController extends Controller
 
         }
 
-        // find the menu category
-        $menu_category = MenuCategory::find($request->menu_category_id);
-
-
-        // attach the menu item to the menu category
-        $menu_category->menuItems()->attach($menuItem);
-
 
         // Redirect and inform the user
         return redirect()->route('restaurant.menu.items.index')->with('success', 'Item created.');
@@ -149,7 +144,7 @@ class MenuItemController extends Controller
     public function edit(MenuItem $menuItem)
     {
         // get menu categories for this restaurant
-        $categories = MenuCategory::where('restaurant_id', Auth::user()->restaurant_id)->orderBy('title')->with('menuItems')->get();
+        $categories = MenuCategory::where('restaurant_id', Auth::user()->restaurant_id)->orderBy('title')->get();
 
         // get extras for this menu item
         $extras = $menuItem->extras()->get();
@@ -158,8 +153,6 @@ class MenuItemController extends Controller
         // get sizes for this menu item
         $existingSizes = $menuItem->sizes()->get();
 
-        // get selected menu category
-        dd($categories->load('menuItems.extras'));
         $menuItem->sizes = $existingSizes;
         $menuItem->extras = $extras;
 
@@ -197,6 +190,7 @@ class MenuItemController extends Controller
         $menuItem->description = is_null($request->description) ? $menuItem->description : $request->description;
         $menuItem->price = is_null($request->price) ? $menuItem->price : $request->price;
         $menuItem->dietary_requirements = is_null($request->dietary_requirements) ? $menuItem->dietary_requirements : $request->dietary_requirements;
+        $menuItem->menu_category_id = is_null($request->menu_category_id) ? $menuItem->menu_category_id : $request->menu_category_id;
         $menuItem->image = is_null($request->image) ? $menuItem->image : ImagePackage::save($request->image, 'menu_items');
         $menuItem->save();
 
@@ -212,13 +206,6 @@ class MenuItemController extends Controller
             $menuItem->extras()->attach($existingExtra);
         }
 
-        $menu_category->menuItems()->detach($menuItem->id);
-
-        // find the menu category
-        $menu_category = MenuCategory::find($request->menu_category_id);
-
-        // attach the menu item to the menu category
-        $menu_category->menuItems()->attach($menuItem);
 
 
         // detach all sizes
