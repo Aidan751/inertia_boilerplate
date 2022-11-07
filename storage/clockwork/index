@@ -651,3 +651,13 @@
 1667827588-7747-988624394,1667827588.5212,GET,/dist/zoom-vanilla.min.js.map,,404,631.69312477112,request
 1667827607-2916-1263521204,1667827606.9377,GET,/call-centre/orders/index?role=call_centre_admin&contact_number=84987497847984&address=123&when_radio=asap&order_type=delivery&customer_name=156&customer_contact_number=9849848794984,"App\Http\Controllers\Web\CallCentre\OrderController@index",302,916.17202758789,request
 1667827608-3660-1311735253,1667827607.9925,GET,/call-centre/orders/search/3,"App\Http\Controllers\Web\CallCentre\OrderController@search",200,1018.0649757385,request
+1667828590-0813-946288526,1667828589.4453,GET,/call-centre/orders/index?role=call_centre_admin&contact_number=%2B447368360039&address=10%20abbotsford%20avenue%20larkhall&when_radio=asap&order_type=delivery&customer_name=customer%20name&customer_contact_number=%2B447368360039,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,4355.978012085,request
+1667828601-2068-417874330,1667828600.904,GET,/call-centre/orders/add-deal/2?selected_items=%5B%5D,"App\Http\Controllers\Web\CallCentre\OrderController@addDeal",200,774.4300365448,request
+1667828610-4508-191321474,1667828610.2788,GET,/call-centre/orders/index,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,497.20311164856,request
+1667828802-6566-1755391146,1667828801.724,GET,/call-centre/orders/index,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,2001.4960765839,request
+1667828850-6345-942782543,1667828850.2602,GET,/call-centre/orders/index,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,733.91580581665,request
+1667828864-6575-968836525,1667828864.2752,GET,/dist/zoom-vanilla.min.js.map,,404,1090.4030799866,request
+1667828904-3700-1096843045,1667828904.0107,GET,/call-centre/orders/index,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,979.46190834045,request
+1667828909-2044-865283493,1667828908.9503,GET,/dist/zoom-vanilla.min.js.map,,404,543.88999938965,request
+1667828958-0408-1655332867,1667828957.4418,GET,/call-centre/orders/index,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,1355.3187847137,request
+1667828963-5777-1671025519,1667828963.163,GET,/dist/zoom-vanilla.min.js.map,,404,822.40200042725,request

@@ -132,7 +132,7 @@ export default function Index(props){
   const handleAddDeal = (e,id) => {
     e.preventDefault();
     // data.selected_items = selectedItems;
-    console.log(selectedItems); 
+    console.log(selectedItems);
     Inertia.get(route('call-centre.orders.add.deal', {id: id}),{
       selected_items: JSON.stringify(selectedItems),
     });
@@ -415,7 +415,7 @@ export default function Index(props){
                        £
                         {total_price +
                           (props.restaurant.delivery_charge || 0) +
-                          (props.restaurant.service_charge || 0) +
+                          (parseFloat(props.restaurant.service_charge) || 0) +
                           extra_total +
                           size_total}
                       </div>
@@ -424,9 +424,9 @@ export default function Index(props){
                 </div>
 
                 <div className="flex flex-col mt-5">
-                  <button className="btn btn-primary w-full shadow-md ml-auto" type="submit">
+                  <Button className="btn btn-primary w-full shadow-md ml-auto" type="submit">
                     Complete and send payment sms
-                  </button>
+                  </Button>
                   <button className="btn w-full mt-2 border-slate-300 dark:border-darkmode-400 text-slate-500">
                     Clear Items
                   </button>
