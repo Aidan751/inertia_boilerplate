@@ -36,7 +36,12 @@ export default function Input({
                 required={required}
                 onChange={(e) => setData(e.target.name, e.target.value)}
             />
-            {error && <div className="text-theme-6 mt-2">{error}</div>}
+            {error && (
+                    <p className="text-xs italic text-red-500 mt-2">
+                        {error}
+                    </p>
+                )}
+
         </div>
     );
 }

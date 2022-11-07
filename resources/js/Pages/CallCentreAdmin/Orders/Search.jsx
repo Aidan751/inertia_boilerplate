@@ -1,17 +1,18 @@
 import Button from "@/components/Button";
 import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from '@inertiajs/inertia-react'
+import { usePage } from '@inertiajs/inertia-react'
 import Label from "@/Components/Label";
 import Input from "@/Components/Input";
-import ValidationErrors from "@/Components/ValidationErrors";
 import ValidationSuccess from "@/Components/ValidationSuccess";
-import Error from "@/Components/Error";
 
 function Search(props) {
+    const { errors } = usePage().props;
 
-  const { data, setData, get, processing, errors } = useForm({
+  const { data, setData, get, processing } = useForm({
     role: 'call_centre_admin',
   })
+
 
   console.log(props);
   const submit = (e) => {
@@ -36,8 +37,6 @@ function Search(props) {
       <div className="intro-y flex items-center mt-3">
         <p className="text-gray-600">Fill out the details below for results</p>
       </div>
-          {/* show error component */}
-          <ValidationErrors errors={errors} />
           {/* Show Success Validation Component */}
           {
                         props.success &&
@@ -63,9 +62,6 @@ function Search(props) {
                     setData={setData}
                     error={errors.contact_number}
                 />
-                {errors.contact_number && (
-                    <div className="text-theme-6 mt-2">{errors.contact_number}</div>
-                )}
             </div>
             {/* End: Restaurant number */}
             {/* Start: To where? */}
@@ -83,9 +79,7 @@ function Search(props) {
                     setData={setData}
                     error={errors.address}
                 />
-                {errors.address && (
-                    <div className="text-theme-6 mt-2">{errors.address}</div>
-                )}
+
             </div>
             {/* End: To where? */}
             {/* Start: When? */}
@@ -195,9 +189,7 @@ function Search(props) {
                         setData={setData}
                         error={errors.customer_name}
                     />
-                    {errors.customer_name && (
-                        <div className="text-theme-6 mt-2">{errors.customer_name}</div>
-                    )}
+
                 </div>
                 {/* End: Customer name */}
                 {/* Start: Customer phone number */}
