@@ -189,7 +189,6 @@ class MenuItemController extends Controller
         $menuItem->title = is_null($request->title) ? $menuItem->title : $request->title;
         $menuItem->description = is_null($request->description) ? $menuItem->description : $request->description;
         $menuItem->price = is_null($request->price) ? $menuItem->price : $request->price;
-        $menuItem->menu_category_id = is_null($request->menu_category_id) ? $menuItem->menu_category_id : $request->menu_category_id;
         $menuItem->dietary_requirements = is_null($request->dietary_requirements) ? $menuItem->dietary_requirements : $request->dietary_requirements;
         $menuItem->image = is_null($request->image) ? $menuItem->image : ImagePackage::save($request->image, 'menu_items');
         $menuItem->save();
@@ -205,6 +204,13 @@ class MenuItemController extends Controller
 
             $menuItem->extras()->attach($existingExtra);
         }
+
+        // find the menu category
+        $menu_category = MenuCategory::find($request->menu_category_id);
+
+        // attach the menu item to the menu category
+        $menu_category->menuItems()->attach($menuItem);
+
 
         // detach all sizes
         $menuItem->sizes()->detach();

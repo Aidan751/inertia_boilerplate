@@ -24,7 +24,6 @@ class CreateMenuItemsTable extends Migration
             $table->decimal('price', 10, 2);
             $table->timestamps();
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
-            $table->foreign('menu_category_id')->references('id')->on('menu_categories');
         });
     }
 

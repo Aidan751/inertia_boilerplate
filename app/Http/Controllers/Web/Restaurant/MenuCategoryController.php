@@ -134,6 +134,12 @@ class MenuCategoryController extends Controller
         // Delete the category
         $category->delete();
 
+        // detach menu category from menu item
+        $menu_items = MenuItem::where('restaurant_id', Auth::user()->restaurant_id)->get();
+        foreach ($menu_items as $menu_item) {
+            $menu_item->menuCategories()->detach($id);
+        }
+
         // Redirect and inform the user
         return redirect()->route('restaurant.menu.categories.index')->with('success', 'Category deleted.');
     }
