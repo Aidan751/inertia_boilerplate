@@ -3,10 +3,9 @@ import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link } from '@inertiajs/inertia-react';
 import { Search,CheckSquare, ChevronRight ,ChevronsRight, ChevronsLeft, XCircle,Trash2,ChevronLeft, Eye, Edit} from "lucide-react";
 import { useForm } from '@inertiajs/inertia-react'
-import { useState } from "react";
-import { Modal, ModalBody } from "@/base-components";
+import { useState, useCallback } from "react";
 import { Inertia } from "@inertiajs/inertia";
-import { TomSelect, ClassicEditor, Lucide, Tippy, Alert, TabPanel } from "@/base-components";
+import { TomSelect, ClassicEditor, Lucide, Tippy, Alert, TabPane, Modal, ModalHeader, ModalBody, ModalFooter, TabPanel } from "@/base-components";
 import ValidationSuccess from "@/Components/ValidationSuccess";
 import Button from "@/Components/Button";
 
@@ -18,303 +17,417 @@ export default function Index(props){
     })
 
 
-    const [selectedItems, setSelectedItems] = useState(props.selected_items || []);
+    const [selectedItems, setSelectedItems] = useState(
+        props.selected_items || []
+      );
 
-  var extra_total = 0;
-  var size_total = 0;
-  var total_price = 0;
+      const [modalInfo, setModalInfo] = useState([]);
+      const [selectItem, setSelectItem] = useState([]);
+      const openModal = useCallback(() => setIsOpen(true), []);
+      const closeModal = useCallback(() => setIsOpen(false), []);
+      const [isOpen, setIsOpen] = useState(false);
 
-  let extra_price;
+      var extra_total = 0;
+      var size_total = 0;
+      var total_price = 0;
 
-  // to input elements and record their values in state
-  const handleNotesInputChange = (e, index) => {
-    const { name, value } = e.target;
-    const list = [...selectedItems];
-    list[index].menu_item.notes = value;
-    setSelectedItems(list);
-  };
+      let extra_price;
 
-  //   select quantity of a menu item
-  const onQuantityChange = (e, index) => {
-    const { name, value } = e.target;
-    const list = [...selectedItems];
-    list[index].menu_item.quantity = value;
-    setSelectedItems(list);
-  };
+      // to input elements and record their values in state
+      const handleNotesInputChange = (e, index) => {
+        const { name, value } = e.target;
+        const list = [...selectedItems];
+        list[index].menu_item.notes = value;
+        setSelectedItems(list);
+      };
 
-  const addMenuItem = (event, key, menu_item) => {
-    let newSelectedItems = [...selectedItems];
+      //   select quantity of a menu item
+      const onQuantityChange = (e, index) => {
+        const { name, value } = e.target;
+        const list = [...selectedItems];
+        list[index].menu_item.quantity = value;
+        setSelectedItems(list);
+      };
 
-    props.restaurant.menu.forEach((item) => {
-      if (item.id === menu_item.id) {
-        let newItem = {
-          menu_item: {
-            id: menu_item.id,
-            menu_category_id: item.menu_category_id,
-            restaurant_id: 1,
-            title: menu_item.title,
-            description: menu_item.description,
-            dietary_requirements: menu_item.dietary_requirements,
-            extras: item.extras,
-            sizes: item.sizes,
-            image: menu_item.image,
-            price: menu_item.price,
-            created_at: menu_item.created_at,
-            updated_st: menu_item.updated_at,
-            notes: "",
-            quantity: 1
-          },
-          size: item.sizes,
-          extra: item.extras
-        };
+      const addMenuItem = (event, key, menu_item) => {
+        let newSelectedItems = [...selectedItems];
 
-        newSelectedItems.push(newItem);
-      }
-    });
+        props.restaurant.menu.forEach((item) => {
+          if (item.id === menu_item.id) {
+            let newItem = {
+              menu_item: {
+                id: menu_item.id,
+                menu_category_id: item.menu_category_id,
+                restaurant_id: 1,
+                title: menu_item.title,
+                description: menu_item.description,
+                dietary_requirements: menu_item.dietary_requirements,
+                extras: item.extras,
+                sizes: item.sizes,
+                image: menu_item.image,
+                price: menu_item.price,
+                created_at: menu_item.created_at,
+                updated_st: menu_item.updated_at,
+                notes: "",
+                quantity: 1
+              },
+              size: item.sizes,
+              extra: item.extras
+            };
 
-    setSelectedItems(newSelectedItems);
-  };
-
-  if (selectedItems) {
-    selectedItems &&
-      selectedItems.forEach((item) => {
-        let i = 0;
-        if (item.extra) {
-          while (i < item.extra.length) {
-            extra_total += item.extra[i].additional_charge;
-            i++;
+            newSelectedItems.push(newItem);
           }
+        });
+
+        setSelectedItems(newSelectedItems);
+      };
+
+      if (selectedItems) {
+        selectedItems &&
+          selectedItems.forEach((item) => {
+            let i = 0;
+            if (item.extra) {
+              while (i < item.extra.length) {
+                extra_total += item.extra[i].additional_charge;
+                i++;
+              }
+            }
+          });
+
+        selectedItems &&
+          selectedItems.forEach((item) => {
+            let i = 0;
+
+            if (item.size) {
+              while (i < item.size.length) {
+                size_total += item.size[i].additional_charge;
+                i++;
+              }
+            }
+          });
+
+        var i = 0;
+        while (i < selectedItems.length) {
+          total_price +=
+            parseFloat(selectedItems[i].menu_item.price) *
+            selectedItems[i].menu_item.quantity;
+          i++;
         }
-      });
-
-    selectedItems &&
-      selectedItems.forEach((item) => {
-        let i = 0;
-
-        if (item.size) {
-          while (i < item.size.length) {
-            size_total += item.size[i].additional_charge;
-            i++;
-          }
-        }
-      });
-
-    var i = 0;
-    while (i < selectedItems.length) {
-      total_price +=
-        parseFloat(selectedItems[i].menu_item.price) *
-        selectedItems[i].menu_item.quantity;
-      i++;
     }
-  }
 
-  const submit = (e) => {
-    e.preventDefault();
-    data.selected_items = selectedItems;
+    const ModalContent = ({ modalInfo }) => {
+      return (
+        <div>
+          <input type="button" value="Open modal" onClick={openModal} />
+          <Modal isOpen={isOpen} onRequestClose={closeModal}>
+          <ModalHeader>
+        <h2 className="font-medium text-base mr-auto">
+          {modalInfo.name}
+        </h2>
+      </ModalHeader>
+      <ModalBody className="grid grid-cols-12 gap-4 gap-y-3">
+            {/* start: choose sizes and extras */}
+            <div className="col-span-12">
+                <h2 className="font-medium text-md mb-5">Choose your size</h2>
 
-    Inertia.post(route('call-centre.orders.place-order'), {
-      selected_items: data.selected_items,
-      customer: data.customer,
-      restaurant: data.restaurant,
-      delivery_address: data.delivery_address,
-      delivery_time: data.delivery_time,
-      delivery_date: data.delivery_date,
-      payment_method: data.payment_method,
-      order_type: data.order_type,
-      order_status: data.order_status,
-      order_notes: data.order_notes,
-      total_price: total_price,
-      size_total: size_total,
-      extra_total: extra_total,
-      order_total: total_price + size_total + extra_total,
-    });
-  }
-  const handleAddDeal = (e,id) => {
-    e.preventDefault();
-    // data.selected_items = selectedItems;
-    console.log(selectedItems);
-    Inertia.get(route('call-centre.orders.add.deal', {id: id}),{
-      selected_items: JSON.stringify(selectedItems),
-    });
-  }
-  return (
-    <>
-      <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
-        <div className="col-span-12">
-          <h2 className="intro-y text-lg font-medium mt-5 mb-5">
-            Order Details
-          </h2>
-          {/* start:intro */}
-          <div className="grid grid-rows-3 grid-cols-3 gap-4">
-            <div className="md:col-span-2 col-span-3 sm:row-span-1">
-              <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center sm:p-10">
-                {/* start:intro */}
-                <p className="sm:text-start sm:col-span-3 mb-2 text-start col-span-5 px-1 order-1">
-                  {props.restaurant.time_slot ?? "ASAP"}{" "}
-                  <span className="d-inline-block mr-2 ml-2">{">"}</span>{" "}
-                  {props.restaurant.delivery_address}
-                </p>
-                <p className="col-span-3 mb-2 row-span-1 px-1 order-3">
-                  {props.restaurant.chosen_order_type.toUpperCase()}
-                </p>
-                <Link
-                  className="btn sm:col-span-1 col-span-5 row-span-1 order-2"
-                  href={route('call-centre.orders.search', {id: props.auth.user.id})}
-                >
-                  Return to search
-                </Link>
-
-                {/* end:intro */}
-              </div>
-
-              {/* start: restaurant box */}
-              <div>
-                <div className="flex items-center justify-between sm:p-10 flex-wrap">
-                  <div className="w-72 flex-none">
-                    <div className="box rounded-md relative zoom-in">
-                      <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
-                        <div className="absolute top-0 left-0 w-full h-full image-fit">
-                          <img
-                            alt="Restaurant logo"
-                            className="rounded-md"
-                            src={props.restaurant.logo.img_url}
-                            data-action="zoom"
-                          />
+                {modalInfo.sizes &&
+                  modalInfo.sizes.map((size, key) => (
+                    <div>
+                      {size.name && (
+                        <div className="flex items-center mt-5">
+                          <input
+                            type="radio"
+                            name="size"
+                            value={size.id}
+                            onChange={(e) =>
+                              setData(e.target.name, e.target.value)
+                            }
+                          />{" "}
+                          <p className="ml-2">{size.name}</p>
+                          {size.additional_charge !== 0 && (
+                            <p className="ml-3">
+                              + £{size.additional_charge || 0}
+                            </p>
+                          )}
                         </div>
-                      </div>
+                      )}
                     </div>
-                  </div>
-                  <div className="p-10 flex-1">
-                    <div className="block font-medium text-base">
-                      {props.restaurant.name}
+                  ))}
+
+                <h2 className="font-medium text-md mb-5 mt-8">
+                  Choose your sides
+                </h2>
+
+                {modalInfo.extras &&
+                  modalInfo.extras.map((extra, key) => (
+                    <div>
+                      {extra.name && (
+                        <div className="flex items-center mt-5">
+                          <div className="form-check mt-2">
+                            <input
+                              id="checkbox-switch-1"
+                              className="form-check-input"
+                              type="checkbox"
+                              name="extra"
+                              value={extra.id}
+                              onChange={onHandleChange}
+                            />
+                            <label
+                              className="form-check-label flex"
+                              htmlFor="checkbox-switch-1"
+                            >
+                              <p>{extra.name}</p>{" "}
+                              {extra.additional_charge !== 0 && (
+                                <p className="ml-3">
+                                  + £{extra.additional_charge || 0}
+                                </p>
+                              )}
+                            </label>
+                          </div>
+                        </div>
+                      )}
                     </div>
-                    <div className="text-slate-600 dark:text-slate-500 mt-2">
-                      {props.restaurant.opening_hours_message}
-                    </div>
-                    <div className="text-slate-600 dark:text-slate-500 mt-2">
-                      Delivery £{props.restaurant.delivery_charge}
-                    </div>
-                    <div className="text-slate-600 dark:text-slate-500 mt-2">
-                      Delivery estimate{" "}
-                      {props.restaurant.average_delivery_time - 10} -{" "}
-                      {props.restaurant.average_delivery_time} Minutes
-                    </div>
-                  </div>
-                </div>
+                  ))}
               </div>
 
-              {/* end: restaurant box */}
-              {/* start: groupdeal box */}
-              <div className="mt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-t border-b">
-                <h2 className="font-medium text-lg mt-5 mb-5">Deals</h2>
 
-                {props.restaurant.group_deals &&
-                  props.restaurant.group_deals.map((deal, key) => (
-                    <div className="flex items-center justify-between flex-wrap mt-8 mb-8 sm:pl-10">
+            {/* end: choose sizes and extras */}
+            </ModalBody>
+            <input type="button" value="Close modal" onClick={closeModal} />
+          </Modal>
+        </div>
+      );
+    };
+      const rowEvents = (e, key) => {
+        props.restaurant.menu.forEach((item) => {
+          item.menu_items.map((menuItem) => {
+            if (parseInt(e.target.id) === menuItem.id) {
+              setModalInfo(menuItem);
+              console.log(modalInfo);
+              openModal();
+            }
+          });
+        });
+      };
+
+
+
+
+      const submit = (e) => {
+        e.preventDefault();
+        data.selected_items = selectedItems;
+
+        Inertia.post(route("call-centre.orders.place-order"), {
+          selected_items: data.selected_items,
+          customer: data.customer,
+          restaurant: data.restaurant,
+          delivery_address: data.delivery_address,
+          delivery_time: data.delivery_time,
+          delivery_date: data.delivery_date,
+          payment_method: data.payment_method,
+          order_type: data.order_type,
+          order_status: data.order_status,
+          order_notes: data.order_notes,
+          total_price: total_price,
+          size_total: size_total,
+          extra_total: extra_total,
+          order_total: total_price + size_total + extra_total
+        });
+      };
+
+      const onHandleChange = (event) => {
+        setData(
+          event.target.name,
+          event.target.type === "checkbox"
+            ? event.target.checked
+            : event.target.value
+        );
+      };
+
+      const handleAddDeal = (e, id) => {
+        e.preventDefault();
+        // data.selected_items = selectedItems;
+        Inertia.get(route("call-centre.orders.add.deal", { id: id }), {
+          selected_items: JSON.stringify(selectedItems)
+        });
+      };
+      return (
+        <>
+          <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
+            <div className="col-span-12">
+              <h2 className="intro-y text-lg font-medium mt-5 mb-5">
+                Order Details
+              </h2>
+              {/* start:intro */}
+              <div className="grid grid-rows-3 grid-cols-3 gap-4">
+                <div className="md:col-span-2 col-span-3 sm:row-span-1">
+                  <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center sm:p-10">
+                    {/* start:intro */}
+                    <p className="sm:text-start sm:col-span-3 mb-2 text-start col-span-5 px-1 order-1">
+                      {props.restaurant.time_slot ?? "ASAP"}{" "}
+                      <span className="d-inline-block mr-2 ml-2">{">"}</span>{" "}
+                      {props.restaurant.delivery_address}
+                    </p>
+                    <p className="col-span-3 mb-2 row-span-1 px-1 order-3">
+                      {props.restaurant.chosen_order_type.toUpperCase()}
+                    </p>
+                    <Link
+                      className="btn sm:col-span-1 col-span-5 row-span-1 order-2"
+                      href={route('call-centre.orders.search', {id: props.auth.user.id})}
+                    >
+                      Return to search
+                    </Link>
+
+                    {/* end:intro */}
+                  </div>
+
+                  {/* start: restaurant box */}
+                  <div>
+                    <div className="flex items-center justify-between sm:p-10 flex-wrap">
                       <div className="w-72 flex-none">
                         <div className="box rounded-md relative zoom-in">
                           <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
                             <div className="absolute top-0 left-0 w-full h-full image-fit">
                               <img
-                                alt="Midone Tailwind HTML Admin Template"
+                                alt="Restaurant logo"
                                 className="rounded-md"
-                                src="https://source.unsplash.com/random/?fruit"
+                                src={props.restaurant.logo.img_url}
                                 data-action="zoom"
                               />
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div className="p-5 flex-1">
+                      <div className="p-10 flex-1">
                         <div className="block font-medium text-base">
-                          {deal.title}
+                          {props.restaurant.name}
                         </div>
                         <div className="text-slate-600 dark:text-slate-500 mt-2">
-                          {deal.description}
+                          {props.restaurant.opening_hours_message}
                         </div>
                         <div className="text-slate-600 dark:text-slate-500 mt-2">
-                          Allergens: {deal.dietary_requirements ?? "N/A"}
+                          Delivery £{props.restaurant.delivery_charge}
                         </div>
                         <div className="text-slate-600 dark:text-slate-500 mt-2">
-                          Price: £ {deal.group_deal_price}
+                          Delivery estimate{" "}
+                          {props.restaurant.average_delivery_time - 10} -{" "}
+                          {props.restaurant.average_delivery_time} Minutes
                         </div>
-                        <a
-                          className="btn btn-primary mt-5 w-24"
-                          onClick={(e) => handleAddDeal(e,deal.id)}
-                        >
-                          Add
-                        </a>
                       </div>
                     </div>
-                  ))}
-                {/* end: groupdeal box */}
-                {/* start: menu box */}
-                {props.restaurant.menu &&
-                  props.restaurant.menu.map(
-                    (item, key) =>
-                      item.menu_items.length > 0 && (
-                        <div className="sm:p-10 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-b border-t">
-                          <h2 className="font-medium text-lg mb-5 mt-5">
-                            {item.title}
-                          </h2>
+                  </div>
 
-                          {item.menu_items.map((menu_item, menu_item_key) => (
-                            <div className="flex items-center justify-between flex-wrap mt-8 mb-8">
-                              <div className="w-72 flex-none">
-                                <div className="box rounded-md relative hover:zoom-in">
-                                  <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
-                                    <div className="absolute top-0 left-0 w-full h-full image-fit">
-                                      <img
-                                        alt={menu_item.title}
-                                        className="rounded-md"
-                                        src={menu_item.image}
-                                        data-action="zoom"
-                                      />
-                                    </div>
-                                  </div>
+                  {/* end: restaurant box */}
+                  {/* start: groupdeal box */}
+                  <div className="mt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-t border-b">
+                    <h2 className="font-medium text-lg mt-5 mb-5">Deals</h2>
+
+                    {props.restaurant.group_deals &&
+                      props.restaurant.group_deals.map((deal, key) => (
+                        <div className="flex items-center justify-between flex-wrap mt-8 mb-8 sm:pl-10">
+                          <div className="w-72 flex-none">
+                            <div className="box rounded-md relative zoom-in">
+                              <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
+                                <div className="absolute top-0 left-0 w-full h-full image-fit">
+                                  <img
+                                    alt="Midone Tailwind HTML Admin Template"
+                                    className="rounded-md"
+                                    src="https://source.unsplash.com/random/?fruit"
+                                    data-action="zoom"
+                                  />
                                 </div>
-                              </div>
-                              <div className="p-5 flex-1">
-                                <div className="block font-medium text-base">
-                                  {item.menu_items[0].title}
-                                </div>
-                                <div className="text-slate-600 dark:text-slate-500 mt-2">
-                                  {item.menu_items[0].description}
-                                </div>
-                                <div className="text-slate-600 dark:text-slate-500 mt-2">
-                                  Allergens:{" "}
-                                  {item.menu_items[0].dietary_requirements ??
-                                    "N/A"}
-                                </div>
-                                <div className="text-slate-600 dark:text-slate-500 mt-2">
-                                  Price: £ {item.menu_items[0].price}
-                                </div>
-                                <button
-                                  className="btn btn-primary mt-5 w-24"
-                                  onClick={(e) =>
-                                    addMenuItem(e, key, menu_item)
-                                  }
-                                >
-                                  Add
-                                </button>
                               </div>
                             </div>
-                          ))}
+                          </div>
+                          <div className="p-5 flex-1">
+                            <div className="block font-medium text-base">
+                              {deal.title}
+                            </div>
+                            <div className="text-slate-600 dark:text-slate-500 mt-2">
+                              {deal.description}
+                            </div>
+                            <div className="text-slate-600 dark:text-slate-500 mt-2">
+                              Allergens: {deal.dietary_requirements ?? "N/A"}
+                            </div>
+                            <div className="text-slate-600 dark:text-slate-500 mt-2">
+                              Price: £ {deal.group_deal_price}
+                            </div>
+                            <a
+                              className="btn btn-primary mt-5 w-24"
+                              onClick={(e) => handleAddDeal(e, deal.id)}
+                            >
+                              Add
+                            </a>
+                          </div>
                         </div>
-                      )
-                  )}
-                {/* end: menu box */}
-              </div>
-            </div>
-            {/* start: Basket */}
-            <div className="sm:col-span-1 sm:row-span-3 col-span-3">
-            <form onSubmit={submit}>
+                      ))}
+                    {/* end: groupdeal box */}
+                    {/* start: menu box */}
+                    {props.restaurant.menu &&
+                      props.restaurant.menu.map(
+                        (item, key) =>
+                          item.menu_items.length > 0 && (
+                            <div className="sm:p-10 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-b border-t">
+                              <h2 className="font-medium text-lg mb-5 mt-5">
+                                {item.title}
+                              </h2>
 
-              <h2 className="p-5 font-medium text-lg border rounded py-3">
-                Basket ({selectedItems ? selectedItems.length : 0}
-                )
-              </h2>
-              <TabPanel>
+                              {item.menu_items.map((menu_item, menu_item_key) => (
+                                <div className="flex items-center justify-between flex-wrap mt-8 mb-8">
+                                  <div className="w-72 flex-none">
+                                    <div className="box rounded-md relative hover:zoom-in">
+                                      <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
+                                        <div className="absolute top-0 left-0 w-full h-full image-fit">
+                                          <img
+                                            alt={menu_item.title}
+                                            className="rounded-md"
+                                            src={menu_item.image}
+                                            data-action="zoom"
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <div className="p-5 flex-1">
+                                    <div className="block font-medium text-base">
+                                      {item.menu_items[0].title}
+                                    </div>
+                                    <div className="text-slate-600 dark:text-slate-500 mt-2">
+                                      {item.menu_items[0].description}
+                                    </div>
+                                    <div className="text-slate-600 dark:text-slate-500 mt-2">
+                                      Allergens:{" "}
+                                      {item.menu_items[0].dietary_requirements ??
+                                        "N/A"}
+                                    </div>
+                                    <div className="text-slate-600 dark:text-slate-500 mt-2">
+                                      Price: £ {item.menu_items[0].price}
+                                    </div>
+                                    <button
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#exampleModal"
+                                      id={item.id}
+                                      className="btn btn-primary mt-5 w-24"
+                                      onClick={(e) => rowEvents(e, key)}
+                                    >
+                                      Add
+                                    </button>
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )
+                      )}
+                    {/* end: menu box */}
+                  </div>
+                </div>
+                {/* start: Basket */}
+                <div className="sm:col-span-1 sm:row-span-3 col-span-3">
+                  <form onSubmit={submit}>
+                    <h2 className="p-5 font-medium text-lg border rounded py-3">
+                      Basket ({selectedItems ? selectedItems.length : 0})
+                    </h2>
+                    <TabPanel>
                 <div className="box p-5 mt-5">
                   {selectedItems &&
                     selectedItems.map((item, key) => (
@@ -329,7 +442,7 @@ export default function Index(props){
                           <Edit className="w-4 h-4 text-slate-500 ml-2" />
                           <div className="ml-auto font-medium text-lg">
                             £{" "}
-                            {/* {console.log(item.extra && item.extra)} */}
+
                             {(parseFloat(item.menu_item.price) *
                               parseFloat(item.menu_item.quantity)) +
                               (item.extra
@@ -432,12 +545,16 @@ export default function Index(props){
                   </button>
                 </div>
               </TabPanel>
-            </form>
+
+
+
+                  </form>
+                </div>
+                {/* end: basket */}
+              </div>
+              <ModalContent modalInfo={modalInfo} />
             </div>
-            {/* end: basket */}
-          </div>
-        </div>
-      </Authenticated>
-    </>
-  );
+          </Authenticated>
+        </>
+      );
 }
