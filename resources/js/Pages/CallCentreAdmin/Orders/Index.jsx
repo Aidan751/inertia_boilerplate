@@ -21,11 +21,30 @@ export default function Index(props){
         props.selected_items || []
       );
 
-      const [modalInfo, setModalInfo] = useState([]);
-      const [selectItem, setSelectItem] = useState([]);
-      const openModal = useCallback(() => setIsOpen(true), []);
-      const closeModal = useCallback(() => setIsOpen(false), []);
-      const [isOpen, setIsOpen] = useState(false);
+      const [showModal, setShowModal] = useState(false);
+      const [activeObject, setActiveObject] = useState(null);
+
+      function getClass(index) {
+        return index === activeObject?.id ? "active" : "inactive";
+      }
+
+      const Modal = ({ object: { id, title, image, description, dietary_requirements, price } }) => (
+
+        <Modal className="active" id={id}>
+            <ModalHeader>
+          <h2>{title}</h2>
+            <img src={image} alt={title} />
+            </ModalHeader>
+            <ModalBody>
+            <p>{description}</p>
+            <p>{dietary_requirements}</p>
+            <p>{price}</p>
+            </ModalBody>
+            <ModalFooter>
+          <button onClick={() => setShowModal(false)}>Close me</button>
+            </ModalFooter>
+        </Modal>
+      );
 
       var extra_total = 0;
       var size_total = 0;
@@ -114,101 +133,6 @@ export default function Index(props){
           i++;
         }
     }
-
-    const ModalContent = ({ modalInfo }) => {
-      return (
-        <div>
-          <input type="button" value="Open modal" onClick={openModal} />
-          <Modal isOpen={isOpen} onRequestClose={closeModal}>
-          <ModalHeader>
-        <h2 className="font-medium text-base mr-auto">
-          {modalInfo.name}
-        </h2>
-      </ModalHeader>
-      <ModalBody className="grid grid-cols-12 gap-4 gap-y-3">
-            {/* start: choose sizes and extras */}
-            <div className="col-span-12">
-                <h2 className="font-medium text-md mb-5">Choose your size</h2>
-
-                {modalInfo.sizes &&
-                  modalInfo.sizes.map((size, key) => (
-                    <div>
-                      {size.name && (
-                        <div className="flex items-center mt-5">
-                          <input
-                            type="radio"
-                            name="size"
-                            value={size.id}
-                            onChange={(e) =>
-                              setData(e.target.name, e.target.value)
-                            }
-                          />{" "}
-                          <p className="ml-2">{size.name}</p>
-                          {size.additional_charge !== 0 && (
-                            <p className="ml-3">
-                              + £{size.additional_charge || 0}
-                            </p>
-                          )}
-                        </div>
-                      )}
-                    </div>
-                  ))}
-
-                <h2 className="font-medium text-md mb-5 mt-8">
-                  Choose your sides
-                </h2>
-
-                {modalInfo.extras &&
-                  modalInfo.extras.map((extra, key) => (
-                    <div>
-                      {extra.name && (
-                        <div className="flex items-center mt-5">
-                          <div className="form-check mt-2">
-                            <input
-                              id="checkbox-switch-1"
-                              className="form-check-input"
-                              type="checkbox"
-                              name="extra"
-                              value={extra.id}
-                              onChange={onHandleChange}
-                            />
-                            <label
-                              className="form-check-label flex"
-                              htmlFor="checkbox-switch-1"
-                            >
-                              <p>{extra.name}</p>{" "}
-                              {extra.additional_charge !== 0 && (
-                                <p className="ml-3">
-                                  + £{extra.additional_charge || 0}
-                                </p>
-                              )}
-                            </label>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  ))}
-              </div>
-
-
-            {/* end: choose sizes and extras */}
-            </ModalBody>
-            <input type="button" value="Close modal" onClick={closeModal} />
-          </Modal>
-        </div>
-      );
-    };
-      const rowEvents = (e, key) => {
-        props.restaurant.menu.forEach((item) => {
-          item.menu_items.map((menuItem) => {
-            if (parseInt(e.target.id) === menuItem.id) {
-              setModalInfo(menuItem);
-              console.log(modalInfo);
-              openModal();
-            }
-          });
-        });
-      };
 
 
 
@@ -372,16 +296,16 @@ export default function Index(props){
                                 {item.title}
                               </h2>
 
-                              {item.menu_items.map((menu_item, menu_item_key) => (
+                              {item.menu_items.map(({id, title, image, description, dietary_requirements, price}) => (
                                 <div className="flex items-center justify-between flex-wrap mt-8 mb-8">
                                   <div className="w-72 flex-none">
                                     <div className="box rounded-md relative hover:zoom-in">
                                       <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
                                         <div className="absolute top-0 left-0 w-full h-full image-fit">
                                           <img
-                                            alt={menu_item.title}
+                                            alt={title}
                                             className="rounded-md"
-                                            src={menu_item.image}
+                                            src={image}
                                             data-action="zoom"
                                           />
                                         </div>
@@ -390,25 +314,28 @@ export default function Index(props){
                                   </div>
                                   <div className="p-5 flex-1">
                                     <div className="block font-medium text-base">
-                                      {item.menu_items[0].title}
+                                      {title}
                                     </div>
                                     <div className="text-slate-600 dark:text-slate-500 mt-2">
-                                      {item.menu_items[0].description}
+                                      {description}
                                     </div>
                                     <div className="text-slate-600 dark:text-slate-500 mt-2">
                                       Allergens:{" "}
-                                      {item.menu_items[0].dietary_requirements ??
+                                      {dietary_requirements ??
                                         "N/A"}
                                     </div>
                                     <div className="text-slate-600 dark:text-slate-500 mt-2">
-                                      Price: £ {item.menu_items[0].price}
+                                      Price: £ {price}
                                     </div>
                                     <button
                                       data-bs-toggle="modal"
                                       data-bs-target="#exampleModal"
-                                      id={item.id}
                                       className="btn btn-primary mt-5 w-24"
-                                      onClick={(e) => rowEvents(e, key)}
+                                      key={id}
+                                    onClick={() => {
+                                    setActiveObject({ id, title, image, description, dietary_requirements, price });
+                                    setShowModal(true);
+                                    }}
                                     >
                                       Add
                                     </button>
@@ -552,7 +479,7 @@ export default function Index(props){
                 </div>
                 {/* end: basket */}
               </div>
-              <ModalContent modalInfo={modalInfo} />
+              {showModal ? <Modal object={activeObject} /> : null}
             </div>
           </Authenticated>
         </>
