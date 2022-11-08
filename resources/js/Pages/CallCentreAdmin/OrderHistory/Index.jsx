@@ -111,7 +111,6 @@ export default function Index(props){
 
                     {/* Page Header */}
                     <h2 className="mt-10 text-lg font-medium intro-y">View Orders</h2>
-
                     {/* Show Success Validation Component */}
                     {
                         props.success &&
@@ -123,6 +122,7 @@ export default function Index(props){
                             <p className="text-sm mr-auto mt-10 mb-6">Filter By Date</p>
                         </div>
                     </div>
+
                     <div onSubmit={submitDateFilterForm} className="intro-y col-span-12 flex items-center justify-between flex-wrap mt-0">
                     {/* Start: filter by date */}
                         <div className="flex-2 mb-3">
