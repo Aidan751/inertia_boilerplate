@@ -76,7 +76,9 @@ class OrderController extends Controller
     }
 
     public function add(Request $request) {
-            $restaurant = Restaurant::where('id', $request->restaurant_id)->first();
+        $user = Auth::user();
+        $restaurant = Restaurant::where('id', $user->restaurant_id)->first();
+
 
             // create an order
             $order = Order::create([
@@ -102,7 +104,7 @@ class OrderController extends Controller
                 'table_number' => $request->table_number,
                 'customer_name' => $request->customer_name,
                 'customer_contact_number' => $request->customer_contact_number,
-                'user_id' => $request->user_id,
+                'user_id' => $user->id,
             ]);
 
             return response($order, 200);
