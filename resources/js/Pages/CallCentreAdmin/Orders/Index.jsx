@@ -177,7 +177,7 @@ export default function Index(props){
         <>
           <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
             <div className="col-span-12">
-              <h2 className="intro-y text-lg font-medium px-10 pt-5 pb-5">
+              <h2 className="intro-y text-lg font-medium px-10 pt-5 pb-0">
                 Order Details
               </h2>
               {/* start:intro */}
@@ -242,7 +242,7 @@ export default function Index(props){
                   {/* end: restaurant box */}
                   {/* start: groupdeal box */}
                   <div className="mt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-t border-b">
-                    <h2 className="font-medium text-lg px-10 pt-5 pb-5">Deals</h2>
+                    <h2 className="font-medium text-lg px-10 pt-5 pb-0">Deals</h2>
 
                     {props.restaurant.group_deals &&
                       props.restaurant.group_deals.map((deal, key) => (
