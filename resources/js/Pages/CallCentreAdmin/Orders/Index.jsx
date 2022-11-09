@@ -22,29 +22,16 @@ export default function Index(props){
       );
 
       const [showModal, setShowModal] = useState(false);
-      const [activeObject, setActiveObject] = useState(null);
+      const [activeObject, setActiveObject] = useState({});
 
       function getClass(index) {
         return index === activeObject?.id ? "active" : "inactive";
       }
 
-      const Modal = ({ object: { id, title, image, description, dietary_requirements, price } }) => (
+      // const Modal = ({ object: { id, title, image, description, dietary_requirements, price } }) => (
 
-        <Modal className="active" id={id}>
-            <ModalHeader>
-          <h2>{title}</h2>
-            <img src={image} alt={title} />
-            </ModalHeader>
-            <ModalBody>
-            <p>{description}</p>
-            <p>{dietary_requirements}</p>
-            <p>{price}</p>
-            </ModalBody>
-            <ModalFooter>
-          <button onClick={() => setShowModal(false)}>Close me</button>
-            </ModalFooter>
-        </Modal>
-      );
+        
+      // );
 
       var extra_total = 0;
       var size_total = 0;
@@ -134,7 +121,18 @@ export default function Index(props){
         }
     }
 
-
+    /**
+     * Handle the change event for adding a new menu item using the modal
+     * 
+     * @param {Event} e 
+     * @param {object} menuItemObject 
+     * @returns void
+     */
+    const onHandleMenuItemAddition = (e,menuItemObject) => {
+      e.preventDefault();
+      setActiveObject(menuItemObject);
+      setShowModal(true);
+    }
 
 
       const submit = (e) => {
@@ -332,10 +330,9 @@ export default function Index(props){
                                       data-bs-target="#exampleModal"
                                       className="btn btn-primary mt-5 w-24"
                                       key={id}
-                                    onClick={() => {
-                                    setActiveObject({ id, title, image, description, dietary_requirements, price });
-                                    setShowModal(true);
-                                    }}
+                                      onClick={(e) => {
+                                        onHandleMenuItemAddition(e,{ id:id,title: title,image: image,description: description, dietary_requirements: dietary_requirements, price: price });
+                                      }}
                                     >
                                       Add
                                     </button>
@@ -479,8 +476,58 @@ export default function Index(props){
                 </div>
                 {/* end: basket */}
               </div>
-              {showModal ? <Modal object={activeObject} /> : null}
+              {/* {showModal && activeObject &&
+                <Modal className="active" id={activeObject.id}>
+                  <ModalHeader>
+                    <h2>{activeObject.title}</h2>
+                  </ModalHeader>
+                  <ModalBody>
+                    <p>{activeObject.description}</p>
+                    <p>{activeObject.dietary_requirements}</p>
+                    <p>{activeObject.price}</p>
+                  </ModalBody>
+                  <ModalFooter>
+                    <button onClick={() => setShowModal(false)}>Close me</button>
+                  </ModalFooter>
+                </Modal>
+              } */}
+              {/* BEGIN: New Order Modal */}
+              <Modal
+                show={showModal}
+                onHidden={() => {
+                  setShowModal(false);
+                }}
+              >
+                <ModalHeader>
+                  <h2 className="font-medium text-base mr-auto">
+                    {activeObject.title ?? ""}
+                  </h2>
+                  <img src={activeObject.image ?? ""} alt={activeObject.title ?? ""} />
+                </ModalHeader>
+                <ModalBody className="grid grid-cols-12 gap-4 gap-y-3">
+                  <div className="col-span-12">
+                    <p>{activeObject.description ?? ""}</p>
+                    <p>{activeObject.dietary_requirements ?? ""}</p>
+                    <p>{activeObject.price ?? ""}</p>
+                  </div>
+                </ModalBody>
+                <ModalFooter className="text-right">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowModal(false);
+                    }}
+                    className="btn btn-outline-secondary w-32 mr-1"
+                  >
+                    Cancel
+                  </button>
+                </ModalFooter>
+              </Modal>
+              {/* END: New Order Modal */}
             </div>
+
+            
+
           </Authenticated>
         </>
       );
