@@ -14,6 +14,7 @@ use App\Models\OrderItem;
 use App\Models\OpeningHour;
 use App\Models\MenuCategory;
 use App\Models\Configuration;
+use App\Models\CollectionTime;
 use Illuminate\Database\Seeder;
 use App\Models\RestaurantCategory;
 
@@ -124,6 +125,55 @@ class DatabaseSeeder extends Seeder
         ]);
 
         OpeningHour::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 7,
+        ]);
+
+        CollectionTime::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 1,
+        ]);
+
+        CollectionTime::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 2,
+        ]);
+
+        CollectionTime::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 3,
+        ]);
+
+        CollectionTime::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 4,
+        ]);
+
+        CollectionTime::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 5,
+        ]);
+
+        CollectionTime::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 6,
+        ]);
+
+        CollectionTime::factory()->create([
             'restaurant_id' => $restaurant->id,
             'from' => '10:00:00',
             'to' => '22:00:00',

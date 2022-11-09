@@ -778,3 +778,10 @@
 1667906865-5224-1795129808,1667906865.1856,GET,/dist/zoom-vanilla.min.js.map,,404,804.8849105835,request
 1667906993-6799-776450058,1667906993.3756,GET,/call-centre/orders/index,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,798.44307899475,request
 1667906997-9251-1815398997,1667906997.3981,GET,/dist/zoom-vanilla.min.js.map,,404,1664.9329662323,request
+1667998717-2814-926447118,1667998716.224,GET,/,"App\Http\Controllers\Web\HomeController@index",302,5182.0950508118,request
+1667998721-8311-255690906,1667998721.5072,GET,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@create",200,2747.9209899902,request
+1667998745-0867-85940072,1667998744.8707,POST,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@store",500,5026.0798931122,request
+1667998766-1165-656228206,1667998765.7659,GET,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@create",200,712.57996559143,request
+1667998774-9487-413991648,1667998774.7881,POST,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@store",302,768.963098526,request
+1667998775-8110-353868407,1667998775.5853,GET,/,"App\Http\Controllers\Web\HomeController@index",200,982.9409122467,request
+1667998793-3929-350313370,1667998793.2275,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,589.34807777405,request
