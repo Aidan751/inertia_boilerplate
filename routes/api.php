@@ -106,12 +106,48 @@ Route::get('/orders/{restaurant}', [OrderController::class, 'getOrders']);
 // add a new order
 Route::post('/orders', [OrderController::class, 'add']);
 
+// list orders
+Route::get('/orders', 'OrderController@list');
+
 // get a single order
 Route::get('/orders/{id}', [OrderController::class, 'show']);
+
+// polls for order
+Route::get('/order/{id}/polling', 'OrderController@poll');
+
+// check if fares are available
+Route::get('/orders/available', 'OrderController@availableFares');
 
 // update an order
 Route::put('/orders/{id}', [OrderController::class, 'update']);
 
 // delete an order
 Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
+
+
+Route::post('/stripe/payment', 'StripeController@addPaymentMethod');
+Route::get('/stripe/create-session', 'StripeController@createSession');
+
+
+Route::put('/driver', 'DriverController@update');
+Route::get('/driver', 'DriverController@get');
+Route::post('/driver', 'DriverController@create');
+Route::get('/driver/nearest', 'DriverController@nearest');
+
+Route::post('/review', 'ReviewController@create');
+
+
+
+Route::get('/address', 'AddressController@list');
+Route::post('/address', 'AddressController@add');
+Route::delete('/address/{id}', 'AddressController@delete');
+
+Route::get('/order/{id}', 'OrderController@get');
+Route::post('/orders', 'OrderController@add');
+Route::put('/order/{id}', 'OrderController@update');
+
+Route::get('/report/{id}', 'ReportController@add');
+Route::post('/location', 'LocationController@update');
+Route::post('/location/generate', 'LocationController@generate');
+Route::get('/location', 'LocationController@get');
 });

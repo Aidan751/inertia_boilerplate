@@ -951,3 +951,9 @@
 1668033072-6814-1628650654,1668033072.3919,POST,/api/orders,"App\Http\Controllers\Api\OrderController@add",200,609.26699638367,request
 1668033187-2627-1545900180,1668033186.9335,POST,/api/orders,"App\Http\Controllers\Api\OrderController@add",500,798.20418357849,request
 1668033193-5779-763184592,1668033193.2656,POST,/api/orders,"App\Http\Controllers\Api\OrderController@add",200,643.49889755249,request
+1668033269-2026-1512188675,1668033268.9204,GET,/api/orders,"App\Http\Controllers\Api\OrderController@getAll",200,791.25213623047,request
+1668033405-1939-889015870,1668033404.9966,PUT,/api/orders,,405,478.27792167664,request
+1668033466-8663-774410809,1668033466.655,PUT,/api/orders/3,"App\Http\Controllers\Api\OrderController@update",404,664.77799415588,request
+1668033582-9940-1007739896,1668033582.7665,PUT,/api/orders/3,"App\Http\Controllers\Api\OrderController@update",404,687.8068447113,request
+1668033597-5525-1301377483,1668033597.307,PUT,/api/orders/3,"App\Http\Controllers\Api\OrderController@update",404,565.75298309326,request
+1668033633-5263-333393632,1668033633.3576,PUT,/api/orders/3,"App\Http\Controllers\Api\OrderController@update",404,419.45505142212,request
