@@ -141,20 +141,41 @@ class OpeningHourController extends Controller
     {
         $restaurant = Restaurant::where('id', Auth::user()->restaurant_id)->first();
         $openHours = OpeningHour::where('restaurant_id', $restaurant->id)->get();
+        $collectionTimes = CollectionTime::where('restaurant_id', $restaurant->id)->get();
 
         foreach($openHours as $openHour) {
             $openHour->delete();
         }
 
+        foreach($collectionTimes as $collectionTime) {
+            $collectionTime->delete();
+        }
+
         foreach($request->openHours as $key => $openHoursForDay) {
-            
+
             foreach($openHoursForDay as $times){
 
                 foreach($times as $time) {
-                    
+
                     $openHour = OpeningHour::create([
                         'restaurant_id' => $restaurant->id,
-                        'day_id' => $key +1,
+                        'day_id' => $key + 1,
+                        'from' => $time['from'],
+                        'to' => $time['to'],
+                    ]);
+                }
+            }
+        }
+
+        foreach($request->collectionTimes as $key => $collectionTimesForDay) {
+
+            foreach($collectionTimesForDay as $times){
+
+                foreach($times as $time) {
+
+                    $collectionTime = CollectionTime::create([
+                        'restaurant_id' => $restaurant->id,
+                        'day_id' => $key + 1,
                         'from' => $time['from'],
                         'to' => $time['to'],
                     ]);
