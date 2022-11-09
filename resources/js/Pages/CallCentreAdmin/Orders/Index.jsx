@@ -496,7 +496,9 @@ export default function Index(props){
                 </ModalHeader>
                 <ModalBody>
                           {/* start: choose sizes and extras */}
-                            <div className="w-full p-5">
+                            <div className="w-full p-5 flex justify-between items-start">
+                            <div>
+
                                 <h2 className="font-medium text-md mb-5">
                                 Choose your size
                                 </h2>
@@ -518,8 +520,10 @@ export default function Index(props){
                                     }
                                     </div>
                                 ))}
+                            </div>
+                            <div>
 
-                                <h2 className="font-medium text-md mb-5 mt-8">
+                                <h2 className="font-medium text-md mb-5">
                                 Choose your sides
                                 </h2>
 
@@ -543,6 +547,7 @@ export default function Index(props){
                                     }
                                     </div>
                                 ))}
+                            </div>
                             </div>
                           {/* end: choose sizes and extras */}
                 </ModalBody>
