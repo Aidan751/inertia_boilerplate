@@ -116,7 +116,7 @@ Route::get('/orders/{id}', [OrderController::class, 'show']);
 Route::get('/order/{id}/polling', 'OrderController@poll');
 
 // check if fares are available
-Route::get('/orders/available', 'OrderController@availableFares');
+Route::get('/orders/available', [OrderController::class, 'availableFares']);
 
 // update an order
 Route::put('/orders/{id}', [OrderController::class, 'update']);

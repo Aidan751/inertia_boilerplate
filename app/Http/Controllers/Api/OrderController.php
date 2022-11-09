@@ -55,24 +55,29 @@ class OrderController extends Controller
     // Retrieve available orders within the next 10 minutes (or sooner)
 
     public function availableFares(Request $request) {
+     dd($request->all());
 
-        $radius = 150; // Radius in miles
-        $latitude = $request->latitude;
-        $longitude = $request->longitude;
+        // $radius = 150; // Radius in miles
+        // $latitude = $request->latitude;
+        // $longitude = $request->longitude;
 
-        $query = Order::with('restaurant')
-            ->whereHas('restaurant', function($q) use ($latitude, $longitude, $radius) {
-                $q->isWithinMaxDistance($latitude, $longitude, $radius);
-            })
-            ->where('pickup_method', '=', 'delivery')
-            ->where('payment_status', 'paid')
-            ->where('status', '=', 'confirmed')
-            ->where('driver_id', '=', null)
-            ->where('pickup_date', '<=', Carbon::now()->addMinutes(10))
-            ->orderBy('pickup_date', 'asc')
-            ->paginate(25);
+        // $query = Order::with('restaurant')
+        //     ->whereHas('restaurant', function($q) use ($latitude, $longitude, $radius) {
+        //         $q->isWithinMaxDistance($latitude, $longitude, $radius);
+        //     })
+        //     ->where('pickup_method', '=', 'delivery')
+        //     ->where('payment_status', 'paid')
+        //     ->where('status', '=', 'confirmed')
+        //     ->where('driver_id', '=', null)
+        //     ->where('pickup_date', '<=', Carbon::now()->addMinutes(10))
+        //     ->orderBy('pickup_date', 'asc')
+        //     ->paginate(25);
 
-        return response($query, 200);
+        //     if($query){
+        //         return response($query, 200);
+        //     } else {
+        //         return response('No fares found', 404);
+        //     }
     }
 
     public function add(Request $request) {
@@ -288,13 +293,14 @@ class OrderController extends Controller
 
         if (!is_null($request->driver_id) && $order->status != "cancelled") {
 
-            if ($order->driver_id == null ) {
+            if ($order->driver_id != null ) {
                 $order->status = 'driver-en-route';
                 $order->driver_id = $request->driver_id;
                 $order->save();
                 $driver = UserDriver::where('user_id', $request->driver_id)->first();
                 $driver->availability_status = "order-in-progress";
                 $driver->save();
+
 
                 if ($order->customer != null) {
                     app('App\Services\PushNotification')->sendPush($appName, "Your driver is en-route to pick up your order", [$order->customer_id], 'orders', $order->id);
