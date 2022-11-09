@@ -482,14 +482,14 @@ export default function Index(props){
               >
                 <ModalHeader>
                 <div className="flex flex-col">
-                  <h2 className="font-medium text-base mr-auto">
+                  <h2 className="font-medium text-base mr-auto mb-5 mt-5">
                     {activeObject.title ?? ""}
                   </h2>
                   <img src={activeObject.image ?? ""} alt={activeObject.title ?? ""} />
-                  <div className="col-span-12">
+                  <div className="col-span-12 mt-5">
                     <p>{activeObject.description ?? ""}</p>
-                    <p>{activeObject.dietary_requirements ?? ""}</p>
-                    <p>£{activeObject.price ?? ""}</p>
+                    <p className="mt-2">{activeObject.dietary_requirements ?? ""}</p>
+                    <p className="mt-2">£{activeObject.price ?? ""}</p>
                     {console.log(activeObject.sizes)}
                   </div>
                 </div>
@@ -501,7 +501,7 @@ export default function Index(props){
                                 Choose your size
                                 </h2>
 
-                                {activeObject.sizes !== null &&
+                                {activeObject.sizes &&
                                     activeObject.sizes.map((size, key) => (
                                     <div>
                                     {
@@ -509,7 +509,7 @@ export default function Index(props){
                                         (
                                     <div className="flex items-center mt-5">
                                     <input type="radio" name="size" value={size.id}  onChange={(e) => setData(e.target.name, e.target.value)}/>{" "}
-                                    <p className="ml-2">{size.size}</p>
+                                    <p className="ml-2">{size.name}</p>
                                     {size.additional_charge !== 0 && (
                                         <p className="ml-3">+ £{size.additional_charge || 0}</p>
                                     )}
