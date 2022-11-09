@@ -9,13 +9,8 @@ import {useStripe, useElements, PaymentElement} from '@stripe/react-stripe-js';
 
 export default function Show(props){
 console.log(props);
-  const stripe = useStripe();
-  const elements = useElements();
-
 const { data, setData, put, post, processing, errors } = useForm({
 });
-
-
 
 const onHandleChange = (event) => {
     setData(event.target.name, event.target.value);
@@ -25,31 +20,6 @@ const handleApprove = async (event) => {
     event.preventDefault();
     data.status = 'approved';
 
-    if (!stripe || !elements) {
-        // Stripe.js has not yet loaded.
-        // Make sure to disable form submission until Stripe.js has loaded.
-        return;
-      }
-
-
-    const result = await stripe.confirmPayment({
-        //`Elements` instance that was used to create the Payment Element
-        elements,
-        confirmParams: {
-          return_url: "https://www.google.com",
-        },
-      });
-
-      if (result.error) {
-        // Show error to your customer (for example, payment details incomplete)
-        console.log(result.error.message);
-      } else {
-        // Your customer will be redirected to your `return_url`. For some payment
-        // methods like iDEAL, your customer will be redirected to an intermediate
-        // site first to authorize the payment, then redirected to the `return_url`.
-      }
-
-      data.payment_intent_id = result.paymentIntent.id;
     put(route('restaurant.orders.status.update', props.order.id));
 }
 

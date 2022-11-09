@@ -841,3 +841,15 @@
 1668004610-9912-40749510,1668004610.5095,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,1232.0611476898,request
 1668004636-0434-323827368,1668004635.8075,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",303,624.03988838196,request
 1668004636-6971-2084456991,1668004636.4836,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,712.55683898926,request
+1668004713-0556-119950620,1668004712.8232,GET,/restaurant/menu/categories/create,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@create",200,521.02994918823,request
+1668004716-4444-1075511319,1668004716.2804,GET,/restaurant/menu/categories,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@index",200,621.04988098145,request
+1668004720-0795-1848878163,1668004719.9177,GET,/restaurant/menu/categories/edit/5,"App\Http\Controllers\Web\Restaurant\MenuCategoryController@edit",200,457.4830532074,request
+1668004725-4790-720412028,1668004725.3371,GET,/restaurant/tables,"App\Http\Controllers\Web\Restaurant\TableController@index",200,447.79491424561,request
+1668004730-6456-1594352140,1668004730.486,GET,/restaurant/orders/6,"App\Http\Controllers\Web\Restaurant\OrderController@index",200,480.35001754761,request
+1668004736-8813-1724915943,1668004736.6852,GET,/restaurant/orders/show/1,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,610.71801185608,request
+1668004744-7820-144957554,1668004744.4015,GET,/dist/zoom-vanilla.min.js.map,,404,1351.0708808899,request
+1668004839-6613-351733951,1668004839.3849,GET,/restaurant/orders/show/1,"App\Http\Controllers\Web\Restaurant\OrderController@show",200,598.62589836121,request
+1668004843-6674-1897653099,1668004843.4328,GET,/dist/zoom-vanilla.min.js.map,,404,433.63404273987,request
+1668004893-5668-2084615583,1668004893.3617,GET,/restaurant/offers/create,"App\Http\Controllers\Web\Restaurant\OfferController@create",200,839.21194076538,request
+1668004899-0460-715366117,1668004898.8798,GET,/restaurant/offers,"App\Http\Controllers\Web\Restaurant\OfferController@index",200,594.60401535034,request
+1668004902-2680-1001659612,1668004902.0538,GET,/restaurant/offers/create,"App\Http\Controllers\Web\Restaurant\OfferController@create",200,763.15999031067,request
