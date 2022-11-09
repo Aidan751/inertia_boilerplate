@@ -5,7 +5,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\RolesController;
+use App\Http\Controllers\Api\DriverController;
+use App\Http\Controllers\Api\ReportController;
+use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\StripeController;
+use App\Http\Controllers\Api\AddressController;
+use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\AdminRestaurantsController;
 use App\Http\Controllers\Api\AdminCallCentreUserController;
@@ -107,16 +112,16 @@ Route::get('/orders/{restaurant}', [OrderController::class, 'getOrders']);
 Route::post('/orders', [OrderController::class, 'add']);
 
 // list orders
-Route::get('/orders', 'OrderController@list');
+Route::get('/orders', [OrderController::class, 'list']);
 
 // get a single order
 Route::get('/orders/{id}', [OrderController::class, 'show']);
 
 // polls for order
-Route::get('/order/{id}/polling', 'OrderController@poll');
+Route::get('/order/{id}/polling', [OrderController::class, 'poll']);
 
 // check if fares are available
-Route::get('/orders/available', [OrderController::class, 'availableFares']);
+Route::get('/orders/available-fares', [OrderController::class, 'availableFares']);
 
 // update an order
 Route::put('/orders/{id}', [OrderController::class, 'update']);
@@ -125,29 +130,27 @@ Route::put('/orders/{id}', [OrderController::class, 'update']);
 Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
 
 
-Route::post('/stripe/payment', 'StripeController@addPaymentMethod');
-Route::get('/stripe/create-session', 'StripeController@createSession');
+Route::post('/stripe/payment', [StripeController::class, 'addPaymentMethod']);
+
+Route::get('/stripe/create-session', [StripeController::class, 'createSession']);
 
 
-Route::put('/driver', 'DriverController@update');
-Route::get('/driver', 'DriverController@get');
-Route::post('/driver', 'DriverController@create');
-Route::get('/driver/nearest', 'DriverController@nearest');
+Route::put('/driver', [DriverController::class, 'update']);
+Route::get('/driver', [DriverController::class, 'get']);
+Route::post('/driver', [DriverController::class, 'create']);
+Route::get('/driver/nearest', [DriverController::class, 'nearest']);
 
-Route::post('/review', 'ReviewController@create');
+Route::post('/review', [ReviewController::class, 'create']);
 
 
 
-Route::get('/address', 'AddressController@list');
-Route::post('/address', 'AddressController@add');
-Route::delete('/address/{id}', 'AddressController@delete');
+Route::get('/address', [AddressController::class, 'list']);
+Route::post('/address', [AddressController::class, 'add']);
+Route::delete('/address/{id}', [AddressController::class, 'delete']);
 
-Route::get('/order/{id}', 'OrderController@get');
-Route::post('/orders', 'OrderController@add');
-Route::put('/order/{id}', 'OrderController@update');
 
-Route::get('/report/{id}', 'ReportController@add');
-Route::post('/location', 'LocationController@update');
-Route::post('/location/generate', 'LocationController@generate');
-Route::get('/location', 'LocationController@get');
+Route::get('/report/{id}', [ReportController::class, 'add']);
+Route::post('/location', [LocationController::class, 'update']);
+Route::post('/location/generate', [LocationController::class, 'generate']);
+Route::get('/location', [LocationController::class, 'get']);
 });

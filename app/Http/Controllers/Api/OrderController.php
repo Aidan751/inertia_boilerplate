@@ -55,7 +55,7 @@ class OrderController extends Controller
     // Retrieve available orders within the next 10 minutes (or sooner)
 
     public function availableFares(Request $request) {
-     dd($request->all());
+     dd('hello');
 
         // $radius = 150; // Radius in miles
         // $latitude = $request->latitude;

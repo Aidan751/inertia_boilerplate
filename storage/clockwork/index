@@ -724,3 +724,16 @@
 1668035609-3933-508432366,1668035608.8677,GET,/api/orders/available,"App\Http\Controllers\Api\OrderController@getOrders",404,1094.6378707886,request
 1668035709-8454-205755130,1668035709.4969,GET,/api/orders/available,"App\Http\Controllers\Api\OrderController@getOrders",404,780.12013435364,request
 1668035712-1151-942337324,1668035711.6248,GET,/api/orders/available,"App\Http\Controllers\Api\OrderController@getOrders",404,924.00407791138,request
+1668036014-5646-731301130,1668036014.2567,GET,/api/orders/available,"App\Http\Controllers\Api\OrderController@getOrders",404,661.51404380798,request
+1668036048-7497-1279918532,1668036048.3348,GET,/api/orders/available,"App\Http\Controllers\Api\OrderController@getOrders",404,878.84497642517,request
+1668036050-7022-342792938,1668036050.4889,GET,/api/orders/available,"App\Http\Controllers\Api\OrderController@getOrders",404,484.40003395081,request
+1668036068-3202-1085841142,1668036068.145,GET,/api/orders/available/,"App\Http\Controllers\Api\OrderController@getOrders",404,452.59404182434,request
+1668036070-4043-835314743,1668036070.2587,GET,/api/orders/available/,"App\Http\Controllers\Api\OrderController@getOrders",404,390.23995399475,request
+1668036117-7646-1552688704,1668036117.6022,GET,/api/orders/available-fares,"App\Http\Controllers\Api\OrderController@getOrders",404,420.20797729492,request
+1668036119-7574-968431,1668036119.5573,GET,/api/orders/available-fares,"App\Http\Controllers\Api\OrderController@getOrders",404,496.26183509827,request
+1668036165-6337-857021393,1668036165.4018,GET,/api/orders,OrderController@list,500,420.59803009033,request
+1668036240-7273-1959513435,1668036240.4051,POST,/api/orders,OrderController@add,500,657.89318084717,request
+1668036282-5537-985476117,1668036282.1552,POST,/api/orders,"App\Http\Controllers\Api\OrderController@add",500,1039.4139289856,request
+1668036290-0609-1369568022,1668036289.8373,GET,/api/orders,OrderController@list,500,428.28392982483,request
+1668036291-8448-1836661243,1668036291.6834,GET,/api/orders,OrderController@list,500,356.23002052307,request
+1668036327-2296-996657930,1668036326.8518,GET,/api/orders,"App\Http\Controllers\Api\OrderController@list",200,1475.4631519318,request
