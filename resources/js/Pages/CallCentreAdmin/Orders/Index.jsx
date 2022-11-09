@@ -485,7 +485,7 @@ export default function Index(props){
                   <h2 className="font-medium text-base mr-auto mb-5 mt-5">
                     {activeObject.title ?? ""}
                   </h2>
-                  <img src={activeObject.image ?? ""} alt={activeObject.title ?? ""} />
+                  <img src={activeObject.image ?? ""} alt={activeObject.title ?? ""} className="rounded-md" />
                   <div className="col-span-12 mt-5">
                     <p>{activeObject.description ?? ""}</p>
                     <p className="mt-2">{activeObject.dietary_requirements ?? ""}</p>
@@ -494,9 +494,9 @@ export default function Index(props){
                   </div>
                 </div>
                 </ModalHeader>
-                <ModalBody className="grid grid-cols-12 gap-4 gap-y-3">
+                <ModalBody>
                           {/* start: choose sizes and extras */}
-                            <div className="w-full p-5">
+                            <div className="w-full">
                                 <h2 className="font-medium text-md mb-5">
                                 Choose your size
                                 </h2>
@@ -549,7 +549,7 @@ export default function Index(props){
                 <ModalFooter className="text-right">
                 <div className="flex justify-between">
                 <Button
-                    className="btn btn-primary w-full shadow-md ml-auto"
+                    className="btn btn-primary w-full shadow-md ml-auto mr-3"
                     click={() => {
                         setShowModal(false);
                         addToBasket(activeObject);
