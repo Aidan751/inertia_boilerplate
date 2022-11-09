@@ -481,7 +481,7 @@ export default function Index(props){
                 }}
               >
                 <ModalHeader>
-                <div className="flex flex-col">
+                <div className="flex flex-col p-5">
                   <h2 className="font-medium text-base mr-auto mb-5 mt-5">
                     {activeObject.title ?? ""}
                   </h2>
@@ -496,7 +496,7 @@ export default function Index(props){
                 </ModalHeader>
                 <ModalBody>
                           {/* start: choose sizes and extras */}
-                            <div className="w-full">
+                            <div className="w-full p-5">
                                 <h2 className="font-medium text-md mb-5">
                                 Choose your size
                                 </h2>
@@ -547,7 +547,7 @@ export default function Index(props){
                           {/* end: choose sizes and extras */}
                 </ModalBody>
                 <ModalFooter className="text-right">
-                <div className="flex justify-between">
+                <div className="flex justify-between p-5">
                 <Button
                     className="btn btn-primary w-full shadow-md ml-auto mr-3"
                     click={() => {
