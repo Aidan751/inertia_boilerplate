@@ -30,7 +30,7 @@ export default function Index(props){
 
       // const Modal = ({ object: { id, title, image, description, dietary_requirements, price } }) => (
 
-        
+
       // );
 
       var extra_total = 0;
@@ -123,9 +123,9 @@ export default function Index(props){
 
     /**
      * Handle the change event for adding a new menu item using the modal
-     * 
-     * @param {Event} e 
-     * @param {object} menuItemObject 
+     *
+     * @param {Event} e
+     * @param {object} menuItemObject
      * @returns void
      */
     const onHandleMenuItemAddition = (e,menuItemObject) => {
@@ -294,7 +294,7 @@ export default function Index(props){
                                 {item.title}
                               </h2>
 
-                              {item.menu_items.map(({id, title, image, description, dietary_requirements, price}) => (
+                              {item.menu_items.map(({id, title, image, description, dietary_requirements, price, sizes, extras}) => (
                                 <div className="flex items-center justify-between flex-wrap mt-8 mb-8">
                                   <div className="w-72 flex-none">
                                     <div className="box rounded-md relative hover:zoom-in">
@@ -331,7 +331,7 @@ export default function Index(props){
                                       className="btn btn-primary mt-5 w-24"
                                       key={id}
                                       onClick={(e) => {
-                                        onHandleMenuItemAddition(e,{ id:id,title: title,image: image,description: description, dietary_requirements: dietary_requirements, price: price });
+                                        onHandleMenuItemAddition(e,{ id:id,title: title,image: image,description: description, dietary_requirements: dietary_requirements, price: price, sizes: sizes, extras: extras });
                                       }}
                                     >
                                       Add
@@ -469,28 +469,10 @@ export default function Index(props){
                   </button>
                 </div>
               </TabPanel>
-
-
-
                   </form>
                 </div>
                 {/* end: basket */}
               </div>
-              {/* {showModal && activeObject &&
-                <Modal className="active" id={activeObject.id}>
-                  <ModalHeader>
-                    <h2>{activeObject.title}</h2>
-                  </ModalHeader>
-                  <ModalBody>
-                    <p>{activeObject.description}</p>
-                    <p>{activeObject.dietary_requirements}</p>
-                    <p>{activeObject.price}</p>
-                  </ModalBody>
-                  <ModalFooter>
-                    <button onClick={() => setShowModal(false)}>Close me</button>
-                  </ModalFooter>
-                </Modal>
-              } */}
               {/* BEGIN: New Order Modal */}
               <Modal
                 show={showModal}
@@ -499,19 +481,82 @@ export default function Index(props){
                 }}
               >
                 <ModalHeader>
+                <div className="flex flex-col">
                   <h2 className="font-medium text-base mr-auto">
                     {activeObject.title ?? ""}
                   </h2>
                   <img src={activeObject.image ?? ""} alt={activeObject.title ?? ""} />
-                </ModalHeader>
-                <ModalBody className="grid grid-cols-12 gap-4 gap-y-3">
                   <div className="col-span-12">
                     <p>{activeObject.description ?? ""}</p>
                     <p>{activeObject.dietary_requirements ?? ""}</p>
-                    <p>{activeObject.price ?? ""}</p>
+                    <p>£{activeObject.price ?? ""}</p>
+                    {console.log(activeObject.sizes)}
                   </div>
+                </div>
+                </ModalHeader>
+                <ModalBody className="grid grid-cols-12 gap-4 gap-y-3">
+                          {/* start: choose sizes and extras */}
+                            <div className="w-full p-5">
+                                <h2 className="font-medium text-md mb-5">
+                                Choose your size
+                                </h2>
+
+                                {activeObject.sizes !== null &&
+                                    activeObject.sizes.map((size, key) => (
+                                    <div>
+                                    {
+                                        size.size &&
+                                        (
+                                    <div className="flex items-center mt-5">
+                                    <input type="radio" name="size" value={size.id}  onChange={(e) => setData(e.target.name, e.target.value)}/>{" "}
+                                    <p className="ml-2">{size.size}</p>
+                                    {size.additional_charge !== 0 && (
+                                        <p className="ml-3">+ £{size.additional_charge || 0}</p>
+                                    )}
+                                    </div>
+                                        )
+                                    }
+                                    </div>
+                                ))}
+
+                                <h2 className="font-medium text-md mb-5 mt-8">
+                                Choose your sides
+                                </h2>
+
+                                {activeObject.extras &&
+                                    activeObject.extras.map((extra, key) => (
+                                    <div>
+                                    {
+                                        extra.name &&
+                                        (
+                                            <div className="flex items-center mt-5">
+                                            <div className="form-check mt-2">
+                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name="extra" value={extra.id} onChange={onHandleChange}/>
+                                                <label className="form-check-label flex" htmlFor="checkbox-switch-1"><p>{extra.name}</p>  {extra.additional_charge !== 0 && (
+                                                <p className="ml-3">+ £{extra.additional_charge || 0}</p>
+                                            )}</label>
+                                            </div>
+                                            </div>
+
+                                        )
+
+                                    }
+                                    </div>
+                                ))}
+                            </div>
+                          {/* end: choose sizes and extras */}
                 </ModalBody>
                 <ModalFooter className="text-right">
+                <div className="flex justify-between">
+                <Button
+                    className="btn btn-primary w-full shadow-md ml-auto"
+                    click={() => {
+                        setShowModal(false);
+                        addToBasket(activeObject);
+                    }}
+                    >
+                    Add to basket
+                </Button>
                   <button
                     type="button"
                     onClick={() => {
@@ -521,12 +566,13 @@ export default function Index(props){
                   >
                     Cancel
                   </button>
+                </div>
                 </ModalFooter>
               </Modal>
               {/* END: New Order Modal */}
             </div>
 
-            
+
 
           </Authenticated>
         </>
