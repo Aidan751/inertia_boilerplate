@@ -1,12 +1,9 @@
-import { ClassicEditor, TomSelect } from "@/base-components";
 import Button from "@/components/Button";
 import { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
-import { X } from "lucide-react";
 import { useForm } from "@inertiajs/inertia-react";
-import Label from "@/Components/Label";
-import Input from "@/Components/Input";
 import Title from "@/Components/Title";
+import ValidationSuccess from "@/Components/ValidationSuccess";
 
 export default function Edit(props) {
     const { data, setData, put, processing, errors } = useForm({});
@@ -169,6 +166,11 @@ export default function Edit(props) {
                     Opening and Collection Times "
             subtitle="Fill in the details below for your opening and collection times. You can select multiple time periods per day (i.e. if you're open for lunch and close before the evening). The opening times will be displayed on your mini profile on the app, and also combine to be your delivery time availability. "
             />
+                {/* Show Success Validation Component */}
+                    {
+                        props.success &&
+                        <ValidationSuccess message={props.success} />
+                }
             <div className="grid grid-cols-12 mt-5">
               <div className="intro-y col-span-12">
                 {/* BEGIN: Form Layout */}
