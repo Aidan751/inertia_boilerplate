@@ -177,11 +177,11 @@ export default function Index(props){
         <>
           <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
             <div className="col-span-12">
-              <h2 className="intro-y text-lg font-medium mt-5 mb-5">
+              <h2 className="intro-y text-lg font-medium px-10 pt-5 pb-5">
                 Order Details
               </h2>
               {/* start:intro */}
-              <div className="grid grid-rows-3 grid-cols-3 gap-4">
+              <div className="grid grid-rows-2 grid-cols-3 gap-4">
                 <div className="md:col-span-2 col-span-3 sm:row-span-1">
                   <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center sm:p-10">
                     {/* start:intro */}
@@ -242,7 +242,7 @@ export default function Index(props){
                   {/* end: restaurant box */}
                   {/* start: groupdeal box */}
                   <div className="mt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-t border-b">
-                    <h2 className="font-medium text-lg mt-5 mb-5">Deals</h2>
+                    <h2 className="font-medium text-lg px-10 pt-5 pb-5">Deals</h2>
 
                     {props.restaurant.group_deals &&
                       props.restaurant.group_deals.map((deal, key) => (
@@ -507,7 +507,7 @@ export default function Index(props){
                                     activeObject.sizes.map((size, key) => (
                                     <div>
                                     {
-                                        size.size &&
+                                        size.name &&
                                         (
                                     <div className="flex items-center mt-5">
                                     <input type="radio" name="size" value={size.id}  onChange={(e) => setData(e.target.name, e.target.value)}/>{" "}
