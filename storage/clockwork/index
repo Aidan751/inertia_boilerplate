@@ -838,3 +838,6 @@
 1668004167-7989-54836235,1668004167.5634,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,782.80591964722,request
 1668004205-9207-678903043,1668004205.7219,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",303,582.57579803467,request
 1668004206-5381-133992013,1668004206.339,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,628.09300422668,request
+1668004610-9912-40749510,1668004610.5095,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,1232.0611476898,request
+1668004636-0434-323827368,1668004635.8075,PUT,/restaurant/opening-hours/update,"App\Http\Controllers\Web\Restaurant\OpeningHourController@update",303,624.03988838196,request
+1668004636-6971-2084456991,1668004636.4836,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,712.55683898926,request

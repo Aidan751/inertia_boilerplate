@@ -183,6 +183,6 @@ class OpeningHourController extends Controller
             }
         }
 
-        return redirect()->back()->with('success', 'Opening times updated successfully');
+        return redirect()->back()->with('success', 'Opening times and Collection times updated successfully');
     }
 }
