@@ -6,6 +6,7 @@ import ValidationSuccess from "@/Components/ValidationSuccess";
 import { useForm } from '@inertiajs/inertia-react';
 import Checkbox from "@/components/Checkbox";
 import MidoneUpload from "@/Components/MidoneUpload";
+import { Inertia } from "@inertiajs/inertia";
 
 export default function Edit( props ) {
 
@@ -75,7 +76,31 @@ export default function Edit( props ) {
         //
         let tempFileUrl = fileUrl;
 
+
+        if(event.target.id === 'logo'){
+
+            if(props.restaurant.logo.img_url !== null && props.restaurant.logo.img_url == tempFileUrl[event.target.id]){
+                console.log(tempFileUrl);
+
+                Inertia.delete(route("my.restaurant.image.delete",{id:props.restaurant.id}),{
+                    data: {
+                        image_type: event.target.id,
+                    },
+                })
+            }
+        }
+        else if(event.target.id === 'banner'){
+            if(props.restaurant.banner.img_url !== null && props.restaurant.banner.img_url == tempFileUrl[event.target.id]){
+                Inertia.delete(route("my.restaurant.image.delete",{id:props.restaurant.id}),{
+                    data: {
+                        image_type: event.target.id,
+                    },
+                })
+            }
+        }
+
         tempFileUrl[event.target.id] = null;
+
     }
 
 
@@ -89,6 +114,12 @@ export default function Edit( props ) {
         });
     }
 
+    const handleImageDelete = (e) => {
+
+        e.preventDefault();
+
+        
+    }
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);

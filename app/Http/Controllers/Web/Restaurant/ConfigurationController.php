@@ -15,6 +15,7 @@ use App\Packages\ImagePackage;
 use App\Models\RestaurantCategory;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Spatie\Geocoder\Facades\Geocoder;
 use Illuminate\Support\Facades\Redirect;
 
@@ -169,14 +170,14 @@ class ConfigurationController extends Controller
 
              // update the logo
              if ($request->hasFile('logo')) {
-                $restaurant->logo()->update([
+                $restaurant->logo()->updateOrCreate([
                     "img_url" => ImagePackage::save($request->logo, 'restaurant_logo'),
                 ]);
             }
 
             // update the banner
             if ($request->hasFile('banner')) {
-                $restaurant->banner()->update([
+                $restaurant->banner()->updateOrCreate([
                     "img_url" => ImagePackage::save($request->banner, 'restaurant_banner'),
                 ]);
             }
@@ -184,6 +185,36 @@ class ConfigurationController extends Controller
             // save the restaurant
             $restaurant->save();
         return Redirect::route('my.restaurant.edit')->with('success', 'Restaurant updated successfully.');
+
+    }
+
+
+    /**
+     * Remove Restaurant Image from the database
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Restaurant $restaurant
+     * @return \Illuminate\Http\Response
+     */
+    public function removeImage(Request $request, Restaurant $restaurant){
+
+        $request->validate([
+            "image_type" => "required|in:logo,banner",
+        ]);
+
+        if($request->image_type == "logo"){
+            if($restaurant->logo()->first() !== null && $restaurant->logo()->first()->img_url !== null){
+                ImagePackage::delete($restaurant->logo()->first()->img_url);
+                $restaurant->logo()->first()->delete();
+            }
+        }
+        else{
+            if($restaurant->banner()->first() !== null && $restaurant->banner()->first()->img_url !== null){
+                ImagePackage::delete($restaurant->banner()->first()->img_url);
+                $restaurant->banner()->first()->delete();
+            }
+        }
+
+        return Redirect::route('my.restaurant.edit')->with('success', 'Image removed successfully.');
 
     }
 

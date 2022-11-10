@@ -394,6 +394,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // update my restaurant
     Route::put('/my/restaurant/update/{id}', [RestaurantConfigurationController::class, 'update'])->name('my.restaurant.update');
+    // Delete Restaurant Logo
+    Route::delete('/my/restaurant/logo/{restaurant}', [RestaurantConfigurationController::class, 'removeImage'])->name('my.restaurant.image.delete');
 
     // list call centre orders
     Route::get('/call-centre/orders/{id}', [CallCentreOrderController::class, 'index'])->name('call-centre.orders.index');
