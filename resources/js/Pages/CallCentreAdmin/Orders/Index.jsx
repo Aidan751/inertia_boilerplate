@@ -11,7 +11,6 @@ import Button from "@/Components/Button";
 
 
 export default function Index(props){
-    console.log(props);
     const { data, setData, get, processing, errors } = useForm({
 
     })
@@ -23,6 +22,8 @@ export default function Index(props){
 
       const [showModal, setShowModal] = useState(false);
       const [activeObject, setActiveObject] = useState({});
+      const [sizes, setSizes] = useState([]);
+      const [extras, setExtras] = useState([]);
 
       function getClass(index) {
         return index === activeObject?.id ? "active" : "inactive";
@@ -46,6 +47,25 @@ export default function Index(props){
         list[index].menu_item.notes = value;
         setSelectedItems(list);
       };
+
+        // to input elements and record their values in state
+        const handleSizeInputChange = (e, index) => {
+            const { name, value } = e.target;
+            const list = [...sizes];
+            list[index][name] = value;
+            setSizes(list);
+        };
+
+        const handleExtraInputChange = (e) => {
+            setData(
+            e.target.name,
+            e.target.type === "checkbox" ? e.target.checked : e.target.value
+            );
+            const { name, value } = e.target;
+            const list = [...extras];
+            list[name] = value;
+            setExtras(list);
+        };
 
       //   select quantity of a menu item
       const onQuantityChange = (e, index) => {
@@ -173,6 +193,15 @@ export default function Index(props){
           selected_items: JSON.stringify(selectedItems)
         });
       };
+
+      const addToBasket = (e, id) => {
+        e.preventDefault();
+        data.sizes = sizes;
+        data.extras = extras;
+        Inertia.get(route("call-centre.orders.add.menu-item", { id: id }), {
+            selected_items: JSON.stringify(selectedItems)
+        });
+        };
       return (
         <>
           <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
@@ -372,10 +401,9 @@ export default function Index(props){
                               (item.extra
                                 && item.extra.length > 0 ?
                                   item.extra.reduce(
-                                    (a, b) =>{
-                                        console.log(a.additional_charge + b.additional_charge);
-                                      return a.additional_charge + b.additional_charge;
-                            })
+                          (prev, curr, index, array) => prev + curr.additional_charge,
+                          0
+                        )
                                 : 0) *
                                 item.menu_item.quantity +
                               (item.size
@@ -490,7 +518,6 @@ export default function Index(props){
                     <p>{activeObject.description ?? ""}</p>
                     <p className="mt-2">{activeObject.dietary_requirements ?? ""}</p>
                     <p className="mt-2">£{activeObject.price ?? ""}</p>
-                    {console.log(activeObject.sizes)}
                   </div>
                 </div>
                 </ModalHeader>
@@ -510,7 +537,7 @@ export default function Index(props){
                                         size.name &&
                                         (
                                     <div className="flex items-center mt-5">
-                                    <input type="radio" name="size" value={size.id}  onChange={(e) => setData(e.target.name, e.target.value)}/>{" "}
+                                    <input type="radio" name="size" value={size.id}  onChange={(e) => handleSizeInputChange(e, key)}/>{" "}
                                     <p className="ml-2">{size.name}</p>
                                     {size.additional_charge !== 0 && (
                                         <p className="ml-3">+ £{size.additional_charge || 0}</p>
@@ -535,7 +562,7 @@ export default function Index(props){
                                         (
                                             <div className="flex items-center mt-5">
                                             <div className="form-check mt-2">
-                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name="extra" value={extra.id} onChange={onHandleChange}/>
+                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name="extra" value={extra.id} onChange={(e) => handleExtraInputChange(e, key)}/>
                                                 <label className="form-check-label flex" htmlFor="checkbox-switch-1"><p>{extra.name}</p>  {extra.additional_charge !== 0 && (
                                                 <p className="ml-3">+ £{extra.additional_charge || 0}</p>
                                             )}</label>
@@ -555,9 +582,9 @@ export default function Index(props){
                 <div className="flex justify-between p-5">
                 <Button
                     className="btn btn-primary w-full shadow-md ml-auto mr-3"
-                    click={() => {
+                    click={(e) => {
                         setShowModal(false);
-                        addToBasket(activeObject);
+                        addToBasket(e, activeObject.id);
                     }}
                     >
                     Add to basket
