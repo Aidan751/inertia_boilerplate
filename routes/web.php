@@ -418,6 +418,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // search for restaurants and place an order
     Route::get('/call-centre/orders/search/{id}', [CallCentreOrderController::class, 'search'])->name('call-centre.orders.search');
 
+    Route::get('/call-centre/orders/add-menu-item/{id}', [CallCentreOrderController::class, 'addMenuItem'])->name('call-centre.orders.add.menu-item');
 
     // add a new order
     Route::post('/call-centre/orders/store', [CallCentreOrderController::class, 'store'])->name('call-centre.orders.store');

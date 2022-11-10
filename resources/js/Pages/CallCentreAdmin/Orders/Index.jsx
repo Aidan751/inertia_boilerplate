@@ -54,17 +54,19 @@ export default function Index(props){
             const list = [...sizes];
             list[index][name] = value;
             setSizes(list);
+            console.log(sizes);
         };
 
         const handleExtraInputChange = (e) => {
-            setData(
-            e.target.name,
-            e.target.type === "checkbox" ? e.target.checked : e.target.value
-            );
             const { name, value } = e.target;
-            const list = [...extras];
-            list[name] = value;
-            setExtras(list);
+            const isChecked = e.target.checked;
+            if (isChecked) {
+                setExtras([...extras, {
+                    id: value,
+                    name: name,
+                }]);
+            }
+            console.log(extras);
         };
 
       //   select quantity of a menu item
@@ -199,7 +201,8 @@ export default function Index(props){
         data.sizes = sizes;
         data.extras = extras;
         Inertia.get(route("call-centre.orders.add.menu-item", { id: id }), {
-            selected_items: JSON.stringify(selectedItems)
+            sizes: data.sizes,
+            extras: data.extras,
         });
         };
       return (
@@ -537,7 +540,7 @@ export default function Index(props){
                                         size.name &&
                                         (
                                     <div className="flex items-center mt-5">
-                                    <input type="radio" name="size" value={size.id}  onChange={(e) => handleSizeInputChange(e, key)}/>{" "}
+                                    <input type="radio" name="size" value={size.id} onChange={(e) => handleSizeInputChange(e, key)}/>{" "}
                                     <p className="ml-2">{size.name}</p>
                                     {size.additional_charge !== 0 && (
                                         <p className="ml-3">+ £{size.additional_charge || 0}</p>
@@ -562,7 +565,7 @@ export default function Index(props){
                                         (
                                             <div className="flex items-center mt-5">
                                             <div className="form-check mt-2">
-                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name="extra" value={extra.id} onChange={(e) => handleExtraInputChange(e, key)}/>
+                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name={extra.name} value={extra.id} onChange={(e) => handleExtraInputChange(e, key)}/>
                                                 <label className="form-check-label flex" htmlFor="checkbox-switch-1"><p>{extra.name}</p>  {extra.additional_charge !== 0 && (
                                                 <p className="ml-3">+ £{extra.additional_charge || 0}</p>
                                             )}</label>

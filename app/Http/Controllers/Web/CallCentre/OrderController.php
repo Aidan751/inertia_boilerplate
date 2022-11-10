@@ -350,6 +350,21 @@ class OrderController extends Controller
             ]);
         }
 
+        // add menu item to order
+        public function addMenuItem(Request $request)
+        {
+            $restaurant = session('restaurant');
+            $order = session('order');
+
+            dd($order->items, $request->all());
+            return Inertia::render('CallCentreAdmin/Orders/Index', [
+                'order' => $order,
+                'restaurant' => $restaurant,
+                'group_deal' => $group_deal,
+                'selected_items' => $selected_items,
+            ]);
+        }
+
         // get order details
         public function index(Request $request)
         {
