@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Web\CallCentre;
 
 use Carbon\Carbon;
 use App\Models\Day;
+use App\Models\Size;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
@@ -71,13 +72,13 @@ class OrderController extends Controller
         {
 
             $group_deal_single_item = GroupDealSingleItem::where('menu_item_id', $id)->first();
-            
+
             $group_deal_single_item->load('menuItem');
-            
+
             session(['group_deal_single_item' => $group_deal_single_item]);
-            
+
             $restaurant = session('restaurant');
-            
+
             $group_deal = session('group_deal');
 
             $group_deal->load("groupDealItems.groupDealSingleItems.menuItem.extras");
@@ -115,11 +116,11 @@ class OrderController extends Controller
                 $total = $request->total_price;
 
                 $amount = round((doubleval($total) * 100), 2);
-                
+
                 $percentageTransaction = 15;
 
                 $deliveryFeeAmount = session('restaurant')->delivery_charge * 100;
-                
+
                 // Application fee does not include delivery fee
                 $applicationFeeAmount = round((($amount - $deliveryFeeAmount)  / $percentageTransaction), 2);
 
@@ -273,9 +274,11 @@ class OrderController extends Controller
             $quantity = 1;
             $menu_item->setAttribute('notes', $notes);
             $menu_item->setAttribute('quantity', $quantity);
+            $menu_item_sizes = $menu_item->sizes()->get();
+            $menu_item_extras = $menu_item->extras()->get();
             // loop through sizes and add those sizes to the new selected size array
-            if($menu_item->sizes){
-            foreach($menu_item->sizes as $size){
+            if($menu_item_sizes){
+            foreach($menu_item_sizes as $size){
                 if($size['id'] == $request->size){
                     $size['additional_charge'] = floatval($size['additional_charge']);
                     array_push($new_selected_size, $size);
@@ -285,9 +288,9 @@ class OrderController extends Controller
 
 
 
-        if($menu_item->extras){
+        if($menu_item_extras){
             // loop through extras and add those extras to the new selected extra array
-            foreach($menu_item->extras as $extra){
+            foreach($menu_item_extras as $extra){
 
                 foreach($request->extra as $extra_id){
                     if($extra['id'] == $extra_id){
@@ -386,7 +389,7 @@ class OrderController extends Controller
             if ($request->order_type == 'table' && $restaurant->allows_table_orders == 0)  {
                 return redirect()->back()->withErrors(['error', 'This business does not offer table service.']);
             }
-           
+
 
             $openingHoursMessage = "";
             $selected_time = "";

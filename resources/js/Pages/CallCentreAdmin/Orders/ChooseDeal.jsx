@@ -15,7 +15,7 @@ export default function chooseDeal(props) {
   //   <>
   //   </>
   // )
-  
+
 
   const { data, setData, post, processing, errors } = useForm({
     role: 'call_centre_admin',
@@ -49,7 +49,6 @@ export default function chooseDeal(props) {
 
   const submit = (e) => {
     e.preventDefault();
-
     post(route('call-centre.orders.update.deal.items'), {size: data.size, extra: data.extra});
 };
 
