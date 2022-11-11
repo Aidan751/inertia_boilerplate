@@ -365,6 +365,136 @@ class OrderController extends Controller
             ]);
         }
 
+        /**
+         * Display the order page
+         * @param Request $request
+         * @return \Inertia\Response
+         */
+        public function showOrder(Request $request){
+            // Validate the request
+            $request->validate([
+                'customer_name' => ['required', 'string', 'max:191'],
+                'customer_contact_number' => 'phone:GB',
+                'contact_number' => 'phone:GB',
+                "role" => "required|exists:roles,name",
+                "order_type" => "required|string|in:collection,delivery,table",
+            ]);
+
+            $restaurant = Restaurant::where('contact_number', $request->contact_number)->first();
+
+            if(!$restaurant){
+                return redirect()->back()->withErrors([
+                    'message' => 'Restaurant not found.'
+                ]);
+            }
+
+            if ($request->order_type == 'delivery' && $restaurant->allows_delivery == 0) {
+                return redirect()->back()->withErrors(['error', 'This business does not offer a delivery service.']);
+            }
+
+            if ($request->order_type == 'collection' && $restaurant->allows_collection == 0)  {
+                return redirect()->back()->withErrors(['error', 'This business does not offer a collection service.']);
+            }
+
+            if ($request->order_type == 'table' && $restaurant->allows_table_orders == 0)  {
+                return redirect()->back()->withErrors(['error', 'This business does not offer table service.']);
+            }
+           
+
+            $openingHoursMessage = "";
+            $selected_time = "";
+            // check if restaurant delivery hours are within the time requested
+            if ($request->when_radio == 'asap') {
+                // if selected asap, check if restaurant is open
+                $milliseconds =  date_format(new DateTime('+60 minutes'),  'H:i:s');
+            } else {
+                // if selected time, check if restaurant is open at the time selected
+                $selected_time = date_format(new DateTime($request->selected_time),  'H:i:s');
+            }
+
+            // Check restaurant is open now
+            $currentDay = date('l');
+
+            // get day
+            $day = Day::where('day_of_the_week', $currentDay)->first();
+
+            // get opening hours for the day
+            $todaysHours = OpeningHour::where('day_id', $day->id)->where('restaurant_id', $restaurant->id)->get();
+
+            if (count($todaysHours) > 0) {
+                // Business is open today but may have multiple opening / closing times
+                $businessClosed = false;
+                // Iterate through each of the opening hours to see if we find a match
+                foreach ($todaysHours as $hours) {
+                    // If current time is after opening time and current time is before closing time
+                    if ( ($selected_time >= date_format(new DateTime($hours->from),  'H:i:s')) && ($selected_time < date_format(new DateTime($hours->to),  'H:i:s')) ) {
+                        // Business is open
+                        $businessClosed = false;
+                        $openingHoursMessage = "Open till " . date_format(new DateTime($hours->to),  'H:i');
+                    } else {
+                        $businessClosed = true;
+                    }
+                    if($businessClosed) {
+                        // If business is closed, check to see if it's already been open for that day
+                        if ($selected_time < date_format(new DateTime($hours->from),  'H:i:s')) {
+                            $openingHoursMessage = "Opens at " . date_format(new DateTime($hours->from),  'H:i');
+                        } else if ($selected_time > date_format(new DateTime($hours->to),  'H:i:s')) {
+                            $openingHoursMessage = "Closed at " . date_format(new DateTime($hours->to),  'H:i');
+                        }
+                    }
+                }
+            }
+
+            if ($request->order_type == 'delivery') {
+                // find address
+                $googleApiKey = config('geocoder.key');
+                $googleGeocoding = 'https://maps.googleapis.com/maps/api/geocode/json?key=' . $googleApiKey . '&address=' . $request->address;
+                $geocodingRequest = Http::get($googleGeocoding);
+                $decodedResponse = json_decode($geocodingRequest->body(), true);
+
+                $user_latitude = 0;
+                $user_longitude = 0;
+                $address = $request->address;
+
+                if ($decodedResponse['status'] == 'OK') {
+                    $parts = array(
+                    'address'=>array('street_number','route'),
+                    'town'=>array('postal_town'),
+                    'city'=>array('locality'),
+                    'county'=>array('administrative_area_level_2'),
+                    'state'=>array('administrative_area_level_1'),
+                    'postcode'=>array('postal_code'),
+                );
+
+                if (!empty($decodedResponse['results'][0]['address_components'])) {
+                        $ac = $decodedResponse['results'][0]['address_components'];
+                        foreach ($parts as $need=>&$types) {
+                            foreach ($ac as &$a) {
+                                if (in_array($a['types'][0], $types)) {
+                                    $address_out[$need] = $a['short_name'];
+                                } elseif (empty($address_out[$need])) {
+                                    $address_out[$need] = '';
+                                }
+                            }
+                        }
+                    }
+
+                    $user_latitude = $decodedResponse['results'][0]['geometry']['location']['lat'];
+                    $user_longitude = $decodedResponse['results'][0]['geometry']['location']['lng'];
+                    $userAddress = $decodedResponse['results'][0]['formatted_address'];
+                    $restaurant->setAttribute('delivery_address', $request->address);
+                    $restaurant->setAttribute('user_latitude', $user_latitude);
+                    $restaurant->setAttribute('user_longitude', $user_longitude);
+
+
+                } elseif ($decodedResponse['status'] == "ZERO_RESULTS") {
+                    return redirect()->back()->withErrors(['message', 'Address not found, please check this is a valid address.']);
+                } else {
+                    return redirect()->back()->withErrors(['message', 'GEOCODING ERROR: ' . $decodedResponse['status'] . ' - ' . $decodedResponse['error_message']]);
+                }
+            }
+        }
+
         // get order details
         public function index(Request $request)
         {
