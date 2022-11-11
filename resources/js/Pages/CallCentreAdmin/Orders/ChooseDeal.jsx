@@ -57,9 +57,10 @@ export default function chooseDeal(props) {
     <>
       <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
         <div className="col-span-12 w-full">
-          <h2 className="intro-y text-lg font-medium mt-5 p-5">
+          <h2 className="intro-y text-lg font-medium mt-5 p-5 pb-0">
             Order Details
           </h2>
+
           {/* start:intro */}
           <div className="w-full">
             <form className="md:col-span-2 col-span-3 sm:row-span-1" onSubmit={submit}>
@@ -82,6 +83,8 @@ export default function chooseDeal(props) {
 
                 {/* end:intro */}
               </div>
+              <hr />
+
               {/* start: item description */}
               <div className="p-5">
                 <h2 className="font-medium text-lg mb-5">{menu_item.title}</h2>

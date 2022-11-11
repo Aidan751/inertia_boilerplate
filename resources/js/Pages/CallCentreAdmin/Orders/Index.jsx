@@ -279,7 +279,7 @@ export default function Index(props){
                 Order Details
               </h2>
               {/* start:intro */}
-              <div className="grid grid-rows-2 grid-cols-3 gap-4">
+              <div className="grid grid-rows-1 grid-cols-3 gap-4">
                 <div className="md:col-span-2 col-span-3 sm:row-span-1">
                   <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center sm:p-10">
                     {/* start:intro */}
@@ -322,7 +322,7 @@ export default function Index(props){
                         <div className="block font-medium text-base">
                           {props.restaurant.name}
                         </div>
-                        <div className="text-slate-600 dark:text-slate-500 mt-2">
+                        <div className="text-slate-600 dark:text-slate-500 mt-5">
                           {props.restaurant.opening_hours_message}
                         </div>
                         <div className="text-slate-600 dark:text-slate-500 mt-2">
@@ -339,7 +339,7 @@ export default function Index(props){
 
                   {/* end: restaurant box */}
                   {/* start: groupdeal box */}
-                  <div className="mt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-t border-b">
+                  <div className="mt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-t border-b border-stone-400">
                     <h2 className="font-medium text-lg px-10 pt-5 pb-0">Deals</h2>
 
                     {props.restaurant.group_deals &&
@@ -359,11 +359,11 @@ export default function Index(props){
                               </div>
                             </div>
                           </div>
-                          <div className="p-5 flex-1">
+                          <div className="px-10 flex-1">
                             <div className="block font-medium text-base">
                               {deal.title}
                             </div>
-                            <div className="text-slate-600 dark:text-slate-500 mt-2">
+                            <div className="text-slate-600 dark:text-slate-500 mt-5">
                               {deal.description}
                             </div>
                             <div className="text-slate-600 dark:text-slate-500 mt-2">
@@ -387,7 +387,7 @@ export default function Index(props){
                       props.restaurant.menu.map(
                         (item, key) =>
                           item.menu_items.length > 0 && (
-                            <div className="sm:p-10 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-b border-t">
+                            <div className="sm:p-10 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-b border-t border-stone-400 last-child-border-none">
                               <h2 className="font-medium text-lg mb-5 mt-5">
                                 {item.title}
                               </h2>
@@ -408,14 +408,14 @@ export default function Index(props){
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="p-5 flex-1">
+                                  <div className="px-10 flex-1">
                                     <div className="block font-medium text-base">
                                       {title}
                                     </div>
-                                    <div className="text-slate-600 dark:text-slate-500 mt-2">
+                                    <div className="text-slate-600 dark:text-slate-500 mt-5">
                                       {description}
                                     </div>
-                                    <div className="text-slate-600 dark:text-slate-500 mt-2">
+                                    <div className="text-slate-600 dark:text-slate-500">
                                       Allergens:{" "}
                                       {dietary_requirements ??
                                         "N/A"}
@@ -542,7 +542,7 @@ export default function Index(props){
                         {props.restaurant.service_charge ?? 0}
                       </div>
                     </div>
-                    <div className="flex mt-4 pt-4 border-t border-slate-200/60 dark:border-darkmode-400">
+                    <div className="flex mt-4 pt-4 border-t border-stone-400 dark:border-darkmode-400">
                       <div className="mr-auto font-medium text-base">
                         Total Charge
                       </div>

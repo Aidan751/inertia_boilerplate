@@ -35,12 +35,12 @@ function AddDeal(props) {
         >
 
 <form className="col-span-12 w-full" onSubmit={submit}>
-          <h2 className="intro-y text-lg font-medium mt-5 p-5">
+          <h2 className="intro-y text-lg font-medium mt-5 p-5 pb-0">
             Order Details
           </h2>
           {
             props.message &&
-            <ValidationSuccess message={props.message} /> 
+            <ValidationSuccess message={props.message} />
           }
           {/* start:intro */}
           <div className="w-full">
@@ -71,7 +71,7 @@ function AddDeal(props) {
                     <div className="block font-medium text-base">
                             {props.groupDeal.title}
                           </div>
-                          <div className="text-slate-600 dark:text-slate-500 mt-2">
+                          <div className="text-slate-600 dark:text-slate-500 mt-5">
                             {props.groupDeal.description}
                           </div>
                           <div className="text-slate-600 dark:text-slate-500 mt-2">
@@ -84,15 +84,16 @@ function AddDeal(props) {
               {/* end: group deal description */}
               {props.groupDeal.group_deal_items &&
                 props.groupDeal.group_deal_items.map((item, key) => (
-                  <div className="w-full p-5">
-                    <h2 className="font-medium text-lg mb-5">
+                    <>
+                  <div className="w-full p-8 pb-8">
+                    <h2 className="font-medium text-lg">
                       {item.title}
                     </h2>
 
                     {item.group_deal_single_items.map(
                       (single_item, single_item_key) => (
 
-                        <div className="flex items-center justify-between flex-wrap mt-8 mb-8 sm:pl-10">
+                        <div className="flex items-center justify-between flex-wrap mt-8 mb-8">
                         <div className="w-72 flex-none">
                           <div className="box rounded-md relative">
                             <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
@@ -107,11 +108,11 @@ function AddDeal(props) {
                             </div>
                           </div>
                         </div>
-                        <div className="p-5 flex-1">
+                        <div className="px-10 flex-1">
                           <div className="block font-medium text-base">
                           {single_item.menu_item.title}
                           </div>
-                          <div className="text-slate-600 dark:text-slate-500 mt-2">
+                          <div className="text-slate-600 dark:text-slate-500 mt-3">
                           {single_item.menu_item.description}
                           </div>
                           <div className="text-slate-600 dark:text-slate-500 mt-2">
@@ -135,9 +136,11 @@ function AddDeal(props) {
                       )
                     )}
                   </div>
+                  <hr className="border-1 border-stone-400 last:border-none shadow-none"/>
+                  </>
                 ))}
             </div>
-            <div className="flex justify-center mt-5">
+            <div className="flex justify-center p-8 pb-0">
               <Button type="submit" className="btn btn-primary">
                 <ShoppingCart className="mr-2"/>Add to basket
               </Button>
