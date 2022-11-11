@@ -1,20 +1,27 @@
 
 import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link } from '@inertiajs/inertia-react';
-import { Search,CheckSquare, ChevronRight ,ChevronsRight, ChevronsLeft, XCircle,Trash2,ChevronLeft, Eye, Edit} from "lucide-react";
+import {  Edit} from "lucide-react";
 import { useForm } from '@inertiajs/inertia-react'
-import { useState, useCallback } from "react";
+import { useState, useRef } from "react";
 import { Inertia } from "@inertiajs/inertia";
-import { TomSelect, ClassicEditor, Lucide, Tippy, Alert, TabPane, Modal, ModalHeader, ModalBody, ModalFooter, TabPanel } from "@/base-components";
-import ValidationSuccess from "@/Components/ValidationSuccess";
+import {  Modal, ModalHeader, ModalBody, ModalFooter, TabPanel,Notification } from "@/base-components";
 import Button from "@/Components/Button";
 
 
 export default function Index(props){
+    
+    // Basic non sticky notification
+    const basicNonStickyNotification = useRef();
+    
+    const basicNonStickyNotificationToggle = () => {
+      // Show notification
+      basicNonStickyNotification.current.showToast();
+    };
+  
     const { data, setData, get, processing, errors } = useForm({
 
     })
-
 
     const [selectedItems, setSelectedItems] = useState(
         props.selected_items || []
@@ -22,6 +29,10 @@ export default function Index(props){
 
       const [showModal, setShowModal] = useState(false);
       const [activeObject, setActiveObject] = useState({});
+
+      const [activeObjectSize, setActiveObjectSize] = useState(null);
+      const [activeObjectExtras, setActiveObjectExtras] = useState([]);
+
       const [sizes, setSizes] = useState([]);
       const [extras, setExtras] = useState([]);
 
@@ -77,7 +88,12 @@ export default function Index(props){
         setSelectedItems(list);
       };
 
-      const addMenuItem = (event, key, menu_item) => {
+      const addMenuItem = (event, menu_item) => {
+
+        const size = menu_item.sizes.find((size) => size.id == activeObjectSize);
+
+        const extras = [...activeObjectExtras];
+
         let newSelectedItems = [...selectedItems];
 
         props.restaurant.menu.forEach((item) => {
@@ -90,8 +106,8 @@ export default function Index(props){
                 title: menu_item.title,
                 description: menu_item.description,
                 dietary_requirements: menu_item.dietary_requirements,
-                extras: item.extras,
-                sizes: item.sizes,
+                extras: extras,
+                sizes: [size],
                 image: menu_item.image,
                 price: menu_item.price,
                 created_at: menu_item.created_at,
@@ -99,14 +115,19 @@ export default function Index(props){
                 notes: "",
                 quantity: 1
               },
-              size: item.sizes,
-              extra: item.extras
+              size: [size],
+              extra: extras
             };
 
             newSelectedItems.push(newItem);
           }
         });
 
+        setActiveObjectExtras([]);
+        setActiveObjectSize(null);
+        setActiveObject({});
+        setShowModal(false);
+        basicNonStickyNotificationToggle();
         setSelectedItems(newSelectedItems);
       };
 
@@ -156,7 +177,42 @@ export default function Index(props){
       setShowModal(true);
     }
 
+    /**
+     * Active object size change handler
+     * @param {Event} e Radio button change event
+     */
+    const handleActiveObjectSizeChange = (e) => {
+      const name = e.target.name;
+      const value = e.target.value;
+      const isChecked = e.target.checked;
 
+      if (isChecked) {
+        setActiveObjectSize(value);
+      }
+    };
+
+    const handleActiveObjectExtrasChange = (e,extra) => {
+
+      const isChecked = e.target.checked;
+
+      if (isChecked) {
+
+        const newExtras = [...activeObjectExtras,extra];
+        setActiveObjectExtras(newExtras);
+      } else {
+
+        const newExtras = activeObjectExtras.filter((item) => item.id !== extra.id);
+        setActiveObjectExtras(newExtras);
+      }
+
+    };
+
+
+
+      /**
+       * handle the form submission for the shopping basket
+       * @param {Event} e Shopping Basket Form Submit Event
+       */
       const submit = (e) => {
         e.preventDefault();
         data.selected_items = selectedItems;
@@ -200,6 +256,10 @@ export default function Index(props){
         e.preventDefault();
         data.sizes = sizes;
         data.extras = extras;
+
+        console.log(data);
+
+        return false;
         Inertia.get(route("call-centre.orders.add.menu-item", { id: id }), {
             sizes: data.sizes,
             extras: data.extras,
@@ -417,10 +477,11 @@ export default function Index(props){
                           </div>
                         </a>
                         <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
+
                           {item.size && "-"}
                           {item.size &&
                             item.size.length > 0 &&
-                            item.size[0].size}
+                            item.size[0].name}
                         </div>
 
                         {item.extra &&
@@ -481,11 +542,11 @@ export default function Index(props){
                       </div>
                       <div className="font-medium text-base">
                        £
-                        {total_price +
-                          (props.restaurant.delivery_charge || 0) +
+                        {parseFloat(total_price) +
+                          (parseFloat(props.restaurant.delivery_charge) || 0) +
                           (parseFloat(props.restaurant.service_charge) || 0) +
-                          extra_total +
-                          size_total}
+                          parseFloat(extra_total) +
+                          parseFloat(size_total)}
                       </div>
                     </div>
                   </div>
@@ -540,7 +601,7 @@ export default function Index(props){
                                         size.name &&
                                         (
                                     <div className="flex items-center mt-5">
-                                    <input type="radio" name="size" value={size.id} onChange={(e) => handleSizeInputChange(e, key)}/>{" "}
+                                      <input type="radio" name="size" value={size.id} onChange={handleActiveObjectSizeChange}/>{" "}
                                     <p className="ml-2">{size.name}</p>
                                     {size.additional_charge !== 0 && (
                                         <p className="ml-3">+ £{size.additional_charge || 0}</p>
@@ -565,7 +626,7 @@ export default function Index(props){
                                         (
                                             <div className="flex items-center mt-5">
                                             <div className="form-check mt-2">
-                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name={extra.name} value={extra.id} onChange={(e) => handleExtraInputChange(e, key)}/>
+                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name={extra.name} value={extra.id} onChange={(e) => handleActiveObjectExtrasChange(e, extra)}/>
                                                 <label className="form-check-label flex" htmlFor="checkbox-switch-1"><p>{extra.name}</p>  {extra.additional_charge !== 0 && (
                                                 <p className="ml-3">+ £{extra.additional_charge || 0}</p>
                                             )}</label>
@@ -587,7 +648,7 @@ export default function Index(props){
                     className="btn btn-primary w-full shadow-md ml-auto mr-3"
                     click={(e) => {
                         setShowModal(false);
-                        addToBasket(e, activeObject.id);
+                        addMenuItem(e, activeObject);
                     }}
                     >
                     Add to basket
@@ -607,7 +668,21 @@ export default function Index(props){
               {/* END: New Order Modal */}
             </div>
 
-
+            {/* BEGIN: Basic Non Sticky Notification Content */}
+            <Notification
+              getRef={(el) => {
+                basicNonStickyNotification.current = el;
+              }}
+              options={{
+                duration: 2000,
+              }}
+              className="flex flex-col sm:flex-row"
+            >
+              <div className="font-medium">
+                Yay! Menu Item Added!
+              </div>
+            </Notification>
+            {/* END: Basic Non Sticky Notification Content */}
 
           </Authenticated>
         </>

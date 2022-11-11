@@ -38,6 +38,10 @@ function AddDeal(props) {
           <h2 className="intro-y text-lg font-medium mt-5 p-5">
             Order Details
           </h2>
+          {
+            props.message &&
+            <ValidationSuccess message={props.message} /> 
+          }
           {/* start:intro */}
           <div className="w-full">
             <div className="md:col-span-2 col-span-3 sm:row-span-1">

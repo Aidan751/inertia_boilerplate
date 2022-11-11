@@ -5,68 +5,46 @@ import { Link } from '@inertiajs/inertia-react';
 import Label from "@/Components/Label";
 import Input from "@/Components/Input";
 import { useState } from "react";
+import { useEffect } from "react";
 
 
 export default function chooseDeal(props) {
-    const menu_item = props.group_deal_single_item.menu_item;
+  const menu_item = props.menu_items;
+  // console.log(menu_item);
+  // return (
+  //   <>
+  //   </>
+  // )
+  
 
   const { data, setData, post, processing, errors } = useForm({
     role: 'call_centre_admin',
-    extra: "",
+    extra:[],
     size: "",
     menu_item: menu_item,
   })
 
-  console.log(props);
-
-
-
-  const [new_items, set_new_items] = useState([
-    {
-      id: 1,
-      title: "burger",
-      price: 100,
-      size: { detail: "Large", price: 14.56 },
-      extras: [
-        [
-          {
-            title: "mushroom",
-            price: 14.2
-          },
-          {
-            title: "cheese",
-            price: 0
-          }
-        ]
-      ],
-      quantity: 1,
-      notes: "allergies include nuts"
-    },
-    {
-      id: 1,
-      title: "burger",
-      price: 100,
-      size: { detail: "Large", price: 14.56 },
-      extras: [
-        [
-          {
-            title: "mushroom",
-            price: 14.2
-          },
-          {
-            title: "cheese",
-            price: 15.7
-          }
-        ]
-      ],
-      quantity: 1,
-      notes: "allergies include nuts"
-    }
-  ]);
+  console.log(menu_item);
 
   const onHandleChange = (event) => {
     console.log(event.target.value);
-    setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);
+    setData(event.target.name, event.target.value);
+  };
+
+  const onHandleChangeExtra = (event) => {
+
+    const array = [ ...data.extra ];
+    if (event.target.checked) {
+      array.push(event.target.value);
+    }
+    else {
+      const index = array.indexOf(event.target.value);
+      if (index > -1) {
+        array.splice(index, 1);
+      }
+    }
+
+    setData(event.target.name, array);
   };
 
   const submit = (e) => {
@@ -125,11 +103,11 @@ export default function chooseDeal(props) {
                   menu_item.sizes.map((size, key) => (
                     <div>
                     {
-                        size.size &&
+                        size.name &&
                         (
                     <div className="flex items-center mt-5">
                       <input type="radio" name="size" value={size.id}  onChange={(e) => setData(e.target.name, e.target.value)}/>{" "}
-                      <p className="ml-2">{size.size}</p>
+                      <p className="ml-2">{size.name}</p>
                       {size.additional_charge !== 0 && (
                         <p className="ml-3">+ £{size.additional_charge || 0}</p>
                       )}
@@ -151,7 +129,7 @@ export default function chooseDeal(props) {
                         (
                             <div className="flex items-center mt-5">
                             <div className="form-check mt-2">
-                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name="extra" value={extra.id} onChange={onHandleChange}/>
+                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name="extra" value={extra.id} onChange={onHandleChangeExtra}/>
                                 <label className="form-check-label flex" htmlFor="checkbox-switch-1"><p>{extra.name}</p>  {extra.additional_charge !== 0 && (
                                 <p className="ml-3">+ £{extra.additional_charge || 0}</p>
                             )}</label>

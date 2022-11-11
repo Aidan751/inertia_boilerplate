@@ -71,14 +71,26 @@ class OrderController extends Controller
         {
 
             $group_deal_single_item = GroupDealSingleItem::where('menu_item_id', $id)->first();
+            
             $group_deal_single_item->load('menuItem');
+            
             session(['group_deal_single_item' => $group_deal_single_item]);
+            
             $restaurant = session('restaurant');
+            
             $group_deal = session('group_deal');
+
+            $group_deal->load("groupDealItems.groupDealSingleItems.menuItem.extras");
+            $group_deal->load("groupDealItems.groupDealSingleItems.menuItem.sizes");
+
+            $menu_items = $group_deal_single_item->menuItem;
+            $menu_items->load('extras');
+            $menu_items->load('sizes');
             return Inertia::render('CallCentreAdmin/Orders/ChooseDeal', [
                 'group_deal_single_item' => $group_deal_single_item,
                 'restaurant' => $restaurant,
                 'group_deal' => $group_deal,
+                "menu_items" => $menu_items,
             ]);
         }
 
@@ -87,12 +99,11 @@ class OrderController extends Controller
 
             $reference = Str::random();
 
-            while (Order::where('order_reference', $reference)->exists()) {
+            if(Order::where('order_reference', $reference)->exists()) {
                 $reference = Str::random();
             }
 
             $restaurant = Restaurant::where('id', session()->get('restaurant')->id)->first();
-
             if ($restaurant == null) {
                 return response('fail', 404);
             } else {
@@ -101,15 +112,14 @@ class OrderController extends Controller
                 );
 
                 // Amount includes delivery fee
-
                 $total = $request->total_price;
 
-
-
                 $amount = round((doubleval($total) * 100), 2);
+                
                 $percentageTransaction = 15;
+
                 $deliveryFeeAmount = session('restaurant')->delivery_charge * 100;
-                dd($deliveryFeeAmount);
+                
                 // Application fee does not include delivery fee
                 $applicationFeeAmount = round((($amount - $deliveryFeeAmount)  / $percentageTransaction), 2);
 
@@ -118,63 +128,35 @@ class OrderController extends Controller
                     $applicationFeeAmount = $applicationFeeAmount + $deliveryFeeAmount;
                 }
 
-                $order = new Order;
-                $order->order_reference = $reference;
-                $order->restaurant_id = session()->get('restaurant')->id;
+                $order = Order::create([
+                    "order_reference" => $reference,
+                   "pickup_date" => date("Y-m-d H:i:s", strtotime(session('restaurant')->time_slot)),
+                   "time_slot" => session('restaurant')->time_slot,
+                   "price" => doubleval($total),
+                   "delivery_price" => session('restaurant')->delivery_charge,
+                   "payment_method" => "card",
+                   "order_method" => "call",
+                   "pickup_method" => session('restaurant')->chosen_order_type,
+                   "status" => 'pending',
+                   "payment_status" => 'pending',
+                   "customer_name" => session('restaurant')->customer_name,
+                   "customer_contact_number" => session('restaurant')->customer_contact_number,
+                   "call_centre_id" => Auth::user()->id,
+                   "user_id" =>  Auth::user()->id,
+                   "address_line_1" => session('restaurant')->address_line_1 ?? null,
+                   "town" => session('restaurant')->town ?? null,
+                   "county" => session('restaurant')->county ?? null,
+                   "postcode" => session('restaurant')->postcode ?? null,
+                   "address" => session('restaurant')->address ?? null,
+                   "latitude" => session('restaurant')->userLatitude ?? null,
+                   "longitude" => session('restaurant')->userLongitude ?? null,
+                   "restaurant_id" => session('restaurant')->id,
+                   "table_number" => session('restaurant')->table_number ?? null,
 
-                $order->pickup_date = date("Y-m-d H:i:s", strtotime(session('restaurant')->time_slot));
-                $order->time_slot = session('restaurant')->time_slot;
-
-                $order->price = doubleval($total);
-                $order->delivery_price = session('restaurant')->delivery_charge;
-                $order->payment_method = "card";
-                $order->order_method = "call";
-                $order->pickup_method = session('restaurant')->chosen_order_type;
-                $order->status = 'pending';
-                $order->payment_status = 'pending';
-
-                $order->customer_name = session('restaurant')->customer_name;
-                $order->customer_contact_number = session('restaurant')->customer_contact_number;
-
-                $order->call_centre_id = Auth::user()->id;
-
-                // if (!is_null($request->table_number)) {
-                //     $order->table_number = $request->table_number;
-                // }
-
-                if (!is_null(session('restaurant')->address_line_1)) {
-                    $order->address_line_1 = session('restaurant')->address_line_1;
-                }
-
-                if (!is_null(session('restaurant')->town)) {
-                    $order->town = session('restaurant')->town;
-                }
-
-                if (!is_null(session('restaurant')->county)) {
-                    $order->county = session('restaurant')->county;
-                }
-
-                if (!is_null(session('restaurant')->postcode)) {
-                    $order->postcode = session('restaurant')->postcode;
-                }
-
-                if (!is_null(session('restaurant')->address)) {
-                    $order->address = session('restaurant')->address;
-                }
-
-                if (!is_null(session('restaurant')->userLatitude)) {
-                    $order->latitude = session('restaurant')->userLatitude;
-                }
-
-                if (!is_null(session('restaurant')->userLongitude)) {
-                    $order->longitude = session('restaurant')->userLongitude;
-                }
+                ]);
 
                 $itemsArray = [];
-
-
-
-                foreach (session('cart') as $item) {
+                foreach ($request->selected_items as $item) {
                     array_push($itemsArray, [
                         'price_data' => [
                           'currency' => 'gbp',
@@ -188,7 +170,6 @@ class OrderController extends Controller
                 }
 
                 try {
-                    $order->save();
                     $order->items()->createMany(
                         session('cart')
                     );
@@ -307,9 +288,12 @@ class OrderController extends Controller
         if($menu_item->extras){
             // loop through extras and add those extras to the new selected extra array
             foreach($menu_item->extras as $extra){
-                if($extra['id'] == $request->extra){
-                    $extra['additional_charge'] = floatval($extra['additional_charge']);
-                    array_push($new_selected_extra, $extra);
+
+                foreach($request->extra as $extra_id){
+                    if($extra['id'] == $extra_id){
+                        $extra['additional_charge'] = floatval($extra['additional_charge']);
+                        array_push($new_selected_extra, $extra);
+                    }
                 }
             }
         }
@@ -330,6 +314,7 @@ class OrderController extends Controller
             'groupDeal' => $group_deal->load('groupDealItems.groupDealSingleItems.menuItem'),
             'restaurant' => $restaurant,
             'selected_items' => $selected_items,
+            "message" => "Successfully added size and extras to item " . $menu_item->name,
         ]);
     }
 
@@ -353,10 +338,12 @@ class OrderController extends Controller
         // add menu item to order
         public function addMenuItem(Request $request)
         {
+
+            dd($request->all());
+
             $restaurant = session('restaurant');
             $order = session('order');
 
-            dd($order->items, $request->all());
             return Inertia::render('CallCentreAdmin/Orders/Index', [
                 'order' => $order,
                 'restaurant' => $restaurant,
