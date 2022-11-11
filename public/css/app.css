@@ -15509,12 +15509,14 @@ html body{
     }
   }
 .mobile-menu .mobile-menu-bar {
-        height: 70px;
         display: flex;
         align-items: center;
         padding-left: 2rem;
         padding-right: 2rem;
+        background-color: rgb(var(--color-primary) / var(--tw-bg-opacity));
+        height: 90px !important;
     }
+
 @media (max-width: calc(640px - 1px)) {
     .mobile-menu .mobile-menu-bar{
         padding-left: 0.75rem;
