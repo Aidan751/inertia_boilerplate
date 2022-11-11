@@ -20380,6 +20380,9 @@ select {
 .pb-10 {
   padding-bottom: 2.5rem;
 }
+.pt-0 {
+  padding-top: 0px;
+}
 .text-left {
   text-align: left;
 }
@@ -20897,11 +20900,6 @@ select {
     --tw-text-opacity: 1;
     color: rgb(229 231 235 / var(--tw-text-opacity));
   }
-
-  .dark\:text-slate-400 {
-    --tw-text-opacity: 1;
-    color: rgb(148 163 184 / var(--tw-text-opacity));
-  }
 }
 
 
@@ -20966,10 +20964,6 @@ select {
 
   .sm\:mb-0 {
     margin-bottom: 0px;
-  }
-
-  .sm\:ml-40 {
-    margin-left: 10rem;
   }
 
   .sm\:block {

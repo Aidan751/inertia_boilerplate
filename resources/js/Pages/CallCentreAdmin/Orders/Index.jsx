@@ -10,15 +10,15 @@ import Button from "@/Components/Button";
 
 
 export default function Index(props){
-    
+
     // Basic non sticky notification
     const basicNonStickyNotification = useRef();
-    
+
     const basicNonStickyNotificationToggle = () => {
       // Show notification
       basicNonStickyNotification.current.showToast();
     };
-  
+
     const { data, setData, get, processing, errors } = useForm({
 
     })
@@ -137,7 +137,7 @@ export default function Index(props){
             let i = 0;
             if (item.extra) {
               while (i < item.extra.length) {
-                extra_total += item.extra[i].additional_charge;
+                extra_total += parseFloat(item.extra[i].additional_charge) * parseFloat(item.menu_item.quantity);
                 i++;
               }
             }
@@ -149,7 +149,7 @@ export default function Index(props){
 
             if (item.size) {
               while (i < item.size.length) {
-                size_total += item.size[i].additional_charge;
+                size_total += parseFloat(item.size[i].additional_charge) * parseFloat(item.menu_item.quantity);
                 i++;
               }
             }
@@ -159,11 +159,12 @@ export default function Index(props){
         while (i < selectedItems.length) {
           total_price +=
             parseFloat(selectedItems[i].menu_item.price) *
-            selectedItems[i].menu_item.quantity;
+            parseFloat(selectedItems[i].menu_item.quantity);
           i++;
         }
     }
 
+    console.log(size_total, extra_total, total_price);
     /**
      * Handle the change event for adding a new menu item using the modal
      *
@@ -458,20 +459,19 @@ export default function Index(props){
                           <Edit className="w-4 h-4 text-slate-500 ml-2" />
                           <div className="ml-auto font-medium text-lg">
                             £{" "}
-
                             {(parseFloat(item.menu_item.price) *
                               parseFloat(item.menu_item.quantity)) +
                               (item.extra
                                 && item.extra.length > 0 ?
                                   item.extra.reduce(
-                          (prev, curr, index, array) => prev + curr.additional_charge,
+                          (prev, curr, index, array) => prev + parseFloat(curr.additional_charge),
                           0
                         )
                                 : 0) *
                                 item.menu_item.quantity +
                               (item.size
                                 ? item.size.length > 0 &&
-                                 item.size[0].additional_charge *
+                                 parseFloat(item.size[0].additional_charge) *
                                     parseFloat(item.menu_item.quantity)
                                 : 0)}
                           </div>
@@ -522,7 +522,8 @@ export default function Index(props){
                   <div className="box p-5 mt-5">
                     <div className="flex">
                       <div className="mr-auto">Subtotal</div>
-                      <div className="font-medium">{total_price}</div>
+                      <div className="font-medium">{parseFloat(total_price) + parseFloat(extra_total) +
+                          parseFloat(size_total)}</div>
                     </div>
                     <div className="flex mt-4">
                       <div className="mr-auto">Delivery</div>
@@ -573,7 +574,7 @@ export default function Index(props){
                 }}
               >
                 <ModalHeader>
-                <div className="flex flex-col p-5">
+                <div className="flex flex-col pt-0 p-5">
                   <h2 className="font-medium text-base mr-auto mb-5 mt-5">
                     {activeObject.title ?? ""}
                   </h2>
@@ -624,8 +625,8 @@ export default function Index(props){
                                     {
                                         extra.name &&
                                         (
-                                            <div className="flex items-center mt-5">
-                                            <div className="form-check mt-2">
+                                            <div className="flex items-center mt-0">
+                                            <div className="form-check mb-2">
                                                 <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name={extra.name} value={extra.id} onChange={(e) => handleActiveObjectExtrasChange(e, extra)}/>
                                                 <label className="form-check-label flex" htmlFor="checkbox-switch-1"><p>{extra.name}</p>  {extra.additional_charge !== 0 && (
                                                 <p className="ml-3">+ £{extra.additional_charge || 0}</p>
