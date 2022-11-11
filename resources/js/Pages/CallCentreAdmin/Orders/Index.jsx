@@ -253,6 +253,11 @@ export default function Index(props){
         });
       };
 
+      const clearItems = (e) => {
+        e.preventDefault();
+        setSelectedItems([]);
+        };
+
       const addToBasket = (e, id) => {
         e.preventDefault();
         data.sizes = sizes;
@@ -557,7 +562,7 @@ export default function Index(props){
                   <Button className="btn btn-primary w-full shadow-md ml-auto" type="submit">
                     Complete and send payment sms
                   </Button>
-                  <button className="btn w-full mt-2 border-slate-300 dark:border-darkmode-400 text-slate-500">
+                  <button className="btn w-full mt-2 border-slate-300 dark:border-darkmode-400 text-slate-500" onClick={clearItems}>
                     Clear Items
                   </button>
                 </div>
