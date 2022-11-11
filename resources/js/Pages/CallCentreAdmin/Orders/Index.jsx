@@ -274,25 +274,25 @@ export default function Index(props){
       return (
         <>
           <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
-            <div className="col-span-12">
-              <h2 className="intro-y text-lg font-medium px-10 pt-5 pb-0">
+            <div className="col-span-12 relative">
+              <h2 className="intro-y text-lg font-medium sm:px-10 pb-5 pt-5 sm:pb-0">
                 Order Details
               </h2>
               {/* start:intro */}
               <div className="grid grid-rows-1 grid-cols-3 gap-4">
                 <div className="md:col-span-2 col-span-3 sm:row-span-1">
-                  <div className="mb-4 grid grid-cols-4 grid-rows-2 items-center sm:p-10">
+                  <div className="mb-4 flex flex-col-reverse items-start justify-start sm:grid sm:grid-cols-4 sm:grid-rows-2 sm:p-10">
                     {/* start:intro */}
                     <p className="sm:text-start sm:col-span-3 mb-2 text-start col-span-5 px-1 order-1">
                       {props.restaurant.time_slot ?? "ASAP"}{" "}
                       <span className="d-inline-block mr-2 ml-2">{">"}</span>{" "}
                       {props.restaurant.delivery_address}
                     </p>
-                    <p className="col-span-3 mb-2 row-span-1 px-1 order-3">
+                    <p className="mt-5 sm:pt-0 sm:mt-0 col-span-3 mb-2 row-span-1 px-1 order-3">
                       {props.restaurant.chosen_order_type.toUpperCase()}
                     </p>
                     <Link
-                      className="btn sm:col-span-1 col-span-5 row-span-1 order-2"
+                      className="btn absolute top-0 right-0 mt-5 sm:mt-0 sm:relative sm:col-span-1 col-span-5 row-span-1 order-2"
                       href={route('call-centre.orders.search', {id: props.auth.user.id})}
                     >
                       Return to search
@@ -340,11 +340,11 @@ export default function Index(props){
                   {/* end: restaurant box */}
                   {/* start: groupdeal box */}
                   <div className="mt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-t border-b border-stone-400">
-                    <h2 className="font-medium text-lg px-10 pt-5 pb-0">Deals</h2>
+                    <h2 className="font-medium text-lg sm:px-10 mt-8 pb-0">Deals</h2>
 
                     {props.restaurant.group_deals &&
                       props.restaurant.group_deals.map((deal, key) => (
-                        <div className="flex items-center justify-between flex-wrap mt-8 mb-8 sm:pl-10">
+                        <div className="flex items-center justify-between flex-wrap mt-8 mb-8 pl-0 sm:pl-10">
                           <div className="w-72 flex-none">
                             <div className="box rounded-md relative zoom-in">
                               <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
@@ -359,7 +359,7 @@ export default function Index(props){
                               </div>
                             </div>
                           </div>
-                          <div className="px-10 flex-1">
+                          <div className="pt-5 px-5 sm:px-10 flex-1">
                             <div className="block font-medium text-base">
                               {deal.title}
                             </div>
@@ -387,7 +387,7 @@ export default function Index(props){
                       props.restaurant.menu.map(
                         (item, key) =>
                           item.menu_items.length > 0 && (
-                            <div className="sm:p-10 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-b border-t border-stone-400 last-child-border-none">
+                            <div className="sm:p-10 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-b-none border-t border-stone-400">
                               <h2 className="font-medium text-lg mb-5 mt-5">
                                 {item.title}
                               </h2>
@@ -408,7 +408,7 @@ export default function Index(props){
                                       </div>
                                     </div>
                                   </div>
-                                  <div className="px-10 flex-1">
+                                  <div className="pt-5 px-5 sm:px-10 flex-1">
                                     <div className="block font-medium text-base">
                                       {title}
                                     </div>

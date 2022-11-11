@@ -20067,8 +20067,14 @@ select {
 .grid-rows-1 {
   grid-template-rows: repeat(1, minmax(0, 1fr));
 }
+.flex-row-reverse {
+  flex-direction: row-reverse;
+}
 .flex-col {
   flex-direction: column;
+}
+.flex-col-reverse {
+  flex-direction: column-reverse;
 }
 .flex-wrap {
   flex-wrap: wrap;
@@ -20404,6 +20410,9 @@ select {
 }
 .pb-10 {
   padding-bottom: 2.5rem;
+}
+.pl-0 {
+  padding-left: 0px;
 }
 .text-left {
   text-align: left;
@@ -20947,6 +20956,10 @@ select {
 
 @media (min-width: 640px) {
 
+  .sm\:relative {
+    position: relative;
+  }
+
   .sm\:col-span-12 {
     grid-column: span 12 / span 12;
   }
@@ -21016,6 +21029,10 @@ select {
     display: flex;
   }
 
+  .sm\:grid {
+    display: grid;
+  }
+
   .sm\:hidden {
     display: none;
   }
@@ -21050,6 +21067,14 @@ select {
 
   .sm\:flex-grow-0 {
     flex-grow: 0;
+  }
+
+  .sm\:grid-cols-4 {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+
+  .sm\:grid-rows-2 {
+    grid-template-rows: repeat(2, minmax(0, 1fr));
   }
 
   .sm\:flex-row {
@@ -21127,12 +21152,25 @@ select {
     padding-bottom: 2.5rem;
   }
 
+  .sm\:px-1 {
+    padding-left: 0.25rem;
+    padding-right: 0.25rem;
+  }
+
   .sm\:pt-0 {
     padding-top: 0px;
   }
 
   .sm\:pl-10 {
     padding-left: 2.5rem;
+  }
+
+  .sm\:pb-5 {
+    padding-bottom: 1.25rem;
+  }
+
+  .sm\:pb-0 {
+    padding-bottom: 0px;
   }
 
   .sm\:text-left {
