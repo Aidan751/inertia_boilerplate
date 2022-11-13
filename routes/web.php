@@ -491,11 +491,6 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // get all orders
     Route::get('/orders', [OrderController::class, 'index'])->name('orders.index');
 
-    // livewire views
-    // TODO: rework these routes to be rendered as inertia views
-    // Route::view('/restaurant/restaurant-operatinghours', 'livewire.home')->name('restaurant.operating');
-
-    // Route::view('/restaurant/restaurant-tables', 'livewire.table_numbers')->name('restaurant.alltables');
 });
 
 require __DIR__ . "/auth.php";

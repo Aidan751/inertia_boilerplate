@@ -76,6 +76,7 @@ class DatabaseSeeder extends Seeder
             'application_status' => 'approved',
             'stripe_status' => 'complete',
             'allows_delivery' => 1,
+            'stripe_account_id' => 'acct_1LXNmvLaeslmuKuI',
         ]);
 
         Logo::factory()->create();

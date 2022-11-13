@@ -23,7 +23,7 @@ import Button from "@/Components/Button";
 
 
 export default function Complete(props){
-
+console.log(props);
 
     return (
         <>
