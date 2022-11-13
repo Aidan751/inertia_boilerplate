@@ -1051,3 +1051,4 @@
 1668336970-2567-1816357817,1668336970.2339,GET,/dist/zoom-vanilla.min.js.map,,404,108.63184928894,request
 1668337178-3930-1265329826,1668337178.3787,GET,/restaurant/orders/6,"App\Http\Controllers\Web\Restaurant\OrderController@index",200,75.776100158691,request
 1668337333-5938-1891629540,1668337332.9796,POST,/call-centre/orders/place-order,"App\Http\Controllers\Web\CallCentre\OrderController@placeOrder",500,3411.0569953918,request
+1668337460-0511-518531185,1668337459.996,GET,/restaurant/stripe,"App\Http\Controllers\Web\Restaurant\StripeController@link",200,213.91010284424,request

@@ -21,11 +21,10 @@ class StripeController extends Controller
         $appURL = config('app.url');
         $restaurant = Restaurant::find(Auth::user()->restaurant_id);
 
-     $restaurant->stripe_status = "complete";
-        // $stripeAccount = $stripe->accounts->retrieve($restaurant->stripe_account_id);
+        // $restaurant->stripe_status = "complete";
+        $stripeAccount = $stripe->accounts->retrieve($restaurant->stripe_account_id);
         if ($restaurant->stripe_status == "incomplete") {
             // Needs to connect with stripe
-
           $link = $stripe->accountLinks->create([
                 'account' => $restaurant->stripe_account_id,
                 'refresh_url' => $appURL . '/restaurant/stripe',
