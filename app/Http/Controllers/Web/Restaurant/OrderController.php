@@ -116,7 +116,6 @@ class OrderController extends Controller
 
     public function update(Request $request, $id)
     {
-        dd($request->all());
         // Validate the data
         $request->validate([
             'status' => ['required', 'string', 'max:255'],
@@ -183,7 +182,7 @@ class OrderController extends Controller
 
         $order_items = OrderItem::where('order_id', $order->id)->get();
         $user = User::find($order->user_id);
-        $customer = User::where('id', $order->customer_id)->first();
+        $customer = User::where('id', $order->user_id)->first();
         $configuration = Configuration::first();
         // Return an inertia view with the order
         return Inertia::render('RestaurantAdmin/Orders/Show', [
@@ -192,6 +191,7 @@ class OrderController extends Controller
             'order_items' => $order_items,
             'configuration' => $configuration,
             'customer' => $customer,
+            "stripe" => null
         ]);
     }
 }

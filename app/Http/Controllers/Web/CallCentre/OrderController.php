@@ -175,22 +175,54 @@ class OrderController extends Controller
                     }   
                     array_push($itemsArray, [
                         'price_data' => [
-                          'currency' => 'gbp',
-                          'product_data' => [
-                            'name' => $item['menu_item']["title"],
-                            "size" => $size,
-                            "extras" => $extras
-                          ],
-                          'unit_amount' => $item["menu_item"]['item_price'] * 100,
+                            'currency' => 'gbp',
+                            'product_data' => [
+                                'name' => $item['menu_item']['title'],
+                                'description' => $item['menu_item']['description'],
+                                'dietary_requirements' => $item['menu_item']['dietary_requirements'],
+                                'image' => $item['menu_item']['image'],
+                                'notes' => $item['menu_item']['notes'],
+                                'sizes' => $item['size'],
+                                'extras' => $item['extra'],
+                            ],
+                          'unit_amount' => floatval($item['menu_item']['price']),
                         ],
-                        'quantity' => $item["menu_item"]['quantity'],
+                        'quantity' => floatval($item['menu_item']['quantity']),
                     ]);
                 }
 
                 try {
-                    $order->items()->createMany(
-                        $itemsArray
-                    );
+                    foreach($itemsArray as $item){
+
+                        $price = $item['price_data']['unit_amount'];
+
+                        foreach($item['price_data']['product_data']['sizes'] as $size) {
+                            $price = $price + floatval($size['additional_charge']);
+                        }
+
+                        foreach($item['price_data']['product_data']['extras'] as $extra) {
+                            $price = $price + floatval($extra['additional_charge']);
+                        }
+
+                        $order->items()->updateOrCreate([
+                            'item_id' => 0, //TODO Not needed for now
+                            'title' => $item['price_data']['product_data']['name'],
+                            'item_price' => $price,
+                            'total_price' => floatval($price * $item['quantity']),
+                            'data' => [
+                                'description' => $item['price_data']['product_data']['description'],
+                                'dietary_requirements' => $item['price_data']['product_data']['dietary_requirements'],
+                                'image' => $item['price_data']['product_data']['image'],
+                                'notes' => $item['price_data']['product_data']['notes'],
+                                'sizes' => $item['price_data']['product_data']['sizes'],
+                                'extras' => $item['price_data']['product_data']['extras'],
+                            ],
+                            'quantity' => $item['quantity'],
+                            'notes' => $item['price_data']['product_data']['notes'],
+                        ]);
+
+                    }
+
 
                     \Stripe\Stripe::setApiKey(config('services.stripe_secret_key'));
                     $restaurantStripe = session('restaurant')->stripe_account_id;
@@ -655,7 +687,7 @@ class OrderController extends Controller
             $restaurant->setAttribute('delivery_charge', 0);
 
             // test
-            $restaurant->company_drivers = 1;
+            // $restaurant->company_drivers = 1;
             if ($restaurant->company_drivers == 1 && $request->order_type == 'delivery') {
                 $configurations = Configuration::get()->toArray();
 

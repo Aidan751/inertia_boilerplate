@@ -20215,12 +20215,12 @@ select {
   --tw-border-opacity: 1;
   border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
-.border-slate-200\/60 {
-  border-color: rgb(226 232 240 / 0.6);
-}
 .border-stone-400 {
   --tw-border-opacity: 1;
   border-color: rgb(168 162 158 / var(--tw-border-opacity));
+}
+.border-slate-200\/60 {
+  border-color: rgb(226 232 240 / 0.6);
 }
 .bg-white {
   --tw-bg-opacity: 1;
@@ -20274,14 +20274,14 @@ select {
 .p-0 {
   padding: 0px;
 }
+.p-8 {
+  padding: 2rem;
+}
 .p-10 {
   padding: 2.5rem;
 }
 .p-2 {
   padding: 0.5rem;
-}
-.p-8 {
-  padding: 2rem;
 }
 .px-4 {
   padding-left: 1rem;
@@ -20386,20 +20386,20 @@ select {
 .pb-8 {
   padding-bottom: 2rem;
 }
-.pt-10 {
-  padding-top: 2.5rem;
-}
 .pb-5 {
   padding-bottom: 1.25rem;
-}
-.pb-10 {
-  padding-bottom: 2.5rem;
 }
 .pl-0 {
   padding-left: 0px;
 }
 .pt-0 {
   padding-top: 0px;
+}
+.pt-10 {
+  padding-top: 2.5rem;
+}
+.pb-10 {
+  padding-bottom: 2.5rem;
 }
 .text-left {
   text-align: left;
@@ -20928,11 +20928,6 @@ select {
     --tw-text-opacity: 1;
     color: rgb(229 231 235 / var(--tw-text-opacity));
   }
-
-  .dark\:text-slate-400 {
-    --tw-text-opacity: 1;
-    color: rgb(148 163 184 / var(--tw-text-opacity));
-  }
 }
 
 
@@ -21001,10 +20996,6 @@ select {
 
   .sm\:mb-0 {
     margin-bottom: 0px;
-  }
-
-  .sm\:ml-40 {
-    margin-left: 10rem;
   }
 
   .sm\:block {
@@ -21142,12 +21133,12 @@ select {
     padding-top: 0px;
   }
 
-  .sm\:pl-10 {
-    padding-left: 2.5rem;
-  }
-
   .sm\:pb-0 {
     padding-bottom: 0px;
+  }
+
+  .sm\:pl-10 {
+    padding-left: 2.5rem;
   }
 
   .sm\:text-left {

@@ -43,7 +43,7 @@ class Order extends Model
         'customer_contact_number',
         'order_status',
         'order_total',
-        'user_id',
+        'customer_id',
     ];
 
 

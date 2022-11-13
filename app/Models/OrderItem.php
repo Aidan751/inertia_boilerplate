@@ -13,6 +13,31 @@ class OrderItem extends Model
     protected $table = 'order_items';
     public $timestamps = false;
 
+    /**
+     * Variables that are mass assignable
+     * 
+     * @var array
+     */
+    protected $fillable = [
+        'order_id',
+        'item_id',
+        'title',
+        'item_price',
+        'total_price',
+        'data',
+        'quantity',
+        'notes',
+    ];
+
+    /**
+     * Variables that should be cast to native types
+     * 
+     * @var array
+     */
+    protected $casts = [
+        'data' => 'array',
+    ];
+
 
     public function order()
     {

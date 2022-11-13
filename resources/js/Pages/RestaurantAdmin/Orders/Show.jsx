@@ -85,7 +85,7 @@ const sendPush = (event) => {
                   <div className="text-md font-medium">Name</div>
                   <div className="mt-1">{props.order.customer_name}</div>
                   <div className="text-md font-medium mt-2">Email Address</div>
-                  <div className="mt-1">{props.customer.email}</div>
+                  <div className="mt-1">{props.customer && props.customer.email}</div>
                   {props.order.pickup_method === "delivery" && (
                     <>
                       <div className="text-md font-medium mt-2">Address</div>
@@ -189,7 +189,7 @@ const sendPush = (event) => {
               {props.order.pickup_method === "delivery" && (
                 <div>
                 <form onSubmit={handleApprove}>
-                <PaymentElement />
+                {/* <PaymentElement /> */}
                 <div className="w-64 flex-1">
                   <h3 className="mb-3">Enter driver collection time*</h3>
                   <input
@@ -202,7 +202,7 @@ const sendPush = (event) => {
 
                   />
                 </div>
-                <Button className="btn btn-primary w-64 flex-1 py-3" type="submit" name="accept" disabled={!stripe}>
+                <Button className="btn btn-primary w-64 flex-1 py-3" type="submit" name="accept" disabled={true}>
                   Accept and Complete
                 </Button>
                 </form>
