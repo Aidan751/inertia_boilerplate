@@ -157,18 +157,26 @@ class OrderController extends Controller
                 ]);
 
                 $itemsArray = [];
+
                 foreach ($request->selected_items as $item) {
                     array_push($itemsArray, [
                         'price_data' => [
-                          'currency' => 'gbp',
-                          'product_data' => [
-                            'name' => $item['title'],
+                            'currency' => 'gbp',
+                            'product_data' => [
+                            'name' => $item['menu_item']['title'],
+                            'description' => $item['menu_item']['description'],
+                            'dietary_requirements' => $item['menu_item']['dietary_requirements'],
+                            'image' => $item['menu_item']['image'],
+                            'notes' => $item['menu_item']['notes'],
+                            'sizes' => $item['size'],
+                            'extras' => $item['extra'],
                           ],
-                          'unit_amount' => $item['item_price'] * 100,
+                          'unit_amount' => $item['menu_item']['price'] * 100,
                         ],
-                        'quantity' => $item['quantity'],
+                        'quantity' => $item['menu_item']['quantity'],
                     ]);
                 }
+                dd($itemsArray);
 
                 try {
                     $order->items()->createMany(
