@@ -155,24 +155,41 @@ class OrderController extends Controller
                    "table_number" => session('restaurant')->table_number ?? null,
 
                 ]);
-
                 $itemsArray = [];
                 foreach ($request->selected_items as $item) {
+
+                    $size = "";
+
+                    if ($item['size'] != null) {
+                        foreach($item['size'] as $sizeItem) {
+                            $size = $sizeItem['name'] . " " . $sizeItem['additional_charge'] . " /n";
+                        }
+                    }
+
+                    $extras = "";
+
+                    if ($item['extra'] != null) {
+                        foreach($item['extra'] as $extraItem) {
+                            $extras = $extras . $extraItem['name'] . " " . $extraItem['additional_charge'] . " /n";
+                        }
+                    }   
                     array_push($itemsArray, [
                         'price_data' => [
                           'currency' => 'gbp',
                           'product_data' => [
-                            'name' => $item['title'],
+                            'name' => $item['menu_item']["title"],
+                            "size" => $size,
+                            "extras" => $extras
                           ],
-                          'unit_amount' => $item['item_price'] * 100,
+                          'unit_amount' => $item["menu_item"]['item_price'] * 100,
                         ],
-                        'quantity' => $item['quantity'],
+                        'quantity' => $item["menu_item"]['quantity'],
                     ]);
                 }
 
                 try {
                     $order->items()->createMany(
-                        session('cart')
+                        $itemsArray
                     );
 
                     \Stripe\Stripe::setApiKey(config('services.stripe_secret_key'));
