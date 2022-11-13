@@ -18,11 +18,33 @@ class StripeController extends Controller
             config('services.stripe_secret_key')
         );
 
+
+        // $stripe = new \Stripe\StripeClient(
+        //     config('services.stripe_live_key')
+        // );
+
+
         $appURL = config('app.url');
         $restaurant = Restaurant::find(Auth::user()->restaurant_id);
 
         $stripeAccount = $stripe->accounts->retrieve($restaurant->stripe_account_id);
-  dd($stripeAccount);
+
+
+        // if ($restaurant->stripe_status == "incomplete") {
+        //     // Needs to connect with stripe
+
+        //   $link = $stripe->accountLinks->create([
+        //         'account' => $restaurant->stripe_account_id,
+        //         'refresh_url' => 'https://orderit.createaclients.co.uk/restaurant/stripe',
+        //         'return_url' => 'https://orderit.createaclients.co.uk/restaurant/stripe/complete',
+        //         'type' => 'account_onboarding',
+        //       ]);
+
+        //     return redirect($link->url);
+        // } else {
+            // return view('restaurant.stripe.stripe');
+        // }
+    // }
         if ($restaurant->stripe_status == "incomplete") {
             // Needs to connect with stripe
             $link = $stripe->accountLinks->create([
@@ -32,7 +54,7 @@ class StripeController extends Controller
                 'type' => 'account_onboarding',
             ]);
 
-            return redirect($link->url)->with('message', 'Please complete your Stripe account');
+            return redirect($link->url);
         } else {
             return Inertia::render('RestaurantAdmin/Stripe/Complete');
         }

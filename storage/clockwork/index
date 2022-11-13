@@ -1081,3 +1081,5 @@
 1668376358-9922-447092623,1668376358.4253,GET,/restaurant/stripe,"App\Http\Controllers\Web\Restaurant\StripeController@link",500,2470.9658622742,request
 1668376368-8089-234673688,1668376368.331,GET,/restaurant/stripe,"App\Http\Controllers\Web\Restaurant\StripeController@link",500,1539.7820472717,request
 1668376373-2929-508318956,1668376372.9502,GET,/restaurant/stripe,"App\Http\Controllers\Web\Restaurant\StripeController@link",500,1264.8530006409,request
+1668376813-9406-1121713376,1668376813.6436,GET,/restaurant/stripe,"App\Http\Controllers\Web\Restaurant\StripeController@link",500,2068.7639713287,request
+1668376938-9901-1547357594,1668376938.6544,GET,/restaurant/stripe,"App\Http\Controllers\Web\Restaurant\StripeController@link",500,1543.3440208435,request
