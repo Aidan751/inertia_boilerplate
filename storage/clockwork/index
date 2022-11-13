@@ -990,3 +990,10 @@
 1668184921-8994-2015978772,1668184921.5731,GET,/dist/zoom-vanilla.min.js.map,,404,706.79378509521,request
 1668184939-6414-791951180,1668184939.1268,GET,/dist/zoom-vanilla.min.js.map,,404,1152.4851322174,request
 1668184990-6324-1389440213,1668184989.8123,GET,/call-centre/orders/search/3,"App\Http\Controllers\Web\CallCentre\OrderController@search",200,2705.4810523987,request
+1668331587-4677-1017243135,1668331586.5042,GET,/,"App\Http\Controllers\Web\HomeController@index",302,7658.1089496613,request
+1668331596-9191-1853161460,1668331596.2466,GET,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@create",200,6695.0211524963,request
+1668331631-1346-1149192091,1668331630.8503,POST,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@store",302,2424.8569011688,request
+1668331633-4863-1007903107,1668331633.2954,GET,/,"App\Http\Controllers\Web\HomeController@index",200,1032.5109958649,request
+1668331637-8170-747645314,1668331637.6505,GET,/call-centre/orders/search/3,"App\Http\Controllers\Web\CallCentre\OrderController@search",200,517.40789413452,request
+1668331648-2301-1689305123,1668331648.0862,GET,/call-centre/orders/index?role=call_centre_admin&contact_number=%2B447368360039&address=10%20abbotsford%20avenue%20larkhall&when_radio=asap&order_type=delivery&customer_name=customer%20name&customer_contact_number=%2B447368360039,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,10352.546930313,request
+1668332110-4632-305256034,1668332109.7041,GET,/call-centre/orders/index?role=call_centre_admin&contact_number=%2B447368360039&address=10%20abbotsford%20avenue%20larkhall&when_radio=asap&order_type=delivery&customer_name=customer%20name&customer_contact_number=%2B447368360039,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,4358.7379455566,request
