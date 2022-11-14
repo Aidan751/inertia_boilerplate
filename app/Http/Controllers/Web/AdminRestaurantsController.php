@@ -394,8 +394,8 @@ class AdminRestaurantsController extends Controller
             $restaurant->allows_collection = is_null($request->allows_collection) ? $restaurant->allows_collection : $request->allows_collection;
             $restaurant->allows_delivery = is_null($request->allows_delivery) ? $restaurant->allows_delivery : $request->allows_delivery;
             $restaurant->allows_call_center = is_null($request->allows_call_center) ? $restaurant->allows_call_center : $request->allows_call_center;
-            $restaurant->logo = is_null($request->logo) ? null : ImagePackage::save($request->logo, 'restaurant_logo');
-            $restaurant->banner = is_null($request->banner) ? null : ImagePackage::save($request->banner, 'restaurant_banner');
+            $restaurant->logo = $request->hasFile('logo') ? ImagePackage::save($request->logo, 'logo') : $restaurant->logo;
+            $restaurant->banner = $request->hasFile('banner') ? ImagePackage::save($request->banner, 'banner') : $restaurant->banner;
             $restaurant->save();
 
         return Redirect::route('admin-restaurants.index')->with('success', 'Restaurant updated successfully.');
