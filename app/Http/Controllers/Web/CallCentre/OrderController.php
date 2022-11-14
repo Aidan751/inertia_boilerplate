@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
 use Symfony\Component\HttpFoundation\Session\Session;
+use Twilio\Rest\Client;
 
 class OrderController extends Controller
 {
@@ -156,6 +157,7 @@ class OrderController extends Controller
 
                 ]);
                 $itemsArray = [];
+                $lineItemArray = [];
                 foreach ($request->selected_items as $item) {
 
                     $size = "";
@@ -173,26 +175,39 @@ class OrderController extends Controller
                             $extras = $extras . $extraItem['name'] . " " . $extraItem['additional_charge'] . " /n";
                         }
                     }
-                    array_push($itemsArray, [
+
+                    array_push($lineItemArray, [
                         'price_data' => [
                             'currency' => 'gbp',
                             'product_data' => [
-                                'name' => $item['menu_item']['title'],
-                                'description' => $item['menu_item']['description'],
-                                'dietary_requirements' => $item['menu_item']['dietary_requirements'],
-                                'notes' => $item['menu_item']['notes'],
-                                'sizes' => $item['size'],
-                                'extras' => $item['extra'],
+                              'name' => $item['menu_item']['title'],
                             ],
-                          'unit_amount' => floatval($item['menu_item']['price']),
-                        ],
-                        'quantity' => floatval($item['menu_item']['quantity']),
+                            'unit_amount' => $item['menu_item']['price'] * 100,
+                          ],
+                          'quantity' => floatval($item['menu_item']['quantity']),
                     ]);
+
+                    array_push($itemsArray, [
+                                'price_data' => [
+                                  'currency' => 'gbp',
+                                  'product_data' => [
+                                    'name' => $item['menu_item']['title'],
+                                    'sizes' => $item['size'],
+                                    'extras' => $item['extra'],
+                                    'description' => $item['menu_item']['description'],
+                                    'dietary_requirements' => $item['menu_item']['dietary_requirements'],
+                                    'notes' => $item['menu_item']['notes'],
+                                  ],
+                                  'unit_amount' => $item['menu_item']['price'] * 100,
+                                ],
+                                'quantity' => floatval($item['menu_item']['quantity']),
+
+
+                ]);
                 }
 
                 try {
                     foreach($itemsArray as $item){
-
                         $price = $item['price_data']['unit_amount'];
 
                         foreach($item['price_data']['product_data']['sizes'] as $size) {
@@ -246,7 +261,9 @@ class OrderController extends Controller
                             ],
                           ],
                         'line_items' => [
-                            $itemsArray
+
+                            $lineItemArray
+
                         ],
                         'mode' => 'payment',
                         'payment_intent_data' => [
@@ -258,7 +275,9 @@ class OrderController extends Controller
                     } else {
                         $session = \Stripe\Checkout\Session::create([
                             'line_items' => [
-                                $itemsArray
+
+                               $lineItemArray,
+
                             ],
                             'mode' => 'payment',
                             'payment_intent_data' => [
