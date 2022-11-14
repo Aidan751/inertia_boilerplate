@@ -183,21 +183,16 @@ class AdminRestaurantsController extends Controller
         // Save to the database
         $restaurant->save();
 
-        //    save the logo
+        // save the logo
          if ($request->hasFile('logo')) {
-            $restaurant->logo()->create([
-                "img_url" => ImagePackage::save($request->logo, 'logos'),
-            ]);
+            $restaurant->logo = ImagePackage::save($request->logo, 'logos');
         }
 
 
         // save the banner
-         if ($request->hasFile('banner')) {
-            $restaurant->banner()->create([
-                "img_url" => ImagePackage::save($request->banner, 'banners'),
-            ]);
+        if ($request->hasFile('banner')) {
+            $restaurant->banner = ImagePackage::save($request->banner, 'banners');
         }
-
 
 
 
