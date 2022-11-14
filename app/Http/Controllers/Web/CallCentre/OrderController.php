@@ -172,7 +172,7 @@ class OrderController extends Controller
                         foreach($item['extra'] as $extraItem) {
                             $extras = $extras . $extraItem['name'] . " " . $extraItem['additional_charge'] . " /n";
                         }
-                    }   
+                    }
                     array_push($itemsArray, [
                         'price_data' => [
                             'currency' => 'gbp',
@@ -391,7 +391,6 @@ class OrderController extends Controller
         public function addMenuItem(Request $request)
         {
 
-            dd($request->all());
 
             $restaurant = session('restaurant');
             $order = session('order');
