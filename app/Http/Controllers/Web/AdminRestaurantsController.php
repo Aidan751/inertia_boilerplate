@@ -180,11 +180,8 @@ class AdminRestaurantsController extends Controller
         }
 
 
-        // Save to the database
-        $restaurant->save();
-
         // save the logo
-         if ($request->hasFile('logo')) {
+        if ($request->hasFile('logo')) {
             $restaurant->logo = ImagePackage::save($request->logo, 'logos');
         }
 
@@ -193,6 +190,10 @@ class AdminRestaurantsController extends Controller
         if ($request->hasFile('banner')) {
             $restaurant->banner = ImagePackage::save($request->banner, 'banners');
         }
+
+
+        // Save to the database
+        $restaurant->save();
 
 
 

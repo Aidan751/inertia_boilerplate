@@ -1083,3 +1083,15 @@
 1668376373-2929-508318956,1668376372.9502,GET,/restaurant/stripe,"App\Http\Controllers\Web\Restaurant\StripeController@link",500,1264.8530006409,request
 1668376813-9406-1121713376,1668376813.6436,GET,/restaurant/stripe,"App\Http\Controllers\Web\Restaurant\StripeController@link",500,2068.7639713287,request
 1668376938-9901-1547357594,1668376938.6544,GET,/restaurant/stripe,"App\Http\Controllers\Web\Restaurant\StripeController@link",500,1543.3440208435,request
+1668392277-5590-1691159900,1668392269.6449,GET,/,"App\Http\Controllers\Web\HomeController@index",302,15659.027099609,request
+1668392285-6738-1961884193,1668392285.3623,GET,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@create",200,2345.9839820862,request
+1668392297-3574-1502502073,1668392297.1798,POST,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@store",302,2214.1590118408,request
+1668392299-9218-1800379919,1668392299.4342,GET,/,"App\Http\Controllers\Web\HomeController@index",200,1414.5979881287,request
+1668392305-8933-1049253630,1668392305.6526,GET,/admin-restaurants/create,"App\Http\Controllers\Web\AdminRestaurantsController@create",200,574.78308677673,request
+1668392339-5814-969162657,1668392339.212,POST,/admin-restaurants/store,"App\Http\Controllers\Web\AdminRestaurantsController@store",302,6815.319776535,request
+1668392346-2920-759065352,1668392346.0591,GET,/admin-restaurants,"App\Http\Controllers\Web\AdminRestaurantsController@index",200,678.50279808044,request
+1668392349-5689-173257985,1668392349.4439,GET,/admin-restaurants/edit/2,"App\Http\Controllers\Web\AdminRestaurantsController@edit",200,461.37404441833,request
+1668392372-9290-702640427,1668392372.5574,GET,/admin-restaurants/create,"App\Http\Controllers\Web\AdminRestaurantsController@create",200,861.10901832581,request
+1668392410-1309-262971806,1668392409.7598,POST,/admin-restaurants/store,"App\Http\Controllers\Web\AdminRestaurantsController@store",302,2859.7340583801,request
+1668392412-8836-400387767,1668392412.6381,GET,/admin-restaurants,"App\Http\Controllers\Web\AdminRestaurantsController@index",200,657.63902664185,request
+1668392415-6482-1464056038,1668392415.4564,GET,/admin-restaurants/edit/3,"App\Http\Controllers\Web\AdminRestaurantsController@edit",200,506.75582885742,request
