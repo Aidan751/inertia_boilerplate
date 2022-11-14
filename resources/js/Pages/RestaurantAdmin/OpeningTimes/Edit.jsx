@@ -260,7 +260,8 @@ export default function Edit(props) {
                                 >
                                   Add another
                                 </Button>
-
+                                {
+                                day[0] && day[0].length > 1 &&
                                 <button
                                   className="btn btn-danger-soft text-sm border-none"
                                   type="button"
@@ -270,6 +271,7 @@ export default function Edit(props) {
                                 >
                                   Remove
                                 </button>
+                                }
                               </div>
                             </>
                           );
@@ -382,6 +384,9 @@ export default function Edit(props) {
                                 >
                                   Add another
                                 </Button>
+                                {
+
+                            day[0] && day[0].length > 1 && (
                                 <button
                                   className="btn btn-danger-soft text-sm border-none"
                                   type="button"
@@ -391,6 +396,8 @@ export default function Edit(props) {
                                 >
                                   Remove
                                 </button>
+                            )
+                                }
                               </div>
                             </>
                           );

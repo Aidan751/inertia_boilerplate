@@ -1213,3 +1213,9 @@
 1668429389-2104-2059760161,1668429388.8259,POST,/logout,"App\Http\Controllers\Auth\AuthenticatedSessionController@destroy",302,1016.175031662,request
 1668429390-6916-530246517,1668429389.8984,GET,/,"App\Http\Controllers\Web\HomeController@index",302,1616.6498661041,request
 1668429392-3642-641682794,1668429391.6759,GET,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@create",200,1341.274023056,request
+1668431175-2445-1048547911,1668431171.3337,GET,/,"App\Http\Controllers\Web\HomeController@index",302,5488.114118576,request
+1668431177-5555-2141611803,1668431177.0119,GET,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@create",200,5742.8319454193,request
+1668431247-6372-800067490,1668431247.2539,GET,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@create",200,671.15497589111,request
+1668431257-8068-1185172404,1668431257.6418,POST,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@store",302,2459.6290588379,request
+1668431261-0163-1615115223,1668431260.2665,GET,/,"App\Http\Controllers\Web\HomeController@index",200,2304.9108982086,request
+1668431269-2279-396070596,1668431268.9211,GET,/restaurant/opening-hours/edit/6,"App\Http\Controllers\Web\Restaurant\OpeningHourController@edit",200,814.42379951477,request

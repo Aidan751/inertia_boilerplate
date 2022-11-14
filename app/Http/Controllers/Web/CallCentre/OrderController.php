@@ -180,7 +180,6 @@ class OrderController extends Controller
                                 'name' => $item['menu_item']['title'],
                                 'description' => $item['menu_item']['description'],
                                 'dietary_requirements' => $item['menu_item']['dietary_requirements'],
-                                'image' => $item['menu_item']['image'],
                                 'notes' => $item['menu_item']['notes'],
                                 'sizes' => $item['size'],
                                 'extras' => $item['extra'],
@@ -212,7 +211,6 @@ class OrderController extends Controller
                             'data' => [
                                 'description' => $item['price_data']['product_data']['description'],
                                 'dietary_requirements' => $item['price_data']['product_data']['dietary_requirements'],
-                                'image' => $item['price_data']['product_data']['image'],
                                 'notes' => $item['price_data']['product_data']['notes'],
                                 'sizes' => $item['price_data']['product_data']['sizes'],
                                 'extras' => $item['price_data']['product_data']['extras'],
