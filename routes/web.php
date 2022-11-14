@@ -155,6 +155,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // delete a restaurant
     Route::delete('/admin-restaurants/delete/{restaurant}', [AdminRestaurantsController::class, 'destroy'])->name('admin-restaurants.destroy');
 
+    // delete restaurant image
+    Route::delete('/admin-restaurants/remove-image/{restaurant}', [AdminRestaurantsController::class, 'removeImage'])->name('admin-restaurants.image.delete');
+
     Route::view('/restaurant/restaurant-tables', 'livewire.table_numbers')->name('restaurant.alltables');
 
     // TODO: stripe routes

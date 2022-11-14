@@ -416,4 +416,34 @@ class AdminRestaurantsController extends Controller
         return redirect()->back()->with('success', 'Restaurant deleted successfully.');
     }
 
+        /**
+     * Remove Restaurant Image from the database
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Restaurant $restaurant
+     * @return \Illuminate\Http\Response
+     */
+    public function removeImage(Request $request, Restaurant $restaurant){
+
+        $request->validate([
+            "image_type" => "required|in:logo,banner",
+        ]);
+
+        if($request->image_type == "logo"){
+            if($restaurant->logo !== null){
+                ImagePackage::delete($restaurant->logo);
+                $restaurant->logo = null;
+            }
+        }
+        else{
+            if($restaurant->banner !== null){
+                ImagePackage::delete($restaurant->banner);
+                $restaurant->banner = null;
+            }
+        }
+
+        $restaurant->save();
+        return Redirect::route('admin-restaurants.edit',['restaurant'=>$restaurant->id])->with('success', 'Image removed successfully.');
+
+    }
+
 }
