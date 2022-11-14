@@ -311,7 +311,7 @@ export default function Index(props){
                               <img
                                 alt="Restaurant logo"
                                 className="rounded-md"
-                                src={props.restaurant.logo.img_url}
+                                src={props.restaurant.logo}
                                 data-action="zoom"
                               />
                             </div>

@@ -38,8 +38,8 @@ export default function Edit( props ) {
 
 
     const [fileUrl, setFileUrl] = useState({
-        logo: props.restaurant.logo ? props.restaurant.logo.img_url : null,
-        banner: props.restaurant.banner ? props.restaurant.banner.img_url : null,
+        logo: props.restaurant.logo ? props.restaurant.logo : null,
+        banner: props.restaurant.banner ? props.restaurant.banner : null,
     });
 
 
@@ -79,9 +79,7 @@ export default function Edit( props ) {
 
         if(event.target.id === 'logo'){
 
-            if(props.restaurant.logo.img_url !== null && props.restaurant.logo.img_url == tempFileUrl[event.target.id]){
-                console.log(tempFileUrl);
-
+            if(props.restaurant.logo !== null && props.restaurant.logo == tempFileUrl[event.target.id]){
                 Inertia.delete(route("my.restaurant.image.delete",{id:props.restaurant.id}),{
                     data: {
                         image_type: event.target.id,
@@ -90,7 +88,7 @@ export default function Edit( props ) {
             }
         }
         else if(event.target.id === 'banner'){
-            if(props.restaurant.banner.img_url !== null && props.restaurant.banner.img_url == tempFileUrl[event.target.id]){
+            if(props.restaurant.banner !== null && props.restaurant.banner == tempFileUrl[event.target.id]){
                 Inertia.delete(route("my.restaurant.image.delete",{id:props.restaurant.id}),{
                     data: {
                         image_type: event.target.id,
@@ -114,12 +112,7 @@ export default function Edit( props ) {
         });
     }
 
-    const handleImageDelete = (e) => {
 
-        e.preventDefault();
-
-        
-    }
 
     const onHandleChange = (event) => {
         setData(event.target.name, event.target.type === 'checkbox' ? event.target.checked : event.target.value);

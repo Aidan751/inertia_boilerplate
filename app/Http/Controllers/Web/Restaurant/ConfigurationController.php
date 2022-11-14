@@ -31,15 +31,11 @@ class ConfigurationController extends Controller
      */
     public function edit(){
         $restaurant = Restaurant::where('id', Auth::user()->restaurant_id)->first();
-        $banner = Banner::where('restaurant_id', Auth::user()->restaurant_id)->first();
-        $logo = Logo::where('restaurant_id', Auth::user()->restaurant_id)->first();
 
          $categories = RestaurantCategory::orderBy('name')->get();
          $user = User::where('restaurant_id', Auth::user()->restaurant_id)->first();
 
          $restaurant->setAttribute('categories', $categories);
-         $restaurant->setAttribute('banner', $banner);
-         $restaurant->setAttribute('logo', $logo);
          $restaurant->setAttribute('edit', true);
 
         return Inertia::render('RestaurantAdmin/Configurations/Edit', [
@@ -166,21 +162,8 @@ class ConfigurationController extends Controller
         $restaurant->allows_collection = is_null($request->allows_collection) ? $restaurant->allows_collection : $request->allows_collection;
         $restaurant->allows_delivery = is_null($request->allows_delivery) ? $restaurant->allows_delivery : $request->allows_delivery;
         $restaurant->allows_call_center = is_null($request->allows_call_center) ? $restaurant->allows_call_center : $request->allows_call_center;
-
-
-             // update the logo
-             if ($request->hasFile('logo')) {
-                $restaurant->logo()->updateOrCreate([
-                    "img_url" => ImagePackage::save($request->logo, 'restaurant_logo'),
-                ]);
-            }
-
-            // update the banner
-            if ($request->hasFile('banner')) {
-                $restaurant->banner()->updateOrCreate([
-                    "img_url" => ImagePackage::save($request->banner, 'restaurant_banner'),
-                ]);
-            }
+        $restaurant->logo = $request->hasFile('logo') ? ImagePackage::save($request->logo, 'logo') : $restaurant->logo;
+        $restaurant->banner = $request->hasFile('banner') ? ImagePackage::save($request->banner, 'banner') : $restaurant->banner;
 
             // save the restaurant
             $restaurant->save();
@@ -189,7 +172,8 @@ class ConfigurationController extends Controller
     }
 
 
-    /**
+
+        /**
      * Remove Restaurant Image from the database
      * @param \Illuminate\Http\Request $request
      * @param \App\Restaurant $restaurant
@@ -202,20 +186,22 @@ class ConfigurationController extends Controller
         ]);
 
         if($request->image_type == "logo"){
-            if($restaurant->logo()->first() !== null && $restaurant->logo()->first()->img_url !== null){
-                ImagePackage::delete($restaurant->logo()->first()->img_url);
-                $restaurant->logo()->first()->delete();
+            if($restaurant->logo !== null){
+                ImagePackage::delete($restaurant->logo);
+                $restaurant->logo = null;
             }
         }
         else{
-            if($restaurant->banner()->first() !== null && $restaurant->banner()->first()->img_url !== null){
-                ImagePackage::delete($restaurant->banner()->first()->img_url);
-                $restaurant->banner()->first()->delete();
+            if($restaurant->banner !== null){
+                ImagePackage::delete($restaurant->banner);
+                $restaurant->banner = null;
             }
         }
 
+        $restaurant->save();
         return Redirect::route('my.restaurant.edit')->with('success', 'Image removed successfully.');
 
     }
+
 
 }
