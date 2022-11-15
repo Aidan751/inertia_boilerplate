@@ -207,7 +207,6 @@ class OrderController extends Controller
                 try {
                     foreach($itemsArray as $item){
                         $price = $item['price_data']['unit_amount'];
-                        dd($price);
 
                         foreach($item['price_data']['product_data']['sizes'] as $size) {
                             $price = $price + floatval($size['additional_charge']);
@@ -216,6 +215,7 @@ class OrderController extends Controller
                         foreach($item['price_data']['product_data']['extras'] as $extra) {
                             $price = $price + floatval($extra['additional_charge']);
                         }
+                        dd($price);
 
                         $order->items()->updateOrCreate([
                             'item_id' => 0, //TODO Not needed for now
