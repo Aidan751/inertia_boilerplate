@@ -89,15 +89,17 @@ export default function Index(props){
       };
 
       const addMenuItem = (event, menu_item) => {
+          const size = menu_item.sizes.find((size) => size.id == activeObjectSize);
 
-        const size = menu_item.sizes.find((size) => size.id == activeObjectSize);
+          const extras = [...activeObjectExtras];
 
-        const extras = [...activeObjectExtras];
+          let newSelectedItems = [...selectedItems];
 
-        let newSelectedItems = [...selectedItems];
+          props.restaurant.menu.forEach((main_menu_item) => {
+            main_menu_item.menu_items.forEach((item) => {
 
-        props.restaurant.menu.forEach((item) => {
           if (item.id === menu_item.id) {
+
             let newItem = {
               menu_item: {
                 id: menu_item.id,
@@ -122,6 +124,7 @@ export default function Index(props){
             newSelectedItems.push(newItem);
           }
         });
+        });
 
         setActiveObjectExtras([]);
         setActiveObjectSize(null);
@@ -129,6 +132,7 @@ export default function Index(props){
         setShowModal(false);
         basicNonStickyNotificationToggle();
         setSelectedItems(newSelectedItems);
+
       };
 
       if (selectedItems) {
