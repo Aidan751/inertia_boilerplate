@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Web\CallCentre;
 use Twilio\Rest\Client;
+use Exception;
 use Carbon\Carbon;
 use App\Models\Day;
 use App\Models\Size;
@@ -23,6 +24,8 @@ use App\Models\GroupDealItem;
 use App\Packages\GeocoderPackage;
 use App\Models\GroupDealSingleItem;
 use App\Http\Controllers\Controller;
+use App\Packages\TwilioPackage;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Redirect;
@@ -291,21 +294,7 @@ class OrderController extends Controller
                     $order->payment_intent_id = $session->payment_intent;
                     $order->save();
 
-                    // $sid = config('services.twilio.sid');
-                    // $token = config('services.twilio.auth');
-                    // $twilio = new Client($sid, $token);
-
-                    // // Use the client to do fun stuff like send text messages!
-                    // $message = $twilio->messages->create(
-                    //     // the number you'd like to send the message to
-                    //     session('restaurant')->customer_contact_number,
-                    //     [
-                    //         // A Twilio phone number you purchased at twilio.com/console
-                    //         'from' => config('services.twilio.phone'),
-                    //         // the body of the text message you'd like to send
-                    //         'body' => 'To complete your OrderIt order, please make your payment at the following URL: ' . $session->url,
-                    //     ]
-                    // );
+                    $twilio = TwilioPackage::sendSMS($restaurant->customer_contact_number,"To complete your OrderIt order, please make your payment at the following URL: ". $session->url);
 
                     // event(new OrderAdded($order->restaurant_id));
 
