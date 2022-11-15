@@ -285,14 +285,14 @@ export default function Index(props){
               {/* start:intro */}
               <div className="grid grid-rows-1 grid-cols-3 gap-4">
                 <div className="md:col-span-2 col-span-3 sm:row-span-1">
-                  <div className="mb-4 flex flex-col-reverse items-start justify-start sm:grid sm:grid-cols-4 sm:grid-rows-2 sm:p-10">
+                  <div className="mb-4 sm:mb-0 flex flex-col-reverse items-start justify-start sm:grid sm:grid-cols-4 sm:grid-rows-2 sm:p-10 sm:pb-0">
                     {/* start:intro */}
-                    <p className="sm:text-start sm:col-span-3 mb-2 text-start col-span-5 px-1 order-1">
+                    <p className="sm:text-start sm:col-span-3 mb-2 sm:mb-0 text-start col-span-5 px-1 order-1">
                       {props.restaurant.time_slot ?? "ASAP"}{" "}
                       <span className="d-inline-block mr-2 ml-2">{">"}</span>{" "}
                       {props.restaurant.delivery_address}
                     </p>
-                    <p className="mt-5 sm:pt-0 sm:mt-0 col-span-3 mb-2 row-span-1 px-1 order-3">
+                    <p className="mt-5 sm:pt-0 sm:mt-0 col-span-3 mb-2 sm:mb-0 row-span-1 px-1 order-3">
                       {props.restaurant.chosen_order_type.toUpperCase()}
                     </p>
                     <Link
@@ -391,8 +391,8 @@ export default function Index(props){
                       props.restaurant.menu.map(
                         (item, key) =>
                           item.menu_items.length > 0 && (
-                            <div className="sm:p-10 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-b-none border-t border-stone-400">
-                              <h2 className="font-medium text-lg mb-5 mt-5">
+                            <div className="sm:p-10 sm:pt-0 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-b-none border-t border-stone-400">
+                              <h2 className="font-medium text-lg mb-8 mt-8">
                                 {item.title}
                               </h2>
 
