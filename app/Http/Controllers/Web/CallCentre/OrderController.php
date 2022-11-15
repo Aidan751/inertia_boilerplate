@@ -237,7 +237,11 @@ class OrderController extends Controller
                             'notes' => $item['price_data']['product_data']['notes'],
                         ]);
 
+                        dd($order->items);
+
                     }
+
+
 
 
                     \Stripe\Stripe::setApiKey(config('services.stripe_secret_key'));
