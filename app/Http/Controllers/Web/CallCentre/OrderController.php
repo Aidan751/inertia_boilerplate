@@ -221,13 +221,13 @@ class OrderController extends Controller
                             'title' => $item['price_data']['product_data']['name'],
                             'item_price' => $price,
                             'total_price' => floatval($price * $item['quantity']),
-                            'data' => json_encode([
-                                'description' => $item['price_data']['product_data']['description'],
-                                'dietary_requirements' => $item['price_data']['product_data']['dietary_requirements'],
-                                'notes' => $item['price_data']['product_data']['notes'],
-                                'sizes' => $item['price_data']['product_data']['sizes'],
-                                'extras' => $item['price_data']['product_data']['extras'],
-                            ]),
+                            // 'data' => json_encode([
+                            //     'description' => $item['price_data']['product_data']['description'],
+                            //     'dietary_requirements' => $item['price_data']['product_data']['dietary_requirements'],
+                            //     'notes' => $item['price_data']['product_data']['notes'],
+                            //     'sizes' => $item['price_data']['product_data']['sizes'],
+                            //     'extras' => $item['price_data']['product_data']['extras'],
+                            // ]),
                             'quantity' => $item['quantity'],
                             'notes' => $item['price_data']['product_data']['notes'],
                         ]);

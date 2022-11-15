@@ -1427,3 +1427,4 @@
 1668537778-2875-1587709613,1668537777.9585,GET,/dist/zoom-vanilla.min.js.map,,404,626.06382369995,request
 1668537781-6496-675852077,1668537781.437,GET,/restaurant/extras,"App\Http\Controllers\Web\Restaurant\ExtraController@index",200,592.2749042511,request
 1668537784-2143-290156679,1668537783.9916,GET,/restaurant/extras/edit/1,"App\Http\Controllers\Web\Restaurant\ExtraController@edit",200,620.42307853699,request
+1668551212-0925-1057995865,1668551211.7553,GET,/dashboard,,404,710.91389656067,request
