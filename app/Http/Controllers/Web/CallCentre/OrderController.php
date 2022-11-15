@@ -111,20 +111,19 @@ class OrderController extends Controller
             if ($restaurant == null) {
                 return response('fail', 404);
             } else {
-                $stripe = new \Stripe\StripeClient(
-                    config('services.stripe_secret_key')
-                );
-                dd($stripe);
+                // $stripe = new \Stripe\StripeClient(
+                //     config('services.stripe_secret_key')
+                // );
 
                 // Amount includes delivery fee
                 $total = $request->total_price;
-
+                
                 $amount = round((doubleval($total) * 100), 2);
 
                 $percentageTransaction = 15;
 
                 $deliveryFeeAmount = session('restaurant')->delivery_charge * 100;
-
+                dd($deliveryFeeAmount);
                 // Application fee does not include delivery fee
                 $applicationFeeAmount = round((($amount - $deliveryFeeAmount)  / $percentageTransaction), 2);
 
