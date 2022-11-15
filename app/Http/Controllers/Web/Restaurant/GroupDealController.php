@@ -13,6 +13,7 @@ use Illuminate\Support\Str;
 use App\Models\MenuCategory;
 use Illuminate\Http\Request;
 use App\Models\GroupDealItem;
+use App\Packages\ImagePackage;
 use App\Models\GroupDealSingleItem;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -77,6 +78,7 @@ class GroupDealController extends Controller
             'title' => 'required|string|max:255',
             'description' => 'required|string|max:255',
             'group_deal_price' => 'required|numeric',
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         // create a new Group Deal
@@ -84,6 +86,7 @@ class GroupDealController extends Controller
             'title' => $request->title,
             'description' => $request->description,
             'group_deal_price' => $request->group_deal_price,
+            'image' => ImagePackage::save($request->image, 'group_deals'),
             'restaurant_id' => Auth::user()->restaurant_id,
         ]);
 
@@ -146,12 +149,14 @@ class GroupDealController extends Controller
             'group_deal_price' => 'required|numeric',
             "group_deal_items" => "required|array",
             "group_deal_single_items" => "required|array",
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
         // update the Group Deal
         $groupDeal->update([
             'title' => $request->title,
             'description' => $request->description,
+            'image' => ImagePackage::save($request->image, 'group_deals'),
             'group_deal_price' => $request->group_deal_price,
         ]);
 

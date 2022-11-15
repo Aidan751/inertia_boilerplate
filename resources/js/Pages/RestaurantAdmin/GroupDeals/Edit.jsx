@@ -6,6 +6,7 @@ import { X } from "lucide-react";
 import Title from "@/Components/Title";
 import Input from "@/Components/Input";
 import ValidationErrors from "@/Components/ValidationErrors";
+import MidoneUpload from "@/Components/MidoneUpload";
 
 function Edit(props) {
 
@@ -13,15 +14,21 @@ function Edit(props) {
 
     const existingMenuItems = props.existingMenuItems;
 
-    const { data, setData, put, processing, errors } = useForm({
+    const { data, setData, post, processing, errors } = useForm({
         // Group Deal Data
         "title": groupDeal.title,
-        "description": groupDeal.description,
-        "group_deal_price": groupDeal.group_deal_price,
-        "restaurant_id": groupDeal.restaurant_id,
-        "group_deal_items": groupDeal.group_deal_items,
-        "group_deal_single_items": null,
+        image: null,
+        description: groupDeal.description,
+        group_deal_price: groupDeal.group_deal_price,
+        restaurant_id: groupDeal.restaurant_id,
+        group_deal_items: groupDeal.group_deal_items,
+        group_deal_single_items: null,
+        _method: 'PUT',
     });
+
+    const [imageUrl, setImageUrl] = useState({
+        image: props.groupDeal.image,
+      });
 
     const [groupDealItems, setGroupDealItems] = useState(groupDeal.group_deal_items);
 
@@ -121,6 +128,39 @@ function Edit(props) {
 
     }
 
+     /**
+   * Handle the file upload and set the state
+   * @param {*} event Image file event
+   */
+  const onHandleImageChange = (event) => {
+    // If there are files uploaded add them to image list
+    if (event.target.files.length !== 0) {
+      // Add Image File
+      setData(event.target.name, event.target.files[0]);
+
+      //  Set Preview Image
+      const image = URL.createObjectURL(event.target.files[0]);
+
+      // Get Data Structure
+      let tempImageUrl = imageUrl;
+
+      tempImageUrl[event.target.name] = image;
+    } else {
+      setData(event.target.name, null);
+    }
+  };
+
+  const resetImageInput = (event) => {
+    // Set the file input to null
+    setData(event.target.id, null);
+
+    //
+    let tempImageUrl = imageUrl;
+
+    tempImageUrl[event.target.id] = null;
+  };
+
+
     const submit = (e) => {
       e.preventDefault();
       data.group_deal_items = groupDealItems;
@@ -144,6 +184,15 @@ function Edit(props) {
             <div className="intro-y col-span-12 lg:col-span-6">
               {/* BEGIN: Form Layout */}
               <form className="intro-y box p-5" onSubmit={submit}>
+              <MidoneUpload
+                  name="image"
+                  label="Deal Image"
+                  value={data.image}
+                  change={onHandleImageChange}
+                  error={errors.image}
+                  preview={imageUrl.image}
+                  reset={resetImageInput}
+                />
                 {/* Start: title */}
                 <div className="mb-6 mt-6">
                   <label

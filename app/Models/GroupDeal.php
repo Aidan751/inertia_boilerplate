@@ -13,11 +13,12 @@ class GroupDeal extends Model
     protected $fillable = [
         'title',
         'description',
+        'image',
         'group_deal_price',
         'restaurant_id',
     ];
 
-    
+
 
     public function restaurant()
     {
@@ -26,7 +27,7 @@ class GroupDeal extends Model
 
     /**
      * Get the group deal items for the group deal.
-     * 
+     *
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
     public function groupDealItems()
@@ -36,6 +37,6 @@ class GroupDeal extends Model
 
 
     /**
-     * 
+     *
      */
 }

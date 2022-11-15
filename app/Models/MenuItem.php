@@ -21,7 +21,7 @@ class MenuItem extends Model
         'price',
         'restaurant_id',
         'size_id',
-        'menu_image',
+        'image',
     ];
 
     protected $casts = [

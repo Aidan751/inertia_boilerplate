@@ -4,7 +4,7 @@ import Authenticated from "@/Layouts/Authenticated";
 import { useForm } from "@inertiajs/inertia-react";
 import { X } from "lucide-react";
 import Title from "@/Components/Title";
-import Input from "@/Components/Input";
+import MidoneUpload from "@/Components/MidoneUpload";
 
 function Create(props) {
     console.log(props);
@@ -82,6 +82,38 @@ function Create(props) {
       }
     });
   };
+
+    /**
+   * Handle the file upload and set the state
+   * @param {*} event Image file event
+   */
+     const onHandleImageChange = (event) => {
+        // If there are files uploaded add them to image list
+        if (event.target.files.length !== 0) {
+          // Add Image File
+          setData(event.target.name, event.target.files[0]);
+
+          //  Set Preview Image
+          const image = URL.createObjectURL(event.target.files[0]);
+
+          // Get Data Structure
+          let tempImageUrl = imageUrl;
+
+          tempImageUrl[event.target.name] = image;
+        } else {
+          setData(event.target.name, null);
+        }
+      };
+
+      const resetImageInput = (event) => {
+        // Set the file input to null
+        setData(event.target.id, null);
+
+        //
+        let tempImageUrl = imageUrl;
+
+        tempImageUrl[event.target.id] = null;
+      };
 
   // to input elements and record their values in state
   const handleSizeInputChange = (e, index) => {
@@ -161,6 +193,15 @@ function Create(props) {
             <div className="intro-y col-span-12 lg:col-span-6">
               {/* BEGIN: Form Layout */}
               <form className="intro-y box p-5" onSubmit={submit}>
+              <MidoneUpload
+                  name="image"
+                  label="Deal Image"
+                  value={data.image}
+                  change={onHandleImageChange}
+                  error={errors.image}
+                  preview={imageUrl.image}
+                  reset={resetImageInput}
+                />
                 {/* Start: title */}
                 <div className="mb-6 mt-6">
                   <label
