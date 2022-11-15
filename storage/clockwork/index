@@ -1420,3 +1420,10 @@
 1668536293-7189-107436965,1668536293.5542,GET,/restaurant/group-deals/edit/5,"App\Http\Controllers\Web\Restaurant\GroupDealController@edit",200,547.80101776123,request
 1668536296-7689-1974342431,1668536296.5009,PUT,/restaurant/group-deals/update/5,"App\Http\Controllers\Web\Restaurant\GroupDealController@update",303,594.74992752075,request
 1668536297-3313-868782061,1668536297.1396,GET,/restaurant/group-deals,"App\Http\Controllers\Web\Restaurant\GroupDealController@index",200,692.34704971313,request
+1668537712-5496-499991361,1668537711.9925,GET,/restaurant/extras/create,"App\Http\Controllers\Web\Restaurant\ExtraController@create",200,1390.8460140228,request
+1668537718-0989-1769252098,1668537717.9345,GET,/restaurant/extras,"App\Http\Controllers\Web\Restaurant\ExtraController@index",200,552.12211608887,request
+1668537722-0890-1566561394,1668537721.9167,GET,/restaurant/extras/edit/2,"App\Http\Controllers\Web\Restaurant\ExtraController@edit",200,590.54493904114,request
+1668537771-2351-9983209,1668537770.8881,GET,/restaurant/extras/edit/2,"App\Http\Controllers\Web\Restaurant\ExtraController@edit",200,736.16194725037,request
+1668537778-2875-1587709613,1668537777.9585,GET,/dist/zoom-vanilla.min.js.map,,404,626.06382369995,request
+1668537781-6496-675852077,1668537781.437,GET,/restaurant/extras,"App\Http\Controllers\Web\Restaurant\ExtraController@index",200,592.2749042511,request
+1668537784-2143-290156679,1668537783.9916,GET,/restaurant/extras/edit/1,"App\Http\Controllers\Web\Restaurant\ExtraController@edit",200,620.42307853699,request
