@@ -123,7 +123,6 @@ class OrderController extends Controller
                 $percentageTransaction = 15;
 
                 $deliveryFeeAmount = session('restaurant')->delivery_charge * 100;
-                dd($deliveryFeeAmount);
                 // Application fee does not include delivery fee
                 $applicationFeeAmount = round((($amount - $deliveryFeeAmount)  / $percentageTransaction), 2);
 
@@ -190,24 +189,22 @@ class OrderController extends Controller
                     ]);
 
                     array_push($itemsArray, [
-                                'price_data' => [
-                                  'currency' => 'gbp',
-                                  'product_data' => [
-                                    'name' => $item['menu_item']['title'],
-                                    'sizes' => $item['size'],
-                                    'extras' => $item['extra'],
-                                    'description' => $item['menu_item']['description'],
-                                    'dietary_requirements' => $item['menu_item']['dietary_requirements'],
-                                    'notes' => $item['menu_item']['notes'],
-                                  ],
-                                  'unit_amount' => $item['menu_item']['price'] * 100,
-                                ],
-                                'quantity' => floatval($item['menu_item']['quantity']),
-
-
-                ]);
+                        'price_data' => [
+                            'currency' => 'gbp',
+                            'product_data' => [
+                                'name' => $item['menu_item']['title'],
+                                'sizes' => $item['size'],
+                                'extras' => $item['extra'],
+                                'description' => $item['menu_item']['description'],
+                                'dietary_requirements' => $item['menu_item']['dietary_requirements'],
+                                'notes' => $item['menu_item']['notes'],
+                            ],
+                            'unit_amount' => $item['menu_item']['price'] * 100,
+                        ],
+                        'quantity' => floatval($item['menu_item']['quantity']),
+                    ]);
                 }
-
+                dd($lineItemArray);
                 try {
                     foreach($itemsArray as $item){
                         $price = $item['price_data']['unit_amount'];
