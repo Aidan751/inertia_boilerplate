@@ -193,6 +193,12 @@ function Create(props) {
             <div className="intro-y col-span-12 lg:col-span-6">
               {/* BEGIN: Form Layout */}
               <form className="intro-y box p-5" onSubmit={submit}>
+              <label
+                    className="block mb-3 text-md font-medium text-sm text-gray-600 dark:text-gray-400"
+                    htmlFor="image"
+                  >
+                    Deal Image
+                  </label>
               <MidoneUpload
                   name="image"
                   label="Deal Image"
