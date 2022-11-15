@@ -356,6 +356,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // delete a restaurant group deal
     Route::delete('/restaurant/group-deals/delete/{groupDeal}', [GroupDealController::class, 'destroy'])->name('restaurant.group-deals.destroy');
 
+    // delete a group deal image
+    Route::delete('/restaurant/group-deals/delete-image/{groupDeal}', [GroupDealController::class, 'removeImage'])->name('deal.image.delete');
+
     // list restaurant extras
     Route::get('/restaurant/extras', [ExtraController::class, 'index'])->name('restaurant.extras.index');
 

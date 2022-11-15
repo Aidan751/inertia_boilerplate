@@ -7,6 +7,7 @@ import Title from "@/Components/Title";
 import Input from "@/Components/Input";
 import ValidationErrors from "@/Components/ValidationErrors";
 import MidoneUpload from "@/Components/MidoneUpload";
+import { Inertia } from "@inertiajs/inertia";
 
 function Edit(props) {
 
@@ -150,22 +151,39 @@ function Edit(props) {
     }
   };
 
+
+
   const resetImageInput = (event) => {
+
     // Set the file input to null
-    setData(event.target.id, null);
+    setData(event.target.id,null);
 
     //
     let tempImageUrl = imageUrl;
 
-    tempImageUrl[event.target.id] = null;
-  };
 
+    if(event.target.id === 'image'){
+
+        if(props.groupDeal.image !== null && props.groupDeal.image == tempImageUrl[event.target.id]){
+
+            Inertia.delete(route("deal.image.delete",{id:props.groupDeal.id}),{
+                data: {
+                    image_type: event.target.id,
+                },
+            })
+        }
+    }
+
+
+    tempImageUrl[event.target.id] = null;
+
+}
 
     const submit = (e) => {
       e.preventDefault();
       data.group_deal_items = groupDealItems;
 
-      put(
+      post(
         route("restaurant.group-deals.update", {
           id: groupDeal.id,
         })
@@ -184,6 +202,12 @@ function Edit(props) {
             <div className="intro-y col-span-12 lg:col-span-6">
               {/* BEGIN: Form Layout */}
               <form className="intro-y box p-5" onSubmit={submit}>
+              <label
+                    className="block mb-3 text-md font-medium text-sm text-gray-600 dark:text-gray-400"
+                    htmlFor="image"
+                  >
+                    Deal Image
+                  </label>
               <MidoneUpload
                   name="image"
                   label="Deal Image"

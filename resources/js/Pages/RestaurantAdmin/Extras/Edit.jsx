@@ -26,8 +26,8 @@ function Create(props) {
         <Authenticated
             auth={props.auth}
             errors={props.errors}
-            activeGroup={8}
-            activeItem={3}
+            activeGroup={10}
+            activeItem={7}
         >
 
     <div className="col-span-12">

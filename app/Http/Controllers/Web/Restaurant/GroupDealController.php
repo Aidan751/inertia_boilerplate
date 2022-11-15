@@ -153,12 +153,11 @@ class GroupDealController extends Controller
         ]);
 
         // update the Group Deal
-        $groupDeal->update([
-            'title' => $request->title,
-            'description' => $request->description,
-            'image' => ImagePackage::save($request->image, 'group_deals'),
-            'group_deal_price' => $request->group_deal_price,
-        ]);
+        $groupDeal->title = is_null($request->title) ? $groupDeal->title : $request->title;
+        $groupDeal->description = is_null($request->description) ? $groupDeal->description : $request->description;
+        $groupDeal->group_deal_price = is_null($request->group_deal_price) ? $groupDeal->group_deal_price : $request->group_deal_price;
+        $groupDeal->image = $request->hasFile('image') ? ImagePackage::save($request->image, 'group_deals') : $groupDeal->image;
+        $groupDeal->save();
 
         foreach($groupDeal->groupDealItems as $groupDealItem) {
 
@@ -201,6 +200,31 @@ class GroupDealController extends Controller
 
         // redirect to the Group Deal page
         return redirect()->route('restaurant.group-deals.index')->with('success', 'Group Deal deleted successfully');
+    }
+
+         /**
+     * Remove Restaurant Image from the database
+     * @param \Illuminate\Http\Request $request
+     * @param \App\Restaurant $restaurant
+     * @return \Illuminate\Http\Response
+     */
+    public function removeImage(Request $request, GroupDeal $groupDeal){
+
+        $request->validate([
+            "image_type" => "required|in:image",
+        ]);
+
+        if($request->image_type == "image"){
+            if($groupDeal->image !== null){
+                ImagePackage::delete($groupDeal->image);
+                $groupDeal->image = null;
+            }
+        }
+
+
+        $groupDeal->save();
+        return Redirect::route('restaurant.group-deals.edit',['groupDeal'=>$groupDeal->id])->with('success', 'Image removed successfully.');
+
     }
 
 }
