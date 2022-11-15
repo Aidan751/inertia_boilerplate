@@ -232,8 +232,6 @@ class OrderController extends Controller
                             'notes' => $item['price_data']['product_data']['notes'],
                         ]);
 
-                        dd($order->items);
-
                     }
 
 
