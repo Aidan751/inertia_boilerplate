@@ -215,7 +215,6 @@ class OrderController extends Controller
                         foreach($item['price_data']['product_data']['extras'] as $extra) {
                             $price = $price + floatval($extra['additional_charge']);
                         }
-                        dd($price);
 
                         $order->items()->updateOrCreate([
                             'item_id' => 0, //TODO Not needed for now
