@@ -291,7 +291,7 @@ class OrderController extends Controller
                     $order->payment_intent_id = $session->payment_intent;
                     $order->save();
 
-                    $twilio = TwilioPackage::sendSMS($restaurant->customer_contact_number,"To complete your OrderIt order, please make your payment at the following URL: ". $session->url);
+                    $twilio = TwilioPackage::sendSMS($session->customer_contact_number,"To complete your OrderIt order, please make your payment at the following URL: ". $session->url);
 
                     // event(new OrderAdded($order->restaurant_id));
 

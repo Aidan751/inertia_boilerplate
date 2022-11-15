@@ -5,7 +5,7 @@ use Exception;
 use \Twilio\Rest\Client;
 class TwilioPackage
 {
-    public static function sendSMS($to, $message)
+    public static function sendSMS($to,string $message)
     {
         try{
             $account_sid = env('TWILLIO_SID');
