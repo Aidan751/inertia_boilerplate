@@ -339,7 +339,7 @@ export default function Index(props){
 
                   {/* end: restaurant box */}
                   {/* start: groupdeal box */}
-                  <div className="mt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-t border-b border-stone-400">
+                  <div className="mt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-t border-b-none border-stone-400">
                     <h2 className="font-medium text-lg sm:px-10 mt-8 pb-0">Deals</h2>
 
                     {props.restaurant.group_deals &&
