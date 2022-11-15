@@ -204,10 +204,10 @@ class OrderController extends Controller
                         'quantity' => floatval($item['menu_item']['quantity']),
                     ]);
                 }
-                dd($lineItemArray);
                 try {
                     foreach($itemsArray as $item){
                         $price = $item['price_data']['unit_amount'];
+                        dd($price);
 
                         foreach($item['price_data']['product_data']['sizes'] as $size) {
                             $price = $price + floatval($size['additional_charge']);
