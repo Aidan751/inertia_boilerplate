@@ -108,13 +108,13 @@ class OrderController extends Controller
             }
 
             $restaurant = Restaurant::where('id', session()->get('restaurant')->id)->first();
-            dd($restaurant);
             if ($restaurant == null) {
                 return response('fail', 404);
             } else {
                 $stripe = new \Stripe\StripeClient(
                     config('services.stripe_secret_key')
                 );
+                dd($stripe);
 
                 // Amount includes delivery fee
                 $total = $request->total_price;
