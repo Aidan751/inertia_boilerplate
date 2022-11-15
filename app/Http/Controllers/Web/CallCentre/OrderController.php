@@ -108,7 +108,7 @@ class OrderController extends Controller
             }
 
             $restaurant = Restaurant::where('id', session()->get('restaurant')->id)->first();
-
+            dd($restaurant);
             if ($restaurant == null) {
                 return response('fail', 404);
             } else {
