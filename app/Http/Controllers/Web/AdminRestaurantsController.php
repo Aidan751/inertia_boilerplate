@@ -10,8 +10,10 @@ use App\Models\Banner;
 use Stripe\StripeClient;
 use App\Models\Restaurant;
 use App\Models\UserStripe;
+use App\Models\OpeningHour;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\CollectionTime;
 use App\Packages\ImagePackage;
 use App\Models\RestaurantCategory;
 use App\Http\Controllers\Controller;
@@ -106,7 +108,7 @@ class AdminRestaurantsController extends Controller
         $role = Role::where('name', $request->role)->first();
 
         $stripe = new StripeClient(
-            config('services.stripe_secret_key')
+            config('stripe.sk')
         );
 
         $stripeAccount = $stripe->accounts->create([
@@ -195,6 +197,103 @@ class AdminRestaurantsController extends Controller
         // Save to the database
         $restaurant->save();
 
+        OpeningHour::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 1,
+        ]);
+
+        OpeningHour::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 2,
+        ]);
+
+        OpeningHour::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 3,
+        ]);
+
+        OpeningHour::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 4,
+        ]);
+
+        OpeningHour::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 5,
+        ]);
+
+        OpeningHour::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 6,
+        ]);
+
+        OpeningHour::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 7,
+        ]);
+
+        CollectionTime::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 1,
+        ]);
+
+        CollectionTime::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 2,
+        ]);
+
+        CollectionTime::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 3,
+        ]);
+
+        CollectionTime::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 4,
+        ]);
+
+        CollectionTime::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 5,
+        ]);
+
+        CollectionTime::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 6,
+        ]);
+
+        CollectionTime::create([
+            'restaurant_id' => $restaurant->id,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 7,
+        ]);
 
 
         // Create a model for this User
