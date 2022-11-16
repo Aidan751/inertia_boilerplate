@@ -1321,3 +1321,13 @@
 1668560973-5119-234778779,1668560973.2933,PUT,/restaurant/tables/update/1,"App\Http\Controllers\Web\Restaurant\TableController@update",303,706.93206787109,request
 1668560974-4926-1359904146,1668560974.0727,GET,/restaurant/tables,"App\Http\Controllers\Web\Restaurant\TableController@index",200,1101.4320850372,request
 1668560979-1281-1830589810,1668560978.9357,GET,/restaurant/offers,"App\Http\Controllers\Web\Restaurant\OfferController@index",200,717.05603599548,request
+1668568321-5229-1749935392,1668568320.7381,GET,/,"App\Http\Controllers\Web\HomeController@index",302,5935.7349872589,request
+1668568327-2253-520497107,1668568326.7522,GET,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@create",200,2819.7419643402,request
+1668568339-0172-874219869,1668568338.8733,POST,/login,"App\Http\Controllers\Auth\AuthenticatedSessionController@store",302,2305.1471710205,request
+1668568341-5219-1684122210,1668568341.2229,GET,/,"App\Http\Controllers\Web\HomeController@index",200,1404.1950702667,request
+1668568346-5893-1930526921,1668568346.4195,GET,/call-centre/orders/search/3,"App\Http\Controllers\Web\CallCentre\OrderController@search",200,590.55495262146,request
+1668568355-7753-1945028460,1668568355.581,GET,/call-centre/orders/index?role=call_centre_admin&contact_number=%2B447368360039&address=10%20abbotsford%20avenue%20larkhall&when_radio=asap&order_type=delivery&customer_name=customer%20name&customer_contact_number=%2B447368360039,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,3257.0829391479,request
+1668568378-8319-1194855794,1668568378.4191,POST,/call-centre/orders/place-order,"App\Http\Controllers\Web\CallCentre\OrderController@placeOrder",422,1023.374080658,request
+1668568438-2883-1797163701,1668568437.9007,POST,/call-centre/orders/place-order,"App\Http\Controllers\Web\CallCentre\OrderController@placeOrder",422,816.27297401428,request
+1668568524-5449-857068202,1668568523.9712,POST,/call-centre/orders/place-order,"App\Http\Controllers\Web\CallCentre\OrderController@placeOrder",422,1433.699131012,request
+1668568528-5914-1697414156,1668568528.2928,POST,/call-centre/orders/place-order,"App\Http\Controllers\Web\CallCentre\OrderController@placeOrder",422,682.72590637207,request

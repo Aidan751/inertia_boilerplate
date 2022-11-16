@@ -117,7 +117,7 @@ class OrderController extends Controller
 
                 // Amount includes delivery fee
                 $total = $request->total_price;
-                
+
                 $amount = round((doubleval($total) * 100), 2);
 
                 $percentageTransaction = 15;
@@ -183,7 +183,7 @@ class OrderController extends Controller
                             'product_data' => [
                               'name' => $item['menu_item']['title'],
                             ],
-                            'unit_amount' => $item['menu_item']['price'] * 100,
+                            'unit_amount' => floatval($item['menu_item']['price']),
                           ],
                           'quantity' => floatval($item['menu_item']['quantity']),
                     ]);
@@ -199,7 +199,7 @@ class OrderController extends Controller
                                 'dietary_requirements' => $item['menu_item']['dietary_requirements'],
                                 'notes' => $item['menu_item']['notes'],
                             ],
-                            'unit_amount' => $item['menu_item']['price'] * 100,
+                            'unit_amount' => floatval($item['menu_item']['price']),
                         ],
                         'quantity' => floatval($item['menu_item']['quantity']),
                     ]);
@@ -215,19 +215,17 @@ class OrderController extends Controller
                         foreach($item['price_data']['product_data']['extras'] as $extra) {
                             $price = $price + floatval($extra['additional_charge']);
                         }
-                        
+
                         $order->items()->updateOrCreate([
                             'item_id' => 0, //TODO Not needed for now
                             'title' => $item['price_data']['product_data']['name'],
                             'item_price' => $price,
                             'total_price' => floatval($price * $item['quantity']),
-                            // 'data' => json_encode([
-                            //     'description' => $item['price_data']['product_data']['description'],
-                            //     'dietary_requirements' => $item['price_data']['product_data']['dietary_requirements'],
-                            //     'notes' => $item['price_data']['product_data']['notes'],
-                            //     'sizes' => $item['price_data']['product_data']['sizes'],
-                            //     'extras' => $item['price_data']['product_data']['extras'],
-                            // ]),
+                            'description' => $item['price_data']['product_data']['description'],
+                            'dietary_requirements' => $item['price_data']['product_data']['dietary_requirements'],
+                            'notes' => $item['price_data']['product_data']['notes'],
+                            'sizes' => $item['price_data']['product_data']['sizes'],
+                            'extras' => $item['price_data']['product_data']['extras'],
                             'quantity' => $item['quantity'],
                             'notes' => $item['price_data']['product_data']['notes'],
                         ]);
@@ -237,8 +235,9 @@ class OrderController extends Controller
 
 
 
-                    \Stripe\Stripe::setApiKey(config('services.stripe_secret_key'));
+                    \Stripe\Stripe::setApiKey(config('stripe.sk'));
                     $restaurantStripe = session('restaurant')->stripe_account_id;
+                    dd($restaurantStripe);
                     $appURL = config('app.url');
 
                     if ($order->pickup_method == 'delivery') {
