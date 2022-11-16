@@ -17,6 +17,7 @@ use App\Packages\ImagePackage;
 use App\Models\GroupDealSingleItem;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
 
 
 class GroupDealController extends Controller
