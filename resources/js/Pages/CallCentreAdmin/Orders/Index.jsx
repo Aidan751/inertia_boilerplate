@@ -356,7 +356,7 @@ export default function Index(props){
                                   <img
                                     alt="Midone Tailwind HTML Admin Template"
                                     className="rounded-md"
-                                    src="https://source.unsplash.com/random/?fruit"
+                                    src={deal.image}
                                     data-action="zoom"
                                   />
                                 </div>
