@@ -14,46 +14,50 @@ class StripeController extends Controller
     {
 
         $stripe = new \Stripe\StripeClient(
-            config('services.stripe_secret_key')
+            config('stripe.sk')
         );
+
+        $appURL = config('app.url');
 
         $restaurant = Restaurant::find(Auth::user()->restaurant_id);
 
 
-        if ($restaurant->stripe_status == "incomplete") {
-            // Needs to connect with stripe
-
-          $link = $stripe->accountLinks->create([
-                'account' => $restaurant->stripe_account_id,
-                'refresh_url' => 'https://orderit.createaclients.co.uk/restaurant/stripe',
-                'return_url' => 'https://orderit.createaclients.co.uk/restaurant/stripe/complete',
-                'type' => 'account_onboarding',
-              ]);
-
-            return redirect($link->url);
-        } else {
-            return Inertia::render('RestaurantAdmin/Stripe/Complete');
-        }
-    }
     //     if ($restaurant->stripe_status == "incomplete") {
     //         // Needs to connect with stripe
-    //         $link = $stripe->accountLinks->create([
+
+    //       $link = $stripe->accountLinks->create([
     //             'account' => $restaurant->stripe_account_id,
-    //             'refresh_url' => $appURL . '/restaurant/stripe',
-    //             'return_url' => $appURL . '/restaurant/stripe/complete',
+    //             'refresh_url' => 'https://orderit.createaclients.co.uk/restaurant/stripe',
+    //             'return_url' => 'https://orderit.createaclients.co.uk/restaurant/stripe/complete',
     //             'type' => 'account_onboarding',
-    //         ]);
+    //           ]);
 
     //         return redirect($link->url);
     //     } else {
     //         return Inertia::render('RestaurantAdmin/Stripe/Complete');
     //     }
     // }
+        if ($restaurant->stripe_status == "incomplete") {
+            // Needs to connect with stripe
+            $link = $stripe->accountLinks->create([
+                'account' => $restaurant->stripe_account_id,
+                'refresh_url' => $appURL . '/restaurant/stripe',
+                'return_url' => $appURL . '/restaurant/stripe/complete',
+                'type' => 'account_onboarding',
+
+
+            ]);
+
+            return redirect($link->url);
+        } else {
+            return Inertia::render('RestaurantAdmin/Stripe/Complete');
+        }
+    }
 
     public function complete(Request $request) {
 
         $stripe = new \Stripe\StripeClient(
-            config('services.stripe_secret_key')
+            config('stripe.sk')
         );
 
         $restaurant = Auth::user()->restaurant;

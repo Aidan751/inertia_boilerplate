@@ -177,16 +177,7 @@ class OrderController extends Controller
                         }
                     }
 
-                    array_push($lineItemArray, [
-                        'price_data' => [
-                            'currency' => 'gbp',
-                            'product_data' => [
-                              'name' => $item['menu_item']['title'],
-                            ],
-                            'unit_amount' => floatval($item['menu_item']['price']),
-                          ],
-                          'quantity' => floatval($item['menu_item']['quantity']),
-                    ]);
+
 
                     array_push($itemsArray, [
                         'price_data' => [
@@ -204,7 +195,7 @@ class OrderController extends Controller
                         'quantity' => floatval($item['menu_item']['quantity']),
                     ]);
                 }
-                try {
+
                     foreach($itemsArray as $item){
                         $price = $item['price_data']['unit_amount'];
 
@@ -216,19 +207,29 @@ class OrderController extends Controller
                             $price = $price + floatval($extra['additional_charge']);
                         }
 
+
                         $order->items()->updateOrCreate([
                             'item_id' => 0, //TODO Not needed for now
                             'title' => $item['price_data']['product_data']['name'],
                             'item_price' => $price,
                             'total_price' => floatval($price * $item['quantity']),
-                            'description' => $item['price_data']['product_data']['description'],
-                            'dietary_requirements' => $item['price_data']['product_data']['dietary_requirements'],
                             'notes' => $item['price_data']['product_data']['notes'],
-                            'sizes' => $item['price_data']['product_data']['sizes'],
-                            'extras' => $item['price_data']['product_data']['extras'],
                             'quantity' => $item['quantity'],
                             'notes' => $item['price_data']['product_data']['notes'],
                         ]);
+
+                        array_push($lineItemArray, [
+                        'price_data' => [
+                            'currency' => 'gbp',
+                            'product_data' => [
+                              'name' => $item['price_data']['product_data']['name'],
+                            ],
+                            'unit_amount' => $price * 100,
+                          ],
+                          'quantity' => $item['quantity'],
+                    ]);
+
+
 
                     }
 
@@ -237,7 +238,6 @@ class OrderController extends Controller
 
                     \Stripe\Stripe::setApiKey(config('stripe.sk'));
                     $restaurantStripe = session('restaurant')->stripe_account_id;
-                    dd($restaurantStripe);
                     $appURL = config('app.url');
 
                     if ($order->pickup_method == 'delivery') {
@@ -297,18 +297,7 @@ class OrderController extends Controller
                     session()->forget('restaurant');
                     return redirect()->route('call-centre.orders.search', ['id' => Auth::user()->id])->with('success', 'Order placed and SMS sent.');
 
-                } catch (QueryException $ex) {
-                    $errorCode = $ex->errorInfo[1];
-                    if ($errorCode == 1062) {
-                        return response()->json([
-                        'message' => $ex->errorInfo[2],
-                    ], 400);
-                    } else {
-                        return response()->json([
-                        'message' => $ex,
-                    ], 422);
-                    }
-                }
+
             }
         }
 

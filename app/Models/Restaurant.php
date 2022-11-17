@@ -8,6 +8,7 @@ use App\Models\Banner;
 use App\Models\GroupDeal;
 use App\Models\OpeningHour;
 use App\Models\MenuCategory;
+use Laravel\Cashier\Billable;
 use Illuminate\Database\Eloquent\Model;
 use Spatie\MediaLibrary\HasMedia\HasMedia;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -15,7 +16,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 // class Restaurant extends Model implements HasMedia
 class Restaurant extends Model
 {
-    use  HasFactory;
+    use  HasFactory, Billable;
 
 
     protected $fillable = [

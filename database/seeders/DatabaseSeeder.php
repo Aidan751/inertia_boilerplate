@@ -45,99 +45,141 @@ class DatabaseSeeder extends Seeder
                 'day_of_the_week' => $day,
             ]);
         }
-        // RestaurantCategory::factory()->create([
-        //     'name' => 'Italian',
-        // ]);
-        // RestaurantCategory::factory()->create([
-        //     'name' => 'Chinese',
-        // ]);
-        // RestaurantCategory::factory()->create([
-        //     'name' => 'Indian',
-        // ]);
-        // RestaurantCategory::factory()->create([
-        //     'name' => 'Fine Dining',
-        // ]);
-        // RestaurantCategory::factory()->create([
-        //     'name' => 'Fast Food',
-        // ]);
+        RestaurantCategory::factory()->create([
+            'name' => 'Italian',
+        ]);
+        RestaurantCategory::factory()->create([
+            'name' => 'Chinese',
+        ]);
+        RestaurantCategory::factory()->create([
+            'name' => 'Indian',
+        ]);
+        RestaurantCategory::factory()->create([
+            'name' => 'Fine Dining',
+        ]);
+        RestaurantCategory::factory()->create([
+            'name' => 'Fast Food',
+        ]);
 
 
 
         // $table->string('banner')->nullable();
         // $table->string('logo')->nullable();
-        // $restaurant = \App\Models\Restaurant::factory()->create([
-        //     'name' => 'Test Restaurant',
-        //     'contact_number' => '+447368360039',
-        //     'front_facing_number' => '+447368360039',
-        //     'address_line_1' => '26 Wilson Street',
-        //     'town' => 'Larkhall',
-        //     'county' => 'South Lanarkshire',
-        //     'postcode' => 'ML9 2QF',
-        //     'application_status' => 'approved',
-        //     'stripe_status' => 'complete',
-        //     'allows_delivery' => 1,
-        //     'stripe_account_id' => 'acct_1LXNmvLaeslmuKuI',
-        // ]);
+        $restaurant = \App\Models\Restaurant::factory()->create([
+            'name' => 'Test Restaurant',
+            'contact_number' => '+447368360039',
+            'front_facing_number' => '+447368360039',
+            'address_line_1' => '26 Wilson Street',
+            'town' => 'Larkhall',
+            'county' => 'South Lanarkshire',
+            'postcode' => 'ML9 2QF',
+            'application_status' => 'approved',
+            'stripe_status' => 'complete',
+            'allows_delivery' => 1,
+            'stripe_account_id' => 'acct_1LXNmvLaeslmuKuI',
+        ]);
 
         // Logo::factory()->create();
 
         // Banner::factory()->create();
 
-        // OpeningHour::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'from' => '10:00:00',
-        //     'to' => '22:00:00',
-        //     'day_id' => 1,
-        // ]);
+        OpeningHour::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 1,
+        ]);
 
-        // OpeningHour::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'from' => '10:00:00',
-        //     'to' => '22:00:00',
-        //     'day_id' => 2,
-        // ]);
+        OpeningHour::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 2,
+        ]);
 
-        // OpeningHour::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'from' => '10:00:00',
-        //     'to' => '22:00:00',
-        //     'day_id' => 3,
-        // ]);
+        OpeningHour::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 3,
+        ]);
 
-        // OpeningHour::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'from' => '10:00:00',
-        //     'to' => '22:00:00',
-        //     'day_id' => 4,
-        // ]);
+        OpeningHour::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 4,
+        ]);
 
-        // OpeningHour::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'from' => '10:00:00',
-        //     'to' => '22:00:00',
-        //     'day_id' => 5,
-        // ]);
+        OpeningHour::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 5,
+        ]);
 
-        // OpeningHour::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'from' => '10:00:00',
-        //     'to' => '22:00:00',
-        //     'day_id' => 6,
-        // ]);
+        OpeningHour::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 6,
+        ]);
 
-        // OpeningHour::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'from' => '10:00:00',
-        //     'to' => '22:00:00',
-        //     'day_id' => 7,
-        // ]);
+        OpeningHour::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 7,
+        ]);
 
-        // CollectionTime::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'from' => '10:00:00',
-        //     'to' => '22:00:00',
-        //     'day_id' => 1,
-        // ]);
+        CollectionTime::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 1,
+        ]);
+
+        CollectionTime::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 2,
+        ]);
+
+        CollectionTime::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 3,
+        ]);
+
+        CollectionTime::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 4,
+        ]);
+
+        CollectionTime::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 5,
+        ]);
+
+        CollectionTime::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 6,
+        ]);
+
+        CollectionTime::factory()->create([
+            'restaurant_id' => 1,
+            'from' => '10:00:00',
+            'to' => '22:00:00',
+            'day_id' => 7,
+        ]);
 
         // CollectionTime::factory()->create([
         //     'restaurant_id' => $restaurant->id,
