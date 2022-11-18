@@ -161,7 +161,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::view('/restaurant/restaurant-tables', 'livewire.table_numbers')->name('restaurant.alltables');
 
     // TODO: stripe routes
-    Route::get('/restaurant/stripe', [RestaurantStripeController::class, 'link'])->name('restaurant.stripe.link');
+    Route::get('/restaurant/stripe/connection', [RestaurantStripeController::class, 'connection'])->name('restaurant.stripe.connection');
+    Route::get('/restaurant/stripe', [RestaurantStripeController::class, 'board'])->name('restaurant.stripe.link');
     Route::get('/restaurant/stripe/complete', [RestaurantStripeController::class, 'complete'])->name('restaurant.stripe.complete');
 
     // list menu categories

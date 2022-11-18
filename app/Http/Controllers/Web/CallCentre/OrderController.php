@@ -236,7 +236,14 @@ class OrderController extends Controller
 
 
 
-                    \Stripe\Stripe::setApiKey(config('stripe.sk'));
+                $lineItemArray['price_data']['currency'] = 'gbp';
+                $lineItemArray['price_data']['product_data']['name'] = 'test proddd by amsih';
+                $lineItemArray['price_data']['unit_amount'] = (23 * 100);
+                $lineItemArray['quantity'] = 2;
+
+
+
+                \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
                     $restaurantStripe = session('restaurant')->stripe_account_id;
                     $appURL = config('app.url');
 
@@ -539,13 +546,15 @@ class OrderController extends Controller
                     'selected_items' => $selected_items,
                 ]);
             }else{
+
         // Validate the data
          $request->validate([
             'customer_name' => ['required', 'string', 'max:191'],
-            'customer_contact_number' => 'phone:GB',
-            'contact_number' => 'phone:GB',
+            'customer_contact_number' => 'nullable',
+            'contact_number' => 'nullable',
             "role" => "required|exists:roles,name",
         ]);
+
 
 
         session()->forget('cart');
@@ -556,6 +565,8 @@ class OrderController extends Controller
         session()->forget('selected_items');
 
         $restaurant = Restaurant::with('menuCategories', 'menuItems', 'openingHours')->where('contact_number', $request->contact_number)->first();
+
+
 
         if(is_null($restaurant)) {
             return redirect()->back()->withErrors([
@@ -586,6 +597,8 @@ class OrderController extends Controller
                 // if selected time, check if restaurant is open at the time selected
                 $selected_time = date_format(new DateTime($request->selected_time),  'H:i:s');
             }
+
+
 
             // Check restaurant is open now
             $currentDay = date('l');
@@ -620,7 +633,11 @@ class OrderController extends Controller
                 }
             }
 
+
+
             if ($request->order_type == 'delivery') {
+
+
                 // find address
                 $googleApiKey = config('geocoder.key');
                 $googleGeocoding = 'https://maps.googleapis.com/maps/api/geocode/json?key=' . $googleApiKey . '&address=' . $request->address;
@@ -630,6 +647,8 @@ class OrderController extends Controller
                 $user_latitude = 0;
                 $user_longitude = 0;
                 $address = $request->address;
+
+
 
                 if ($decodedResponse['status'] == 'OK') {
                     $parts = array(
@@ -654,12 +673,16 @@ class OrderController extends Controller
                         }
                     }
 
+
+
                     $user_latitude = $decodedResponse['results'][0]['geometry']['location']['lat'];
                     $user_longitude = $decodedResponse['results'][0]['geometry']['location']['lng'];
                     $userAddress = $decodedResponse['results'][0]['formatted_address'];
+
                     $restaurant->setAttribute('delivery_address', $request->address);
                     $restaurant->setAttribute('user_latitude', $user_latitude);
                     $restaurant->setAttribute('user_longitude', $user_longitude);
+
 
 
                 } elseif ($decodedResponse['status'] == "ZERO_RESULTS") {
@@ -667,7 +690,9 @@ class OrderController extends Controller
                 } else {
                     return redirect()->back()->withErrors(['message', 'GEOCODING ERROR: ' . $decodedResponse['status'] . ' - ' . $decodedResponse['error_message']]);
                 }
+
             }
+
 
             // get restaurant logo
             $logo = $restaurant->logo ?? null;
@@ -680,11 +705,14 @@ class OrderController extends Controller
             if ($restaurant->company_drivers == 1 && $request->order_type == 'delivery') {
                 $configurations = Configuration::get()->toArray();
 
+
+
                 $distance_in_miles = GeocoderPackage::getDistance($userAddress, $restaurant->getFullAddressAttribute());
 
 
                 $raw_distance = (int)str_replace(' miles', '', $distance_in_miles);
                 $delivery_time = GeocoderPackage::getDeliveryTime($restaurant->getFullAddressAttribute(), $userAddress);
+
                 if($delivery_time === 'Zero results') {
                     return redirect()->back()->withErrors(['message', 'Delivery time could not be calculated.']);
                 }
@@ -695,6 +723,9 @@ class OrderController extends Controller
                 $restaurant->setAttribute('time_in_minutes', $time_in_minutes);
                 $restaurant->setAttribute('distance_in_miles', $distance_in_miles);
             }
+
+
+
 
 
 

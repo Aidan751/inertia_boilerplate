@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "29e655c18911f6951ebbf85fbae75c45",
+    "content-hash": "b4ab971a6f93d7c63e0466c3f2108e26",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -550,6 +550,60 @@
                 }
             ],
             "time": "2020-12-29T14:50:06+00:00"
+        },
+        {
+            "name": "expdev07/laravel-cashier-stripe-connect",
+            "version": "v1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ExpDev07/laravel-cashier-stripe-connect.git",
+                "reference": "12df5123faf632b4c6b5daabd7d8c13441d5714e"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ExpDev07/laravel-cashier-stripe-connect/zipball/12df5123faf632b4c6b5daabd7d8c13441d5714e",
+                "reference": "12df5123faf632b4c6b5daabd7d8c13441d5714e",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.17|^9.0",
+                "laravel/cashier": "^12.6|^13.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "ExpDev07\\CashierConnect\\CashierConnectServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "ExpDev07\\CashierConnect\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "ExpDev07",
+                    "email": "mariusrich2@gmail.com"
+                }
+            ],
+            "description": "Adds Stripe Connect functionality to Laravel's main billing package, Cashier.",
+            "keywords": [
+                "billing",
+                "laravel",
+                "stripe",
+                "stripe-connect"
+            ],
+            "support": {
+                "issues": "https://github.com/ExpDev07/laravel-cashier-stripe-connect/issues",
+                "source": "https://github.com/ExpDev07/laravel-cashier-stripe-connect/tree/v1.2.0"
+            },
+            "time": "2022-04-02T17:27:02+00:00"
         },
         {
             "name": "fakerphp/faker",

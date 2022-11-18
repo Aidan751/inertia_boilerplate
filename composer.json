@@ -6,6 +6,8 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "expdev07/laravel-cashier-stripe-connect": "^1.2",
+        "fakerphp/faker": "^1.9.1",
         "fruitcake/laravel-cors": "^2.0",
         "guzzlehttp/guzzle": "^7.0.1",
         "inertiajs/inertia-laravel": "^0.5.4",
@@ -21,8 +23,7 @@
         "spatie/laravel-medialibrary": "^8.0",
         "stripe/stripe-php": "^9.6",
         "tightenco/ziggy": "^1.0",
-        "twilio/sdk": "^6.43",
-        "fakerphp/faker": "^1.9.1"
+        "twilio/sdk": "^6.43"
     },
     "require-dev": {
         "facade/ignition": "^2.5",

@@ -19808,14 +19808,11 @@ select {
 .mb-10 {
   margin-bottom: 2.5rem;
 }
-.mr-52 {
-  margin-right: 13rem;
-}
-.\!-mb-\[60px\] {
-  margin-bottom: -60px !important;
-}
 .mr-10 {
   margin-right: 2.5rem;
+}
+.mr-52 {
+  margin-right: 13rem;
 }
 .ml-auto {
   margin-left: auto;
@@ -19828,6 +19825,9 @@ select {
 }
 .mt-1 {
   margin-top: 0.25rem;
+}
+.\!-mb-\[60px\] {
+  margin-bottom: -60px !important;
 }
 .mb-6 {
   margin-bottom: 1.5rem;
@@ -19898,11 +19898,11 @@ select {
 .h-12 {
   height: 3rem;
 }
-.h-0 {
-  height: 0px;
-}
 .h-3 {
   height: 0.75rem;
+}
+.h-0 {
+  height: 0px;
 }
 .h-7 {
   height: 1.75rem;
@@ -19943,9 +19943,6 @@ select {
 .w-20 {
   width: 5rem;
 }
-.w-0 {
-  width: 0px;
-}
 .w-40 {
   width: 10rem;
 }
@@ -19954,6 +19951,9 @@ select {
 }
 .w-3 {
   width: 0.75rem;
+}
+.w-0 {
+  width: 0px;
 }
 .w-72 {
   width: 18rem;
@@ -19967,11 +19967,11 @@ select {
 .w-64 {
   width: 16rem;
 }
-.max-w-xl {
-  max-width: 36rem;
-}
 .max-w-6xl {
   max-width: 72rem;
+}
+.max-w-xl {
+  max-width: 36rem;
 }
 .max-w-md {
   max-width: 28rem;
@@ -20051,11 +20051,11 @@ select {
 .grid-cols-1 {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
-.grid-cols-12 {
-  grid-template-columns: repeat(12, minmax(0, 1fr));
-}
 .grid-cols-2 {
   grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.grid-cols-12 {
+  grid-template-columns: repeat(12, minmax(0, 1fr));
 }
 .grid-cols-4 {
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -20099,11 +20099,11 @@ select {
 .justify-between {
   justify-content: space-between;
 }
-.gap-6 {
-  gap: 1.5rem;
-}
 .gap-4 {
   gap: 1rem;
+}
+.gap-6 {
+  gap: 1.5rem;
 }
 .gap-2 {
   gap: 0.5rem;
@@ -20295,6 +20295,10 @@ select {
   padding-left: 0.5rem;
   padding-right: 0.5rem;
 }
+.py-5 {
+  padding-top: 1.25rem;
+  padding-bottom: 1.25rem;
+}
 .py-4 {
   padding-top: 1rem;
   padding-bottom: 1rem;
@@ -20302,10 +20306,6 @@ select {
 .px-6 {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
-}
-.py-5 {
-  padding-top: 1.25rem;
-  padding-bottom: 1.25rem;
 }
 .py-1 {
   padding-top: 0.25rem;
@@ -20323,6 +20323,10 @@ select {
   padding-top: 2rem;
   padding-bottom: 2rem;
 }
+.px-3 {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+}
 .\!px-\[16px\] {
   padding-left: 16px !important;
   padding-right: 16px !important;
@@ -20330,10 +20334,6 @@ select {
 .\!py-\[15px\] {
   padding-top: 15px !important;
   padding-bottom: 15px !important;
-}
-.px-3 {
-  padding-left: 0.75rem;
-  padding-right: 0.75rem;
 }
 .px-10 {
   padding-left: 2.5rem;

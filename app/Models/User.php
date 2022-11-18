@@ -11,12 +11,22 @@ use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class User extends Authenticatable
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use ExpDev07\CashierConnect\Contracts\StripeAccount;
+use Laravel\Cashier\Billable as CashierBillable;
+use ExpDev07\CashierConnect\Billable as ConnectBillable;
+
+class User extends Authenticatable implements StripeAccount
 {
     use LaratrustUserTrait;
     use HasApiTokens, HasFactory, Notifiable, Billable;
+
+    use CashierBillable;
+    use ConnectBillable;
+
+    public $commission_type = 'percentage';
+    public $commission_rate = 15;
 
     /**
      * The attributes that are mass assignable.

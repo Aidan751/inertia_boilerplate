@@ -6,77 +6,108 @@ use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
-
+use App\Models\User;
+use Illuminate\Http\RedirectResponse;
+use URL;
 
 class StripeController extends Controller
 {
-    public function link(Request $request)
-    {
 
-        $stripe = new \Stripe\StripeClient(
-            config('stripe.sk')
-        );
-
-        $appURL = config('app.url');
-
-        $restaurant = Restaurant::find(Auth::user()->restaurant_id);
-
-
-    //     if ($restaurant->stripe_status == "incomplete") {
-    //         // Needs to connect with stripe
-
-    //       $link = $stripe->accountLinks->create([
-    //             'account' => $restaurant->stripe_account_id,
-    //             'refresh_url' => 'https://orderit.createaclients.co.uk/restaurant/stripe',
-    //             'return_url' => 'https://orderit.createaclients.co.uk/restaurant/stripe/complete',
-    //             'type' => 'account_onboarding',
-    //           ]);
-
-    //         return redirect($link->url);
-    //     } else {
-    //         return Inertia::render('RestaurantAdmin/Stripe/Complete');
-    //     }
-    // }
-        if ($restaurant->stripe_status == "incomplete") {
-            // Needs to connect with stripe
-            $link = $stripe->accountLinks->create([
-                'account' => $restaurant->stripe_account_id,
-                'refresh_url' => $appURL . '/restaurant/stripe',
-                'return_url' => $appURL . '/restaurant/stripe/complete',
-                'type' => 'account_onboarding',
-
-
-            ]);
-
-            return redirect($link->url);
-        } else {
-            return Inertia::render('RestaurantAdmin/Stripe/Complete');
+    public function connection(){
+        $user = User::find(Auth::id());
+        $stripe = null;
+        try {
+            $stripe = $user->asStripeAccount();
+        }catch (\Exception $e){
         }
+
+        return Inertia::render('RestaurantAdmin/Stripe/Connection', [
+            'stripe' => $stripe
+        ]);
     }
 
-    public function complete(Request $request) {
+    /**
+     * Creates an onboarding link and redirects the user there.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function board(Request $request): RedirectResponse
+    {
 
-        $stripe = new \Stripe\StripeClient(
-            config('stripe.sk')
-        );
+       /* $user = User::find(2);
+        $user->transferToStripeAccount(1000);
 
-        $restaurant = Auth::user()->restaurant;
-        $account = $restaurant->stripe_account_id;
-        $id = $restaurant->id;
+        dd('check');*/
+      /*  $user = User::find(2);
+        dd($user->asStripeAccount());*/
 
-        if ($account != '') {
-            $stripeAccount = $stripe->accounts->retrieve($account);
-            if ($stripeAccount != null && $stripeAccount->charges_enabled == true) {
-                Restaurant::find($id)->update(['stripe_status' => 'complete']);
-                return Inertia::render('RestaurantAdmin/Stripe/Complete', [
-                    'stripeAccount' => $stripeAccount,
-                ]);
-            } else {
-              return $this->link($request);
-            }
-        } else {
-           return $this->link($request);
+        return $this->handleBoardingRedirect($request->user());
+    }
+
+    /**
+     * Handles returning from completing the onboarding process.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function returning(Request $request): RedirectResponse
+    {
+        return $this->handleBoardingRedirect($request->user());
+    }
+
+    /**
+     * Handles refreshing of onboarding process.
+     *
+     * @param Request $request
+     * @return RedirectResponse
+     */
+    public function refresh(Request $request): RedirectResponse
+    {
+        return $this->handleBoardingRedirect($request->user());
+    }
+
+    /**
+     * Handles the redirection logic of Stripe onboarding for the given user. Will
+     * create account and redirect user to onboarding process or redirect to account
+     * dashboard if they have already completed the process.
+     *
+     * @param User $user
+     * @return RedirectResponse
+     */
+    private function handleBoardingRedirect(User $user): RedirectResponse
+    {
+        // Redirect to dashboard if onboarding is already completed.
+        if ($user->hasStripeAccountId() && $user->hasCompletedOnboarding()) {
+            return $user->redirectToAccountDashboard();
         }
 
+
+
+        // Delete account if already exists and create new express account with
+        // weekly payouts.
+        $user->deleteAndCreateStripeAccount('express', [
+            'capabilities' => [
+                'card_payments' => ['requested' => true],
+                'transfers' => ['requested' => true],
+            ],
+            'settings' => [
+                'payouts' => [
+                    'schedule' => [
+                        'interval' => 'weekly',
+                        'weekly_anchor' => 'friday',
+                    ]
+                ]
+            ]
+        ]);
+
+
+        // Redirect to Stripe account onboarding, with return and refresh url, otherwise.
+        return $user->redirectToAccountOnboarding(
+            /*URL::to('/api/stripe/return?api_token=' . $user->api_token),
+            URL::to('/api/stripe/refresh?api_token=' . $user->api_token)*/
+            URL::to('/restaurant/stripe/connection?api_token=' . $user->api_token),
+            URL::to('/restaurant/stripe/connection?api_token=' . $user->api_token)
+        );
     }
 }

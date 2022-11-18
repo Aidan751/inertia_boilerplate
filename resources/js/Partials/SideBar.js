@@ -59,7 +59,8 @@ export default function SideBar(props){
 
     // Links for user to access stripe gateways
     const stripeGatewayLinks = [
-        {title: "Connect to Stripe", href: route("restaurant.stripe.link")},
+        {title: "Connect to Stripe", href: route("restaurant.stripe.connection")},
+      //  {title: "Connect to Stripe", href: route("restaurant.stripe.link")},
     ];
 
     // Links for user to access products
