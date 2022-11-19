@@ -407,6 +407,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // list call centre orders
     Route::get('/call-centre/orders/{id}', [CallCentreOrderController::class, 'index'])->name('call-centre.orders.index');
 
+    // order checkout successfully completed
+    Route::get('/order/checkout/success', [OrderController::class, 'checkoutSuccess'])->name('order.checkout.success');
+
+
     // add an order
     Route::get('/call-centre/orders/add-deal/{id}', [CallCentreOrderController::class, 'addDeal'])->name('call-centre.orders.add.deal');
 

@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Day;
 use App\Models\Logo;
 use App\Models\Size;
+use App\Models\User;
 use App\Models\Extra;
 use App\Models\Order;
 use App\Models\Banner;
@@ -78,6 +79,10 @@ class DatabaseSeeder extends Seeder
             'allows_delivery' => 1,
             'stripe_account_id' => 'acct_1LXNmvLaeslmuKuI',
         ]);
+
+        $user = User::where('id', 2)->first();
+        $user->restaurant_id = $restaurant->id;
+
 
         // Logo::factory()->create();
 

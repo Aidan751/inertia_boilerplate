@@ -89,7 +89,7 @@ export default function Index(props) {
                 <div className="grid grid-cols-12 gap-6 mt-5">
                 <div className="intro-y col-span-12 flex flex-wrap sm:flex-nowrap items-center mt-2">
                {/* Link to create page */}
-               <Link href={route('admin-restaurants.create')} className="btn btn-primary shadow-md mr-2">Add New Business</Link>
+               <Link preserveScroll href={route('admin-restaurants.create')} className="btn btn-primary shadow-md mr-2">Add New Business</Link>
 
 
 
