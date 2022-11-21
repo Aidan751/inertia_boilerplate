@@ -192,11 +192,9 @@ export default function Index(props){
                                         placeholder="Search..."
                                         value={data.search}
                                         onChange={e => setData('search', e.target.value)}
-                                        style={{width: '30vw', height: '2.5rem'}}
+
                                         />
-                                    <Button type="submit" className="search__button ml-3 flex items-center justify-center text-gray-700">
-                                        Search
-                                    </Button>
+
                                     </div>
                                 </div>
                             </form>

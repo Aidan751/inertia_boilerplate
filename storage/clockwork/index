@@ -1205,3 +1205,10 @@
 1669043065-3053-1018139866,1669043065.1136,GET,/call-centre/orders/index?role=call_centre_admin&contact_number=%2B447368360039&address=10%20abbotsford%20avenue%20larkhall&when_radio=asap&order_type=delivery&customer_name=customer%20name&customer_contact_number=%2B447368360039,"App\Http\Controllers\Web\CallCentre\OrderController@index",200,2095.4210758209,request
 1669043079-2692-1479298039,1669043079.0804,POST,/call-centre/orders/place-order,"App\Http\Controllers\Web\CallCentre\OrderController@placeOrder",500,5179.1210174561,request
 1669043088-9413-868538697,1669043088.754,GET,/call-centre/orders/history/3,"App\Http\Controllers\Web\CallCentre\OrderHistoryController@index",200,543.75004768372,request
+1669043461-6369-464476256,1669043461.3762,GET,/call-centre/orders/view/41,"App\Http\Controllers\Web\CallCentre\OrderHistoryController@view",200,833.21619033813,request
+1669043468-2839-1021240621,1669043468.0901,GET,/call-centre/orders/history/3,"App\Http\Controllers\Web\CallCentre\OrderHistoryController@index",200,651.51405334473,request
+1669043546-7073-953464329,1669043546.0191,GET,/call-centre/orders/history/3,"App\Http\Controllers\Web\CallCentre\OrderHistoryController@index",200,1385.2369785309,request
+1669043555-2313-1557429199,1669043554.7824,GET,/call-centre/orders/history/3,"App\Http\Controllers\Web\CallCentre\OrderHistoryController@index",200,1021.9721794128,request
+1669043572-6607-220808590,1669043572.127,GET,/dist/zoom-vanilla.min.js.map,,404,1556.8609237671,request
+1669043640-3958-321350966,1669043640.0059,GET,/call-centre/orders/history/3,"App\Http\Controllers\Web\CallCentre\OrderHistoryController@index",200,988.3508682251,request
+1669043645-5191-1612037248,1669043645.1268,GET,/dist/zoom-vanilla.min.js.map,,404,725.32105445862,request
