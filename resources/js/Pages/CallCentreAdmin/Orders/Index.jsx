@@ -48,7 +48,7 @@ export default function Index(props){
       var extra_total = 0;
       var size_total = 0;
       var total_price = 0;
-
+      var main_total = 0;
       let extra_price;
 
       // to input elements and record their values in state
@@ -236,7 +236,8 @@ export default function Index(props){
           total_price: total_price,
           size_total: size_total,
           extra_total: extra_total,
-          order_total: total_price + size_total + extra_total
+          order_total: total_price + size_total + extra_total,
+          main_total: main_total,
         });
       };
 
@@ -552,7 +553,7 @@ export default function Index(props){
                       </div>
                       <div className="font-medium text-base">
                        £
-                        {parseFloat(total_price) +
+                        {main_total = parseFloat(total_price) +
                           (parseFloat(props.restaurant.delivery_charge) || 0) +
                           (parseFloat(props.restaurant.service_charge) || 0) +
                           parseFloat(extra_total) +

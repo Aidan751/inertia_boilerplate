@@ -116,9 +116,10 @@ class OrderController extends Controller
                 // );
 
                 // Amount includes delivery fee
-                $total = $request->total_price;
+                $total = $request->main_total;
 
                 $amount = round((doubleval($total) * 100), 2);
+
 
                 $percentageTransaction = 15;
 
