@@ -134,7 +134,7 @@ class OrderController extends Controller
 
                 $order = Order::create([
                     "order_reference" => $reference,
-                   "pickup_date" => date("Y-m-d H:i:s", strtotime(session('restaurant')->time_slot)),
+                   "pickup_date" => date("Y-m-d", strtotime(session('restaurant')->time_slot)),
                    "time_slot" => session('restaurant')->time_slot,
                    "price" => doubleval($total),
                    "delivery_price" => session('restaurant')->delivery_charge,
