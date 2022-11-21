@@ -257,6 +257,23 @@ class OrderHistoryController extends Controller
 
     }
 
+    public function view(Request $request, $id){
+        $order = Order::find($id);
+        $order_items = OrderItem::where('order_id', $id)->get();
+        $user = User::find($order->user_id);
+        $customer = User::where('id', $order->user_id)->first();
+        $configuration = Configuration::first();
+        // Return an inertia view with the order
+        return Inertia::render('CallCentreAdmin/OrderHistory/Details', [
+            'user' => $user,
+            'order' => $order,
+            'order_items' => $order_items,
+            'configuration' => $configuration,
+            'customer' => $customer,
+            "stripe" => null
+        ]);
+    }
+
         public function sendPush(Request $request, $id) {
 
             // Validate the data

@@ -442,6 +442,9 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // details of an order
     Route::get('/call-centre/orders/index', [CallCentreOrderController::class, 'index'])->name('call-centre.orders.index');
 
+    // view the order details
+    Route::get('/call-centre/orders/view/{id}', [CallCentreOrderHistoryController::class, 'view'])->name('call-centre.orders.view');
+
     // list order history
     Route::get('/call-centre/orders/history/{id}', [CallCentreOrderHistoryController::class, 'index'])->name('call-centre.orders.history');
 
