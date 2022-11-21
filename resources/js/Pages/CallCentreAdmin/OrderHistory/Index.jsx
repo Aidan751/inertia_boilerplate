@@ -217,7 +217,7 @@ export default function Index(props){
                             </tr>
                             </thead>
                             <tbody>
-                            { orders.map((order, key) => (
+                            { orders && orders.map((order, key) => (
 
                                 <tr key={key} className="intro-x">
 

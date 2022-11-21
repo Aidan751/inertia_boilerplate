@@ -29,6 +29,7 @@ class OrderHistoryController extends Controller
         */
         public function index(Request $request, $id)
         {
+
             $user = User::find($id);
                // Get all users, paginate through them using the "perPage" parameter. Search through the users, if the "search" parameter is present.
             $search = $request->get('search', '');
@@ -48,7 +49,7 @@ class OrderHistoryController extends Controller
 
 
           // Return an inertia view with the users
-          return Inertia::render('CallCentreAdmin/Orders/Index', [
+          return Inertia::render('CallCentreAdmin/OrderHistory/Index', [
               'user' => $user,
               'orders' => $orders,
               "perPage" => $request->perPage ?? 10,
