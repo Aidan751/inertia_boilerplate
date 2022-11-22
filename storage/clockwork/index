@@ -1212,3 +1212,5 @@
 1669043572-6607-220808590,1669043572.127,GET,/dist/zoom-vanilla.min.js.map,,404,1556.8609237671,request
 1669043640-3958-321350966,1669043640.0059,GET,/call-centre/orders/history/3,"App\Http\Controllers\Web\CallCentre\OrderHistoryController@index",200,988.3508682251,request
 1669043645-5191-1612037248,1669043645.1268,GET,/dist/zoom-vanilla.min.js.map,,404,725.32105445862,request
+1669086553-3379-1897184791,1669086552.7663,POST,/call-centre/orders/update-items,"App\Http\Controllers\Web\CallCentre\OrderController@updateItems",200,1355.4310798645,request
+1669086621-4129-1296647177,1669086620.7918,POST,/call-centre/orders/add-to-basket?role=call_centre_admin,"App\Http\Controllers\Web\CallCentre\OrderController@addToBasket",200,1350.8460521698,request
