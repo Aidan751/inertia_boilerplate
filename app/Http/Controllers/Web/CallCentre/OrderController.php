@@ -348,22 +348,22 @@ class OrderController extends Controller
             }
         }
 
-        $selected_items = session('selected_items') ?? array();
+        $deal_selected_items = session('deal_selected_items') ?? array();
 
-        $selected_items[] = array(
+        $deal_selected_items[] = array(
             'menu_item' => $menu_item,
             'size' => $new_selected_size,
             'extra' => $new_selected_extra,
         );
 
 
-        session(['selected_items' => $selected_items]);
+        session(['deal_selected_items' => $deal_selected_items]);
 
 
         return Inertia::render('CallCentreAdmin/Orders/AddDeal', [
             'groupDeal' => $group_deal->load('groupDealItems.groupDealSingleItems.menuItem'),
             'restaurant' => $restaurant,
-            'selected_items' => $selected_items,
+            'selected_items' => $deal_selected_items,
             "message" => "Successfully added size and extras to item " . $menu_item->name,
         ]);
     }
@@ -372,15 +372,18 @@ class OrderController extends Controller
         public function addToBasket(Request $request)
         {
 
-            $group_deal = session('group_deal');
+            $group_deal = session('group_deal')->load('groupDealItems.groupDealSingleItems.menuItem');
+            $deal_selected_items = session('deal_selected_items');
             $restaurant = session('restaurant');
             $order = session('order');
             $selected_items = session('selected_items');
+
 
             return Inertia::render('CallCentreAdmin/Orders/Index', [
                 'order' => $order,
                 'restaurant' => $restaurant,
                 'group_deal' => $group_deal,
+                'deal_selected_items' => $deal_selected_items,
                 'selected_items' => $selected_items,
             ]);
         }
