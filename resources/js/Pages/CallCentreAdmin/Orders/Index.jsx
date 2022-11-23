@@ -25,6 +25,7 @@ export default function Index(props){
     const [selectedItems, setSelectedItems] = useState(
         props.selected_items || []
       );
+      const [selectedDealItems,setSelectedDealItems] = useState([]);
 
       const [showModal, setShowModal] = useState(false);
       const [showDealModal, setShowDealModal] = useState(false);
@@ -132,15 +133,18 @@ export default function Index(props){
         setSelectedItems(newSelectedItems);
 
       };
-      const addDeal = (event, deal) => {
+      const addDeal = (event, menu_item) => {
+
+          setShowDealModal(false);
+
           const size = menu_item.sizes.find((size) => size.id == activeObjectSize);
 
         //   console.log(deal.group_deal_single_items.find((item) => item.menu_item.size.id == activeObjectDealSize));
-        return false;
+        // return false;
 
-          const extras = [...activeObjectExtras];
+          const extras = [...activeDealObjectExtras];
 
-          let newSelectedItems = [...selectedItems];
+          let newSelectedItems = [...selectedDealItems];
 
           props.restaurant.menu.forEach((main_menu_item) => {
             main_menu_item.menu_items.forEach((item) => {
@@ -173,12 +177,12 @@ export default function Index(props){
         });
         });
 
-        setActiveObjectExtras([]);
-        setActiveObjectSize(null);
-        setActiveObject({});
-        setShowModal(false);
+        setActiveDealObjectExtras([]);
+        setActiveDealObjectSizes(null);
+        setActiveDealObject({});
+        setShowDealModal(false);
         basicNonStickyNotificationToggle();
-        setSelectedItems(newSelectedItems);
+        setSelectedDealItems(newSelectedItems);
 
       };
 
@@ -888,8 +892,7 @@ console.log(activeDealObjectSizes);
                 <Button
                     className="btn btn-primary w-full shadow-md ml-auto mr-3"
                     click={(e) => {
-                        setShowDealModal(false);
-                        addDeal(e, activeObject);
+                        addDeal(e, activeDealObject);
                     }}
                     >
                     Add to basket
