@@ -27,7 +27,9 @@ export default function Index(props){
       );
 
       const [showModal, setShowModal] = useState(false);
+      const [showDealModal, setShowDealModal] = useState(false);
       const [activeObject, setActiveObject] = useState({});
+      const [activeDealObject, setActiveDealObject] = useState({});
 
       const [activeObjectSize, setActiveObjectSize] = useState(null);
       const [activeObjectExtras, setActiveObjectExtras] = useState([]);
@@ -132,6 +134,7 @@ export default function Index(props){
       };
       const addDeal = (event, deal) => {
           const size = menu_item.sizes.find((size) => size.id == activeObjectSize);
+
         //   console.log(deal.group_deal_single_items.find((item) => item.menu_item.size.id == activeObjectDealSize));
         return false;
 
@@ -255,19 +258,46 @@ export default function Index(props){
 
     };
 
+
+    /**
+     * Handle the change event for adding a new deal using the modal
+     *
+     * @param {Event} e
+     * @param {object} dealItemObject
+     * @returns void
+     */
+     const onHandleDealAddition = (e,dealItemObject) => {
+        e.preventDefault();
+        setActiveDealObject(dealItemObject);
+        setShowDealModal(true);
+      }
+
     /**
      * Active object size change handler
      * @param {Event} e Radio button change event
      */
-    const handleActiveDealObjectSizeChange = (e, key) => {
-      const name = e.target.name;
-      const value = e.target.value;
-      const isChecked = e.target.checked;
+    const handleActiveDealObjectSizeChange = (e, size,index) => {
+        setData(
+            e.target.name,
+            e.target.type === "checkbox" ? e.target.checked : e.target.value
+          );
+      const list = [...activeDealObjectSizes];
 
-      if (isChecked) {
-        const newSizes = [...activeDealObjectSizes,key];
-        setActiveDealObjectSizes(newSizes);
-    }
+      list.forEach((item) => {
+        if(item.id !== e.target.name){
+            setActiveDealObjectSizes([
+                ...activeDealObjectSizes,
+                {
+                    id: e.target.name,
+                    name: item.name,
+                    additional_charge: item.additional_charge,
+                },
+            ]);
+
+        }
+
+
+      })
 };
 console.log(activeDealObjectSizes);
 
@@ -452,11 +482,11 @@ console.log(activeDealObjectSizes);
                             </div>
                             <button
                                       data-bs-toggle="modal"
-                                      data-bs-target="#exampleModal"
+                                      data-bs-target="#exampleModal2"
                                       className="btn btn-primary mt-5 w-24"
                                       key={id}
                                       onClick={(e) => {
-                                        onHandleMenuItemAddition(e,{ id:id,title: title,image: image,description: description, dietary_requirements: dietary_requirements, price: group_deal_price, group_deal_items: group_deal_items });
+                                        onHandleDealAddition(e,{ id:id,title: title,image: image,description: description, dietary_requirements: dietary_requirements, price: group_deal_price, group_deal_items: group_deal_items });
                                       }}
                                     >
                                       Add
@@ -757,28 +787,28 @@ console.log(activeDealObjectSizes);
               {/* END: New Order Modal */}
               {/* BEGIN: New Group Deal Modal */}
               <Modal
-                show={showModal}
+                show={showDealModal}
                 onHidden={() => {
-                  setShowModal(false);
+                  setShowDealModal(false);
                 }}
               >
                 <ModalHeader>
                 <div className="flex flex-col pt-0 p-5">
                   <h2 className="font-medium text-base mr-auto mb-5 mt-5">
-                    {activeObject.title ?? ""}
+                    {activeDealObject.title ?? ""}
                   </h2>
-                  <img src={activeObject.image ?? ""} alt={activeObject.title ?? ""} className="rounded-md" />
+                  <img src={activeDealObject.image ?? ""} alt={activeDealObject.title ?? ""} className="rounded-md" />
                   <div className="col-span-12 mt-5">
-                    <p>{activeObject.description ?? ""}</p>
-                    <p className="mt-2">{activeObject.dietary_requirements ?? ""}</p>
-                    <p className="mt-2">£{activeObject.price ?? ""}</p>
+                    <p>{activeDealObject.description ?? ""}</p>
+                    <p className="mt-2">{activeDealObject.dietary_requirements ?? ""}</p>
+                    <p className="mt-2">£{activeDealObject.price ?? ""}</p>
                   </div>
                 </div>
                 </ModalHeader>
                 <ModalBody>
                           {
-                            activeObject.group_deal_items && activeObject.group_deal_items.map(
-                                (item) => {
+                            activeDealObject.group_deal_items && activeDealObject.group_deal_items.map(
+                                (item, itemKey) => {
                                     return (
                                         <>
 
@@ -807,8 +837,7 @@ console.log(activeDealObjectSizes);
                                         size.name &&
                                         (
                                     <div className="flex items-center mt-5">
-                                        {console.log(item.group_deal_single_items[0].menu_item.sizes[key])}
-                                      <input type="radio" name={item.group_deal_single_items[0].menu_item.sizes[key].id} value={item.group_deal_single_items[0].menu_item.sizes[key].id} onChange={(e) => handleActiveDealObjectSizeChange(e, size, key)}/>{" "}
+                                      <input type="radio" name={size.id} value={item.group_deal_single_items[0].menu_item.sizes[key].id} onChange={(e) => handleActiveDealObjectSizeChange(e, size, key)}/>{" "}
                                     <p className="ml-2">{size.name}</p>
                                     {size.additional_charge !== 0 && (
                                         <p className="ml-3">+ £{size.additional_charge || 0}</p>
@@ -859,7 +888,7 @@ console.log(activeDealObjectSizes);
                 <Button
                     className="btn btn-primary w-full shadow-md ml-auto mr-3"
                     click={(e) => {
-                        setShowModal(false);
+                        setShowDealModal(false);
                         addDeal(e, activeObject);
                     }}
                     >
@@ -868,7 +897,7 @@ console.log(activeDealObjectSizes);
                   <button
                     type="button"
                     onClick={() => {
-                      setShowModal(false);
+                      setShowDealModal(false);
                     }}
                     className="btn btn-outline-secondary w-32 mr-1"
                   >
