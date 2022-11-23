@@ -32,6 +32,9 @@ export default function Index(props){
       const [activeObjectSize, setActiveObjectSize] = useState(null);
       const [activeObjectExtras, setActiveObjectExtras] = useState([]);
 
+      const [activeDealObjectSizes, setActiveDealObjectSizes] = useState([]);
+      const [activeDealObjectExtras, setActiveDealObjectExtras] = useState([]);
+
       const [sizes, setSizes] = useState([]);
       const [extras, setExtras] = useState([]);
 
@@ -128,9 +131,9 @@ export default function Index(props){
 
       };
       const addDeal = (event, deal) => {
-        console.log(deal);
-        return false;
           const size = menu_item.sizes.find((size) => size.id == activeObjectSize);
+        //   console.log(deal.group_deal_single_items.find((item) => item.menu_item.size.id == activeObjectDealSize));
+        return false;
 
           const extras = [...activeObjectExtras];
 
@@ -248,6 +251,38 @@ export default function Index(props){
 
         const newExtras = activeObjectExtras.filter((item) => item.id !== extra.id);
         setActiveObjectExtras(newExtras);
+      }
+
+    };
+
+    /**
+     * Active object size change handler
+     * @param {Event} e Radio button change event
+     */
+    const handleActiveDealObjectSizeChange = (e, key) => {
+      const name = e.target.name;
+      const value = e.target.value;
+      const isChecked = e.target.checked;
+
+      if (isChecked) {
+        const newSizes = [...activeDealObjectSizes,key];
+        setActiveDealObjectSizes(newSizes);
+    }
+};
+console.log(activeDealObjectSizes);
+
+    const handleActiveDealObjectExtrasChange = (e,extra) => {
+
+      const isChecked = e.target.checked;
+
+      if (isChecked) {
+
+        const newExtras = [...activeDealObjectExtras,extra];
+        setActiveDealObjectExtras(newExtras);
+      } else {
+
+        const newExtras = activeDealObjectExtras.filter((item) => item.id !== extra.id);
+        setActiveDealObjectExtras(newExtras);
       }
 
     };
@@ -772,7 +807,8 @@ export default function Index(props){
                                         size.name &&
                                         (
                                     <div className="flex items-center mt-5">
-                                      <input type="radio" name="size" value={size.id} onChange={handleActiveObjectSizeChange}/>{" "}
+                                        {console.log(item.group_deal_single_items[0].menu_item.sizes[key])}
+                                      <input type="radio" name={item.group_deal_single_items[0].menu_item.sizes[key].id} value={item.group_deal_single_items[0].menu_item.sizes[key].id} onChange={(e) => handleActiveDealObjectSizeChange(e, size, key)}/>{" "}
                                     <p className="ml-2">{size.name}</p>
                                     {size.additional_charge !== 0 && (
                                         <p className="ml-3">+ £{size.additional_charge || 0}</p>
@@ -797,7 +833,7 @@ export default function Index(props){
                                         (
                                             <div className="flex items-center mt-0">
                                             <div className="form-check mb-2">
-                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name={extra.name} value={extra.id} onChange={(e) => handleActiveObjectExtrasChange(e, extra)}/>
+                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name={extra.name} value={extra.id} onChange={(e) => handleActiveDealObjectExtrasChange(e, extra)}/>
                                                 <label className="form-check-label flex" htmlFor="checkbox-switch-1"><p>{extra.name}</p>  {extra.additional_charge !== 0 && (
                                                 <p className="ml-3">+ £{extra.additional_charge || 0}</p>
                                             )}</label>
