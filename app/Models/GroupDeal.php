@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\MenuItem;
 use App\Models\Restaurant;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,6 +34,11 @@ class GroupDeal extends Model
     public function groupDealItems()
     {
         return $this->hasMany(GroupDealItem::class,"group_deal_id","id");
+    }
+
+    public function menuItems(){
+        return $this->hasMany(MenuItem::class,"group_deal_id","id");
+
     }
 
 

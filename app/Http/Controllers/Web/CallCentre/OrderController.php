@@ -748,12 +748,11 @@ class OrderController extends Controller
             }
 
 
-
-
-
-
-
             $group_deals = GroupDeal::where('restaurant_id', $restaurant->id)->get();
+
+            foreach($group_deals as $deal){
+                $deal->load('groupDealItems.groupDealSingleItems.menuItem.sizes', 'groupDealItems.groupDealSingleItems.menuItem.extras')->get();
+            }
             $menu_categories = MenuCategory::where('restaurant_id', $restaurant->id)->get();
             foreach ($menu_categories as $menu_category) {
                 $menu_category->menu_items = MenuItem::where('menu_category_id', $menu_category->id)->with('extras', 'sizes')->get();

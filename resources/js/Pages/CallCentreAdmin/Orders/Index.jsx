@@ -10,7 +10,6 @@ import Button from "@/Components/Button";
 
 
 export default function Index(props){
-console.log(props);
     // Basic non sticky notification
     const basicNonStickyNotification = useRef();
 
@@ -40,10 +39,6 @@ console.log(props);
         return index === activeObject?.id ? "active" : "inactive";
       }
 
-      // const Modal = ({ object: { id, title, image, description, dietary_requirements, price } }) => (
-
-
-      // );
 
       var extra_total = 0;
       var size_total = 0;
@@ -65,7 +60,6 @@ console.log(props);
             const list = [...sizes];
             list[index][name] = value;
             setSizes(list);
-            console.log(sizes);
         };
 
         const handleExtraInputChange = (e) => {
@@ -77,7 +71,6 @@ console.log(props);
                     name: name,
                 }]);
             }
-            console.log(extras);
         };
 
       //   select quantity of a menu item
@@ -168,7 +161,6 @@ console.log(props);
         }
     }
 
-    console.log(size_total, extra_total, total_price);
     /**
      * Handle the change event for adding a new menu item using the modal
      *
@@ -263,19 +255,18 @@ console.log(props);
         setSelectedItems([]);
         };
 
-      const addToBasket = (e, id) => {
-        e.preventDefault();
-        data.sizes = sizes;
-        data.extras = extras;
+    //   const addToBasket = (e, id) => {
+    //     e.preventDefault();
+    //     data.sizes = sizes;
+    //     data.extras = extras;
 
-        console.log(data);
 
-        return false;
-        Inertia.get(route("call-centre.orders.add.menu-item", { id: id }), {
-            sizes: data.sizes,
-            extras: data.extras,
-        });
-        };
+    //     return false;
+    //     Inertia.get(route("call-centre.orders.add.menu-item", { id: id }), {
+    //         sizes: data.sizes,
+    //         extras: data.extras,
+    //     });
+    //     };
       return (
         <>
           <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
@@ -346,18 +337,18 @@ console.log(props);
                   {/* start: groupdeal box */}
                   <div className="mt-5 md:col-span-2 col-span-3 sm:row-span-1 row-start-2 border-t border-b-none border-stone-400">
                     <h2 className="font-medium text-lg sm:px-10 mt-8 pb-0">Deals</h2>
-
                     {props.restaurant.group_deals &&
-                      props.restaurant.group_deals.map((deal, key) => (
+                      props.restaurant.group_deals.map(({title, image, description, dietary_requirements, group_deal_price, group_deal_items, id}) => (
                         <div className="flex items-center justify-between flex-wrap mt-8 mb-8 pl-0 sm:pl-10">
                           <div className="w-72 flex-none">
                             <div className="box rounded-md relative zoom-in">
                               <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
                                 <div className="absolute top-0 left-0 w-full h-full image-fit">
+                                {/* {console.log(menu_item)} */}
                                   <img
                                     alt="Midone Tailwind HTML Admin Template"
                                     className="rounded-md"
-                                    src={deal.image}
+                                    src={image}
                                     data-action="zoom"
                                   />
                                 </div>
@@ -366,23 +357,28 @@ console.log(props);
                           </div>
                           <div className="pt-5 px-5 sm:px-10 flex-1">
                             <div className="block font-medium text-base">
-                              {deal.title}
+                              {title}
                             </div>
                             <div className="text-slate-600 dark:text-slate-500 mt-5">
-                              {deal.description}
+                              {description}
                             </div>
                             <div className="text-slate-600 dark:text-slate-500 mt-2">
-                              Allergens: {deal.dietary_requirements ?? "N/A"}
+                              Allergens: {dietary_requirements ?? "N/A"}
                             </div>
                             <div className="text-slate-600 dark:text-slate-500 mt-2">
-                              Price: £ {deal.group_deal_price}
+                              Price: £ {group_deal_price}
                             </div>
-                            <a
-                              className="btn btn-primary mt-5 w-24"
-                              onClick={(e) => handleAddDeal(e, deal.id)}
-                            >
-                              Add
-                            </a>
+                            <button
+                                      data-bs-toggle="modal"
+                                      data-bs-target="#exampleModal"
+                                      className="btn btn-primary mt-5 w-24"
+                                      key={id}
+                                      onClick={(e) => {
+                                        onHandleMenuItemAddition(e,{ id:id,title: title,image: image,description: description, dietary_requirements: dietary_requirements, price: group_deal_price, group_deal_items: group_deal_items });
+                                      }}
+                                    >
+                                      Add
+                            </button>
                           </div>
                         </div>
                       ))}
@@ -677,6 +673,116 @@ console.log(props);
                 </ModalFooter>
               </Modal>
               {/* END: New Order Modal */}
+              {/* BEGIN: New Group Deal Modal */}
+              <Modal
+                show={showModal}
+                onHidden={() => {
+                  setShowModal(false);
+                }}
+              >
+                <ModalHeader>
+                <div className="flex flex-col pt-0 p-5">
+                  <h2 className="font-medium text-base mr-auto mb-5 mt-5">
+                    {activeObject.title ?? ""}
+                  </h2>
+                  <img src={activeObject.image ?? ""} alt={activeObject.title ?? ""} className="rounded-md" />
+                  <div className="col-span-12 mt-5">
+                    <p>{activeObject.description ?? ""}</p>
+                    <p className="mt-2">{activeObject.dietary_requirements ?? ""}</p>
+                    <p className="mt-2">£{activeObject.price ?? ""}</p>
+                  </div>
+                </div>
+                </ModalHeader>
+                <ModalBody>
+                          {
+                            activeObject.group_deal_items && activeObject.group_deal_items.map(
+                                (item) => {
+
+                                    {console.log(item.group_deal_single_items[0])}
+                                }
+                                )
+
+                          }
+                          {/* start: choose sizes and extras */}
+                            <div className="w-full p-5 flex justify-between items-start">
+                            <div>
+                                {console.log(activeObject)}
+                                <h2 className="font-medium text-md mb-5">
+                                Choose your size
+                                </h2>
+
+                                {activeObject.sizes &&
+                                    activeObject.sizes.map((size, key) => (
+                                    <div>
+                                    {
+                                        size.name &&
+                                        (
+                                    <div className="flex items-center mt-5">
+                                      <input type="radio" name="size" value={size.id} onChange={handleActiveObjectSizeChange}/>{" "}
+                                    <p className="ml-2">{size.name}</p>
+                                    {size.additional_charge !== 0 && (
+                                        <p className="ml-3">+ £{size.additional_charge || 0}</p>
+                                    )}
+                                    </div>
+                                        )
+                                    }
+                                    </div>
+                                ))}
+                            </div>
+                            <div>
+
+                                <h2 className="font-medium text-md mb-5">
+                                Choose your sides
+                                </h2>
+
+                                {activeObject.extras &&
+                                    activeObject.extras.map((extra, key) => (
+                                    <div>
+                                    {
+                                        extra.name &&
+                                        (
+                                            <div className="flex items-center mt-0">
+                                            <div className="form-check mb-2">
+                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name={extra.name} value={extra.id} onChange={(e) => handleActiveObjectExtrasChange(e, extra)}/>
+                                                <label className="form-check-label flex" htmlFor="checkbox-switch-1"><p>{extra.name}</p>  {extra.additional_charge !== 0 && (
+                                                <p className="ml-3">+ £{extra.additional_charge || 0}</p>
+                                            )}</label>
+                                            </div>
+                                            </div>
+
+                                        )
+
+                                    }
+                                    </div>
+                                ))}
+                            </div>
+                            </div>
+                          {/* end: choose sizes and extras */}
+                </ModalBody>
+                <ModalFooter className="text-right">
+                <div className="flex justify-between p-5">
+                <Button
+                    className="btn btn-primary w-full shadow-md ml-auto mr-3"
+                    click={(e) => {
+                        setShowModal(false);
+                        addMenuItem(e, activeObject);
+                    }}
+                    >
+                    Add to basket
+                </Button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowModal(false);
+                    }}
+                    className="btn btn-outline-secondary w-32 mr-1"
+                  >
+                    Cancel
+                  </button>
+                </div>
+                </ModalFooter>
+              </Modal>
+              {/* END: New Group Deal Modal */}
             </div>
 
             {/* BEGIN: Basic Non Sticky Notification Content */}
