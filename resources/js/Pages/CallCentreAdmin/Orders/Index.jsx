@@ -133,15 +133,29 @@ export default function Index(props){
         setSelectedItems(newSelectedItems);
 
       };
-      const addDeal = (event, menu_item) => {
+      const addDeal = (event, deal) => {
 
           setShowDealModal(false);
+        const sizes = [];
+        deal.group_deal_items.forEach(item => {
+            item.group_deal_single_items[0].menu_item.sizes.forEach(size => {
+                activeDealObjectSizes.length > 0 ? activeDealObjectSizes.forEach(existing_size => {
+                    if(size.id !== existing_size.id){
+                        sizes.push({
+                            id: size.id,
+                            name: size.name
+                        });
+                    }
+                }) : sizes.push({
+                    id: size.id,
+                    name: size.name
+                });
 
-          const size = menu_item.sizes.find((size) => size.id == activeObjectSize);
-
-        //   console.log(deal.group_deal_single_items.find((item) => item.menu_item.size.id == activeObjectDealSize));
-        // return false;
-
+            })
+        })
+        console.log(sizes);
+        return false;
+        setActiveDealObjectSizes(...activeDealObjectSizes, size);
           const extras = [...activeDealObjectExtras];
 
           let newSelectedItems = [...selectedDealItems];
@@ -232,19 +246,19 @@ export default function Index(props){
       setShowModal(true);
     }
 
-    /**
+   /**
      * Active object size change handler
      * @param {Event} e Radio button change event
      */
     const handleActiveObjectSizeChange = (e) => {
-      const name = e.target.name;
-      const value = e.target.value;
-      const isChecked = e.target.checked;
+        const name = e.target.name;
+        const value = e.target.value;
+        const isChecked = e.target.checked;
 
-      if (isChecked) {
-        setActiveObjectSize(value);
-      }
-    };
+        if (isChecked) {
+          setActiveObjectSize(value);
+        }
+      };
 
     const handleActiveObjectExtrasChange = (e,extra) => {
 
@@ -281,12 +295,10 @@ export default function Index(props){
      * @param {Event} e Radio button change event
      */
     const handleActiveDealObjectSizeChange = (e, size,index) => {
-        setData(
-            e.target.name,
-            e.target.type === "checkbox" ? e.target.checked : e.target.value
-          );
-      const list = [...activeDealObjectSizes];
-
+        const { name, value } = e.target;
+        const list = [...activeDealObjectSizes];
+        console.log(list, name, value);
+        return false;
       list.forEach((item) => {
         if(item.id !== e.target.name){
             setActiveDealObjectSizes([
@@ -724,7 +736,8 @@ console.log(activeDealObjectSizes);
                                         size.name &&
                                         (
                                     <div className="flex items-center mt-5">
-                                      <input type="radio" name="size" value={size.id} onChange={handleActiveObjectSizeChange}/>{" "}
+
+                                        <input type="radio" name="size" value={size.id} onChange={handleActiveObjectSizeChange}/>{" "}
                                     <p className="ml-2">{size.name}</p>
                                     {size.additional_charge !== 0 && (
                                         <p className="ml-3">+ £{size.additional_charge || 0}</p>
@@ -841,7 +854,14 @@ console.log(activeDealObjectSizes);
                                         size.name &&
                                         (
                                     <div className="flex items-center mt-5">
-                                      <input type="radio" name={size.id} value={item.group_deal_single_items[0].menu_item.sizes[key].id} onChange={(e) => handleActiveDealObjectSizeChange(e, size, key)}/>{" "}
+                                      <input type="radio" name={
+                                          item.group_deal_single_items[0]
+                                            .menu_item.id
+                                        }
+                                        value={
+                                          item.group_deal_single_items[0]
+                                            .menu_item.sizes[key].id
+                                        } onChange={(e) => handleActiveDealObjectSizeChange(e, size, key)}/>{" "}
                                     <p className="ml-2">{size.name}</p>
                                     {size.additional_charge !== 0 && (
                                         <p className="ml-3">+ £{size.additional_charge || 0}</p>
