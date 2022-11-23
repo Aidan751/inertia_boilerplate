@@ -350,11 +350,30 @@ class OrderController extends Controller
 
         $deal_selected_items = session('deal_selected_items') ?? array();
 
-        $deal_selected_items[] = array(
-            'menu_item' => $menu_item,
-            'size' => $new_selected_size,
-            'extra' => $new_selected_extra,
-        );
+        foreach($deal_selected_items as $item){
+
+            if($request->menu_item['id'] !== $menu_item->id){
+
+            foreach($item['extra'] as $extra){
+                foreach($new_selected_extra as $key => $new_extra){
+                    if($extra->id === $new_extra->id){
+                        unset($new_selected_extra[$key]);
+                    }
+                }
+            }
+            foreach($item['size'] as $size){
+                foreach($new_selected_size as $key => $new_size){
+                    if($size->id === $new_size->id){
+                        unset($new_selected_size[$key]);
+                    }
+                }
+            }
+
+            array_push($deal_selected_items, [$item['menu_item'], $new_selected_size, $new_selected_extra]);
+        }
+
+    }
+
 
 
         session(['deal_selected_items' => $deal_selected_items]);
@@ -374,6 +393,9 @@ class OrderController extends Controller
 
             $group_deal = session('group_deal')->load('groupDealItems.groupDealSingleItems.menuItem');
             $deal_selected_items = session('deal_selected_items');
+            $selected_deals = [];
+            array_push($selected_deals, [$group_deal, $deal_selected_items]);
+            dd($selected_deals);
             $restaurant = session('restaurant');
             $order = session('order');
             $selected_items = session('selected_items');
