@@ -350,9 +350,7 @@ class OrderController extends Controller
 
         $deal_selected_items = session('deal_selected_items') ?? array();
 
-        foreach($deal_selected_items as $item){
-
-            if($request->menu_item['id'] !== $menu_item->id){
+        foreach($deal_selected_items as $key => $item){
 
             foreach($item['extra'] as $extra){
                 foreach($new_selected_extra as $key => $new_extra){
@@ -368,11 +366,14 @@ class OrderController extends Controller
                     }
                 }
             }
-
-            array_push($deal_selected_items, [$item['menu_item'], $new_selected_size, $new_selected_extra]);
         }
 
-    }
+        $deal_selected_items[] = array(
+            'menu_item' => $menu_item,
+            'size' => $new_selected_size,
+            'extra' => $new_selected_extra,
+        );
+
 
 
 
