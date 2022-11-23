@@ -127,6 +127,54 @@ export default function Index(props){
         setSelectedItems(newSelectedItems);
 
       };
+      const addDeal = (event, deal) => {
+        console.log(deal);
+        return false;
+          const size = menu_item.sizes.find((size) => size.id == activeObjectSize);
+
+          const extras = [...activeObjectExtras];
+
+          let newSelectedItems = [...selectedItems];
+
+          props.restaurant.menu.forEach((main_menu_item) => {
+            main_menu_item.menu_items.forEach((item) => {
+
+          if (item.id === menu_item.id) {
+
+            let newItem = {
+              menu_item: {
+                id: menu_item.id,
+                menu_category_id: item.menu_category_id,
+                restaurant_id: 1,
+                title: menu_item.title,
+                description: menu_item.description,
+                dietary_requirements: menu_item.dietary_requirements,
+                extras: extras,
+                sizes: [size],
+                image: menu_item.image,
+                price: menu_item.price,
+                created_at: menu_item.created_at,
+                updated_st: menu_item.updated_at,
+                notes: "",
+                quantity: 1
+              },
+              size: [size],
+              extra: extras
+            };
+
+            newSelectedItems.push(newItem);
+          }
+        });
+        });
+
+        setActiveObjectExtras([]);
+        setActiveObjectSize(null);
+        setActiveObject({});
+        setShowModal(false);
+        basicNonStickyNotificationToggle();
+        setSelectedItems(newSelectedItems);
+
+      };
 
       if (selectedItems) {
         selectedItems &&
@@ -344,7 +392,6 @@ export default function Index(props){
                             <div className="box rounded-md relative zoom-in">
                               <div className="flex-none relative block before:block before:w-full before:pt-[100%]">
                                 <div className="absolute top-0 left-0 w-full h-full image-fit">
-                                {/* {console.log(menu_item)} */}
                                   <img
                                     alt="Midone Tailwind HTML Admin Template"
                                     className="rounded-md"
@@ -697,22 +744,29 @@ export default function Index(props){
                           {
                             activeObject.group_deal_items && activeObject.group_deal_items.map(
                                 (item) => {
+                                    return (
+                                        <>
 
-                                    {console.log(item.group_deal_single_items[0])}
-                                }
-                                )
+                                        <div className="flex flex-col pt-0 p-5">
+                                        <h2 className="font-medium text-base mr-auto mb-5 mt-5">
+                                            {item.group_deal_single_items[0].menu_item.title ?? ""}
+                                        </h2>
+                                        <img src={item.group_deal_single_items[0].menu_item.image ?? ""} alt={item.group_deal_single_items[0].menu_item.title ?? ""} className="rounded-md" />
+                                        <div className="col-span-12 mt-5">
+                                            <p>{item.group_deal_single_items[0].menu_item.description ?? ""}</p>
+                                            <p className="mt-2">{item.group_deal_single_items[0].menu_item.dietary_requirements ?? ""}</p>
+                                            <p className="mt-2">£{item.group_deal_single_items[0].menu_item.price ?? ""}</p>
+                                        </div>
+                                    </div>
 
-                          }
-                          {/* start: choose sizes and extras */}
                             <div className="w-full p-5 flex justify-between items-start">
                             <div>
-                                {console.log(activeObject)}
                                 <h2 className="font-medium text-md mb-5">
                                 Choose your size
                                 </h2>
 
-                                {activeObject.sizes &&
-                                    activeObject.sizes.map((size, key) => (
+                                {item.group_deal_single_items[0].menu_item.sizes &&
+                                    item.group_deal_single_items[0].menu_item.sizes.map((size, key) => (
                                     <div>
                                     {
                                         size.name &&
@@ -735,8 +789,8 @@ export default function Index(props){
                                 Choose your sides
                                 </h2>
 
-                                {activeObject.extras &&
-                                    activeObject.extras.map((extra, key) => (
+                                {item.group_deal_single_items[0].menu_item.extras &&
+                                    item.group_deal_single_items[0].menu_item.extras.map((extra, key) => (
                                     <div>
                                     {
                                         extra.name &&
@@ -757,7 +811,12 @@ export default function Index(props){
                                 ))}
                             </div>
                             </div>
-                          {/* end: choose sizes and extras */}
+                        </>
+                                    );
+                                }
+                                )
+
+                          }
                 </ModalBody>
                 <ModalFooter className="text-right">
                 <div className="flex justify-between p-5">
@@ -765,7 +824,7 @@ export default function Index(props){
                     className="btn btn-primary w-full shadow-md ml-auto mr-3"
                     click={(e) => {
                         setShowModal(false);
-                        addMenuItem(e, activeObject);
+                        addDeal(e, activeObject);
                     }}
                     >
                     Add to basket
