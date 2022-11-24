@@ -135,56 +135,37 @@ export default function Index(props){
       };
       const addDeal = (event, menu_item) => {
 
-          setShowDealModal(false);
-
-          const size = menu_item.sizes.find((size) => size.id == activeObjectSize);
-
-        //   console.log(deal.group_deal_single_items.find((item) => item.menu_item.size.id == activeObjectDealSize));
-        // return false;
 
           const extras = [...activeDealObjectExtras];
 
+          const sizes = [...activeDealObjectSizes];
+
           let newSelectedItems = [...selectedDealItems];
 
-          props.restaurant.menu.forEach((main_menu_item) => {
-            main_menu_item.menu_items.forEach((item) => {
+          props.restaurant.group_deals.forEach((main_menu_item) => {
 
-          if (item.id === menu_item.id) {
+            if (main_menu_item.id === menu_item.id) {
 
-            let newItem = {
-              menu_item: {
-                id: menu_item.id,
-                menu_category_id: item.menu_category_id,
-                restaurant_id: 1,
-                title: menu_item.title,
-                description: menu_item.description,
-                dietary_requirements: menu_item.dietary_requirements,
-                extras: extras,
-                sizes: [size],
-                image: menu_item.image,
-                price: menu_item.price,
-                created_at: menu_item.created_at,
-                updated_st: menu_item.updated_at,
-                notes: "",
-                quantity: 1
-              },
-              size: [size],
-              extra: extras
-            };
+              main_menu_item.group_deal_items.forEach((dealSingleItem,itemKey) => {
+                dealSingleItem.group_deal_single_items[0].menu_item.sizes = sizes[itemKey];
+                dealSingleItem.group_deal_single_items[0].menu_item.extras = extras[itemKey];
+              });
 
-            newSelectedItems.push(newItem);
-          }
-        });
-        });
+              newSelectedItems.push(main_menu_item);
+            }
+          });
+        setShowDealModal(false);
 
         setActiveDealObjectExtras([]);
-        setActiveDealObjectSizes(null);
+        setActiveDealObjectSizes([]);
         setActiveDealObject({});
         setShowDealModal(false);
         basicNonStickyNotificationToggle();
         setSelectedDealItems(newSelectedItems);
 
       };
+
+      console.log(selectedDealItems);
 
       if (selectedItems) {
         selectedItems &&
@@ -220,7 +201,7 @@ export default function Index(props){
     }
 
     /**
-     * Handle the change event for adding a new menu item using the modal
+     * Handle the change event for adding a new group_deals item using the modal
      *
      * @param {Event} e
      * @param {object} menuItemObject
@@ -277,51 +258,51 @@ export default function Index(props){
       }
 
     /**
-     * Active object size change handler
-     * @param {Event} e Radio button change event
+     * Handle the change event for selecting the sizes of a deal
+     * @param {*} groupDealKey 
+     * @param {*} size 
      */
-    const handleActiveDealObjectSizeChange = (e, size,index) => {
-        setData(
-            e.target.name,
-            e.target.type === "checkbox" ? e.target.checked : e.target.value
-          );
+    const handleActiveDealObjectSizeChange = (groupDealKey, size) => {
+
       const list = [...activeDealObjectSizes];
+      
+      list[groupDealKey] = size;
 
-      list.forEach((item) => {
-        if(item.id !== e.target.name){
-            setActiveDealObjectSizes([
-                ...activeDealObjectSizes,
-                {
-                    id: e.target.name,
-                    name: item.name,
-                    additional_charge: item.additional_charge,
-                },
-            ]);
+      setActiveDealObjectSizes(list);
+    };
 
-        }
+    /**
+     * Handle the change event for selecting the extras of a deal
+     * @param {*} e 
+     * @param {*} extra 
+     */
+    const handleActiveDealObjectExtrasChange = (event,extra,groupDealItemKey) => {
 
-
-      })
-};
-console.log(activeDealObjectSizes);
-
-    const handleActiveDealObjectExtrasChange = (e,extra) => {
-
-      const isChecked = e.target.checked;
+      const isChecked = event.target.checked;
 
       if (isChecked) {
+        
+        const list = [...activeDealObjectExtras];
 
-        const newExtras = [...activeDealObjectExtras,extra];
-        setActiveDealObjectExtras(newExtras);
+        if (list[groupDealItemKey]) {
+          list[groupDealItemKey].push(extra);
+        } else {
+          list[groupDealItemKey] = [extra];
+        }
+        setActiveDealObjectExtras(list);
+
       } else {
 
-        const newExtras = activeDealObjectExtras.filter((item) => item.id !== extra.id);
-        setActiveDealObjectExtras(newExtras);
+        const list = [...activeDealObjectExtras];
+
+        const newExtras = list[groupDealItemKey].filter((item) => item.id !== extra.id);
+        
+        list[groupDealItemKey] = newExtras;
+        
+        setActiveDealObjectExtras(list);
       }
 
     };
-
-
 
       /**
        * handle the form submission for the shopping basket
@@ -836,19 +817,19 @@ console.log(activeDealObjectSizes);
 
                                 {item.group_deal_single_items[0].menu_item.sizes &&
                                     item.group_deal_single_items[0].menu_item.sizes.map((size, key) => (
-                                    <div>
-                                    {
-                                        size.name &&
-                                        (
-                                    <div className="flex items-center mt-5">
-                                      <input type="radio" name={size.id} value={item.group_deal_single_items[0].menu_item.sizes[key].id} onChange={(e) => handleActiveDealObjectSizeChange(e, size, key)}/>{" "}
-                                    <p className="ml-2">{size.name}</p>
-                                    {size.additional_charge !== 0 && (
-                                        <p className="ml-3">+ £{size.additional_charge || 0}</p>
-                                    )}
-                                    </div>
-                                        )
-                                    }
+                                    <div key={key}>
+                                      {
+                                          size.name &&
+                                          (
+                                      <div className="flex items-center mt-5">
+                                        <input type="radio" name={"group_deal_size_select-" + item.id} value={item.group_deal_single_items[0].menu_item.sizes[key].id} onChange={(e) => handleActiveDealObjectSizeChange(itemKey, size )}/>{" "}
+                                      <p className="ml-2">{size.name}</p>
+                                      {size.additional_charge !== 0 && (
+                                          <p className="ml-3">+ £{size.additional_charge || 0}</p>
+                                      )}
+                                      </div>
+                                          )
+                                      }
                                     </div>
                                 ))}
                             </div>
@@ -860,13 +841,13 @@ console.log(activeDealObjectSizes);
 
                                 {item.group_deal_single_items[0].menu_item.extras &&
                                     item.group_deal_single_items[0].menu_item.extras.map((extra, key) => (
-                                    <div>
+                                    <div key={key}>
                                     {
                                         extra.name &&
                                         (
                                             <div className="flex items-center mt-0">
                                             <div className="form-check mb-2">
-                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name={extra.name} value={extra.id} onChange={(e) => handleActiveDealObjectExtrasChange(e, extra)}/>
+                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name={extra.name} value={extra.id} onChange={(e) => handleActiveDealObjectExtrasChange(e,extra,itemKey)}/>
                                                 <label className="form-check-label flex" htmlFor="checkbox-switch-1"><p>{extra.name}</p>  {extra.additional_charge !== 0 && (
                                                 <p className="ml-3">+ £{extra.additional_charge || 0}</p>
                                             )}</label>
