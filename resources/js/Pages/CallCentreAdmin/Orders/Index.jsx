@@ -27,6 +27,44 @@ export default function Index(props){
       );
       const [selectedDealItems,setSelectedDealItems] = useState([]);
 
+      var total_deal_extra_cost_arr = [];
+      var total_deal_size_cost_arr = [];
+      var total_deal_item_cost_arr = [];
+      var total_deal_item_cost;
+      var total_deal_size_cost;
+      var total_deal_extra_cost;
+
+      selectedDealItems.length > 0 && selectedDealItems.forEach((item) => {
+        item.quantity = 1;
+        total_deal_item_cost_arr.push(item.group_deal_price);
+        item.group_deal_items.forEach((dealItem) => {
+          let total_deal_extra_cost = dealItem.group_deal_single_items[0].menu_item.extras.reduce(
+            (prev, curr, index, array) => prev + parseFloat(curr.additional_charge),
+            0
+          );
+
+          total_deal_extra_cost_arr.push(total_deal_extra_cost);
+
+          dealItem.group_deal_single_items[0].menu_item.sizes = [
+            dealItem.group_deal_single_items[0].menu_item.sizes
+          ];
+
+          let total_deal_size_cost = dealItem.group_deal_single_items[0].menu_item.sizes.reduce(
+            (prev, curr, index, array) => prev + parseFloat(curr.additional_charge),
+            0
+          );
+
+          total_deal_size_cost_arr.push(total_deal_size_cost);
+        });
+      });
+
+      total_deal_extra_cost = total_deal_extra_cost_arr.length > 0 && total_deal_extra_cost_arr.reduce((a, b) => a + b);
+      total_deal_size_cost = total_deal_size_cost_arr.length > 0 && total_deal_size_cost_arr.reduce((a, b) => a + b);
+      total_deal_item_cost = total_deal_item_cost_arr.length > 0 && total_deal_item_cost_arr.reduce((a, b) => a + b);
+      var grand_total_for_deals =
+        parseFloat(total_deal_item_cost) + parseFloat(total_deal_extra_cost) + parseFloat(total_deal_size_cost);
+        console.log(grand_total_for_deals);
+
       const [showModal, setShowModal] = useState(false);
       const [showDealModal, setShowDealModal] = useState(false);
       const [activeObject, setActiveObject] = useState({});
@@ -163,9 +201,8 @@ export default function Index(props){
         basicNonStickyNotificationToggle();
         setSelectedDealItems(newSelectedItems);
 
-      };
+    };
 
-      console.log(selectedDealItems);
 
       if (selectedItems) {
         selectedItems &&
@@ -213,6 +250,7 @@ export default function Index(props){
       setShowModal(true);
     }
 
+
     /**
      * Active object size change handler
      * @param {Event} e Radio button change event
@@ -259,13 +297,13 @@ export default function Index(props){
 
     /**
      * Handle the change event for selecting the sizes of a deal
-     * @param {*} groupDealKey 
-     * @param {*} size 
+     * @param {*} groupDealKey
+     * @param {*} size
      */
     const handleActiveDealObjectSizeChange = (groupDealKey, size) => {
 
       const list = [...activeDealObjectSizes];
-      
+
       list[groupDealKey] = size;
 
       setActiveDealObjectSizes(list);
@@ -273,15 +311,15 @@ export default function Index(props){
 
     /**
      * Handle the change event for selecting the extras of a deal
-     * @param {*} e 
-     * @param {*} extra 
+     * @param {*} e
+     * @param {*} extra
      */
     const handleActiveDealObjectExtrasChange = (event,extra,groupDealItemKey) => {
 
       const isChecked = event.target.checked;
 
       if (isChecked) {
-        
+
         const list = [...activeDealObjectExtras];
 
         if (list[groupDealItemKey]) {
@@ -296,9 +334,9 @@ export default function Index(props){
         const list = [...activeDealObjectExtras];
 
         const newExtras = list[groupDealItemKey].filter((item) => item.id !== extra.id);
-        
+
         list[groupDealItemKey] = newExtras;
-        
+
         setActiveDealObjectExtras(list);
       }
 
@@ -351,6 +389,7 @@ export default function Index(props){
       const clearItems = (e) => {
         e.preventDefault();
         setSelectedItems([]);
+        setSelectedDealItems([]);
         };
 
     //   const addToBasket = (e, id) => {
@@ -549,6 +588,71 @@ export default function Index(props){
                     </h2>
                     <TabPanel>
                 <div className="box p-5 mt-5">
+                {selectedDealItems &&
+                  selectedDealItems.map((item, key) => (
+                    <div className="mb-5">
+                      {/* {console.log(item.group_deal_items)} */}
+                      <a className="flex mb-5 items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
+                        <div className="max-w-[50%] font-medium text-lg truncate mr-1">
+                          {item.title}
+                        </div>
+                        <div className="text-slate-500">x {item.quantity}</div>
+                        {/* <Edit className="w-4 h-4 text-slate-500 ml-2" /> */}
+                        <div className="ml-auto font-medium text-lg">
+                          £ {item.group_deal_price}
+                        </div>
+                      </a>
+
+                      {
+                        item.group_deal_items.map((dealItem, dealItemKey) => {
+                        return <div className="mb-5">
+                             <div className="max-w-[50%] font-medium text-lg truncate mr-1 mb-3">
+                          {dealItem.title}
+                        </div>
+
+                          {dealItem.group_deal_single_items[0].menu_item.sizes.map((size, sizeKey) => {
+                            return <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
+                             - {size.name}
+                          </div>
+                          })}
+                             {dealItem.group_deal_single_items[0].menu_item.extras.map((extra, extraKey) => {
+                            return <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
+                             - {extra.name}
+                          </div>
+                          })}
+                          </div>
+                        })
+                      }
+
+
+                      <div className="flex justify-between mt-3 items-center w-full">
+                        <p className="flex-1">Qty:</p>
+                        <select
+                          className="rounded"
+                          onChange={(e) => onQuantityChange(e, key)}
+                        >
+                          <option value="1" selected>
+                            1
+                          </option>
+                          <option value="2">2</option>
+                          <option value="3">3</option>
+                          <option value="4">4</option>
+                          <option value="5">5</option>
+                        </select>
+                      </div>
+                      <div className="mt-3">
+                        <textarea
+                          className="w-full px-3 py-2 text-sm leading-tight text-gray-700 border rounded shadow appearance-none focus:outline-none focus:shadow-outline"
+                          id="bio"
+                          type="text"
+                          name="notes"
+                          placeholder="Notes here"
+                          value={item.notes}
+                          onChange={(e) => handleNotesInputChange(e, key)}
+                        />
+                      </div>
+                    </div>
+                  ))}
                   {selectedItems &&
                     selectedItems.map((item, key) => (
                       <div className="mb-5">
@@ -650,7 +754,7 @@ export default function Index(props){
                           (parseFloat(props.restaurant.delivery_charge) || 0) +
                           (parseFloat(props.restaurant.service_charge) || 0) +
                           parseFloat(extra_total) +
-                          parseFloat(size_total)}
+                          parseFloat(size_total) + (parseFloat(grand_total_for_deals) || 0)}
                       </div>
                     </div>
                   </div>
