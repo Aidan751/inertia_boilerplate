@@ -100,7 +100,6 @@ class OrderController extends Controller
             foreach ($order->items as $item) {
                 $totalQuantity = $totalQuantity + $item->quantity;
             }
-
             $order->setAttribute('total_quantity', $totalQuantity);
 
             // Load the view

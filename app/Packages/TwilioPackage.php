@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace App\Packages;
 use Exception;
@@ -11,7 +11,6 @@ class TwilioPackage
             $account_sid = env('TWILLIO_SID');
             $auth_token = env('TWILLIO_AUTH_TOKEN');
             $twilio_number = env('TWILLIO_NUMBER');
-
             $client = new Client($account_sid, $auth_token);
             $client->messages->create(
                 $to,

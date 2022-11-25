@@ -237,7 +237,6 @@ export default function Index(props){
           i++;
         }
     }
-
     /**
      * Handle the change event for adding a new group_deals item using the modal
      *

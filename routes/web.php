@@ -31,6 +31,7 @@ use App\Http\Controllers\Web\Restaurant\AdminUserController as RestaurantAdminUs
 use App\Http\Controllers\Web\Restaurant\ConfigurationController as RestaurantConfigurationController;
 use App\Http\Controllers\Web\Restaurant\StripeController as RestaurantStripeController;
 
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes

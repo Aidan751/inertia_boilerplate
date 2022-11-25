@@ -19,6 +19,7 @@ class StripeController extends Controller
         try {
             $stripe = $user->asStripeAccount();
         }catch (\Exception $e){
+
         }
 
         return Inertia::render('RestaurantAdmin/Stripe/Connection', [
