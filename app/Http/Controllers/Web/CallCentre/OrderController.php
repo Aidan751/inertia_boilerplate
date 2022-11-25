@@ -619,7 +619,7 @@ class OrderController extends Controller
          $request->validate([
             'customer_name' => ['required', 'string', 'max:191'],
             'customer_contact_number' => 'nullable',
-            'contact_number' => 'nullable',
+             'contact_number' => 'required|starts_with:+44',
             "role" => "required|exists:roles,name",
         ]);
 
