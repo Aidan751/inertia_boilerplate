@@ -87,6 +87,8 @@ export default function Index(props){
       const [activeDealObject, setActiveDealObject] = useState({});
 
       const [activeObjectSize, setActiveObjectSize] = useState(null);
+      const [activeEditItemObjectSize, setActiveEditItemObjectSize] = useState(null);
+      const [activeEditItemObjectExtras, setActiveEditItemObjectExtras] = useState([]);
       const [activeObjectExtras, setActiveObjectExtras] = useState([]);
 
       const [activeDealObjectSizes, setActiveDealObjectSizes] = useState([]);
@@ -172,6 +174,36 @@ export default function Index(props){
         setSelectedItems(newSelectedItems);
 
       };
+
+      // edit menu item
+      const editMenuItem = (event, menu_item) => {
+
+        let exisitingSelectedItems = [...selectedItems];
+
+        const size = menu_item.sizes.find((size) => size.id == activeEditItemObjectSize);
+
+        const extras = [...activeEditItemObjectExtras];
+
+        console.log(menu_item, activeEditItemObjectSize, size, extras);
+        return false;
+        exisitingSelectedItems.forEach((item) => {
+          if (item.menu_item.id === menu_item.id) {
+            item.menu_item.extras = extras;
+            item.menu_item.sizes = [size];
+            item.menu_item.notes = activeEditItemObject.notes;
+            item.menu_item.quantity = activeEditItemObject.quantity;
+          }
+        }
+
+        );
+
+        setActiveEditItemObjectExtras([]);
+        setActiveEditItemObjectSize(null);
+        setActiveEditItemObject({});
+        setShowEditItemModal(false);
+        basicNonStickyNotificationToggle();
+        setSelectedItems(exisitingSelectedItems);
+      }
       const addDeal = (event, menu_item) => {
 
 
