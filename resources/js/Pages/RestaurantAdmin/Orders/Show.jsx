@@ -212,7 +212,7 @@ return (
           {/* Start: decline button */}
           <form onSubmit={handleDecline}>
           <div className="flex justify-center mt-10">
-            <button className="btn btn-secondary" type="submit" name="decline">Decline</button>
+            <button className="btn btn-secondary" type="submit" name="decline">Decline & Refund</button>
           </div>
           {/* End: decline button */}
             </form>

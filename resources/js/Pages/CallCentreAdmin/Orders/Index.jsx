@@ -391,6 +391,7 @@ export default function Index(props){
        */
       const submit = (e) => {
         e.preventDefault();
+<<<<<<< Updated upstream
         data.selected_items = selectedItems;
 
         Inertia.post(route("call-centre.orders.place-order"), {
@@ -410,6 +411,48 @@ export default function Index(props){
           order_total: total_price + size_total + extra_total,
           main_total: main_total,
         });
+=======
+
+
+        /*  data.selected_items = selectedItems;
+          Inertia.post(route("call-centre.orders.place-order"), {
+              selected_items: data.selected_items,
+              customer: data.customer,
+              restaurant: data.restaurant,
+              delivery_address: data.delivery_address,
+              delivery_time: data.delivery_time,
+              delivery_date: data.delivery_date,
+              payment_method: data.payment_method,
+              order_type: data.order_type,
+              order_status: data.order_status,
+              order_notes: data.order_notes,
+              total_price: total_price,
+              size_total: size_total,
+              extra_total: extra_total,
+              order_total: total_price + size_total + extra_total
+          });*/
+
+        if(selectedItems.length > 0){
+            data.selected_items = selectedItems;
+            Inertia.post(route("call-centre.orders.place-order"), {
+                selected_items: data.selected_items,
+                customer: data.customer,
+                restaurant: data.restaurant,
+                delivery_address: data.delivery_address,
+                delivery_time: data.delivery_time,
+                delivery_date: data.delivery_date,
+                payment_method: data.payment_method,
+                order_type: data.order_type,
+                order_status: data.order_status,
+                order_notes: data.order_notes,
+                total_price: total_price,
+                size_total: size_total,
+                extra_total: extra_total,
+                order_total: total_price + size_total + extra_total
+            });
+        }
+
+>>>>>>> Stashed changes
       };
 
 

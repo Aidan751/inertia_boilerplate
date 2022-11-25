@@ -165,6 +165,8 @@ Route::middleware(['auth', 'verified'])->group(function () {
     Route::get('/restaurant/stripe/connection', [RestaurantStripeController::class, 'connection'])->name('restaurant.stripe.connection');
     Route::get('/restaurant/stripe', [RestaurantStripeController::class, 'board'])->name('restaurant.stripe.link');
     Route::get('/restaurant/stripe/complete', [RestaurantStripeController::class, 'complete'])->name('restaurant.stripe.complete');
+    Route::get('/stripe/confirm', [CallCentreOrderController::class, 'paymentSuccess']);
+    Route::get('/stripe/cancel', [CallCentreOrderController::class, 'paymentCancel']);
 
     // list menu categories
     Route::get('/restaurant/menu-categories', [MenuCategoryController::class, 'index'])->name('restaurant.categories.index');
@@ -439,6 +441,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // place order
     Route::post('/call-centre/orders/place-order', [CallCentreOrderController::class, 'placeOrder'])->name('call-centre.orders.place-order');
+    Route::get('/redirect_payment', [CallCentreOrderController::class, 'redirectStripe'])->name('stripe.redirect');
 
     // details of an order
     Route::get('/call-centre/orders/index', [CallCentreOrderController::class, 'index'])->name('call-centre.orders.index');
