@@ -73,13 +73,17 @@ export default function Index(props){
       );
     //   grand_total_for_deals =
     //     parseFloat(total_deal_item_cost) + parseFloat(total_deal_extra_cost) + parseFloat(total_deal_size_cost);
+
+    // todo: sizes totals don't add, need to figure this one out
     grand_total_for_deals =
     parseFloat(total_deal_item_cost) + parseFloat(total_deal_extra_cost);
 
 
       const [showModal, setShowModal] = useState(false);
+      const [showEditItemModal, setShowEditItemModal] = useState(false);
       const [showDealModal, setShowDealModal] = useState(false);
       const [activeObject, setActiveObject] = useState({});
+      const [activeEditItemObject, setActiveEditItemObject] = useState({});
       const [activeDealObject, setActiveDealObject] = useState({});
 
       const [activeObjectSize, setActiveObjectSize] = useState(null);
@@ -88,19 +92,12 @@ export default function Index(props){
       const [activeDealObjectSizes, setActiveDealObjectSizes] = useState([]);
       const [activeDealObjectExtras, setActiveDealObjectExtras] = useState([]);
 
-      const [sizes, setSizes] = useState([]);
-      const [extras, setExtras] = useState([]);
-
-      function getClass(index) {
-        return index === activeObject?.id ? "active" : "inactive";
-      }
 
 
       var extra_total = 0;
       var size_total = 0;
       var total_price = 0;
       var main_total = 0;
-      let extra_price;
 
       // to input elements and record their values in state
       const handleNotesInputChange = (e, index) => {
@@ -110,24 +107,7 @@ export default function Index(props){
         setSelectedItems(list);
       };
 
-        // to input elements and record their values in state
-        const handleSizeInputChange = (e, index) => {
-            const { name, value } = e.target;
-            const list = [...sizes];
-            list[index][name] = value;
-            setSizes(list);
-        };
 
-        const handleExtraInputChange = (e) => {
-            const { name, value } = e.target;
-            const isChecked = e.target.checked;
-            if (isChecked) {
-                setExtras([...extras, {
-                    id: value,
-                    name: name,
-                }]);
-            }
-        };
 
       //   select quantity of a menu item
       const onQuantityChange = (e, index) => {
@@ -270,6 +250,49 @@ export default function Index(props){
       setActiveObject(menuItemObject);
       setShowModal(true);
     }
+    /**
+     * Handle the change event for editing menu item using the modal
+     *
+     * @param {Event} e
+     * @param {object} menuItemObject
+     * @returns void
+     */
+    const onHandleItemEdit = (e, menu_item) => {
+      e.preventDefault();
+      let menuItemObject;
+      props.restaurant.menu.forEach((main_menu_item) => {
+        main_menu_item.menu_items.forEach((item) => {
+      if (item.id === menu_item.menu_item.id) {
+
+        menuItemObject = {
+          menu_item: {
+            id: item.id,
+            menu_category_id: item.menu_category_id,
+            restaurant_id: 1,
+            title: item.title,
+            description: item.description,
+            dietary_requirements: item.dietary_requirements,
+            extras: item.extras,
+            sizes: item.sizes,
+            image: item.image,
+            price: item.price,
+            created_at: item.created_at,
+            updated_st: item.updated_at,
+            notes: "",
+            quantity: 1
+          },
+          size: item.sizes,
+          extra: item.extras
+        };
+      }
+    });
+    });
+
+    setActiveEditItemObject(menuItemObject);
+    setShowEditItemModal(true);
+    }
+
+
 
 
     /**
@@ -390,22 +413,7 @@ export default function Index(props){
         });
       };
 
-      const onHandleChange = (event) => {
-        setData(
-          event.target.name,
-          event.target.type === "checkbox"
-            ? event.target.checked
-            : event.target.value
-        );
-      };
 
-      const handleAddDeal = (e, id) => {
-        e.preventDefault();
-        // data.selected_items = selectedItems;
-        Inertia.get(route("call-centre.orders.add.deal", { id: id }), {
-          selected_items: JSON.stringify(selectedItems)
-        });
-      };
 
       const clearItems = (e) => {
         e.preventDefault();
@@ -413,18 +421,7 @@ export default function Index(props){
         setSelectedDealItems([]);
         };
 
-    //   const addToBasket = (e, id) => {
-    //     e.preventDefault();
-    //     data.sizes = sizes;
-    //     data.extras = extras;
 
-
-    //     return false;
-    //     Inertia.get(route("call-centre.orders.add.menu-item", { id: id }), {
-    //         sizes: data.sizes,
-    //         extras: data.extras,
-    //     });
-    //     };
       return (
         <>
           <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
@@ -618,7 +615,7 @@ export default function Index(props){
                           {item.title}
                         </div>
                         <div className="text-slate-500">x {item.quantity}</div>
-                        {/* <Edit className="w-4 h-4 text-slate-500 ml-2" /> */}
+                        <Edit className="w-4 h-4 text-slate-500 ml-2" />
                         <div className="ml-auto font-medium text-lg">
 
                           £ {item.group_deal_price * item.quantity}
@@ -685,7 +682,7 @@ export default function Index(props){
                           <div className="text-slate-500">
                             x {item.menu_item.quantity || 1}
                           </div>
-                          <Edit className="w-4 h-4 text-slate-500 ml-2" />
+                          <Edit className="w-4 h-4 text-slate-500 ml-2" onClick={(e) => onHandleItemEdit(e, item)} />
                           <div className="ml-auto font-medium text-lg">
                             £{" "}
                             {(parseFloat(item.menu_item.price) *
@@ -896,6 +893,108 @@ export default function Index(props){
                 </ModalFooter>
               </Modal>
               {/* END: New Order Modal */}
+              {/* BEGIN: Edit Order Modal */}
+              <Modal
+                show={showEditItemModal}
+                onHidden={() => {
+                  setShowEditItemModal(false);
+                }}
+              >
+                <ModalHeader>
+                <div className="flex flex-col pt-0 p-5">
+                  <h2 className="font-medium text-base mr-auto mb-5 mt-5">
+                  {console.log(activeEditItemObject)}
+                    {activeEditItemObject && activeEditItemObject.menu_item && activeEditItemObject.menu_item.title}
+                  </h2>
+                  <img src={activeEditItemObject && activeEditItemObject.menu_item && activeEditItemObject.menu_item.image} alt={activeEditItemObject && activeEditItemObject.menu_item && activeEditItemObject.menu_item.title} className="rounded-md" />
+                  <div className="col-span-12 mt-5">
+                    <p>{activeEditItemObject && activeEditItemObject.menu_item && activeEditItemObject.menu_item.description}</p>
+                    <p className="mt-2">{activeEditItemObject && activeEditItemObject.menu_item && activeEditItemObject.menu_item.dietary_requirements}</p>
+                    <p className="mt-2">£{activeEditItemObject && activeEditItemObject.menu_item && activeEditItemObject.menu_item.price}</p>
+                  </div>
+                </div>
+                </ModalHeader>
+                <ModalBody>
+                          {/* start: choose sizes and extras */}
+                            <div className="w-full p-5 flex justify-between items-start">
+                            <div>
+
+                                <h2 className="font-medium text-md mb-5">
+                                Choose your size
+                                </h2>
+
+                                {activeEditItemObject && activeEditItemObject.menu_item && activeEditItemObject.menu_item.sizes &&
+                                    activeEditItemObject.menu_item.sizes.map((size, key) => (
+                                    <div>
+                                    {
+                                        size.name &&
+                                        (
+                                    <div className="flex items-center mt-5">
+                                      <input type="radio" name="size" value={size.id} onChange={handleActiveObjectSizeChange}/>{" "}
+                                    <p className="ml-2">{size.name}</p>
+                                    {size.additional_charge !== 0 && (
+                                        <p className="ml-3">+ £{size.additional_charge || 0}</p>
+                                    )}
+                                    </div>
+                                        )
+                                    }
+                                    </div>
+                                ))}
+                            </div>
+                            <div>
+
+                                <h2 className="font-medium text-md mb-5">
+                                Choose your sides
+                                </h2>
+
+                                {activeEditItemObject && activeEditItemObject.menu_item && activeEditItemObject.menu_item.extras &&
+                                    activeEditItemObject.menu_item.extras.map((extra, key) => (
+                                    <div>
+                                    {
+                                        extra.name &&
+                                        (
+                                            <div className="flex items-center mt-0">
+                                            <div className="form-check mb-2">
+                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name={extra.name} value={extra.id} onChange={(e) => handleActiveObjectExtrasChange(e, extra)}/>
+                                                <label className="form-check-label flex" htmlFor="checkbox-switch-1"><p>{extra.name}</p>  {extra.additional_charge !== 0 && (
+                                                <p className="ml-3">+ £{extra.additional_charge || 0}</p>
+                                            )}</label>
+                                            </div>
+                                            </div>
+
+                                        )
+
+                                    }
+                                    </div>
+                                ))}
+                            </div>
+                            </div>
+                          {/* end: choose sizes and extras */}
+                </ModalBody>
+                <ModalFooter className="text-right">
+                <div className="flex justify-between p-5">
+                <Button
+                    className="btn btn-primary w-full shadow-md ml-auto mr-3"
+                    click={(e) => {
+                        setShowEditItemModal(false);
+                        editMenuItem(e, activeEditItemObject);
+                    }}
+                    >
+                    Add to basket
+                </Button>
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setShowEditItemModal(false);
+                    }}
+                    className="btn btn-outline-secondary w-32 mr-1"
+                  >
+                    Cancel
+                  </button>
+                </div>
+                </ModalFooter>
+              </Modal>
+              {/* END: Edit Order Modal */}
               {/* BEGIN: New Group Deal Modal */}
               <Modal
                 show={showDealModal}
