@@ -71,9 +71,11 @@ export default function Index(props){
         (prev, curr, index, array) => prev + parseFloat(curr),
         0
       );
-      grand_total_for_deals =
-        parseFloat(total_deal_item_cost) + parseFloat(total_deal_extra_cost) + parseFloat(total_deal_size_cost);
-        console.log(grand_total_for_deals, total_deal_item_cost, total_deal_extra_cost, total_deal_size_cost);
+    //   grand_total_for_deals =
+    //     parseFloat(total_deal_item_cost) + parseFloat(total_deal_extra_cost) + parseFloat(total_deal_size_cost);
+    grand_total_for_deals =
+    parseFloat(total_deal_item_cost) + parseFloat(total_deal_extra_cost);
+
 
       const [showModal, setShowModal] = useState(false);
       const [showDealModal, setShowDealModal] = useState(false);
@@ -133,6 +135,15 @@ export default function Index(props){
         const list = [...selectedItems];
         list[index].menu_item.quantity = value;
         setSelectedItems(list);
+      };
+
+      //   select quantity of a deal item
+      const onDealQuantityChange = (e, index) => {
+        const { name, value } = e.target;
+        const list = [...selectedDealItems];
+        list[index].quantity = value;
+        setSelectedDealItems(list);
+        console.log(list[index].quantity, selectedDealItems);
       };
 
       const addMenuItem = (event, menu_item) => {
@@ -212,7 +223,6 @@ export default function Index(props){
         basicNonStickyNotificationToggle();
         setSelectedDealItems(newSelectedItems);
     };
-    console.log(selectedDealItems)
 
 
       if (selectedItems) {
@@ -602,7 +612,7 @@ export default function Index(props){
                 {selectedDealItems &&
                   selectedDealItems.map((item, key) => (
                     <div className="mb-5">
-                      {/* {console.log(item.group_deal_items)} */}
+
                       <a className="flex mb-5 items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
                         <div className="max-w-[50%] font-medium text-lg truncate mr-1">
                           {item.title}
@@ -610,7 +620,8 @@ export default function Index(props){
                         <div className="text-slate-500">x {item.quantity}</div>
                         {/* <Edit className="w-4 h-4 text-slate-500 ml-2" /> */}
                         <div className="ml-auto font-medium text-lg">
-                          £ {item.group_deal_price}
+
+                          £ {item.group_deal_price * item.quantity}
                         </div>
                       </a>
 
@@ -640,7 +651,7 @@ export default function Index(props){
                         <p className="flex-1">Qty:</p>
                         <select
                           className="rounded"
-                          onChange={(e) => onQuantityChange(e, key)}
+                          onChange={(e) => onDealQuantityChange(e, key)}
                         >
                           <option value="1" selected>
                             1
