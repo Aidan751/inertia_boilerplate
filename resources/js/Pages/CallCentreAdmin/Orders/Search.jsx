@@ -5,6 +5,7 @@ import { usePage } from '@inertiajs/inertia-react'
 import Label from "@/Components/Label";
 import Input from "@/Components/Input";
 import ValidationSuccess from "@/Components/ValidationSuccess";
+import ValidationErrors from "@/Components/ValidationErrors";
 
 function Search(props) {
     const { errors } = usePage().props;
@@ -42,6 +43,8 @@ function Search(props) {
                         props.success &&
                         <ValidationSuccess message={props.success} />
         }
+
+        <ValidationErrors errors={errors} />
       <div className="grid grid-cols-12 gap-6 mt-5">
         <div className="intro-y col-span-12 lg:col-span-6">
           {/* BEGIN: Form Layout */}

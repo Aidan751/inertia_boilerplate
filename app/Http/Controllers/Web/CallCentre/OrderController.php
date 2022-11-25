@@ -1,6 +1,9 @@
 <?php
 
 namespace App\Http\Controllers\Web\CallCentre;
+use Stripe\PaymentIntent;
+use Stripe\Refund;
+use Stripe\Service\PaymentIntentService;
 use Twilio\Rest\Client;
 use Exception;
 use Carbon\Carbon;
@@ -10,6 +13,8 @@ use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
 use App\Models\MenuItem;
+
+
 use App\Models\GroupDeal;
 use App\Models\OrderItem;
 use Nette\Utils\DateTime;
@@ -100,6 +105,12 @@ class OrderController extends Controller
 
 
         public function placeOrder(Request $request) {
+
+
+            if (!$request->selected_items) {
+                return response('fail', 404);
+            }
+
 
             $reference = Str::random();
 
@@ -237,10 +248,10 @@ class OrderController extends Controller
 
 
 
-                $lineItemArray['price_data']['currency'] = 'gbp';
+              /*  $lineItemArray['price_data']['currency'] = 'gbp';
                 $lineItemArray['price_data']['product_data']['name'] = 'test proddd by amsih';
                 $lineItemArray['price_data']['unit_amount'] = (23 * 100);
-                $lineItemArray['quantity'] = 2;
+                $lineItemArray['quantity'] = 2;*/
 
 
 
@@ -280,6 +291,7 @@ class OrderController extends Controller
                         'cancel_url' => $appURL .  '/stripe/cancel',
                       ], ['stripe_account' => $restaurantStripe]);
                     } else {
+
                         $session = \Stripe\Checkout\Session::create([
                             'line_items' => [
 
@@ -293,9 +305,11 @@ class OrderController extends Controller
                             'success_url' => $appURL . '/stripe/confirm?ref=' . $order->order_reference,
                             'cancel_url' => $appURL . '/stripe/cancel',
                           ],  ['stripe_account' => $restaurantStripe]);
+
+
                     }
 
-                    $order->payment_intent_id = $session->payment_intent;
+                    $order->payment_intent_id = $session->id;
                     $order->save();
                     $twilio = TwilioPackage::sendSMS($order->customer_contact_number,"To complete your OrderIt order, please make your payment at the following URL: ". $session->url);
 
@@ -303,11 +317,39 @@ class OrderController extends Controller
 
                     session()->forget('cart');
                     session()->forget('restaurant');
-                    return redirect()->route('call-centre.orders.search', ['id' => Auth::user()->id])->with('success', 'Order placed and SMS sent.');
 
+                    if(isset($session->url)){
+                        return redirect()->route('stripe.redirect')->with('stripe_url', $session->url);
+                    }
+
+                return redirect()->route('call-centre.orders.search', ['id' => Auth::user()->id])->with('success', 'Order placed and SMS sent.');
 
             }
         }
+
+        public function redirectStripe(){
+            $url = session()->get('stripe_url');
+            return Inertia::render('CallCentreAdmin/Redirect', [
+                'stripe_url' => $url,
+            ]);
+        }
+
+    public function paymentSuccess(Request $request){
+
+        $order = Order::where('order_reference', $request->ref)->first();
+        if($order){
+            $order->payment_status = 'paid';
+            $order->save();
+        }
+
+        return Inertia::render('CallCentreAdmin/Complete');
+
+    }
+
+    public function paymentCancel(){
+        return Inertia::render('CallCentreAdmin/Cancel');
+
+    }
 
         public function updateItems(Request $request)
         {

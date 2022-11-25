@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Web\Restaurant;
 
 use App\Models\User;
+use Carbon\Carbon;
 use Inertia\Inertia;
 use Stripe\Customer;
 use App\Models\Order;
@@ -11,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Models\Configuration;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Stripe\Refund;
 
 class OrderController extends Controller
 {
@@ -100,7 +102,6 @@ class OrderController extends Controller
             foreach ($order->items as $item) {
                 $totalQuantity = $totalQuantity + $item->quantity;
             }
-
             $order->setAttribute('total_quantity', $totalQuantity);
 
             // Load the view
@@ -141,7 +142,7 @@ class OrderController extends Controller
 
                 // Update the parameters
                 if ($request->status == "approved") {
-                    $capture = $stripe->paymentIntents->capture($order->payment_intent_id,[], [
+                   /* $capture = $stripe->paymentIntents->capture($order->payment_intent_id,[], [
                         'stripe_account' => $restaurantStripe,
                     ]);
 
@@ -158,11 +159,26 @@ class OrderController extends Controller
                             'fail',
                             'Payment failed to be captured!'
                         );
-                    }
+                    }*/
+
+                    $order->status = 'completed';
+                    $order->save();
                 } elseif ($request->status == "declined") {
-                    $order->status = 'cancelled';
+
+               /*     $order->status = 'cancelled';
                     $cancel = $stripe->paymentIntents->cancel($order->payment_intent_id, [], ['stripe_account' => $restaurantStripe]);
                     app('app\Services\PushNotification')->sendPush(config('app.name'), "Your order from $name has been declined", [$order->customer_id], 'orders', $order->id);
+               */
+
+                    $stripe = \Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
+                    $session = \Stripe\Checkout\Session::retrieve($order->payment_intent_id);
+                    if($session->payment_status == 'paid'){
+                        $refund =  Refund::create(['payment_intent' => $session->payment_intent]);
+                    }
+
+                    $order->status = 'cancelled';
+                    $order->save();
+
                 }
 
                 $order->updated_at = Carbon::now();

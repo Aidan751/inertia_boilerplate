@@ -1,6 +1,7 @@
 <?php
 namespace App\Http\Controllers\Web\Restaurant;
 
+use App\Models\Order;
 use Inertia\Inertia;
 use App\Models\Restaurant;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ class StripeController extends Controller
         try {
             $stripe = $user->asStripeAccount();
         }catch (\Exception $e){
+
         }
 
         return Inertia::render('RestaurantAdmin/Stripe/Connection', [
@@ -110,4 +112,5 @@ class StripeController extends Controller
             URL::to('/restaurant/stripe/connection?api_token=' . $user->api_token)
         );
     }
+
 }
