@@ -33,6 +33,7 @@ export default function Index(props){
       var total_deal_item_cost;
       var total_deal_size_cost;
       var total_deal_extra_cost;
+      var grand_total_for_deals;
 
       selectedDealItems.length > 0 && selectedDealItems.forEach((item) => {
         item.quantity = 1;
@@ -58,12 +59,21 @@ export default function Index(props){
         });
       });
 
-      total_deal_extra_cost = total_deal_extra_cost_arr.length > 0 && total_deal_extra_cost_arr.reduce((a, b) => a + b);
-      total_deal_size_cost = total_deal_size_cost_arr.length > 0 && total_deal_size_cost_arr.reduce((a, b) => a + b);
-      total_deal_item_cost = total_deal_item_cost_arr.length > 0 && total_deal_item_cost_arr.reduce((a, b) => a + b);
-      var grand_total_for_deals =
+      total_deal_extra_cost =  total_deal_extra_cost_arr.reduce(
+        (prev, curr, index, array) => prev + parseFloat(curr),
+        0
+      );
+      total_deal_size_cost = total_deal_size_cost_arr.reduce(
+        (prev, curr, index, array) => prev + parseFloat(curr),
+        0
+      );
+      total_deal_item_cost = total_deal_item_cost_arr.reduce(
+        (prev, curr, index, array) => prev + parseFloat(curr),
+        0
+      );
+      grand_total_for_deals =
         parseFloat(total_deal_item_cost) + parseFloat(total_deal_extra_cost) + parseFloat(total_deal_size_cost);
-        console.log(grand_total_for_deals);
+        console.log(grand_total_for_deals, total_deal_item_cost, total_deal_extra_cost, total_deal_size_cost);
 
       const [showModal, setShowModal] = useState(false);
       const [showDealModal, setShowDealModal] = useState(false);
@@ -184,7 +194,8 @@ export default function Index(props){
 
             if (main_menu_item.id === menu_item.id) {
 
-              main_menu_item.group_deal_items.forEach((dealSingleItem,itemKey) => {
+                main_menu_item.group_deal_items.forEach((dealSingleItem,itemKey) => {
+
                 dealSingleItem.group_deal_single_items[0].menu_item.sizes = sizes[itemKey];
                 dealSingleItem.group_deal_single_items[0].menu_item.extras = extras[itemKey];
               });
@@ -200,8 +211,8 @@ export default function Index(props){
         setShowDealModal(false);
         basicNonStickyNotificationToggle();
         setSelectedDealItems(newSelectedItems);
-
     };
+    console.log(selectedDealItems)
 
 
       if (selectedItems) {
