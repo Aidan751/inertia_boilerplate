@@ -423,7 +423,6 @@ export default function Index(props){
        */
       const submit = (e) => {
         e.preventDefault();
-<<<<<<< Updated upstream
         data.selected_items = selectedItems;
 
         Inertia.post(route("call-centre.orders.place-order"), {
@@ -443,7 +442,6 @@ export default function Index(props){
           order_total: total_price + size_total + extra_total,
           main_total: main_total,
         });
-=======
 
 
         /*  data.selected_items = selectedItems;
@@ -483,9 +481,7 @@ export default function Index(props){
                 order_total: total_price + size_total + extra_total
             });
         }
-
->>>>>>> Stashed changes
-      };
+          };
 
 
 
