@@ -18831,6 +18831,11 @@ body {
 }
 
 /* orderit specific styles */
+.mobile-menu {
+    width: 100vw !important;
+    margin:0;
+}
+
 #logo_img, #banner_img {
   height: 150px;
   width: auto;

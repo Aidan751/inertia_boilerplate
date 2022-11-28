@@ -14,6 +14,11 @@ use Illuminate\Support\Facades\Auth;
 
 class GroupDealController extends Controller
 {
+    /**
+     * Get all group deals
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function index(Request $request)
     {
 
@@ -22,6 +27,12 @@ class GroupDealController extends Controller
         return response()->json($group_deals, Response::HTTP_OK);
     }
 
+    /**
+     * Get a single group deal
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
     public function show(Request $request, $id)
     {
         $group_deal = DB::table('group_deals')->where('id', $id)->first();
@@ -29,6 +40,11 @@ class GroupDealController extends Controller
         return response()->json($group_deal, Response::HTTP_OK);
     }
 
+    /**
+     * Create a new group deal
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function store(Request $request)
     {
         // get the user
@@ -55,6 +71,12 @@ class GroupDealController extends Controller
         return response()->json($group_deal, Response::HTTP_CREATED);
     }
 
+    /**
+     * Update a group deal
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
     public function update(Request $request)
     {
 
@@ -84,6 +106,12 @@ class GroupDealController extends Controller
         return response()->json($group_deal, Response::HTTP_OK);
     }
 
+    /**
+     * Delete a group deal
+     * @param Request $request
+     * @param $id
+     * @return \Illuminate\Http\Response
+     */
     public function destroy(Request $request, $group_deal)
     {
         // get the group deal

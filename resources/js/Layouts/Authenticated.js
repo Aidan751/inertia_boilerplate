@@ -8,7 +8,7 @@ export default function Authenticated({ auth, header, children,activeGroup,secon
 
     return (
         <>
-            <section className="py-5 px-2">
+            <section>
 
                 {/* Mobile Menu */}
                 <MobileMenu auth={auth} />

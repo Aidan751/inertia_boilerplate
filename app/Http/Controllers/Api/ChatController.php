@@ -43,7 +43,7 @@ class ChatController extends Controller
         return Message:://with('user')->
         where('order_id', '=', $id)
         ->orderBy('created_at', 'desc')
-        ->paginate(10);  
+        ->paginate(10);
     }
 
     /**
@@ -84,7 +84,7 @@ class ChatController extends Controller
         }
         return response()->json([
             "message" => "Message sent"
-        ], 200); 
+        ], 200);
     }
 
     public function refresh($id, Request $request) {
@@ -104,7 +104,7 @@ class ChatController extends Controller
         ->first();
 
         return Message::where('order_id', '=', $id)
-        ->where('created_at', '>', $user->last_active) 
+        ->where('created_at', '>', $user->last_active)
         ->count();
     }
 }

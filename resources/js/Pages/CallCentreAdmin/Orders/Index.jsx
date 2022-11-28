@@ -39,7 +39,7 @@ export default function Index(props){
         item.quantity = 1;
         total_deal_item_cost_arr.push(item.group_deal_price);
         item.group_deal_items.forEach((dealItem) => {
-          let total_deal_extra_cost = dealItem.group_deal_single_items[0].menu_item.extras.reduce(
+          let total_deal_extra_cost = dealItem.group_deal_single_items[0].menu_item.extras && dealItem.group_deal_single_items[0].menu_item.extras.length > 0 && dealItem.group_deal_single_items[0].menu_item.extras.reduce(
             (prev, curr, index, array) => prev + parseFloat(curr.additional_charge),
             0
           );
@@ -495,13 +495,13 @@ export default function Index(props){
       return (
         <>
           <Authenticated auth={props.auth} errors={props.errors} activeGroup={16}>
-            <div className="col-span-12 relative">
+            <div className="col-span-12 relative mt-10 md:mt-0">
               <h2 className="intro-y text-lg font-medium sm:px-10 pb-5 pt-5 sm:pb-0">
                 Order Details
               </h2>
               {/* start:intro */}
               <div className="grid grid-rows-1 grid-cols-3 gap-4">
-                <div className="md:col-span-2 col-span-3 sm:row-span-1">
+                <div className="lg:col-span-2 col-span-3 sm:row-span-1">
                   <div className="mb-4 sm:mb-0 flex flex-col-reverse items-start justify-start sm:grid sm:grid-cols-4 sm:grid-rows-2 sm:p-10 sm:pb-0">
                     {/* start:intro */}
                     <p className="sm:text-start sm:col-span-3 mb-2 sm:mb-0 text-start col-span-5 px-1 order-1">
@@ -669,10 +669,10 @@ export default function Index(props){
                   </div>
                 </div>
                 {/* start: Basket */}
-                <div className="sm:col-span-1 sm:row-span-3 col-span-3">
+                <div className="lg:col-span-1 col-span-3">
                   <form onSubmit={submit}>
                     <h2 className="p-5 font-medium text-lg border rounded py-3">
-                      Basket ({selectedItems ? selectedItems.length : 0})
+                      Basket ({(selectedItems ? selectedItems.length : 0) + (selectedDealItems ? selectedDealItems.length : 0)})
                     </h2>
                     <TabPanel>
                 <div className="box p-5 mt-5">
@@ -701,12 +701,12 @@ export default function Index(props){
 
                           {dealItem.group_deal_single_items[0].menu_item.sizes.map((size, sizeKey) => {
                             return <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
-                             - {size.name}
+                             - {size.name} : £ {size.additional_charge}
                           </div>
                           })}
                              {dealItem.group_deal_single_items[0].menu_item.extras.map((extra, extraKey) => {
                             return <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
-                             - {extra.name}
+                             - {extra.name} : £ {extra.additional_charge}
                           </div>
                           })}
                           </div>
@@ -777,13 +777,13 @@ export default function Index(props){
                           {item.size && "- "}
                           {item.size &&
                             item.size.length > 0 &&
-                            item.size[0].name}
+                            item.size[0].name} : {item.size && "£ " + item.size[0].additional_charge}
                         </div>
 
                         {item.extra &&
                           item.extra.map((extra, key) => (
                             <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
-                              - {extra.name}
+                              - {extra.name} : £ {extra.additional_charge}
                             </div>
                           ))}
 
