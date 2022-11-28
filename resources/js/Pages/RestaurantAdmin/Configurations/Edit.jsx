@@ -420,6 +420,7 @@ export default function Edit( props ) {
                                     {errors.average_delivery_time}
                                 </p>
                             )}
+
                         </div>
                     {/* End: Average Delivery Timeframe for customers*/}
                     {/* Start: Minimum order value */}
