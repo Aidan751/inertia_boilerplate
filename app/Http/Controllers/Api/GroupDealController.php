@@ -96,9 +96,13 @@ class GroupDealController extends Controller
 
     public function destroy(Request $request, $group_deal)
     {
-        $group_deal = DB::table('group_deals')->where('id', $group_deal_id)->delete();
+        // get the group deal
+        $group_deal = GroupDeal::where('id', $group_deal)->first();
 
-        return response()->json($group_deal, Response::HTTP_OK);
+        // delete the group deal
+        $group_deal->delete();
+
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 
 }
