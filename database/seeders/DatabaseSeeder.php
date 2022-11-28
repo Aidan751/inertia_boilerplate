@@ -80,8 +80,17 @@ class DatabaseSeeder extends Seeder
             'stripe_account_id' => 'acct_1LXNmvLaeslmuKuI',
         ]);
 
-        $user = User::where('id', 2)->first();
-        $user->restaurant_id = $restaurant->id;
+
+       $restaurant_user = User::factory()->create([
+            'first_name' => 'Test',
+            'last_name' => 'User',
+            'email' => 'test@app.com',
+            'password' => bcrypt('password'),
+            'contact_number' => '+447368360039',
+            'is_suspended' => 'no',
+            'restaurant_id' => $restaurant->id,
+            'role_id' => 2,
+        ]);
 
 
         // Logo::factory()->create();

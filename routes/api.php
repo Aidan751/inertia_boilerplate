@@ -11,8 +11,10 @@ use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\LocationController;
+use App\Http\Controllers\Api\GroupDealController;
 use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\AdminRestaurantsController;
+use App\Http\Controllers\Web\Restaurant\ExtraController;
 use App\Http\Controllers\Api\AdminCallCentreUserController;
 
 /*
@@ -153,4 +155,34 @@ Route::get('/report/{id}', [ReportController::class, 'add']);
 Route::post('/location', [LocationController::class, 'update']);
 Route::post('/location/generate', [LocationController::class, 'generate']);
 Route::get('/location', [LocationController::class, 'get']);
+
+// get all group deals
+Route::get('/group-deals', [GroupDealController::class, 'index']);
+
+// get a single group deal
+Route::get('/group-deals/{id}', [GroupDealController::class, 'show']);
+
+// create a group deal
+Route::post('/group-deals', [GroupDealController::class, 'store']);
+
+// update a group deal
+Route::put('/group-deals/{id}', [GroupDealController::class, 'update']);
+
+// delete a group deal
+Route::delete('/group-deals/{id}', [GroupDealController::class, 'destroy']);
+
+// get all extras
+Route::get('/extras', [ExtraController::class, 'index']);
+
+// get a single extra
+Route::get('/extras/{id}', [ExtraController::class, 'show']);
+
+// create an extra
+Route::post('/extras', [ExtraController::class, 'store']);
+
+// update an extra
+Route::put('/extras/{id}', [ExtraController::class, 'update']);
+
+// delete an extra
+Route::delete('/extras/{id}', [ExtraController::class, 'destroy']);
 });

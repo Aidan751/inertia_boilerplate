@@ -18,7 +18,7 @@ class CreateGroupDealsTable extends Migration
             $table->string('title');
             $table->longtext('description');
             $table->string('image')->nullable();
-            $table->integer('group_deal_price');
+            $table->decimal('group_deal_price', 10, 2);
             $table->unsignedInteger('restaurant_id');
             $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');
             $table->timestamps();
