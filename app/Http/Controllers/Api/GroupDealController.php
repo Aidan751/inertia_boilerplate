@@ -14,16 +14,6 @@ use Illuminate\Support\Facades\Auth;
 
 class GroupDealController extends Controller
 {
-    // Schema::create('group_deals', function (Blueprint $table) {
-    //     $table->id();
-    //     $table->string('title');
-    //     $table->longtext('description');
-    //     $table->string('image')->nullable();
-    //     $table->integer('group_deal_price');
-    //     $table->unsignedInteger('restaurant_id');
-    //     $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade')->onUpdate('cascade');
-    //     $table->timestamps();
-    // });
     public function index(Request $request)
     {
 
