@@ -415,9 +415,9 @@ export default function Edit( props ) {
                                     setData("average_delivery_time", e.target.value)
                                 }
                             />
-                            {errors.average_deliver_time && (
-                                <p className="text-xs italic text-red-500">
-                                    {errors.average_deliver_time}
+                            {errors.average_delivery_time && (
+                                <p className="text-xs italic text-red-500 mt-2">
+                                    {errors.average_delivery_time}
                                 </p>
                             )}
                         </div>
