@@ -1,7 +1,7 @@
 
 import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link } from '@inertiajs/inertia-react';
-import {  Edit} from "lucide-react";
+import {  Edit, X} from "lucide-react";
 import { useForm } from '@inertiajs/inertia-react'
 import { useState, useRef } from "react";
 import { Inertia } from "@inertiajs/inertia";
@@ -418,6 +418,18 @@ export default function Index(props){
 
     };
 
+    const onHandleItemDelete = (e, menu_item) => {
+        e.preventDefault();
+        const newSelectedItems = selectedItems.filter((item) => item.menu_item.id !== menu_item.menu_item.id);
+        setSelectedItems(newSelectedItems);
+    };
+
+    const onHandleDealDelete = (e, deal_item) => {
+        e.preventDefault();
+        const newSelectedDealItems = selectedDealItems.filter((item) => item.id !== deal_item.id);
+        setSelectedDealItems(newSelectedDealItems);
+    };
+
       /**
        * handle the form submission for the shopping basket
        * @param {Event} e Shopping Basket Form Submit Event
@@ -687,9 +699,14 @@ export default function Index(props){
                         </div>
                         <div className="text-slate-500">x {item.quantity}</div>
                         <Edit className="w-4 h-4 text-slate-500 ml-2" />
-                        <div className="ml-auto font-medium text-lg">
-
+                        <div className="ml-auto flex items-center">
+                        <div className="font-medium text-lg">
                           £ {item.group_deal_price * item.quantity}
+                        </div>
+                        <div>
+                          <X
+                           className="w-4 h-4 text-slate-500 ml-2" onClick={(e) => onHandleDealDelete(e, item)}/>
+                        </div>
                         </div>
                       </a>
 
@@ -754,7 +771,8 @@ export default function Index(props){
                             x {item.menu_item.quantity || 1}
                           </div>
                           <Edit className="w-4 h-4 text-slate-500 ml-2" onClick={(e) => onHandleItemEdit(e, item)} />
-                          <div className="ml-auto font-medium text-lg">
+                          <div className="ml-auto flex items-center">
+                          <div className="font-medium text-lg">
                             £{" "}
                             {(parseFloat(item.menu_item.price) *
                               parseFloat(item.menu_item.quantity)) +
@@ -771,6 +789,11 @@ export default function Index(props){
                                  parseFloat(item.size[0].additional_charge) *
                                     parseFloat(item.menu_item.quantity)
                                 : 0)}
+                                </div>
+                                <div>
+                                <X
+                           className="w-4 h-4 text-slate-500 ml-2" onClick={(e) => onHandleItemDelete(e, item)} />
+                                </div>
                           </div>
                         </a>
                         <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
