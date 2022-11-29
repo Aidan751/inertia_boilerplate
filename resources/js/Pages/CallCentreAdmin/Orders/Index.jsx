@@ -10,6 +10,7 @@ import Button from "@/Components/Button";
 
 
 export default function Index(props){
+    console.log(props);
     // Basic non sticky notification
     const basicNonStickyNotification = useRef();
 

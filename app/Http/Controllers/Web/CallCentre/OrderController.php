@@ -1,24 +1,24 @@
 <?php
 
 namespace App\Http\Controllers\Web\CallCentre;
-use Stripe\PaymentIntent;
-use Stripe\Refund;
-use Stripe\Service\PaymentIntentService;
-use Twilio\Rest\Client;
 use Exception;
 use Carbon\Carbon;
+use Stripe\Refund;
 use App\Models\Day;
 use App\Models\Size;
 use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Order;
+use Twilio\Rest\Client;
 use App\Models\MenuItem;
-
-
 use App\Models\GroupDeal;
 use App\Models\OrderItem;
+
+
 use Nette\Utils\DateTime;
+use Stripe\PaymentIntent;
 use App\Models\Restaurant;
+use App\Models\UserDriver;
 use App\Models\OpeningHour;
 use Illuminate\Support\Str;
 use App\Models\MenuCategory;
@@ -26,14 +26,15 @@ use App\Packages\TimeFormat;
 use Illuminate\Http\Request;
 use App\Models\Configuration;
 use App\Models\GroupDealItem;
+use App\Packages\TwilioPackage;
 use App\Packages\GeocoderPackage;
 use App\Models\GroupDealSingleItem;
 use App\Http\Controllers\Controller;
-use App\Packages\TwilioPackage;
-use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Database\QueryException;
 use Illuminate\Support\Facades\Redirect;
+use Stripe\Service\PaymentIntentService;
 use Symfony\Component\HttpFoundation\Session\Session;
 
 class OrderController extends Controller
@@ -127,7 +128,7 @@ class OrderController extends Controller
                 // );
 
                 // Amount includes delivery fee
-                $total = $request->main_total;
+                $total = $request->order_total;
 
                 $amount = round((doubleval($total) * 100), 2);
 
@@ -138,7 +139,7 @@ class OrderController extends Controller
                 // Application fee does not include delivery fee
                 $applicationFeeAmount = round((($amount - $deliveryFeeAmount)  / $percentageTransaction), 2);
 
-                if (session('restaurant')->company_drivers == 1) {
+                if (count(session('restaurant')->company_drivers) > 0) {
                     // Client gets application fee + delivery charge
                     $applicationFeeAmount = $applicationFeeAmount + $deliveryFeeAmount;
                 }
@@ -230,6 +231,7 @@ class OrderController extends Controller
                             'notes' => $item['price_data']['product_data']['notes'],
                         ]);
 
+
                         array_push($lineItemArray, [
                         'price_data' => [
                             'currency' => 'gbp',
@@ -317,7 +319,6 @@ class OrderController extends Controller
                     $order->save();
                     $twilio = TwilioPackage::sendSMS($order->customer_contact_number,"To complete your OrderIt order, please make your payment at the following URL: ". $session->url);
 
-                    // event(new OrderAdded($order->restaurant_id));
 
                     session()->forget('cart');
                     session()->forget('restaurant');
@@ -442,7 +443,6 @@ class OrderController extends Controller
             $deal_selected_items = session('deal_selected_items');
             $selected_deals = [];
             array_push($selected_deals, [$group_deal, $deal_selected_items]);
-            dd($selected_deals);
             $restaurant = session('restaurant');
             $order = session('order');
             $selected_items = session('selected_items');
@@ -769,9 +769,11 @@ class OrderController extends Controller
             // set restaurant in delivery charge because the order type isn't delivery
             $restaurant->setAttribute('delivery_charge', 0);
 
+            // get user drivers
+            $restaurant->company_drivers = UserDriver::get();
+
             // test
-            // $restaurant->company_drivers = 1;
-            if ($restaurant->company_drivers == 1 && $request->order_type == 'delivery') {
+            if (count($restaurant->company_drivers) > 0 && $request->order_type == 'delivery') {
                 $configurations = Configuration::get()->toArray();
 
 
@@ -791,6 +793,7 @@ class OrderController extends Controller
                 $restaurant->setAttribute('delivery_charge', $rounded_fee);
                 $restaurant->setAttribute('time_in_minutes', $time_in_minutes);
                 $restaurant->setAttribute('distance_in_miles', $distance_in_miles);
+                // dd($restaurant, $configurations, $distance_in_miles, $delivery_time, $time_in_minutes, $fee, $rounded_fee);
             }
 
 
