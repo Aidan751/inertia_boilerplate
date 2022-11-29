@@ -124,7 +124,7 @@ class OrderController extends Controller
         ]);
 
         $stripe = new \Stripe\StripeClient(
-            config('services.stripe_test_secret_key')
+            env('STRIPE_SECRET')
         );
 
         // Attempt to find the order
