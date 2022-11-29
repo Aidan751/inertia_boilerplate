@@ -47,31 +47,28 @@ export default function Index(props){
 
           total_deal_extra_cost_arr.push(total_deal_extra_cost);
 
-          dealItem.group_deal_single_items[0].menu_item.sizes = [
+          dealItem.group_deal_single_items[0].menu_item.sizes ? dealItem.group_deal_single_items[0].menu_item.sizes = [
             dealItem.group_deal_single_items[0].menu_item.sizes
-          ];
+          ] : [];
 
-          let total_deal_size_cost = dealItem.group_deal_single_items[0].menu_item.sizes.reduce(
+          let total_deal_size_cost = dealItem.group_deal_single_items[0].menu_item.sizes && dealItem.group_deal_single_items[0].menu_item.sizes.length > 0 && dealItem.group_deal_single_items[0].menu_item.sizes.reduce(
             (prev, curr, index, array) => prev + parseFloat(curr.additional_charge),
             0
-          );
+            );
 
           total_deal_size_cost_arr.push(total_deal_size_cost);
         });
       });
 
-      total_deal_extra_cost =  total_deal_extra_cost_arr.reduce(
+      total_deal_extra_cost =  total_deal_extra_cost_arr && total_deal_extra_cost_arr.reduce((prev, curr, index, array) => prev + parseFloat(curr), 0);
+      total_deal_size_cost = total_deal_item_cost_arr && total_deal_size_cost_arr.reduce(
         (prev, curr, index, array) => prev + parseFloat(curr),
         0
-      );
-      total_deal_size_cost = total_deal_size_cost_arr.reduce(
+        );
+      total_deal_item_cost = total_deal_item_cost_arr && total_deal_item_cost_arr.reduce(
         (prev, curr, index, array) => prev + parseFloat(curr),
         0
-      );
-      total_deal_item_cost = total_deal_item_cost_arr.reduce(
-        (prev, curr, index, array) => prev + parseFloat(curr),
-        0
-      );
+        );
     //   grand_total_for_deals =
     //     parseFloat(total_deal_item_cost) + parseFloat(total_deal_extra_cost) + parseFloat(total_deal_size_cost);
 
@@ -717,12 +714,12 @@ export default function Index(props){
                           {dealItem.title}
                         </div>
 
-                          {dealItem.group_deal_single_items[0].menu_item.sizes.map((size, sizeKey) => {
+                          {dealItem.group_deal_single_items[0].menu_item.sizes && dealItem.group_deal_single_items[0].menu_item.sizes.map((size, sizeKey) => {
                             return <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
                              - {size.name} : £ {size.additional_charge}
                           </div>
                           })}
-                             {dealItem.group_deal_single_items[0].menu_item.extras.map((extra, extraKey) => {
+                             {dealItem.group_deal_single_items[0].menu_item.extras && dealItem.group_deal_single_items[0].menu_item.extras.map((extra, extraKey) => {
                             return <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
                              - {extra.name} : £ {extra.additional_charge}
                           </div>
