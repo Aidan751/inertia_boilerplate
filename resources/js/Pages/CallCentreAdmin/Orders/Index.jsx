@@ -7,10 +7,10 @@ import { useState, useRef } from "react";
 import { Inertia } from "@inertiajs/inertia";
 import {  Modal, ModalHeader, ModalBody, ModalFooter, TabPanel,Notification } from "@/base-components";
 import Button from "@/Components/Button";
+import { set } from "lodash";
 
 
 export default function Index(props){
-    console.log(props);
     // Basic non sticky notification
     const basicNonStickyNotification = useRef();
 
@@ -85,8 +85,8 @@ export default function Index(props){
       const [activeDealObject, setActiveDealObject] = useState({});
 
       const [activeObjectSize, setActiveObjectSize] = useState(null);
-      const [activeEditItemObjectSize, setActiveEditItemObjectSize] = useState(null);
-      const [activeEditItemObjectExtras, setActiveEditItemObjectExtras] = useState([]);
+      const [editSize, setEditSize] = useState(null);
+      const [editExtras, setEditExtras] = useState([]);
       const [activeObjectExtras, setActiveObjectExtras] = useState([]);
 
       const [activeDealObjectSizes, setActiveDealObjectSizes] = useState([]);
@@ -123,7 +123,6 @@ export default function Index(props){
         const list = [...selectedDealItems];
         list[index].quantity = value;
         setSelectedDealItems(list);
-        console.log(list[index].quantity, selectedDealItems);
       };
 
       const addMenuItem = (event, menu_item) => {
@@ -176,31 +175,61 @@ export default function Index(props){
       // edit menu item
       const editMenuItem = (event, menu_item) => {
 
-        let exisitingSelectedItems = [...selectedItems];
+        const size = menu_item.size.find((size) => size.id == editSize);
 
-        const size = menu_item.sizes.find((size) => size.id == activeEditItemObjectSize);
+        const extras = [...editExtras];
+        console.log(size)
+        let newSelectedItems = [...selectedItems];
 
-        const extras = [...activeEditItemObjectExtras];
 
-        console.log(menu_item, activeEditItemObjectSize, size, extras);
-        return false;
-        exisitingSelectedItems.forEach((item) => {
-          if (item.menu_item.id === menu_item.id) {
-            item.menu_item.extras = extras;
-            item.menu_item.sizes = [size];
-            item.menu_item.notes = activeEditItemObject.notes;
-            item.menu_item.quantity = activeEditItemObject.quantity;
-          }
-        }
+        props.restaurant.menu.forEach((main_menu_item) => {
+            main_menu_item.menu_items.forEach((item) => {
 
+        if (item.id === menu_item.menu_item.id) {
+
+          let newItem = {
+            menu_item: {
+              id: menu_item.id,
+              menu_category_id: item.menu_category_id,
+              restaurant_id: 1,
+              title: menu_item.menu_item.title,
+              description: menu_item.menu_item.description,
+              dietary_requirements: menu_item.menu_item.dietary_requirements,
+              extras: extras,
+              sizes: [size],
+              image: menu_item.menu_item.image,
+              price: menu_item.menu_item.price,
+              created_at: menu_item.menu_item.created_at,
+              updated_st: menu_item.menu_item.updated_at,
+              notes: "",
+              quantity: 1
+            },
+            size: [size],
+            extra: extras
+          };
+
+             // remove existing selected item
+         newSelectedItems = newSelectedItems.filter(
+            (item) => item.menu_item.id !== menu_item.menu_item.id
         );
+          newSelectedItems.push(newItem);
 
-        setActiveEditItemObjectExtras([]);
-        setActiveEditItemObjectSize(null);
-        setActiveEditItemObject({});
-        setShowEditItemModal(false);
-        basicNonStickyNotificationToggle();
-        setSelectedItems(exisitingSelectedItems);
+
+
+
+        }
+      });
+      });
+
+      setActiveEditItemObject({});
+      setEditExtras([]);
+      setEditSize(null);
+      setShowEditItemModal(false);
+      basicNonStickyNotificationToggle();
+      setSelectedItems(newSelectedItems);
+
+
+
       }
       const addDeal = (event, menu_item) => {
 
@@ -239,7 +268,7 @@ export default function Index(props){
         selectedItems &&
           selectedItems.forEach((item) => {
             let i = 0;
-            if (item.extra) {
+            if (item.extra && item.extra.length > 0) {
               while (i < item.extra.length) {
                 extra_total += parseFloat(item.extra[i].additional_charge) * parseFloat(item.menu_item.quantity);
                 i++;
@@ -250,8 +279,8 @@ export default function Index(props){
         selectedItems &&
           selectedItems.forEach((item) => {
             let i = 0;
-
-            if (item.size) {
+            console.log(item);
+            if (item.size && item.size.length > 0) {
               while (i < item.size.length) {
                 size_total += parseFloat(item.size[i].additional_charge) * parseFloat(item.menu_item.quantity);
                 i++;
@@ -288,6 +317,7 @@ export default function Index(props){
      */
     const onHandleItemEdit = (e, menu_item) => {
       e.preventDefault();
+
       let menuItemObject;
       props.restaurant.menu.forEach((main_menu_item) => {
         main_menu_item.menu_items.forEach((item) => {
@@ -313,12 +343,18 @@ export default function Index(props){
           size: item.sizes,
           extra: item.extras
         };
-      }
-    });
-    });
 
-    setActiveEditItemObject(menuItemObject);
-    setShowEditItemModal(true);
+
+  // reset the active object
+  setActiveEditItemObject(menuItemObject);
+
+    }
+});
+
+});
+
+
+  setShowEditItemModal(true);
     }
 
 
@@ -337,22 +373,52 @@ export default function Index(props){
         setActiveObjectSize(value);
       }
     };
-
     const handleActiveObjectExtrasChange = (e,extra) => {
 
+        const isChecked = e.target.checked;
+
+        if (isChecked) {
+
+          const newExtras = [...activeObjectExtras,extra];
+          setActiveObjectExtras(newExtras);
+        } else {
+
+          const newExtras = activeObjectExtras.filter((item) => item.id !== extra.id);
+          setActiveObjectExtras(newExtras);
+        }
+
+      };
+
+
+    /**
+     * Active object size change handler
+     * @param {Event} e Radio button change event
+     */
+    const handleEditObjectSizeChange = (e) => {
+      const name = e.target.name;
+      const value = e.target.value;
       const isChecked = e.target.checked;
 
       if (isChecked) {
-
-        const newExtras = [...activeObjectExtras,extra];
-        setActiveObjectExtras(newExtras);
-      } else {
-
-        const newExtras = activeObjectExtras.filter((item) => item.id !== extra.id);
-        setActiveObjectExtras(newExtras);
+        setEditSize(value);
       }
-
     };
+
+    const handleEditObjectExtrasChange = (e,extra) => {
+
+            const isChecked = e.target.checked;
+
+            if (isChecked) {
+
+            const newExtras = [...editExtras,extra];
+            setEditExtras(newExtras);
+            } else {
+
+            const newExtras = editExtras.filter((item) => item.id !== extra.id);
+            setEditExtras(newExtras);
+            }
+
+        };
 
 
     /**
@@ -770,6 +836,7 @@ export default function Index(props){
                           <Edit className="w-4 h-4 text-slate-500 ml-2" onClick={(e) => onHandleItemEdit(e, item)} />
                           <div className="ml-auto flex items-center">
                           <div className="font-medium text-lg">
+
                             £{" "}
                             {(parseFloat(item.menu_item.price) *
                               parseFloat(item.menu_item.quantity)) +
@@ -994,7 +1061,6 @@ export default function Index(props){
                 <ModalHeader>
                 <div className="flex flex-col pt-0 p-5">
                   <h2 className="font-medium text-base mr-auto mb-5 mt-5">
-                  {console.log(activeEditItemObject)}
                     {activeEditItemObject && activeEditItemObject.menu_item && activeEditItemObject.menu_item.title}
                   </h2>
                   <img src={activeEditItemObject && activeEditItemObject.menu_item && activeEditItemObject.menu_item.image} alt={activeEditItemObject && activeEditItemObject.menu_item && activeEditItemObject.menu_item.title} className="rounded-md" />
@@ -1021,7 +1087,7 @@ export default function Index(props){
                                         size.name &&
                                         (
                                     <div className="flex items-center mt-5">
-                                      <input type="radio" name="size" value={size.id} onChange={handleActiveObjectSizeChange}/>{" "}
+                                      <input type="radio" name="size" value={size.id} onChange={handleEditObjectSizeChange}/>{" "}
                                     <p className="ml-2">{size.name}</p>
                                     {size.additional_charge !== 0 && (
                                         <p className="ml-3">+ £{size.additional_charge || 0}</p>
@@ -1046,7 +1112,7 @@ export default function Index(props){
                                         (
                                             <div className="flex items-center mt-0">
                                             <div className="form-check mb-2">
-                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name={extra.name} value={extra.id} onChange={(e) => handleActiveObjectExtrasChange(e, extra)}/>
+                                                <input id="checkbox-switch-1" className="form-check-input" type="checkbox" name={extra.name} value={extra.id} onChange={(e) =>handleEditObjectExtrasChange(e, extra)}/>
                                                 <label className="form-check-label flex" htmlFor="checkbox-switch-1"><p>{extra.name}</p>  {extra.additional_charge !== 0 && (
                                                 <p className="ml-3">+ £{extra.additional_charge || 0}</p>
                                             )}</label>
@@ -1067,7 +1133,6 @@ export default function Index(props){
                 <Button
                     className="btn btn-primary w-full shadow-md ml-auto mr-3"
                     click={(e) => {
-                        setShowEditItemModal(false);
                         editMenuItem(e, activeEditItemObject);
                     }}
                     >
