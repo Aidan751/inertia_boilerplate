@@ -71,10 +71,10 @@ class ExtraController extends Controller
     /**
      * Update an extra
      * @param Request $request
-     * @param $id
+     * @param $extra
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request)
+    public function update(Request $request, Extra $extra)
     {
         // get the user
         $user = Auth::user();
@@ -85,9 +85,6 @@ class ExtraController extends Controller
             'description' => 'nullable',
             'additional_charge' => 'nullable',
         ]);
-
-        // get the extra
-        $extra = Extra::where('id', $request->id)->where('restaurant_id', $user->restaurant_id)->first();
 
         // update the extra
         $extra->update([

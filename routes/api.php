@@ -14,7 +14,7 @@ use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\GroupDealController;
 use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\AdminRestaurantsController;
-use App\Http\Controllers\Web\Restaurant\ExtraController;
+use App\Http\Controllers\Api\ExtraController;
 use App\Http\Controllers\Api\AdminCallCentreUserController;
 
 /*
@@ -175,14 +175,14 @@ Route::delete('/group-deals/{id}', [GroupDealController::class, 'destroy']);
 Route::get('/extras', [ExtraController::class, 'index']);
 
 // get a single extra
-Route::get('/extras/{id}', [ExtraController::class, 'show']);
+Route::get('/extras/{extra}', [ExtraController::class, 'show']);
 
 // create an extra
 Route::post('/extras', [ExtraController::class, 'store']);
 
 // update an extra
-Route::put('/extras/{id}', [ExtraController::class, 'update']);
+Route::put('/extras/{extra}', [ExtraController::class, 'update']);
 
 // delete an extra
-Route::delete('/extras/{id}', [ExtraController::class, 'destroy']);
+Route::delete('/extras/{extra}', [ExtraController::class, 'destroy']);
 });
