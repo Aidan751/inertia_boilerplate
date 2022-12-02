@@ -191,7 +191,6 @@ export default function Index(props) {
     const size = menu_item.size.find((size) => size.id == editSize);
 
     const extras = [...editExtras];
-    console.log(size);
     let newSelectedItems = [...selectedItems];
 
     props.restaurant.menu.forEach((main_menu_item) => {
@@ -206,7 +205,7 @@ export default function Index(props) {
               description: menu_item.menu_item.description,
               dietary_requirements: menu_item.menu_item.dietary_requirements,
               extras: extras,
-              sizes: [size],
+              sizes: size,
               image: menu_item.menu_item.image,
               price: menu_item.menu_item.price,
               created_at: menu_item.menu_item.created_at,
@@ -214,8 +213,9 @@ export default function Index(props) {
               notes: "",
               quantity: 1,
             },
-            size: [size],
+            size: size,
             extra: extras,
+            edit_mode: true,
           };
 
           // remove existing selected item
@@ -227,7 +227,6 @@ export default function Index(props) {
       });
     });
 
-    setActiveEditItemObject({});
     setEditExtras([]);
     setEditSize(null);
     setShowEditItemModal(false);
@@ -280,7 +279,6 @@ export default function Index(props) {
     selectedItems &&
       selectedItems.forEach((item) => {
         let i = 0;
-        console.log(item);
         if (item.size && item.size.length > 0) {
           while (i < item.size.length) {
             size_total +=
@@ -345,6 +343,7 @@ export default function Index(props) {
             size: item.sizes,
             extra: item.extras,
           };
+
 
           // reset the active object
           setActiveEditItemObject(menuItemObject);
@@ -483,6 +482,7 @@ export default function Index(props) {
     );
     setSelectedDealItems(newSelectedDealItems);
   };
+
 
   /**
    * handle the form submission for the shopping basket
@@ -897,7 +897,9 @@ export default function Index(props) {
                               </div>
                             </div>
                           </a>
+                            {!item.edit_mode &&
                           <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
+
                             {item.size && "- "}
                             {item.size &&
                               item.size.length > 0 &&
@@ -905,6 +907,18 @@ export default function Index(props) {
                             :{" "}
                             {item.size && "£ " + item.size[0].additional_charge}
                           </div>
+                            }
+
+                            {
+                              item.edit_mode &&
+                              <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
+                              {"- "}
+                            {
+                              item.size.name}{" "}
+                            :{" "}
+                            {"£ " + item.size.additional_charge}
+                            </div>
+                            }
 
                           {item.extra &&
                             item.extra.map((extra, key) => (
@@ -1132,6 +1146,7 @@ export default function Index(props) {
             <ModalHeader>
               <div className="flex flex-col pt-0 p-5">
                 <h2 className="font-medium text-base mr-auto mb-5 mt-5">
+                {console.log(activeEditItemObject)}
                   {activeEditItemObject &&
                     activeEditItemObject.menu_item &&
                     activeEditItemObject.menu_item.title}
@@ -1171,6 +1186,8 @@ export default function Index(props) {
             </ModalHeader>
             <ModalBody>
               {/* start: choose sizes and extras */}
+
+
               <div className="w-full p-5 flex justify-between items-start">
                 <div>
                   <h2 className="font-medium text-md mb-5">Choose your size</h2>
@@ -1232,6 +1249,7 @@ export default function Index(props) {
                                     + £{extra.additional_charge || 0}
                                   </p>
                                 )}
+
                               </label>
                             </div>
                           </div>

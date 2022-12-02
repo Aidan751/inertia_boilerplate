@@ -238,6 +238,7 @@ class OrderController extends Controller
                 }
 
                 $order->items()->updateOrCreate([
+                    "item_id" => 0,
                     "title" => $item["price_data"]["product_data"]["name"],
                     "item_price" => $price,
                     "total_price" => floatval($price * $item["quantity"]),
