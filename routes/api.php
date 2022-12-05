@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\ExtraController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\RolesController;
 use App\Http\Controllers\Api\DriverController;
@@ -12,9 +13,9 @@ use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\LocationController;
 use App\Http\Controllers\Api\GroupDealController;
+use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\AdminRestaurantsController;
-use App\Http\Controllers\Api\ExtraController;
 use App\Http\Controllers\Api\AdminCallCentreUserController;
 
 /*
@@ -102,10 +103,13 @@ Route::get('/restaurants/{id}', [AdminRestaurantsController::class, 'edit']);
 Route::put('/restaurants/{id}', [AdminRestaurantsController::class, 'update']);
 
 // follow restaurants
-Route::post('/restaurants/follow', [AdminRestaurantsController::class, 'follow']);
+Route::post('/restaurants/follow/{restaurant}', [RestaurantController::class, 'follow']);
 
 // unfollow restaurants
-Route::post('/restaurants/unfollow', [AdminRestaurantsController::class, 'unfollow']);
+Route::post('/restaurants/unfollow/{restaurant}', [RestaurantController::class, 'unfollow']);
+
+// get all followed restaurants for a user
+Route::get('/restaurants/followed/all', [RestaurantController::class, 'getFollowedRestaurants']);
 
 // list call centre users
 Route::get('/call-centre-users', [AdminCallCentreUserController::class, 'index']);

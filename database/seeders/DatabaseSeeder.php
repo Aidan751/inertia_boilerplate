@@ -95,10 +95,8 @@ class DatabaseSeeder extends Seeder
             'role_id' => 2,
         ]);
 
+        User::factory()->count(10)->create();
 
-        // Logo::factory()->create();
-
-        // Banner::factory()->create();
 
         OpeningHour::factory()->create([
             'restaurant_id' => 1,
@@ -462,14 +460,14 @@ class DatabaseSeeder extends Seeder
         //     );
         // });
 
-        $restaurants = Restaurant::all();
+        // $restaurants = Restaurant::all();
 
 
-        User::all()->each(function ($user) use ($restaurants) {
-            $user->restaurants()->attach(
-                $restaurants->random(rand(1, 5))->pluck('id', 'name', 'description', 'address', 'phone', 'email', 'image')->toArray()
-            );
-        });
+        // User::all()->each(function ($user) use ($restaurants) {
+        //     $user->restaurants()->attach(
+        //         $restaurants->random(rand(1, 5))->pluck('id', 'name', 'description', 'address', 'phone', 'email', 'image')->toArray()
+        //     );
+        // });
 
     }
 

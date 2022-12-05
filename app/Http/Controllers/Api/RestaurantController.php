@@ -358,10 +358,64 @@ class RestaurantController extends Controller
             ], 404);
         }
 
-        $user->follow($restaurant);
+        // attach the restaurant to the user only if the restaurant is not already attached
+        if (!$user->restaurants->contains($restaurant)) {
+            $user->restaurants()->attach($restaurant);
+        } else {
+            return response()->json([
+                "message" => "Restaurant already followed",
+                "restaurant" => $restaurant,
+            ], 400);
+        }
 
         return response()->json([
             "message" => "Restaurant followed",
+            "restaurant" => $restaurant
+        ], 200);
+    }
+
+
+    /**
+     * unfollow a restaurant
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function unfollow(Request $request, Restaurant $restaurant)
+    {
+        $user = auth()->user();
+        $restaurant = Restaurant::find($restaurant->id);
+
+        if ($restaurant == null) {
+            return response()->json([
+                "message" => "Restaurant not found",
+            ], 404);
+        }
+
+        // detach the restaurant from the user
+        $user->restaurants()->detach($restaurant->id);
+
+        return response()->json([
+            "message" => "Restaurant unfollowed",
+            "restaurant" => $restaurant
+        ], 200);
+    }
+
+    /**
+     * get all the restaurants that the user is following
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function getFollowedRestaurants(Request $request)
+    {
+        $user = auth()->user();
+
+        $restaurants = $user->restaurants()->paginate(10);
+
+        return response()->json([
+            "message" => "Restaurants followed",
+            "restaurants" => $restaurants
         ], 200);
     }
 }
