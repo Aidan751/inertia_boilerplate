@@ -7,6 +7,7 @@ use App\Models\Logo;
 use App\Models\Size;
 use App\Models\User;
 use App\Models\Extra;
+use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Banner;
 use App\Models\MenuItem;
@@ -83,6 +84,7 @@ class DatabaseSeeder extends Seeder
 
         Restaurant::factory()->count(10)->create();
 
+        Offer::factory()->count(10)->create();
 
        $restaurant_user = User::factory()->create([
             'first_name' => 'Test',

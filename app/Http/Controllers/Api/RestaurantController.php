@@ -364,13 +364,13 @@ class RestaurantController extends Controller
         } else {
             return response()->json([
                 "message" => "Restaurant already followed",
-                "restaurant" => $restaurant,
+                "restaurant" => $restaurant->load('offers'),
             ], 400);
         }
 
         return response()->json([
             "message" => "Restaurant followed",
-            "restaurant" => $restaurant
+            "restaurant" => $restaurant->load('offers'),
         ], 200);
     }
 
@@ -412,6 +412,11 @@ class RestaurantController extends Controller
         $user = auth()->user();
 
         $restaurants = $user->restaurants()->paginate(10);
+
+        // loop through restaurants and load the offers
+        foreach ($restaurants as $restaurant) {
+            $restaurant->load('offers');
+        }
 
         return response()->json([
             "message" => "Restaurants followed",
