@@ -276,33 +276,64 @@ class DatabaseSeeder extends Seeder
         // $user->attachRole($role);
 
 
+        // MenuCategory::factory()->create([
+        //     'restaurant_id' => $restaurant->id,
+        //     'title' => 'Pizza',
+        //     'notes' => 'Pizza notes',
+        // ]);
+        // MenuCategory::factory()->create([
+        //     'restaurant_id' => $restaurant->id,
+        //     'title' => 'Pasta',
+        //     'notes' => 'Pasta notes',
+        // ]);
+        // MenuCategory::factory()->create([
+        //     'restaurant_id' => $restaurant->id,
+        //     'title' => 'Drinks',
+        //     'notes' => 'Drinks notes',
+        // ]);
+        // MenuCategory::factory()->create([
+        //     'restaurant_id' => $restaurant->id,
+        //     'title' => 'Desserts',
+        //     'notes' => 'Desserts notes',
+        // ]);
         MenuCategory::factory()->create([
-            'restaurant_id' => $restaurant->id,
-            'title' => 'Pizza',
+            'title' => 'Pizzas',
             'notes' => 'Pizza notes',
         ]);
+
         MenuCategory::factory()->create([
-            'restaurant_id' => $restaurant->id,
             'title' => 'Pasta',
             'notes' => 'Pasta notes',
         ]);
+
         MenuCategory::factory()->create([
-            'restaurant_id' => $restaurant->id,
             'title' => 'Drinks',
             'notes' => 'Drinks notes',
         ]);
+
         MenuCategory::factory()->create([
-            'restaurant_id' => $restaurant->id,
             'title' => 'Desserts',
             'notes' => 'Desserts notes',
         ]);
+
         MenuCategory::factory()->create([
-            'restaurant_id' => $restaurant->id,
-            'title' => 'Sides',
+            'title' => 'Burgers',
             'notes' => 'Sides notes',
         ]);
 
-        MenuItem::factory(50)->create();
+        MenuItem::factory(20)->create([
+            'title' => 'Pizza',
+            'description' => 'Pizza description',
+            'price' => 10.00,
+            'menu_category_id' => 1,
+        ]);
+
+        MenuItem::factory(20)->create([
+            'title' => 'Burger',
+            'description' => 'Burger description',
+            'price' => 10.00,
+            'menu_category_id' => 5,
+        ]);
 
         // MenuItem::factory()->create([
         //     'restaurant_id' => $restaurant->id,
