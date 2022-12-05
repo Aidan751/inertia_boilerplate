@@ -16,7 +16,7 @@ class RestaurantFactory extends Factory
         return [
             'restaurant_category_id' => 1,
             'application_status' => 'approved',
-            'name' => 'aidans business',
+            'name' => $this->faker->name,
             'address_line_1' => $this->faker->streetAddress,
             'address_line_2' => $this->faker->secondaryAddress,
             'town' => $this->faker->city,

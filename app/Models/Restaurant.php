@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Models\Logo;
+use App\Models\User;
 use App\Models\Order;
 use App\Models\Banner;
 use App\Models\GroupDeal;
@@ -136,5 +137,10 @@ class Restaurant extends Model
 public function getFullAddressAttribute() {
     // todo: change before testing
     return '26 Wilson Street, Larkhall, South Lanarkshire, ML9 2QF';
+}
+
+// restaurant has many users
+public function users() {
+    return $this->hasMany(User::class);
 }
 }

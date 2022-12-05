@@ -26,13 +26,13 @@ class RestaurantController extends Controller
        })
         // has('restaurant')
         ->get()->sortBy('name')->values();
-        
+
         return response($query, 200);
     }
 
     public function allCategories(Request $request) {
         $query = RestaurantCategory::get()->sortBy('name')->values();
-        
+
         return response($query, 200);
     }
 
@@ -48,7 +48,7 @@ class RestaurantController extends Controller
         $restaurant = Restaurant::with( ['media','tableNumbers', 'collectionTimes', 'offers', 'menuCategories', 'openingHours' => function($query) use ($day, $time) {
             $query->where('day_id', $day)->whereTime('from', '<=', $time)->whereTime('to', '>', $time);
         }])
-            
+
         ->where('id', $id)->firstOrFail();
 
         $logo = $restaurant->getMedia('logos');
@@ -86,10 +86,10 @@ class RestaurantController extends Controller
 
             $res = Http::get($google);
             $responseBody = json_decode($res->body(), true);
-        
+
             $distanceInMiles = ceil($responseBody['rows'][0]['elements'][0]['distance']['value'] *  0.00062137);
             $timeInMinutes = ceil($responseBody['rows'][0]['elements'][0]['duration']['value'] / 60);
-                 
+
             $fee = (($timeInMinutes * $configurations[1]['price']) + ($distanceInMiles * $configurations[0]['price']));
             $roundedFee = round($fee, 2);
             $restaurant->setAttribute('delivery_charge', $roundedFee);
@@ -143,7 +143,7 @@ class RestaurantController extends Controller
         }
 
         // Create a model for this restaurant
-        
+
         // Update the parameters
         $restaurant->name = $request->restaurantName;
 
@@ -151,8 +151,8 @@ class RestaurantController extends Controller
 
         $restaurant->address_line_1 = $request->addressLine1;
         if (!is_null($request->addressLine2)) {
-            $restaurant->address_line_2 = $request->addressLine2;     
-        } 
+            $restaurant->address_line_2 = $request->addressLine2;
+        }
         $restaurant->town = $request->town;
         $restaurant->county = $request->county;
         $restaurant->postcode = $request->postcode;
@@ -192,7 +192,7 @@ class RestaurantController extends Controller
         $user->email = $request->email;
         $password = Str::random(8);
         $user->password = bcrypt($password);
- 
+
          // Save to the database
         $user->save();
 
@@ -253,7 +253,7 @@ class RestaurantController extends Controller
     public function list(Request $request) {
 
         $orderMethod = $request->order_method;
-  
+
         $radius = 150; // Radius in miles
         $latitude = $request->latitude;
         $longitude = $request->longitude;
@@ -289,7 +289,7 @@ class RestaurantController extends Controller
         // })
         ->where('application_status', 'approved')
         ->where('stripe_status', 'complete')
-            ->isWithinMaxDistance($latitude, $longitude, $radius)  
+            ->isWithinMaxDistance($latitude, $longitude, $radius)
             ->when($filter != null && $filter != 0, function($query) use ($filter) {
 
                 return $query->where('restaurant_category_id', '=', $filter);
@@ -302,14 +302,14 @@ class RestaurantController extends Controller
                 $logo = $restaurant->getMedia('logos');
                 $banner = $restaurant->getMedia('banners');
 
-        
+
                 if(!$logo->isEmpty()){
                     $restaurant->setAttribute('logo', $url . $logo[0]->getFullUrl());
                 }
                 else{
                     $restaurant->setAttribute('logo', null);
                 }
-        
+
                 if(!$banner->isEmpty()){
                     $restaurant->setAttribute('banner', $url . $banner[0]->getFullUrl());
                 }
@@ -317,19 +317,19 @@ class RestaurantController extends Controller
                     $restaurant->setAttribute('banner', null);
                 }
 
-               
+
 
                 if ($restaurant->company_drivers == 1) {
-                
+
                     $google = 'https://maps.googleapis.com/maps/api/distancematrix/json?units=imperial&origins=' . $latitude . ',' . $longitude . '&destinations=' . $restaurant->latitude . ',' . $restaurant->longitude . '&key=' . $googleApiKey;
 
                     $res = Http::get($google);
                     $responseBody = json_decode($res->body(), true);
-        
+
                     $distanceInMiles = ceil($responseBody['rows'][0]['elements'][0]['distance']['value'] *  0.00062137);
                     $timeInMinutes = ceil($responseBody['rows'][0]['elements'][0]['duration']['value'] / 60);
-                
-    
+
+
                     //  $fee = $this->roundUpToAny
                     $fee = (($timeInMinutes * $configurations[1]['price']) + ($distanceInMiles * $configurations[0]['price']));
                     $roundedFee = round($fee, 2);
@@ -337,7 +337,31 @@ class RestaurantController extends Controller
                     $restaurant->setAttribute('time_in_minutes', $timeInMinutes);
                     $restaurant->setAttribute('distance_in_miles', $distanceInMiles);
                 }
-            }   
+            }
         return response($query, 200);
+    }
+
+      /**
+     * follow a restaurant
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function follow(Request $request, Restaurant $restaurant)
+    {
+        $user = auth()->user();
+        $restaurant = Restaurant::find($restaurant->id);
+
+        if ($restaurant == null) {
+            return response()->json([
+                "message" => "Restaurant not found",
+            ], 404);
+        }
+
+        $user->follow($restaurant);
+
+        return response()->json([
+            "message" => "Restaurant followed",
+        ], 200);
     }
 }

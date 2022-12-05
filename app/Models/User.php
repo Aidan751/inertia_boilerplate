@@ -4,17 +4,18 @@ namespace App\Models;
 
 use App\Models\Role;
 use App\Models\Order;
+use App\Models\Restaurant;
 use App\Models\Configuration;
-use Laravel\Sanctum\HasApiTokens;
 use Laravel\Cashier\Billable;
+use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-use Illuminate\Foundation\Auth\User as Authenticatable;
-use ExpDev07\CashierConnect\Contracts\StripeAccount;
 use Laravel\Cashier\Billable as CashierBillable;
+use ExpDev07\CashierConnect\Contracts\StripeAccount;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 use ExpDev07\CashierConnect\Billable as ConnectBillable;
 
 class User extends Authenticatable implements StripeAccount
@@ -80,5 +81,11 @@ class User extends Authenticatable implements StripeAccount
     public function getFullName()
     {
         return "{$this->first_name} {$this->last_name}";
+    }
+
+    // user belongs to many restaurants
+    public function restaurants()
+    {
+        return $this->belongsToMany(Restaurant::class, 'user_restaurant');
     }
 }

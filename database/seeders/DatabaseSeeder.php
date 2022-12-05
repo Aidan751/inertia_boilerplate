@@ -12,6 +12,7 @@ use App\Models\Banner;
 use App\Models\MenuItem;
 use App\Models\GroupDeal;
 use App\Models\OrderItem;
+use App\Models\Restaurant;
 use App\Models\OpeningHour;
 use App\Models\MenuCategory;
 use App\Models\Configuration;
@@ -79,6 +80,8 @@ class DatabaseSeeder extends Seeder
             'allows_delivery' => 1,
             'stripe_account_id' => 'acct_1LXNmvLaeslmuKuI',
         ]);
+
+        Restaurant::factory()->count(10)->create();
 
 
        $restaurant_user = User::factory()->create([
@@ -459,15 +462,16 @@ class DatabaseSeeder extends Seeder
         //     );
         // });
 
-        // $sizes = Size::all();
-
-        // MenuItem::all()->each(function ($menuItem) use ($sizes) {
-        //     $menuItem->sizes()->attach(
-        //         $sizes->random(rand(1, 5))->pluck('id', 'name', 'additional_charge', 'restaurant_id')->toArray()
-        //     );
-        // });
+        $restaurants = Restaurant::all();
 
 
+        User::all()->each(function ($user) use ($restaurants) {
+            $user->restaurants()->attach(
+                $restaurants->random(rand(1, 5))->pluck('id', 'name', 'description', 'address', 'phone', 'email', 'image')->toArray()
+            );
+        });
 
     }
+
+
 }

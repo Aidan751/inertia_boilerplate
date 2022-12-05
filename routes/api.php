@@ -101,6 +101,12 @@ Route::get('/restaurants/{id}', [AdminRestaurantsController::class, 'edit']);
 // update a restaurant
 Route::put('/restaurants/{id}', [AdminRestaurantsController::class, 'update']);
 
+// follow restaurants
+Route::post('/restaurants/follow', [AdminRestaurantsController::class, 'follow']);
+
+// unfollow restaurants
+Route::post('/restaurants/unfollow', [AdminRestaurantsController::class, 'unfollow']);
+
 // list call centre users
 Route::get('/call-centre-users', [AdminCallCentreUserController::class, 'index']);
 
