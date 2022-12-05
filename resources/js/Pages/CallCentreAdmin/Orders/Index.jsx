@@ -198,7 +198,7 @@ export default function Index(props) {
         if (item.id === menu_item.menu_item.id) {
           let newItem = {
             menu_item: {
-              id: menu_item.id,
+              id: item.id,
               menu_category_id: item.menu_category_id,
               restaurant_id: 1,
               title: menu_item.menu_item.title,
@@ -220,14 +220,16 @@ export default function Index(props) {
 
           // remove existing selected item
           newSelectedItems = newSelectedItems.filter(
-            (item) => item.menu_item.id !== menu_item.menu_item.id
+            (item) => {
+              console.log(item.menu_item);
+              return item.menu_item.id !== menu_item.menu_item.id;
+            }
           );
           newSelectedItems.push(newItem);
         }
       });
     });
 
-    setEditExtras([]);
     setEditSize(null);
     setShowEditItemModal(false);
     basicNonStickyNotificationToggle();
@@ -392,7 +394,10 @@ export default function Index(props) {
 
     if (isChecked) {
       setEditSize(value);
+    } else {
+      setEditSize(null);
     }
+
   };
 
   const handleEditObjectExtrasChange = (e, extra) => {
@@ -734,8 +739,7 @@ export default function Index(props) {
                                         title: title,
                                         image: image,
                                         description: description,
-                                        dietary_requirements:
-                                          dietary_requirements,
+                                        dietary_requirements:dietary_requirements,
                                         price: price,
                                         sizes: sizes,
                                         extras: extras,
@@ -913,6 +917,7 @@ export default function Index(props) {
                               item.edit_mode &&
                               <div className="flex items-center cursor-pointer transition duration-300 ease-in-out bg-white dark:bg-darkmode-600 hover:bg-slate-100 dark:hover:bg-darkmode-400 rounded-md">
                               {"- "}
+                              {console.log(item)}
                             {
                               item.size.name}{" "}
                             :{" "}
@@ -1146,7 +1151,6 @@ export default function Index(props) {
             <ModalHeader>
               <div className="flex flex-col pt-0 p-5">
                 <h2 className="font-medium text-base mr-auto mb-5 mt-5">
-                {console.log(activeEditItemObject)}
                   {activeEditItemObject &&
                     activeEditItemObject.menu_item &&
                     activeEditItemObject.menu_item.title}
@@ -1204,6 +1208,7 @@ export default function Index(props) {
                               name="size"
                               value={size.id}
                               onChange={handleEditObjectSizeChange}
+                              checked={size === size.id}
                             />{" "}
                             <p className="ml-2">{size.name}</p>
                             {size.additional_charge !== 0 && (
