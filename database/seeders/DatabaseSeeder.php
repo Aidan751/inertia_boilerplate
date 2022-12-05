@@ -198,6 +198,7 @@ class DatabaseSeeder extends Seeder
             'day_id' => 7,
         ]);
 
+
         // CollectionTime::factory()->create([
         //     'restaurant_id' => $restaurant->id,
         //     'from' => '10:00:00',
@@ -275,32 +276,33 @@ class DatabaseSeeder extends Seeder
         // $user->attachRole($role);
 
 
-        // MenuCategory::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'title' => 'Pizza',
-        //     'notes' => 'Pizza notes',
-        // ]);
-        // MenuCategory::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'title' => 'Pasta',
-        //     'notes' => 'Pasta notes',
-        // ]);
-        // MenuCategory::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'title' => 'Drinks',
-        //     'notes' => 'Drinks notes',
-        // ]);
-        // MenuCategory::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'title' => 'Desserts',
-        //     'notes' => 'Desserts notes',
-        // ]);
-        // MenuCategory::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'title' => 'Sides',
-        //     'notes' => 'Sides notes',
-        // ]);
+        MenuCategory::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'title' => 'Pizza',
+            'notes' => 'Pizza notes',
+        ]);
+        MenuCategory::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'title' => 'Pasta',
+            'notes' => 'Pasta notes',
+        ]);
+        MenuCategory::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'title' => 'Drinks',
+            'notes' => 'Drinks notes',
+        ]);
+        MenuCategory::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'title' => 'Desserts',
+            'notes' => 'Desserts notes',
+        ]);
+        MenuCategory::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'title' => 'Sides',
+            'notes' => 'Sides notes',
+        ]);
 
+        MenuItem::factory(50)->create();
 
         // MenuItem::factory()->create([
         //     'restaurant_id' => $restaurant->id,

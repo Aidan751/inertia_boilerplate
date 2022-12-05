@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Size;
 use App\Models\Extra;
 use App\Models\MenuImage;
+use App\Models\Restaurant;
 use App\Models\MenuCategory;
 use App\Models\GroupDealSingleItem;
 use Illuminate\Database\Eloquent\Model;
@@ -58,5 +59,11 @@ class MenuItem extends Model
     public function menuCategory()
     {
         return $this->hasOne(MenuCategory::class);
+    }
+
+    // menu items belong to a restaurant
+    public function restaurant()
+    {
+        return $this->belongsTo(Restaurant::class);
     }
 }

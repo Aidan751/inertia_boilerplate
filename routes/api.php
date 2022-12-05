@@ -111,6 +111,12 @@ Route::post('/restaurants/unfollow/{restaurant}', [RestaurantController::class, 
 // get all followed restaurants for a user
 Route::get('/restaurants/followed/all', [RestaurantController::class, 'getFollowedRestaurants']);
 
+// search for restaurants with searched for menu item in list view
+Route::post('/restaurants/menu-items/search/list', [RestaurantController::class, 'menuItemSearchList']);
+
+// search for restaurants with searched for menu item in item view
+Route::post('/restaurants/menu-items/search', [RestaurantController::class, 'menuItemSearch']);
+
 // list call centre users
 Route::get('/call-centre-users', [AdminCallCentreUserController::class, 'index']);
 

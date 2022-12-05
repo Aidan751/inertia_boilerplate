@@ -20,6 +20,7 @@ class MenuItemFactory extends Factory
             'description' => $this->faker->text,
             'dietary_requirements' => $this->faker->text,
             'price' => $this->faker->randomFloat(2, 0, 100),
+            'menu_category_id' => $this->faker->numberBetween(1, 5),
         ];
 
     }

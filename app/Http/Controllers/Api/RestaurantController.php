@@ -2,21 +2,24 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
-
-use App\Models\Restaurant;
-use App\Models\RestaurantCategory;
-use App\Models\Configuration;
-use App\Models\User;
-use App\Models\UserStripe;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Facades\Log;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Storage;
-use Spatie\Geocoder\Facades\Geocoder;
+use App\Models\User;
+
+use App\Models\MenuItem;
+use App\Models\Restaurant;
+use App\Models\UserStripe;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\Configuration;
+use App\Models\RestaurantCategory;
+use Illuminate\Support\Facades\Log;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Mail;
+use Spatie\Geocoder\Facades\Geocoder;
+use Illuminate\Support\Facades\Storage;
+use Symfony\Component\Console\Input\Input;
 
 
 class RestaurantController extends Controller
@@ -421,6 +424,51 @@ class RestaurantController extends Controller
         return response()->json([
             "message" => "Restaurants followed",
             "restaurants" => $restaurants
+        ], 200);
+    }
+
+    /**
+     * create a search based on a menu item that is searched for and return the restaurants that have that menu item
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function menuItemSearchList(Request $request)
+    {
+        $user = Auth::user();
+        $search = $request->search;
+        // find menu items based off search query pagination
+        $menuItems = MenuItem::where('title', 'like', '%' . $search . '%')->with('restaurant')->paginate(10);
+
+
+        //  return the restaurants
+        return response()->json([
+            "message" => "Items found",
+            "menuItems" => $menuItems
+        ], 200);
+    }
+
+     /**
+     * create a search based on a menu item that is searched for and return the restaurants that have that menu item in item view
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function menuItemSearch(Request $request)
+    {
+        $user = Auth::user();
+        $search = $request->search;
+
+        // perform search query to check a searched item and display a list of restaurants that have that item
+        $restaurants = $restaurants->filter(function ($restaurant) use ($search) {
+            return $restaurant->menuItems->contains('title', $search);
+        });
+        dd($restaurants);
+
+        //  return the menu items
+        return response()->json([
+            "message" => "Items found",
+            "menuItems" => $menuItems
         ], 200);
     }
 }
