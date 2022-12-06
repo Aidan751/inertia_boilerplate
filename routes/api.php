@@ -121,16 +121,16 @@ Route::post('/restaurants/menu-items/search', [RestaurantController::class, 'men
 Route::get('/call-centre-users', [AdminCallCentreUserController::class, 'index']);
 
 // list orders
-Route::get('/orders', [OrderController::class, 'getAll']);
+Route::get('/orders/all', [OrderController::class, 'getAllOrders']);
 
 // get all orders for the restaurant
-Route::get('/orders/{restaurant}', [OrderController::class, 'getOrders']);
+Route::get('/orders/{restaurant}', [OrderController::class, 'getOrdersForRestaurant']);
 
 // add a new order
 Route::post('/orders', [OrderController::class, 'add']);
 
 // list orders
-Route::get('/orders', [OrderController::class, 'list']);
+Route::get('/orders/list', [OrderController::class, 'list']);
 
 // get a single order
 Route::get('/orders/{id}', [OrderController::class, 'show']);

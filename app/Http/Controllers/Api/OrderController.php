@@ -55,29 +55,28 @@ class OrderController extends Controller
     // Retrieve available orders within the next 10 minutes (or sooner)
 
     public function availableFares(Request $request) {
-     dd('hello');
 
-        // $radius = 150; // Radius in miles
-        // $latitude = $request->latitude;
-        // $longitude = $request->longitude;
+        $radius = 150; // Radius in miles
+        $latitude = $request->latitude;
+        $longitude = $request->longitude;
 
-        // $query = Order::with('restaurant')
-        //     ->whereHas('restaurant', function($q) use ($latitude, $longitude, $radius) {
-        //         $q->isWithinMaxDistance($latitude, $longitude, $radius);
-        //     })
-        //     ->where('pickup_method', '=', 'delivery')
-        //     ->where('payment_status', 'paid')
-        //     ->where('status', '=', 'confirmed')
-        //     ->where('driver_id', '=', null)
-        //     ->where('pickup_date', '<=', Carbon::now()->addMinutes(10))
-        //     ->orderBy('pickup_date', 'asc')
-        //     ->paginate(25);
+        $query = Order::with('restaurant')
+            ->whereHas('restaurant', function($q) use ($latitude, $longitude, $radius) {
+                $q->isWithinMaxDistance($latitude, $longitude, $radius);
+            })
+            ->where('pickup_method', '=', 'delivery')
+            ->where('payment_status', 'paid')
+            ->where('status', '=', 'confirmed')
+            ->where('driver_id', '=', null)
+            ->where('pickup_date', '<=', Carbon::now()->addMinutes(10))
+            ->orderBy('pickup_date', 'asc')
+            ->paginate(25);
 
-        //     if($query){
-        //         return response($query, 200);
-        //     } else {
-        //         return response('No fares found', 404);
-        //     }
+            if($query){
+                return response($query, 200);
+            } else {
+                return response('No fares found', 404);
+            }
     }
 
     public function add(Request $request) {
@@ -258,7 +257,7 @@ class OrderController extends Controller
 
     }
 
-    public function getOrders(Restaurant $restaurant, Request $request)
+    public function getOrdersForRestaurant(Restaurant $restaurant, Request $request)
     {
         $orders = $restaurant->orders()->with('items')->get();
         return response($orders, 200);
@@ -266,9 +265,9 @@ class OrderController extends Controller
 
 
     // get all orders
-    public function getAll()
+    public function getAllOrders()
     {
-        $orders = Order::all();
+        $orders = Order::with('items')->get();
 
         return response($orders, 200);
     }
@@ -278,9 +277,11 @@ class OrderController extends Controller
     public function update(Request $request, Order $order)
     {
         $user = Auth::user();
-        $stripe = new \Stripe\StripeClient(
-            config('services.stripe_secret_key')
+
+        $stripe = new StripeClient(
+            config('stripe.sk')
         );
+
 
         $appName = config('app.name');
 
@@ -291,78 +292,13 @@ class OrderController extends Controller
 
         $order->updated_at = Carbon::now();
 
-        dd($order, $user, $request->all(), $stripe);
-        // check if the user is a restaurant user
-        if ($user->role != 'restaurant') {
-            return response()->json([
-                "message" => "You are not a restaurant user",
-            ], 400);
-        }
-
-        // check if the order belongs to the restaurant
-        if ($order->restaurant_id != $user->restaurant->id) {
-            return response()->json([
-                "message" => "You do not own this order",
-            ], 400);
-        }
-
-        // check if the order is already confirmed
-        if ($order->status == 'confirmed') {
-            return response()->json([
-                "message" => "Order already confirmed",
-            ], 400);
-        }
-
-        // check if the order is already cancelled
-        if ($order->status == 'cancelled') {
-            return response()->json([
-                "message" => "Order already cancelled",
-            ], 400);
-        }
-
-        // check if the order is already completed
-        if ($order->status == 'completed') {
-            return response()->json([
-                "message" => "Order already completed",
-            ], 400);
-        }
-
-        // check if the order is already accepted
-        if ($order->status == 'accepted') {
-            return response()->json([
-                "message" => "Order already accepted",
-            ], 400);
-        }
-
-        // check if the order already has a driver en route
-        if ($order->status == 'driver_en_route') {
-            return response()->json([
-                "message" => "Order already has a driver en route",
-            ], 400);
-        }
-
-        // check if the order is already picked up
-        if ($order->status == 'order_en_route') {
-            return response()->json([
-                "message" => "Order already picked up",
-            ], 400);
-        }
-
-        // check if the order is already delivered
-        if ($order->status == 'completed') {
-            return response()->json([
-                "message" => "Order already delivered",
-            ], 400);
-        }
-
-
         if (!is_null($request->driver_id)) {
-
             if ($order->driver_id != null ) {
                 $order->status = 'driver-en-route';
                 $order->driver_id = $request->driver_id;
                 $order->save();
                 $driver = UserDriver::where('user_id', $request->driver_id)->first();
+                dd($driver);
                 $driver->availability_status = "order-in-progress";
                 $driver->save();
 
@@ -429,7 +365,8 @@ class OrderController extends Controller
             }
         }
         return response()->json([
-            "message" => "Order successfully updated!"
+            "message" => "Order successfully updated!",
+            "order" => $order,
         ], 201);
     }
 
