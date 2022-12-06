@@ -437,14 +437,19 @@ class RestaurantController extends Controller
     {
         $user = Auth::user();
         $search = $request->search;
-        // find menu items based off search query pagination
-        $menuItems = MenuItem::where('title', 'like', '%' . $search . '%')->with('restaurant')->paginate(10);
 
+        // get all menu items based off search query
+        $menuItems = MenuItem::where('title', $search)->get();
 
-        //  return the restaurants
+         // get all the restaurants that have the menu item
+         $restaurants = Restaurant::whereHas('menuItems', function ($query) use ($menuItems) {
+            $query->whereIn('id', $menuItems->pluck('id'));
+        })->paginate(10);
+
+        //  return the menu items
         return response()->json([
-            "message" => "Items found",
-            "menuItems" => $menuItems
+            "message" => "Restaurants containing " . $search,
+            "restaurants" => $restaurants
         ], 200);
     }
 
@@ -459,16 +464,20 @@ class RestaurantController extends Controller
         $user = Auth::user();
         $search = $request->search;
 
-        // perform search query to check a searched item and display a list of restaurants that have that item
-        $restaurants = $restaurants->filter(function ($restaurant) use ($search) {
-            return $restaurant->menuItems->contains('title', $search);
+        // get all menu items based off search query
+        $menuItems = MenuItem::where('title', $search)->get();
+
+        // get all the restaurants that have the menu item
+        $restaurants = $menuItems->map(function ($item) {
+            return $item->restaurant;
         });
-        dd($restaurants);
+
+
 
         //  return the menu items
         return response()->json([
-            "message" => "Items found",
-            "menuItems" => $menuItems
+            "message" => "Restaurants containing " . $search,
+            "restaurants" => $restaurants
         ], 200);
     }
 }

@@ -21,6 +21,5 @@ class MenuItemFactory extends Factory
             'dietary_requirements' => $this->faker->text,
             'price' => $this->faker->randomFloat(2, 0, 100),
         ];
-
     }
 }
