@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Extra;
+use App\Models\MenuItem;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\DB;
@@ -108,7 +109,12 @@ class ExtraController extends Controller
         // delete the extra
         $extra->delete();
 
+        $menu_items = MenuItem::where('restaurant_id', Auth::user()->restaurant_id)->get();
+        foreach ($menu_items as $menu_item) {
+            $menu_item->extras()->detach($extra->id);
+        }
+
         // return the response
-        return response()->json(null, Response::HTTP_OK);
+        return response()->json(null, Response::HTTP_NO_CONTENT);
     }
 }

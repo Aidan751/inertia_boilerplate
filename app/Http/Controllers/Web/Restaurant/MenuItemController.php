@@ -240,6 +240,16 @@ class MenuItemController extends Controller
     {
         // get the menu item
         $menuItem = MenuItem::find($id);
+
+        // detach sizes from menu item
+        $menuItem->sizes()->detach();
+
+        // detach extras from menu item
+        $menuItem->extras()->detach();
+
+        // delete the image
+        ImagePackage::delete($menuItem->image);
+
         // Delete the menu item
         $menuItem->delete();
 
