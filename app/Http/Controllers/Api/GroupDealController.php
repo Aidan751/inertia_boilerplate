@@ -86,7 +86,6 @@ class GroupDealController extends Controller
                     "group_deal_id" => $group_deal->id,
                 ]);
             }
-
         }
 
         // return the response
@@ -108,12 +107,14 @@ class GroupDealController extends Controller
         // get the user
         $user = Auth::user();
 
-        // validate the request
-        $request->validate([
+         // validate the request
+         $request->validate([
             'title' => 'required',
             'description' => 'nullable',
             'image' => 'nullable',
-            'group_deal_price' => 'required',
+            'group_deal_price' => 'string|required',
+            'group_deal_items' => 'required|array',
+            'menu_items' => 'required|array',
         ]);
 
         // get the group deal
@@ -123,13 +124,37 @@ class GroupDealController extends Controller
         $group_deal->update([
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $request->hasFile('image') ? ImagePackage::save($request->file('image'), 'group_deals') : null,
+            'image' => $request->hasFile('image') ? ImagePackage::save($request->file('image'), 'group_deals') : $group_deal->image,
             'group_deal_price' => $request->group_deal_price,
             'restaurant_id' => $user->restaurant_id,
         ]);
 
-        return response()->json($group_deal, Response::HTTP_OK);
-    }
+        // delete the group deal items
+        foreach($group_deal->groupDealItems as $group_deal_item) {
+            $group_deal_item->deleteGroupDealSingleItems();
+            $group_deal_item->delete();
+        }
+
+
+        foreach (json_decode($request->group_deal_items[0]) as $key => $group_deal_item) {
+            $group_deal_item = $group_deal->groupDealItems()->create([
+                "title" => $group_deal_item->title,
+            ]);
+
+            foreach (json_decode($request->menu_items[0])[$key] as $item) {
+                $group_deal_single_item = $group_deal_item->groupDealSingleItems()->create([
+                    "menu_item_id" => $item->id,
+                    "group_deal_id" => $group_deal->id,
+                ]);
+            }
+        }
+
+            // return the response
+            return response()->json([
+                'message' => 'Group deal updated successfully',
+                'group_deal' => $group_deal->load('groupDealItems.groupDealSingleItems.menuItem.extras', 'groupDealItems.groupDealSingleItems.menuItem.sizes'),
+            ], Response::HTTP_OK);
+        }
 
     /**
      * Delete a group deal
