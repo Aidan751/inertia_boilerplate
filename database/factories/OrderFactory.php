@@ -15,7 +15,7 @@ class OrderFactory extends Factory
     {
         return [
             'order_reference' => $this->faker->unique()->randomNumber(8),
-            'restaurant_id' => 1,
+            'restaurant_id' => $this->faker->numberBetween(1, 10),
             'customer_id' => $this->faker->numberBetween(1, 10),
             'driver_id' => $this->faker->numberBetween(1, 10),
             'call_center_id' => 1,
