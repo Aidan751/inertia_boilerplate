@@ -17,8 +17,7 @@ class ExtraFactory extends Factory
             'name' => $this->faker->name,
             'description' => $this->faker->text,
             'additional_charge' => $this->faker->randomFloat(2, 0, 100),
-            'restaurant_id' => 1,
-
+            'restaurant_id' => $this->faker->numberBetween(1, 10),
         ];
     }
 }

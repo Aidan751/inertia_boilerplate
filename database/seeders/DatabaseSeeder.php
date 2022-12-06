@@ -481,18 +481,28 @@ class DatabaseSeeder extends Seeder
 
         OrderItem::factory(500)->create();
 
+        Extra::factory(100)->create();
+
+        Size::factory(100)->create();
 
         // Configuration::factory()->create([
         //     'mile' => 0.00,
         //     'minute' => 0.00,
         // ]);
 
-        // $extras = Extra::all();
-        // MenuItem::all()->each(function ($menuItem) use ($extras) {
-        //     $menuItem->extras()->attach(
-        //         $extras->random(rand(1, 5))->pluck('id', 'name', 'description', 'additional_charge', 'restaurant_id')->toArray()
-        //     );
-        // });
+        $extras = Extra::all();
+        MenuItem::all()->each(function ($menuItem) use ($extras) {
+            $menuItem->extras()->attach(
+                $extras->random(rand(1, 100))->pluck('id', 'name', 'description', 'additional_charge')->toArray()
+            );
+        });
+
+        $sizes = Size::all();
+        MenuItem::all()->each(function ($menuItem) use ($sizes) {
+            $menuItem->sizes()->attach(
+                $sizes->random(rand(1, 100))->pluck('id', 'name', 'additional_charge')->toArray()
+            );
+        });
 
         // $restaurants = Restaurant::all();
 

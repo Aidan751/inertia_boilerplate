@@ -22,20 +22,11 @@ class GroupDealController extends Controller
     public function index(Request $request)
     {
 
-        $group_deals = DB::table('group_deals')->get();
+        $group_deals = GroupDeal::all();
 
-        // loop through group deals and load group deal items and group deal single items including extras and sizes
+        // loop through group deals
         foreach ($group_deals as $group_deal) {
-            $group_deal->items = DB::table('group_deal_items')->where('group_deal_id', $group_deal->id)->get();
-            foreach ($group_deal->items as $item) {
-                $item->extras = DB::table('group_deal_item_extras')->where('group_deal_item_id', $item->id)->get();
-                $item->sizes = DB::table('group_deal_item_sizes')->where('group_deal_item_id', $item->id)->get();
-            }
-            $group_deal->single_items = DB::table('group_deal_single_items')->where('group_deal_id', $group_deal->id)->get();
-            foreach ($group_deal->single_items as $single_item) {
-                $single_item->extras = DB::table('group_deal_single_item_extras')->where('group_deal_single_item_id', $single_item->id)->get();
-                $single_item->sizes = DB::table('group_deal_single_item_sizes')->where('group_deal_single_item_id', $single_item->id)->get();
-            }
+          $group_deal->load('groupDealItems.groupDealSingleItems.menuItem.extras', 'groupDealItems.groupDealSingleItems.menuItem.sizes');
         }
 
         return response()->json($group_deals, Response::HTTP_OK);
@@ -49,7 +40,8 @@ class GroupDealController extends Controller
      */
     public function show(Request $request, $id)
     {
-        $group_deal = DB::table('group_deals')->where('id', $id)->first();
+        $group_deal = GroupDeal::where('id', $id)->first();
+        $group_deal->load('groupDealItems.groupDealSingleItems.menuItem.extras', 'groupDealItems.groupDealSingleItems.menuItem.sizes');
 
         return response()->json($group_deal, Response::HTTP_OK);
     }
