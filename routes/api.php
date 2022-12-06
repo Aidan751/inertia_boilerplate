@@ -94,130 +94,133 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/stripe/create-session', [StripeController::class, 'createSession']);
 
     // create a new restaurant
-Route::post('/restaurants', [AdminRestaurantsController::class, 'store']);
+    Route::post('/restaurants', [AdminRestaurantsController::class, 'store']);
 
-// get all restaurants
-Route::get('/restaurants', [AdminRestaurantsController::class, 'index']);
-// just to test edit works
-Route::get('/restaurants/{id}', [AdminRestaurantsController::class, 'edit']);
-// update a restaurant
-Route::put('/restaurants/{id}', [AdminRestaurantsController::class, 'update']);
+    // get all restaurants
+    Route::get('/restaurants', [AdminRestaurantsController::class, 'index']);
+    // just to test edit works
+    Route::get('/restaurants/{id}', [AdminRestaurantsController::class, 'edit']);
+    // update a restaurant
+    Route::put('/restaurants/{id}', [AdminRestaurantsController::class, 'update']);
 
-// follow restaurants
-Route::post('/restaurants/follow/{restaurant}', [RestaurantController::class, 'follow']);
+    // follow restaurants
+    Route::post('/restaurants/follow/{restaurant}', [RestaurantController::class, 'follow']);
 
-// unfollow restaurants
-Route::post('/restaurants/unfollow/{restaurant}', [RestaurantController::class, 'unfollow']);
+    // unfollow restaurants
+    Route::post('/restaurants/unfollow/{restaurant}', [RestaurantController::class, 'unfollow']);
 
-// get all followed restaurants for a user
-Route::get('/restaurants/followed/all', [RestaurantController::class, 'getFollowedRestaurants']);
+    // get all followed restaurants for a user
+    Route::get('/restaurants/followed/all', [RestaurantController::class, 'getFollowedRestaurants']);
 
-// search for restaurants with searched for menu item in list view
-Route::post('/restaurants/menu-items/search/list', [RestaurantController::class, 'menuItemSearchList']);
+    // search for restaurants with searched for menu item in list view
+    Route::post('/restaurants/menu-items/search/list', [RestaurantController::class, 'menuItemSearchList']);
 
-// search for restaurants with searched for menu item in item view
-Route::post('/restaurants/menu-items/search', [RestaurantController::class, 'menuItemSearch']);
+    // search for restaurants with searched for menu item in item view
+    Route::post('/restaurants/menu-items/search', [RestaurantController::class, 'menuItemSearch']);
 
-// list call centre users
-Route::get('/call-centre-users', [AdminCallCentreUserController::class, 'index']);
+    // configure restaurant
+    Route::put('/restaurants/configure/{restaurant}', [RestaurantController::class, 'configure']);
 
-// list orders
-Route::get('/orders/all', [OrderController::class, 'getAllOrders']);
+    // list call centre users
+    Route::get('/call-centre-users', [AdminCallCentreUserController::class, 'index']);
 
-// get all orders for the restaurant
-Route::get('/orders/{restaurant}', [OrderController::class, 'getOrdersForRestaurant']);
+    // list orders
+    Route::get('/orders/all', [OrderController::class, 'getAllOrders']);
 
-// add a new order
-Route::post('/orders', [OrderController::class, 'add']);
+    // get all orders for the restaurant
+    Route::get('/orders/{restaurant}', [OrderController::class, 'getOrdersForRestaurant']);
 
-// list orders
-Route::get('/orders/list', [OrderController::class, 'list']);
+    // add a new order
+    Route::post('/orders', [OrderController::class, 'add']);
 
-// get a single order
-Route::get('/orders/{id}', [OrderController::class, 'show']);
+    // list orders
+    Route::get('/orders/list', [OrderController::class, 'list']);
 
-// polls for order
-Route::get('/order/{id}/polling', [OrderController::class, 'poll']);
+    // get a single order
+    Route::get('/orders/{id}', [OrderController::class, 'show']);
 
-// check if fares are available
-Route::get('/orders/available-fares', [OrderController::class, 'availableFares']);
+    // polls for order
+    Route::get('/order/{id}/polling', [OrderController::class, 'poll']);
 
-// update an order
-Route::put('/orders/{order}', [OrderController::class, 'update']);
+    // check if fares are available
+    Route::get('/orders/available-fares', [OrderController::class, 'availableFares']);
 
-// delete an order
-Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
+    // update an order
+    Route::put('/orders/{order}', [OrderController::class, 'update']);
 
-
-Route::post('/stripe/payment', [StripeController::class, 'addPaymentMethod']);
-
-Route::get('/stripe/create-session', [StripeController::class, 'createSession']);
+    // delete an order
+    Route::delete('/orders/{id}', [OrderController::class, 'destroy']);
 
 
-Route::put('/driver', [DriverController::class, 'update']);
-Route::get('/driver', [DriverController::class, 'get']);
-Route::post('/driver', [DriverController::class, 'create']);
-Route::get('/driver/nearest', [DriverController::class, 'nearest']);
+    Route::post('/stripe/payment', [StripeController::class, 'addPaymentMethod']);
 
-Route::post('/review', [ReviewController::class, 'create']);
+    Route::get('/stripe/create-session', [StripeController::class, 'createSession']);
 
 
+    Route::put('/driver', [DriverController::class, 'update']);
+    Route::get('/driver', [DriverController::class, 'get']);
+    Route::post('/driver', [DriverController::class, 'create']);
+    Route::get('/driver/nearest', [DriverController::class, 'nearest']);
 
-Route::get('/address', [AddressController::class, 'list']);
-Route::post('/address', [AddressController::class, 'add']);
-Route::delete('/address/{id}', [AddressController::class, 'delete']);
+    Route::post('/review', [ReviewController::class, 'create']);
 
 
-Route::get('/report/{id}', [ReportController::class, 'add']);
-Route::post('/location', [LocationController::class, 'update']);
-Route::post('/location/generate', [LocationController::class, 'generate']);
-Route::get('/location', [LocationController::class, 'get']);
 
-// get all group deals
-Route::get('/group-deals', [GroupDealController::class, 'index']);
+    Route::get('/address', [AddressController::class, 'list']);
+    Route::post('/address', [AddressController::class, 'add']);
+    Route::delete('/address/{id}', [AddressController::class, 'delete']);
 
-// get a single group deal
-Route::get('/group-deals/{id}', [GroupDealController::class, 'show']);
 
-// create a group deal
-Route::post('/group-deals', [GroupDealController::class, 'store']);
+    Route::get('/report/{id}', [ReportController::class, 'add']);
+    Route::post('/location', [LocationController::class, 'update']);
+    Route::post('/location/generate', [LocationController::class, 'generate']);
+    Route::get('/location', [LocationController::class, 'get']);
 
-// update a group deal
-Route::put('/group-deals/{id}', [GroupDealController::class, 'update']);
+    // get all group deals
+    Route::get('/group-deals', [GroupDealController::class, 'index']);
 
-// delete a group deal
-Route::delete('/group-deals/{id}', [GroupDealController::class, 'destroy']);
+    // get a single group deal
+    Route::get('/group-deals/{id}', [GroupDealController::class, 'show']);
 
-// get all extras
-Route::get('/extras', [ExtraController::class, 'index']);
+    // create a group deal
+    Route::post('/group-deals', [GroupDealController::class, 'store']);
 
-// get a single extra
-Route::get('/extras/{extra}', [ExtraController::class, 'show']);
+    // update a group deal
+    Route::put('/group-deals/{id}', [GroupDealController::class, 'update']);
 
-// create an extra
-Route::post('/extras', [ExtraController::class, 'store']);
+    // delete a group deal
+    Route::delete('/group-deals/{id}', [GroupDealController::class, 'destroy']);
 
-// update an extra
-Route::put('/extras/{extra}', [ExtraController::class, 'update']);
+    // get all extras
+    Route::get('/extras', [ExtraController::class, 'index']);
 
-// delete an extra
-Route::delete('/extras/{extra}', [ExtraController::class, 'destroy']);
+    // get a single extra
+    Route::get('/extras/{extra}', [ExtraController::class, 'show']);
 
-// list menu items
-Route::get('/menu-items/list', [MenuItemController::class, 'list']);
+    // create an extra
+    Route::post('/extras', [ExtraController::class, 'store']);
 
-// get all menu items
-Route::get('/menu-items', [MenuItemController::class, 'index']);
+    // update an extra
+    Route::put('/extras/{extra}', [ExtraController::class, 'update']);
 
-// get a single menu item
-Route::get('/menu-items/{menu_item}', [MenuItemController::class, 'show']);
+    // delete an extra
+    Route::delete('/extras/{extra}', [ExtraController::class, 'destroy']);
 
-// create a menu item
-Route::post('/menu-items', [MenuItemController::class, 'store']);
+    // list menu items
+    Route::get('/menu-items/list', [MenuItemController::class, 'list']);
 
-// update a menu item
-Route::put('/menu-items/{menu_item}', [MenuItemController::class, 'update']);
+    // get all menu items
+    Route::get('/menu-items', [MenuItemController::class, 'index']);
 
-// delete a menu item
-Route::delete('/menu-items/{menu_item}', [MenuItemController::class, 'destroy']);
+    // get a single menu item
+    Route::get('/menu-items/{menu_item}', [MenuItemController::class, 'show']);
+
+    // create a menu item
+    Route::post('/menu-items', [MenuItemController::class, 'store']);
+
+    // update a menu item
+    Route::put('/menu-items/{menu_item}', [MenuItemController::class, 'update']);
+
+    // delete a menu item
+    Route::delete('/menu-items/{menu_item}', [MenuItemController::class, 'destroy']);
 });

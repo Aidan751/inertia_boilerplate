@@ -480,4 +480,84 @@ class RestaurantController extends Controller
             "restaurants" => $restaurants
         ], 200);
     }
+
+    /**
+     * configure the restaurant
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function configure(Request $request, Restaurant $restaurant)
+    {
+        $user = auth()->user();
+
+        // check if the user is the owner of the restaurant
+        if ($restaurant->id != $user->restaurant_id){
+            return response()->json([
+                "message" => "You are not the admin for this restaurant",
+            ], 401);
+        }
+
+        // validate the request
+        $request->validate([
+            'name' => 'required|string',
+            'address_line_1' => 'required|string',
+            'address_line_2' => 'nullable|string',
+            'town' => 'required|string',
+            'county' => 'required|string',
+            'postcode' => 'required|string',
+            'banner' => 'nullable',
+            'logo' => 'nullable',
+            'latitude' => 'required|numeric',
+            'longitude' => 'required|numeric',
+            'contact_number' => 'nullable|string',
+            'front_facing_number' => 'nullable|string',
+            'bio' => 'nullable|string',
+            'service_charge' => 'required|numeric',
+            'minimum_order_value' => 'required|numeric',
+            'delivery_charge' => 'nullable|numeric',
+            'average_delivery_time' => 'nullable|string',
+            'stripe_account_id' => 'nullable|string',
+            'stripe_status' => 'nullable|string',
+            'company_drivers' => 'required|boolean',
+            'allows_table_orders' => 'required|boolean',
+            'allows_collection' => 'required|boolean',
+            'allows_delivery' => 'required|boolean',
+            'allows_call_center' => 'required|boolean',
+        ]);
+
+        // update the restaurant
+        $restaurant->update([
+            'name' => $request->name,
+            'address_line_1' => $request->address_line_1,
+            'address_line_2' => $request->address_line_2,
+            'town' => $request->town,
+            'county' => $request->county,
+            'postcode' => $request->postcode,
+            'banner' => $request->hasFile('banner') ? ImagePackage::save($request->file('banner'), 'restaurant_banners') : $restaurant->banner,
+            'logo' => $request->hasFile('logo') ? ImagePackage::save($request->file('logo'), 'restaurant_logos') : $restaurant->logo,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'contact_number' => $request->contact_number,
+            'front_facing_number' => $request->front_facing_number,
+            'bio' => $request->bio,
+            'service_charge' => $request->service_charge,
+            'minimum_order_value' => $request->minimum_order_value,
+            'delivery_charge' => $request->delivery_charge,
+            'average_delivery_time' => $request->average_delivery_time,
+            'stripe_account_id' => $request->stripe_account_id,
+            'stripe_status' => $request->stripe_status,
+            'company_drivers' => $request->company_drivers,
+            'allows_table_orders' => $request->allows_table_orders,
+            'allows_collection' => $request->allows_collection,
+            'allows_delivery' => $request->allows_delivery,
+            'allows_call_center' => $request->allows_call_center,
+        ]);
+
+        // return the restaurant
+        return response()->json([
+            "message" => "Restaurant updated",
+            "restaurant" => $restaurant
+        ], 200);
+    }
 }

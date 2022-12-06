@@ -167,6 +167,17 @@ class GroupDealController extends Controller
         // get the group deal
         $group_deal = GroupDeal::where('id', $group_deal)->first();
 
+        // delete the group deal items
+        foreach($group_deal->groupDealItems as $group_deal_item) {
+            $group_deal_item->deleteGroupDealSingleItems();
+            $group_deal_item->delete();
+        }
+
+        // delete the image
+        if ($group_deal->image) {
+            ImagePackage::delete($group_deal->image);
+        }
+
         // delete the group deal
         $group_deal->delete();
 
