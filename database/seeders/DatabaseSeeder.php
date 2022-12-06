@@ -17,9 +17,11 @@ use App\Models\Restaurant;
 use App\Models\OpeningHour;
 use App\Models\MenuCategory;
 use App\Models\Configuration;
+use App\Models\GroupDealItem;
 use App\Models\CollectionTime;
 use Illuminate\Database\Seeder;
 use App\Models\RestaurantCategory;
+use App\Models\GroupDealSingleItem;
 
 
 class DatabaseSeeder extends Seeder
@@ -375,112 +377,109 @@ class DatabaseSeeder extends Seeder
         //     'price' => 15.00,
         // ]);
 
-        // Extra::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'name' => 'Extra Cheese',
-        //     'description' => 'Extra Cheese',
-        //     'additional_charge' => 1.00,
-        // ]);
+        Extra::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Extra Cheese',
+            'description' => 'Extra Cheese',
+            'additional_charge' => 1.00,
+        ]);
 
-        // Extra::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'name' => 'Extra Sauce',
-        //     'description' => 'Extra Sauce',
-        //     'additional_charge' => 1.00,
-        // ]);
+        Extra::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Extra Sauce',
+            'description' => 'Extra Sauce',
+            'additional_charge' => 1.00,
+        ]);
 
-        // Extra::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'name' => 'Extra Pepperoni',
-        //     'description' => 'Extra Pepperoni',
-        //     'additional_charge' => 1.00,
-        // ]);
+        Extra::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Extra Pepperoni',
+            'description' => 'Extra Pepperoni',
+            'additional_charge' => 1.00,
+        ]);
 
-        // Extra::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'name' => 'Extra Pineapple',
-        //     'description' => 'Extra Pineapple',
-        //     'additional_charge' => 1.00,
-        // ]);
+        Extra::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Extra Pineapple',
+            'description' => 'Extra Pineapple',
+            'additional_charge' => 1.00,
+        ]);
 
-        // Extra::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'name' => 'Extra Mushrooms',
-        //     'description' => 'Extra Mushrooms',
-        //     'additional_charge' => 1.00,
-        // ]);
+        Extra::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Extra Mushrooms',
+            'description' => 'Extra Mushrooms',
+            'additional_charge' => 1.00,
+        ]);
 
-        // Size::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'name' => 'Small',
-        //     'additional_charge' => 1.00,
-        // ]);
+        Size::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Small',
+            'additional_charge' => 1.00,
+        ]);
 
-        // Size::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'name' => 'Medium',
-        //     'additional_charge' => 2.00,
-        // ]);
+        Size::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Medium',
+            'additional_charge' => 2.00,
+        ]);
 
-        // Size::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'name' => 'Large',
-        //     'additional_charge' => 3.00,
-        // ]);
+        Size::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Large',
+            'additional_charge' => 3.00,
+        ]);
 
-        // Size::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'name' => 'Extra Large',
-        //     'additional_charge' => 4.00,
-        // ]);
+        Size::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Extra Large',
+            'additional_charge' => 4.00,
+        ]);
 
-        // Size::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'name' => 'Family',
-        //     'additional_charge' => 5.00,
-        // ]);
-
-
-
-
-        // GroupDeal::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'title' => 'Pizza Deal',
-        //     'description' => 'Pizza Deal',
-        //     'group_deal_price' => 10.00,
-        // ]);
-
-        // GroupDeal::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'title' => 'Pasta Deal',
-        //     'description' => 'Pasta Deal',
-        //     'group_deal_price' => 10.00,
-        // ]);
-
-        // GroupDeal::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'title' => 'Drink Deal',
-        //     'description' => 'Drink Deal',
-        //     'group_deal_price' => 10.00,
-        // ]);
-
-        // GroupDeal::factory()->create([
-        //     'restaurant_id' => $restaurant->id,
-        //     'title' => 'Dessert Deal',
-        //     'description' => 'Dessert Deal',
-        //     'group_deal_price' => 10.00,
-        // ]);
+        Size::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'name' => 'Family',
+            'additional_charge' => 5.00,
+        ]);
 
 
 
-        // Order::factory(50)->create([
-        //     "restaurant_id" => $restaurant->id,
-        //     "customer_id" => $customer->id,
-        //     'address' => $customer->address,
-        // ]);
 
-        // OrderItem::factory(1000)->create([
-        // ]);
+        GroupDeal::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'title' => 'Pizza Deal',
+            'description' => 'Pizza Deal',
+            'group_deal_price' => 10.00,
+        ]);
+
+        GroupDeal::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'title' => 'Pasta Deal',
+            'description' => 'Pasta Deal',
+            'group_deal_price' => 10.00,
+        ]);
+
+        GroupDeal::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'title' => 'Drink Deal',
+            'description' => 'Drink Deal',
+            'group_deal_price' => 10.00,
+        ]);
+
+        GroupDeal::factory()->create([
+            'restaurant_id' => $restaurant->id,
+            'title' => 'Dessert Deal',
+            'description' => 'Dessert Deal',
+            'group_deal_price' => 10.00,
+        ]);
+
+        GroupDealItem::factory(50)->create();
+
+        GroupDealSingleItem::factory(200)->create();
+
+        Order::factory(100)->create();
+
+        OrderItem::factory(500)->create();
 
 
         // Configuration::factory()->create([
