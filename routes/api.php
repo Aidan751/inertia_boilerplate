@@ -12,6 +12,7 @@ use App\Http\Controllers\Api\ReviewController;
 use App\Http\Controllers\Api\StripeController;
 use App\Http\Controllers\Api\AddressController;
 use App\Http\Controllers\Api\LocationController;
+use App\Http\Controllers\Api\MenuItemController;
 use App\Http\Controllers\Api\GroupDealController;
 use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\PermissionsController;
@@ -201,4 +202,22 @@ Route::put('/extras/{extra}', [ExtraController::class, 'update']);
 
 // delete an extra
 Route::delete('/extras/{extra}', [ExtraController::class, 'destroy']);
+
+// list menu items
+Route::get('/menu-items/list', [MenuItemController::class, 'list']);
+
+// get all menu items
+Route::get('/menu-items', [MenuItemController::class, 'index']);
+
+// get a single menu item
+Route::get('/menu-items/{menu_item}', [MenuItemController::class, 'show']);
+
+// create a menu item
+Route::post('/menu-items', [MenuItemController::class, 'store']);
+
+// update a menu item
+Route::put('/menu-items/{menu_item}', [MenuItemController::class, 'update']);
+
+// delete a menu item
+Route::delete('/menu-items/{menu_item}', [MenuItemController::class, 'destroy']);
 });
