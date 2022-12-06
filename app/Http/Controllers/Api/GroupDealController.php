@@ -75,26 +75,24 @@ class GroupDealController extends Controller
             'restaurant_id' => $user->restaurant_id,
         ]);
 
-        foreach ($request->group_deal_items as $key => $group_deal_item) {
+        foreach (json_decode($request->group_deal_items[0]) as $key => $group_deal_item) {
             $group_deal_item = $group_deal->groupDealItems()->create([
-                "title" => json_decode($group_deal_item)[0]->title,
+                "title" => $group_deal_item->title,
             ]);
 
-            foreach (json_decode($request->menu_items[$key]) as $item) {
+            foreach (json_decode($request->menu_items[0])[$key] as $item) {
                 $group_deal_single_item = $group_deal_item->groupDealSingleItems()->create([
                     "menu_item_id" => $item->id,
                     "group_deal_id" => $group_deal->id,
                 ]);
             }
 
-            $group_deal->group_deal_item = $group_deal_item->load('groupDealSingleItems.menuItem.extras', 'groupDealSingleItems.menuItem.sizes');
-
         }
 
         // return the response
         return response()->json([
             'message' => 'Group deal created successfully',
-            'group_deal' => $group_deal,
+            'group_deal' => $group_deal->load('groupDealItems.groupDealSingleItems.menuItem.extras', 'groupDealItems.groupDealSingleItems.menuItem.sizes'),
         ], Response::HTTP_CREATED);
     }
 
