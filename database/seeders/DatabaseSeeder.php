@@ -11,9 +11,11 @@ use App\Models\Offer;
 use App\Models\Order;
 use App\Models\Banner;
 use App\Models\MenuItem;
+use Stripe\StripeClient;
 use App\Models\GroupDeal;
 use App\Models\OrderItem;
 use App\Models\Restaurant;
+use App\Models\UserDriver;
 use App\Models\OpeningHour;
 use App\Models\MenuCategory;
 use App\Models\Configuration;
@@ -99,7 +101,26 @@ class DatabaseSeeder extends Seeder
             'role_id' => 2,
         ]);
 
-        User::factory()->count(10)->create();
+        $users = User::factory()->count(40)->create();
+
+        foreach($users as $user) {
+            if($user->role_id == 4) {
+                $stripe = new StripeClient(
+                    config('stripe.sk')
+                );
+
+                $stripeAccount = $stripe->accounts->create([
+                    'type' => 'standard',
+                    'country' => 'GB',
+                ]);
+
+                $user_driver = UserDriver::create([
+                    'user_id' => $user->id,
+                    'stripe_id' => $stripeAccount->id,
+                ]);
+
+            }
+        }
 
 
         OpeningHour::factory()->create([

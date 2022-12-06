@@ -5,13 +5,14 @@ namespace App\Models;
 use App\Models\Role;
 use App\Models\Order;
 use App\Models\Restaurant;
+use App\Models\UserDriver;
 use App\Models\Configuration;
 use Laravel\Cashier\Billable;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Laratrust\Traits\LaratrustUserTrait;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Laravel\Cashier\Billable as CashierBillable;
 use ExpDev07\CashierConnect\Contracts\StripeAccount;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -87,5 +88,11 @@ class User extends Authenticatable implements StripeAccount
     public function restaurants()
     {
         return $this->belongsToMany(Restaurant::class, 'user_restaurant');
+    }
+
+    // user belongs to one driver
+    public function driver()
+    {
+        return $this->hasOne(UserDriver::class);
     }
 }

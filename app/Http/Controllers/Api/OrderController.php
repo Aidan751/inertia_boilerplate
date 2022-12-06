@@ -298,7 +298,6 @@ class OrderController extends Controller
                 $order->driver_id = $request->driver_id;
                 $order->save();
                 $driver = UserDriver::where('user_id', $request->driver_id)->first();
-                dd($driver);
                 $driver->availability_status = "order-in-progress";
                 $driver->save();
 

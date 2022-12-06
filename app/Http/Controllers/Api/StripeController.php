@@ -17,9 +17,9 @@ class StripeController extends Controller
 
 
     public function createSession(Request $request) {
-     
-        \Stripe\Stripe::setApiKey(config('services.stripe_secret_key'));
-        $stripe = new \Stripe\StripeClient(config('services.stripe_secret_key'));
+
+        \Stripe\Stripe::setApiKey(config('stripe.sk'));
+        $stripe = new \Stripe\StripeClient(config('stripe.sk'));
 
         $user = auth('api')->user();
         $stripeObject = auth('api')->user()->stripe;
@@ -55,7 +55,7 @@ class StripeController extends Controller
     }
 
     public function retrieveSession(Request $request) {
-   
+
         $stripe = new \Stripe\StripeClient(config('services.stripe_secret_key'));
 
         $session = $stripe->checkout->sessions->retrieve(
@@ -68,7 +68,7 @@ class StripeController extends Controller
         $paymentMethodId = $setupIntent->payment_method;
         $customer = $session->customer;
 
-    
+
         $attach = $stripe->paymentMethods->attach($paymentMethodId, [
             'customer' => $customer
         ]);
@@ -76,7 +76,7 @@ class StripeController extends Controller
         $update = $stripe->customers->update($customer, ['invoice_settings' => ['default_payment_method' => $paymentMethodId]]);
         $stripeDetails =  UserStripe::where('stripe_account_id', $customer)->first();
         if ($stripeDetails != null) {
-        
+
         $stripeDetails->update([
             "payment_method_id" => $paymentMethodId,
             "expiry_year" => $attach->card->exp_year,
@@ -84,7 +84,7 @@ class StripeController extends Controller
             "card_last_four" => $attach->card->last4,
         ]);
         }
-         
+
         return view('success');
     }
 
@@ -93,11 +93,11 @@ class StripeController extends Controller
     public function addPaymentMethod(Request $request){
 
         $request->validate([
-            'payment_method_id' => ['required'],  
+            'payment_method_id' => ['required'],
         ]);
 
         $stripe = new \Stripe\StripeClient(
-            config('services.stripe_secret_key')
+            config('stripe.sk')
         );
 
         $user = auth('api')->user();
@@ -124,7 +124,7 @@ class StripeController extends Controller
             'customer' => $customer,
             'payment_method_types' => ['card'],
             'payment_method' => $paymentMethodID,
-   
+
         ]);
 
         // Attach payment method to stripe customer
@@ -136,14 +136,14 @@ class StripeController extends Controller
         // Set payment method as default payment option
 
         $update = $stripe->customers->update($customer, ['invoice_settings' => ['default_payment_method' => $paymentMethodID]]);
- 
-       
-    
+
+
+
         // // // Attach billing address to payment method
 
         //  $paymentMethod = $stripe->paymentMethods->update(
         //     $paymentMethodID,
-        //     ['billing_details' => 
+        //     ['billing_details' =>
         //         [
         //             'email' => $user->email,
         //             'name' => $request->name,
@@ -153,31 +153,27 @@ class StripeController extends Controller
         //                 'city' => $request->town_city,
         //                 'state' => $request->county,
         //                 'country' => $request->country,
-        //                 'postal_code' => $request->postcode,  
-        //             ], 
+        //                 'postal_code' => $request->postcode,
+        //             ],
         //         ],
         //     ],
         //   );
 
-      
-        
-        
-        
-        $updateStripeDetails = null;;
-        
+        $updateStripeDetails = null;
+
         if ($stripeObject != null) {
             $updateStripeDetails = $user->stripe;
         } else {
             $updateStripeDetails =   UserStripe::where('user_id', $user->id)->first();
         }
-            
+
         $updateStripeDetails->update([
             "payment_method_id" => $paymentMethodID,
             "expiry_year" => $attach->card->exp_year,
             "expiry_month" => $attach->card->exp_month,
             "card_last_four" => $attach->card->last4,
         ]);
-         
+
 
         return response()->json([
             'setupIntent' => $setupIntent,

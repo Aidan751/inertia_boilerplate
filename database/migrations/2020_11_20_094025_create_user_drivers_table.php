@@ -20,7 +20,6 @@ class CreateUserDriversTable extends Migration
             $table->enum('availability_status', ['unavailable', 'available', 'order-in-progress'])->default('unavailable');
             $table->timestamps();
             $table->foreignId('user_id')->references('id')->on('users')->onDelete('cascade');
-
         });
     }
 
