@@ -24,6 +24,7 @@ class UserFactory extends Factory
             'is_suspended' => 'no',
             'remember_token' => Str::random(10),
             'role_id' => $this->faker->randomElement([1, 2, 3, 4, 5]),
+            'restaurant_id' => $this->faker->numberBetween(1, 10),
         ];
     }
 

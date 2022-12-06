@@ -62,6 +62,8 @@ class GroupDealController extends Controller
             'description' => 'nullable',
             'image' => 'nullable',
             'group_deal_price' => 'string|required',
+            'group_deal_items' => 'required|array',
+            'menu_items' => 'required|array',
         ]);
 
         // store the group deal
@@ -73,8 +75,27 @@ class GroupDealController extends Controller
             'restaurant_id' => $user->restaurant_id,
         ]);
 
+        foreach ($request->group_deal_items as $key => $group_deal_item) {
+            $group_deal_item = $group_deal->groupDealItems()->create([
+                "title" => json_decode($group_deal_item)[0]->title,
+            ]);
+
+            foreach (json_decode($request->menu_items[$key]) as $item) {
+                $group_deal_single_item = $group_deal_item->groupDealSingleItems()->create([
+                    "menu_item_id" => $item->id,
+                    "group_deal_id" => $group_deal->id,
+                ]);
+            }
+
+            $group_deal->group_deal_item = $group_deal_item->load('groupDealSingleItems.menuItem.extras', 'groupDealSingleItems.menuItem.sizes');
+
+        }
+
         // return the response
-        return response()->json($group_deal, Response::HTTP_CREATED);
+        return response()->json([
+            'message' => 'Group deal created successfully',
+            'group_deal' => $group_deal,
+        ], Response::HTTP_CREATED);
     }
 
     /**
