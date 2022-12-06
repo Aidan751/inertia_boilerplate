@@ -124,7 +124,7 @@ class GroupDealController extends Controller
         $group_deal->update([
             'title' => $request->title,
             'description' => $request->description,
-            'image' => $request->hasFile('image') ? ImagePackage::save($request->file('image'), 'group_deals') : $group_deal->image,
+            'image' => $request->hasFile('image') ? ImagePackage::save($request->file('image'), 'group_deals') : null,
             'group_deal_price' => $request->group_deal_price,
             'restaurant_id' => $user->restaurant_id,
         ]);

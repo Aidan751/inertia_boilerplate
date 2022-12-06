@@ -142,7 +142,7 @@ Route::get('/order/{id}/polling', [OrderController::class, 'poll']);
 Route::get('/orders/available-fares', [OrderController::class, 'availableFares']);
 
 // update an order
-Route::put('/orders/{id}', [OrderController::class, 'update']);
+Route::put('/orders/{order}', [OrderController::class, 'update']);
 
 // delete an order
 Route::delete('/orders/{id}', [OrderController::class, 'destroy']);

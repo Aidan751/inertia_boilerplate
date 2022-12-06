@@ -28,7 +28,7 @@ class OrderFactory extends Factory
             'payment_status' => $this->faker->randomElement(['pending', 'paid']),
             'payment_method' => $this->faker->randomElement(['cash', 'card']),
             'pickup_method' => $this->faker->randomElement(['collection', 'delivery', 'table']),
-            'status' => $this->faker->randomElement(['pending', 'confirmed', 'driver-en-route', 'order-en-route', 'completed', 'cancelled']),
+            'status' => $this->faker->randomElement(['pending', 'confirmed', 'driver-en-route', 'order-en-route', 'cancelled']),
             'address' => $this->faker->address,
             'address_line_1' => $this->faker->streetAddress,
             'address_line_2' => $this->faker->secondaryAddress,

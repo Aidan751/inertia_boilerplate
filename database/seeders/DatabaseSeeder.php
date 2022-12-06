@@ -504,6 +504,8 @@ class DatabaseSeeder extends Seeder
             );
         });
 
+        Order::factory(100)->create();
+
         // $restaurants = Restaurant::all();
 
 

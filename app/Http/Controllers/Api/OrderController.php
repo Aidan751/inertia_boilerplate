@@ -275,9 +275,9 @@ class OrderController extends Controller
 
 
 
-    public function update($id, Request $request)
+    public function update(Request $request, Order $order)
     {
-
+        $user = Auth::user();
         $stripe = new \Stripe\StripeClient(
             config('services.stripe_secret_key')
         );
@@ -286,12 +286,77 @@ class OrderController extends Controller
 
         // Attempt to find the order
         $order = Order::with('restaurant', 'driver', 'customer', 'items')
-            ->where('id', $id)
+            ->where('id', $order->id)
             ->first();
 
         $order->updated_at = Carbon::now();
 
-        if (!is_null($request->driver_id) && $order->status != "cancelled") {
+        dd($order, $user, $request->all(), $stripe);
+        // check if the user is a restaurant user
+        if ($user->role != 'restaurant') {
+            return response()->json([
+                "message" => "You are not a restaurant user",
+            ], 400);
+        }
+
+        // check if the order belongs to the restaurant
+        if ($order->restaurant_id != $user->restaurant->id) {
+            return response()->json([
+                "message" => "You do not own this order",
+            ], 400);
+        }
+
+        // check if the order is already confirmed
+        if ($order->status == 'confirmed') {
+            return response()->json([
+                "message" => "Order already confirmed",
+            ], 400);
+        }
+
+        // check if the order is already cancelled
+        if ($order->status == 'cancelled') {
+            return response()->json([
+                "message" => "Order already cancelled",
+            ], 400);
+        }
+
+        // check if the order is already completed
+        if ($order->status == 'completed') {
+            return response()->json([
+                "message" => "Order already completed",
+            ], 400);
+        }
+
+        // check if the order is already accepted
+        if ($order->status == 'accepted') {
+            return response()->json([
+                "message" => "Order already accepted",
+            ], 400);
+        }
+
+        // check if the order already has a driver en route
+        if ($order->status == 'driver_en_route') {
+            return response()->json([
+                "message" => "Order already has a driver en route",
+            ], 400);
+        }
+
+        // check if the order is already picked up
+        if ($order->status == 'order_en_route') {
+            return response()->json([
+                "message" => "Order already picked up",
+            ], 400);
+        }
+
+        // check if the order is already delivered
+        if ($order->status == 'completed') {
+            return response()->json([
+                "message" => "Order already delivered",
+            ], 400);
+        }
+
+
+        if (!is_null($request->driver_id)) {
 
             if ($order->driver_id != null ) {
                 $order->status = 'driver-en-route';
