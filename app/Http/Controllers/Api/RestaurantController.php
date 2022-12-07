@@ -11,6 +11,7 @@ use App\Models\UserStripe;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Configuration;
+use App\Packages\ImagePackage;
 use App\Models\RestaurantCategory;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
@@ -534,8 +535,8 @@ class RestaurantController extends Controller
             'town' => $request->town,
             'county' => $request->county,
             'postcode' => $request->postcode,
-            'banner' => $request->hasFile('banner') ? ImagePackage::save($request->file('banner'), 'restaurant_banners') : $restaurant->banner,
-            'logo' => $request->hasFile('logo') ? ImagePackage::save($request->file('logo'), 'restaurant_logos') : $restaurant->logo,
+            'banner' => $request->hasFile('banner') ? ImagePackage::save($request->file('banner'), 'restaurant_banners') : null,
+            'logo' => $request->hasFile('logo') ? ImagePackage::save($request->file('logo'), 'restaurant_logos') : null,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'contact_number' => $request->contact_number,
