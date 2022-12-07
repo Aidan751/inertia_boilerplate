@@ -250,17 +250,17 @@
 
 #### get all menu items
 ```http
-  GET https://orderit.createaclients.co.uk/api/menu-item
+  GET https://orderit.createaclients.co.uk/api/menu-items
 ```
 
 #### get a menu item
 ```http
-  GET https://orderit.createaclients.co.uk/api/menu-item/{menuItem}
+  GET https://orderit.createaclients.co.uk/api/menu-items/{menuItem}
 ```
 
 #### create a menu item
 ```http
-  POST https://orderit.createaclients.co.uk/api/menu-item
+  POST https://orderit.createaclients.co.uk/api/menu-items
 ```
 
 | Parameter       | Type       | Description                                                                       |
@@ -275,7 +275,7 @@
 
 #### update a menu item
 ```http
-  PUT https://orderit.createaclients.co.uk/api/menu-item/{menuItem}
+  PUT https://orderit.createaclients.co.uk/api/menu-items/{menuItem}
 ```
 
 | Parameter       | Type       | Description                                                                       |
@@ -289,19 +289,10 @@
 
 #### delete a menu item
 ```http
-  DELETE https://orderit.createaclients.co.uk/api/menu-item/{menuItem}
+  DELETE https://orderit.createaclients.co.uk/api/menu-items/{menuItem}
 ```
 
 ### Menu Category
-<!-- 
-             $table->increments('id');
-            $table->unsignedInteger('restaurant_id');
-            $table->string('title');
-            $table->longText('notes')->nullable();
-            $table->timestamps();
-
-            $table->foreign('restaurant_id')->references('id')->on('restaurants')->onDelete('cascade');
-        }); -->
 
 #### get all menu categories
 ```http
@@ -340,4 +331,5 @@
 ```http
   DELETE https://orderit.createaclients.co.uk/api/menu-category/{menuCategory}
 ```
+
 
