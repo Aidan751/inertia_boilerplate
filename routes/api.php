@@ -104,13 +104,13 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     Route::get('/restaurant-categories/list', [AdminRestaurantCategoryController::class, 'list']);
 
     // show a single restaurant category
-    Route::get('/restaurant-categories/{category}', [AdminRestaurantCategoryController::class, 'show']);
+    Route::get('/restaurant-categories/{restaurantCategory}', [AdminRestaurantCategoryController::class, 'show']);
 
     // update a restaurant category
-    Route::put('/restaurant-categories/{category}', [AdminRestaurantCategoryController::class, 'update']);
+    Route::put('/restaurant-categories/{restaurantCategory}', [AdminRestaurantCategoryController::class, 'update']);
 
     // delete a restaurant category
-    Route::delete('/restaurant-categories/{category}', [AdminRestaurantCategoryController::class, 'delete']);
+    Route::delete('/restaurant-categories/{restaurantCategory}', [AdminRestaurantCategoryController::class, 'delete']);
 
     // create a new restaurant
     Route::post('/restaurants', [AdminRestaurantsController::class, 'store']);

@@ -6,6 +6,7 @@ use App\Models\Restaurant;
 use Illuminate\Http\Request;
 use App\Models\RestaurantCategory;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 
 class AdminRestaurantCategoryController extends Controller
@@ -17,8 +18,7 @@ class AdminRestaurantCategoryController extends Controller
  */
 public function index(Request $request)
 {
-    $restaurant = Restaurant::where('user_id', $request->user()->id)->first();
-    $restaurantCategories = RestaurantCategory::where('restaurant_id', $restaurant->id)->get();
+    $restaurantCategories = RestaurantCategory::all();
     return response()->json($restaurantCategories);
 }
 
@@ -30,8 +30,7 @@ public function index(Request $request)
  */
 public function list(Request $request)
 {
-    $restaurant = Restaurant::where('user_id', $request->user()->id)->first();
-    $restaurantCategories = RestaurantCategory::where('restaurant_id', $restaurant->id)->paginate(10);
+    $restaurantCategories = RestaurantCategory::paginate(10);
     return response()->json($restaurantCategories);
 }
 
@@ -45,11 +44,8 @@ public function list(Request $request)
  */
 public function store(Request $request)
 {
-    $restaurant = Restaurant::where('user_id', Auth::user()->id)->first();
     $restaurantCategory = RestaurantCategory::create([
-        'restaurant_id' => $restaurant->id,
         'name' => $request->name,
-        'description' => $request->description,
     ]);
     return response()->json($restaurantCategory);
 }
@@ -76,7 +72,6 @@ public function update(Request $request, RestaurantCategory $restaurantCategory)
 {
     $restaurantCategory->update([
         'name' => $request->name,
-        'description' => $request->description,
     ]);
     return response()->json($restaurantCategory);
 }
@@ -87,9 +82,13 @@ public function update(Request $request, RestaurantCategory $restaurantCategory)
  * @param  \App\Models\RestaurantCategory  $restaurantCategory
  * @return \Illuminate\Http\Response
  */
-public function destroy(RestaurantCategory $restaurantCategory)
+public function delete(RestaurantCategory $restaurantCategory)
 {
     $restaurantCategory->delete();
-    return response()->json($restaurantCategory);
+
+    // return response
+    return response()->json([
+        'message' => 'Restaurant category deleted successfully',
+    ]);
 }
 }
