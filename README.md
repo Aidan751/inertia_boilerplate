@@ -34,16 +34,21 @@
 ## Restaurants
 #### get all restaurants
 ```http
-  GET https://orderit.createaclients.co.uk/api/restaurant
+  GET https://orderit.createaclients.co.uk/api/restaurants
+```
+
+#### get all restaurants with pagination
+```http
+  GET https://orderit.createaclients.co.uk/api/restaurants/list
 ```
 
 #### get a restaurant
 ```http
-  GET https://orderit.createaclients.co.uk/api/restaurant/{restaurant}
+  GET https://orderit.createaclients.co.uk/api/restaurants/{restaurant}
 ```
 #### create a restaurant
 ```http
-  POST https://orderit.createaclients.co.uk/api/restaurant
+  POST https://orderit.createaclients.co.uk/api/restaurants
 ```
 
 | Parameter       | Type       | Description                                                                       |
@@ -77,7 +82,7 @@
 
 #### update a restaurant
 ```http
-  PUT https://orderit.createaclients.co.uk/api/restaurant/{restaurant}
+  PUT https://orderit.createaclients.co.uk/api/restaurants/configure/{restaurant}
 ```
 
 | Parameter       | Type       | Description                                                                       |
@@ -111,8 +116,25 @@
 
 #### delete a restaurant
 ```http
-  DELETE https://orderit.createaclients.co.uk/api/restaurant/{restaurant}
+  DELETE https://orderit.createaclients.co.uk/api/restaurants/{restaurant}
 ```
+
+#### get all restaurant categories
+```http
+  GET https://orderit.createaclients.co.uk/api/restaurant-categories
+```
+
+#### get all restaurant categories with pagination
+```http
+  GET https://orderit.createaclients.co.uk/api/restaurant-categories/list
+```
+
+#### get a restaurant category
+```http
+  GET https://orderit.createaclients.co.uk/api/restaurant-categories/{restaurant-category}
+```
+
+
 
 #### get all orders
 ```http

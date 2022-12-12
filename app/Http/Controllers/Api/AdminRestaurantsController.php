@@ -35,6 +35,22 @@ class AdminRestaurantsController extends Controller
 
     }
 
+        /**
+     * Handle the incoming request to get a list of all restaurants.
+     * The method will return a json response with the restaurants as a paginated list.
+     * @param \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+
+    public function list(Request $request)
+    {
+            // Get all the restaurants
+            $restaurants = Restaurant::paginate(10);
+
+            // Return a json response with the restaurants
+            return response()->json($restaurants,200);
+    }
+
     /**
      * Handle the incoming request to get a restaurant.
      * The method will return a restaurant with the id passed in the request.
@@ -464,24 +480,14 @@ class AdminRestaurantsController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    public function destroy($id)
+    public function destroy(Restaurant $restaurant)
     {
-        if(Restaurant::where('id', $id)->exists()) {
-            $restaurant = Restaurant::find($id);
-            $restaurant->delete();
+        $restaurant->delete();
 
-            return response()->json([
-              "message" => "record deleted."
-            ], 202);
-        } else {
-            return response()->json([
-              "message" => "Restaurant not found."
-            ], 404);
-        }
-
-
+        return response()->json([
+            'success' => true,
+            'message' => 'Restaurant deleted successfully',
+            'restaurant' => $restaurant,
+        ], 204);
     }
-
-
-
 }

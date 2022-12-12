@@ -18,6 +18,7 @@ use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\PermissionsController;
 use App\Http\Controllers\Api\AdminRestaurantsController;
 use App\Http\Controllers\Api\AdminCallCentreUserController;
+use App\Http\Controllers\Api\AdminRestaurantCategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -93,15 +94,41 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
     // stripe create session
     Route::get('/stripe/create-session', [StripeController::class, 'createSession']);
 
+    // create a restaurant category
+    Route::post('/restaurant-categories', [AdminRestaurantCategoryController::class, 'store']);
+
+    // get all restaurant categories
+    Route::get('/restaurant-categories', [AdminRestaurantCategoryController::class, 'index']);
+
+    // get a list of all restaurant categories
+    Route::get('/restaurant-categories/list', [AdminRestaurantCategoryController::class, 'list']);
+
+    // show a single restaurant category
+    Route::get('/restaurant-categories/{category}', [AdminRestaurantCategoryController::class, 'show']);
+
+    // update a restaurant category
+    Route::put('/restaurant-categories/{category}', [AdminRestaurantCategoryController::class, 'update']);
+
+    // delete a restaurant category
+    Route::delete('/restaurant-categories/{category}', [AdminRestaurantCategoryController::class, 'delete']);
+
     // create a new restaurant
     Route::post('/restaurants', [AdminRestaurantsController::class, 'store']);
 
     // get all restaurants
     Route::get('/restaurants', [AdminRestaurantsController::class, 'index']);
+
+    // get a list of all restaurants
+    Route::get('/restaurants/list', [AdminRestaurantsController::class, 'list']);
+
     // just to test edit works
     Route::get('/restaurants/{id}', [AdminRestaurantsController::class, 'edit']);
+
     // update a restaurant
     Route::put('/restaurants/{id}', [AdminRestaurantsController::class, 'update']);
+
+    // delete a restaurant
+    Route::delete('/restaurants/{restaurant}', [AdminRestaurantsController::class, 'destroy']);
 
     // follow restaurants
     Route::post('/restaurants/follow/{restaurant}', [RestaurantController::class, 'follow']);
