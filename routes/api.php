@@ -16,6 +16,7 @@ use App\Http\Controllers\Api\MenuItemController;
 use App\Http\Controllers\Api\GroupDealController;
 use App\Http\Controllers\Api\RestaurantController;
 use App\Http\Controllers\Api\PermissionsController;
+use App\Http\Controllers\Api\MenuCategoryController;
 use App\Http\Controllers\Api\AdminRestaurantsController;
 use App\Http\Controllers\Api\AdminCallCentreUserController;
 use App\Http\Controllers\Api\AdminRestaurantCategoryController;
@@ -250,4 +251,22 @@ Route::middleware(['auth:sanctum', 'verified'])->group(function () {
 
     // delete a menu item
     Route::delete('/menu-items/{menu_item}', [MenuItemController::class, 'destroy']);
+
+    // get all menu categories
+    Route::get('/menu-categories', [MenuCategoryController::class, 'index']);
+
+    // list menu categories
+    Route::get('/menu-categories/list', [MenuCategoryController::class, 'list']);
+
+    // get a single menu category
+    Route::get('/menu-categories/{menuCategory}', [MenuCategoryController::class, 'show']);
+
+    // create a menu category
+    Route::post('/menu-categories', [MenuCategoryController::class, 'store']);
+
+    // update a menu category
+    Route::put('/menu-categories/{menuCategory}', [MenuCategoryController::class, 'update']);
+
+    // delete a menu category
+    Route::delete('/menu-categories/{menuCategory}', [MenuCategoryController::class, 'destroy']);
 });
